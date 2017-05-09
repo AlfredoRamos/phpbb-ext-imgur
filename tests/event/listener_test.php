@@ -31,4 +31,5 @@ class listener_test extends phpbb_test_case
 			array_keys(listener::getSubscribedEvents())
 		);
 	}
+
 }

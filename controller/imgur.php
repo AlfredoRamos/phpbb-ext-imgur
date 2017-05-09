@@ -20,11 +20,29 @@ use phpbb\exception\runtime_exception;
 class imgur
 {
 
+	/** @var \phpbb\config\config $config */
 	protected $config;
+
+	/** @var \phpbb\request\request $request */
 	protected $request;
+
+	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
+
+	/** @var \Imgur\Client $imgur */
 	protected $imgur;
 
+
+	/**
+	 * Controller constructor.
+	 *
+	 * @param \phpbb\config\config		$config
+	 * @param \phpbb\request\request	$request
+	 * @param \phpbb\controller\helper	$helper
+	 * @param \Imgur\Client				$imgur
+	 *
+	 * @return void
+	 */
 	public function __construct(config $config, request $request, helper $helper, ImgurClient $imgur)
 	{
 		$this->config = $config;
@@ -42,6 +60,7 @@ class imgur
 		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 
+		// Construct Imgur token
 		$token = [
 			'access_token'		=> $this->config['imgur_access_token'],
 			'expires_in'		=> (int) $this->config['imgur_expires_in'],
@@ -53,6 +72,7 @@ class imgur
 			'created_at'		=> (int) $this->config['imgur_created_at']
 		];
 
+		// Set token
 		$this->imgur->setAccessToken($token);
 
 		// Refresh token
@@ -63,7 +83,6 @@ class imgur
 			// Update the token in database
 			foreach($this->imgur->getAccessToken() as $key => $value)
 			{
-
 				// The configuration table does not accept null values
 				$value = ($key == 'scope') ? '' : $value;
 
@@ -73,6 +92,11 @@ class imgur
 		}
 	}
 
+	/**
+	 * Upload controller handler. AJAX calls only.
+	 *
+	 * @return string
+	 */
 	public function upload()
 	{
 		if (!$this->request->is_ajax())
@@ -96,11 +120,14 @@ class imgur
 		{
 			foreach ($images['name'] as $key => $value)
 			{
+				// Image file must exist
 				if (!file_exists($images['tmp_name'][$key]))
 				{
 					break;
 				}
 
+				// Upload image and save response, it will be used
+				// later to show a JSON object
 				$upload_data[] = $this->imgur->api('image')->upload([
 					'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
 					'type'	=> 'base64',
@@ -115,4 +142,5 @@ class imgur
 
 		return $response->send($upload_data);
 	}
+
 }

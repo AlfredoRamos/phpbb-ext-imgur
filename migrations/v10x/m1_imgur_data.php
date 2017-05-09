@@ -14,6 +14,11 @@ use phpbb\db\migration\migration;
 class m1_imgur_data extends migration
 {
 
+	/**
+	 * Add Imgur configuration.
+	 *
+	 * @return array
+	 */
 	public function update_data()
 	{
 		return [
@@ -64,6 +69,11 @@ class m1_imgur_data extends migration
 		];
 	}
 
+	/**
+	 * Remove Imgur configuration.
+	 *
+	 * @return array
+	 */
 	public function revert_data()
 	{
 		return [

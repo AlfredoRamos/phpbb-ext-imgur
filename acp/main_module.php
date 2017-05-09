@@ -8,20 +8,42 @@
  */
 
 namespace alfredoramos\imgur\acp;
+
 use Exception;
 
 class main_module
 {
+
+	/** @var string $u_action */
 	public $u_action;
+
+	/** @var string $tpl_name */
 	public $tpl_name;
+
+	/** @var string $page_title */
 	public $page_title;
 
+	/** @var \phpbb\config\config $config */
 	protected $config;
+
+	/** @var \phpbb\template\template $template */
 	protected $template;
+
+	/** @var \phpbb\request\request $request */
 	protected $request;
+
+	/** @var \phpbb\language\language $language */
 	protected $language;
+
+	/** @var \Imgur\Client $imgur */
 	protected $imgur;
 
+
+	/**
+	 * ACP module constructor.
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
 		global $phpbb_container;
@@ -33,6 +55,11 @@ class main_module
 		$this->imgur = $phpbb_container->get('j0k3r.imgur_api.imgur_client');
 	}
 
+	/**
+	 * Main module method.
+	 *
+	 * @return void
+	 */
 	public function main($id, $mode)
 	{
 		$this->tpl_name = 'acp_imgur_settings';
@@ -120,4 +147,5 @@ class main_module
 			);
 		}
 	}
+
 }

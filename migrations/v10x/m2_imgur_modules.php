@@ -14,6 +14,11 @@ use phpbb\db\migration\migration;
 class m2_imgur_modules extends migration
 {
 
+	/**
+	 * Add Imgur ACP settings
+	 *
+	 * @return array
+	 */
 	public function update_data()
 	{
 		return [

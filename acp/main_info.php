@@ -12,6 +12,11 @@ namespace alfredoramos\imgur\acp;
 class main_info
 {
 
+	/**
+	 * Set up ACP module
+	 *
+	 * @return array
+	 */
 	public function module()
 	{
 		return [
