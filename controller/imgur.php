@@ -11,27 +11,24 @@ namespace alfredoramos\imgur\controller;
 
 use Imgur\Client as ImgurClient;
 use phpbb\json_response;
-use phpbb\exception\runtime_exception;
+use phpbb\config\config;
+use phpbb\request\request;
 use phpbb\request\request_interface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use phpbb\controller\helper;
+use phpbb\exception\runtime_exception;
 
 class imgur {
 
-	protected $container;
 	protected $config;
 	protected $request;
-	protected $template;
 	protected $helper;
 	protected $imgur;
 
-	public function __construct(Container $container) {
-		$this->container = $container;
-		$this->config = $this->container->get('config');
-		$this->request = $this->container->get('request');
-		$this->template = $this->container->get('template');
-		$this->helper = $this->container->get('controller.helper');
-		$this->imgur = $this->container->get('j0k3r.imgur_api.imgur_client');
+	public function __construct(config $config, request $request, helper $helper, ImgurClient $imgur) {
+		$this->config = $config;
+		$this->request = $request;
+		$this->helper = $helper;
+		$this->imgur = $imgur;
 
 		// Mandatory API data
 		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret'])) {

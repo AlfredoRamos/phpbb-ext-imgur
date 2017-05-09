@@ -10,4 +10,7 @@ services:
     alfredoramos.imgur.controller:
         class: alfredoramos\imgur\controller\imgur
         arguments:
-            - '@service_container'
+            - '@config'
+            - '@request'
+            - '@controller.helper'
+            - '@j0k3r.imgur_api.imgur_client'
