@@ -10,7 +10,8 @@
 namespace alfredoramos\imgur\acp;
 use Exception;
 
-class main_module {
+class main_module
+{
 	public $u_action;
 	public $tpl_name;
 	public $page_title;
@@ -21,7 +22,8 @@ class main_module {
 	protected $language;
 	protected $imgur;
 
-	public function __construct() {
+	public function __construct()
+	{
 		global $phpbb_container;
 
 		$this->config = $phpbb_container->get('config');
@@ -31,19 +33,23 @@ class main_module {
 		$this->imgur = $phpbb_container->get('j0k3r.imgur_api.imgur_client');
 	}
 
-	public function main($id, $mode) {
+	public function main($id, $mode)
+	{
 		$this->tpl_name = 'acp_imgur_settings';
 		$this->page_title = $this->language->lang('ACP_IMGUR');
 		add_form_key('alfredoramos_imgur');
 
-		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret'])) {
+		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
+		{
 			$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 			$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 		}
 
 		// Request form data
-		if ($this->request->is_set_post('submit')) {
-			if (!check_form_key('alfredoramos_imgur')) {
+		if ($this->request->is_set_post('submit'))
+		{
+			if (!check_form_key('alfredoramos_imgur'))
+			{
 				trigger_error('FORM_INVALID');
 			}
 
@@ -71,17 +77,22 @@ class main_module {
 			// PIN
 			$pin = trim($this->request->variable('imgur_pin', ''));
 
-			if (!empty($pin)) {
-				try {
+			if (!empty($pin))
+			{
+				try
+				{
 					$this->imgur->requestAccessToken($pin, 'pin');
-				} catch (Exception $ex) {
+				}
+				catch (Exception $ex)
+				{
 					trigger_error(
 						$ex->getMessage() . adm_back_link($this->u_action),
 						E_USER_WARNING
 					);
 				}
 
-				foreach ($this->imgur->getAccessToken() as $key => $value) {
+				foreach ($this->imgur->getAccessToken() as $key => $value)
+				{
 					$this->config->set( sprintf('imgur_%s', $key), $value, false);
 				}
 			}
@@ -101,7 +112,8 @@ class main_module {
 			'IMGUR_ALBUM' => $this->config['imgur_album']
 		]);
 
-		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret'])) {
+		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
+		{
 			$this->template->assign_var(
 				'IMGUR_AUTH_URL',
 				$this->imgur->getAuthenticationUrl('pin')

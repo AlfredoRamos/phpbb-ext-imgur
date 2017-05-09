@@ -11,8 +11,11 @@ namespace alfredoramos\imgur\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
-class m2_imgur_modules extends migration {
-	public function update_data() {
+class m2_imgur_modules extends migration
+{
+
+	public function update_data()
+	{
 		return [
 			[
 				'module.add',
@@ -35,4 +38,5 @@ class m2_imgur_modules extends migration {
 			]
 		];
 	}
+
 }

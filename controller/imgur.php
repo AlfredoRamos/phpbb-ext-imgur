@@ -17,21 +17,24 @@ use phpbb\request\request_interface;
 use phpbb\controller\helper;
 use phpbb\exception\runtime_exception;
 
-class imgur {
+class imgur
+{
 
 	protected $config;
 	protected $request;
 	protected $helper;
 	protected $imgur;
 
-	public function __construct(config $config, request $request, helper $helper, ImgurClient $imgur) {
+	public function __construct(config $config, request $request, helper $helper, ImgurClient $imgur)
+	{
 		$this->config = $config;
 		$this->request = $request;
 		$this->helper = $helper;
 		$this->imgur = $imgur;
 
 		// Mandatory API data
-		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret'])) {
+		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))
+		{
 			throw new runtime_exception('EXCEPTION_IMGUR_NO_API_DATA');
 		}
 
@@ -53,11 +56,13 @@ class imgur {
 		$this->imgur->setAccessToken($token);
 
 		// Refresh token
-		if ($this->imgur->checkAccessTokenExpired()) {
+		if ($this->imgur->checkAccessTokenExpired())
+		{
 			$this->imgur->refreshToken();
 
 			// Update the token in database
-			foreach($this->imgur->getAccessToken() as $key => $value) {
+			foreach($this->imgur->getAccessToken() as $key => $value)
+			{
 
 				// The configuration table does not accept null values
 				$value = ($key == 'scope') ? '' : $value;
@@ -68,8 +73,10 @@ class imgur {
 		}
 	}
 
-	public function upload() {
-		if (!$this->request->is_ajax()) {
+	public function upload()
+	{
+		if (!$this->request->is_ajax())
+		{
 			exit;
 		}
 
@@ -85,9 +92,12 @@ class imgur {
 		$upload_data = [];
 
 		// Upload images
-		if (!empty($images['name'])) {
-			foreach ($images['name'] as $key => $value) {
-				if (!file_exists($images['tmp_name'][$key])) {
+		if (!empty($images['name']))
+		{
+			foreach ($images['name'] as $key => $value)
+			{
+				if (!file_exists($images['tmp_name'][$key]))
+				{
 					break;
 				}
 

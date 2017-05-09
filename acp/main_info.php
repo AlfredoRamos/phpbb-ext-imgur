@@ -9,9 +9,11 @@
 
 namespace alfredoramos\imgur\acp;
 
-class main_info {
+class main_info
+{
 
-	public function module() {
+	public function module()
+	{
 		return [
 			'filename'	=> '\alfredoramos\imgur\acp\main_module',
 			'title'		=> 'ACP_IMGUR',

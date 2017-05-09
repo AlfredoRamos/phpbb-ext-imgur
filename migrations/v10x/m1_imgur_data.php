@@ -11,9 +11,11 @@ namespace alfredoramos\imgur\migrations\v10x;
 
 use phpbb\db\migration\migration;
 
-class m1_imgur_data extends migration {
+class m1_imgur_data extends migration
+{
 
-	public function update_data() {
+	public function update_data()
+	{
 		return [
 			[
 				'config.add',
@@ -62,7 +64,8 @@ class m1_imgur_data extends migration {
 		];
 	}
 
-	public function revert_data() {
+	public function revert_data()
+	{
 		return [
 			[
 				'config.remove',
