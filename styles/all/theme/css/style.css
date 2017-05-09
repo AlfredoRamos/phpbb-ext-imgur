@@ -1,0 +1,33 @@
+/**
+ * Imgur Extension for phpBB.
+ * @author Alfredo Ramos <alfredo.ramos@yandex.com>
+ * @copyright 2017 Alfredo Ramos
+ * @license GNU GPL-2.0
+ */
+
+#imgur-button > .icon {
+	display: inline-block;
+	background-image: url(../images/imgur.svg);
+	width: 14px;
+	height: 14px;
+}
+
+#imgur-image {
+	display: none;
+}
+
+.imgur-uploader .images,
+.imgur-uploader .images .actions {
+	list-style: none
+}
+
+.imgur-uploader .images li {
+	display: inline-block;
+	text-align: center;
+}
+
+.imgur-uploader .images .preview {
+	width: 90px;
+	height: 90px;
+	display: block;
+}

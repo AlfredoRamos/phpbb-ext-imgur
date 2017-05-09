@@ -1,0 +1,3 @@
+imgur_upload_controller:
+    path: /imgur/upload
+    defaults: { _controller: alfredoramos.imgur.controller:upload }

@@ -1,0 +1,3 @@
+services:
+    j0ker.imgur_api.imgur_client:
+        class: Imgur\Client

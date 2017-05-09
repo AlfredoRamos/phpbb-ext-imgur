@@ -1,0 +1,60 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_SETTINGS}</h1>
+
+<!-- IF IMGUR_CLIENT_ID -->
+<div class="errorbox notice">
+	<p>Click <a href="{IMGUR_AUTH_URL}" target="_blank" rel="nofollow noreferrer noopener">here</a> to authorize the application.</p>
+</div>
+<!-- ENDIF -->
+
+<form id="acp_board" method="POST" action="{U_ACTION}">
+	<fieldset>
+		<dl>
+			<dt>
+				<label for="imgur_client_id">{L_ACP_IMGUR_CLIENT_ID}</label>
+			</dt>
+			<dd>
+				<input type="text" id="imgur_client_id" name="imgur_client_id" value="<!-- IF IMGUR_CLIENT_ID -->{IMGUR_CLIENT_ID}<!-- ENDIF -->" required="required" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="imgur_client_secret">{L_ACP_IMGUR_CLIENT_SECRET}</label>
+			</dt>
+			<dd>
+				<input type="password" id="imgur_client_secret" name="imgur_client_secret" value="<!-- IF IMGUR_CLIENT_SECRET -->{IMGUR_CLIENT_SECRET}<!-- ENDIF -->" required="required" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="imgur_album">{L_ACP_IMGUR_ALBUM}</label>
+				<br /><span>{L_ACP_IMGUR_ALBUM_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" id="imgur_album" name="imgur_album" value="<!-- IF IMGUR_ALBUM -->{IMGUR_ALBUM}<!-- ENDIF -->" />
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="imgur_pin">{L_ACP_IMGUR_PIN}</label>
+				<br /><span>{L_ACP_IMGUR_PIN_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" id="imgur_pin" name="imgur_pin" />
+			</dd>
+		</dl>
+
+		<p class="submit-buttons">
+			<input type="submit" name="submit" class="button1" value="{L_SUBMIT}" />
+			<input type="reset" class="button1" value="{L_RESET}" />
+		</p>
+
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->
