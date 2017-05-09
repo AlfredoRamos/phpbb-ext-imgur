@@ -36,8 +36,10 @@ class main_module {
 		$this->page_title = $this->language->lang('ACP_IMGUR');
 		add_form_key('alfredoramos_imgur');
 
-		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
-		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
+		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret'])) {
+			$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
+			$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
+		}
 
 		// Request form data
 		if ($this->request->is_set_post('submit')) {
@@ -94,10 +96,16 @@ class main_module {
 		// Assign template variables
 		$this->template->assign_vars([
 			'U_ACTION'	=> $this->u_action,
-			'IMGUR_AUTH_URL' => $this->imgur->getAuthenticationUrl('pin'),
 			'IMGUR_CLIENT_ID' => $this->config['imgur_client_id'],
 			'IMGUR_CLIENT_SECRET' => $this->config['imgur_client_secret'],
 			'IMGUR_ALBUM' => $this->config['imgur_album']
 		]);
+
+		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret'])) {
+			$this->template->assign_var(
+				'IMGUR_AUTH_URL',
+				$this->imgur->getAuthenticationUrl('pin')
+			);
+		}
 	}
 }

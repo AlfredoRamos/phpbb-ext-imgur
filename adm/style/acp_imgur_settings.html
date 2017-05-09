@@ -2,9 +2,14 @@
 
 <h1>{L_SETTINGS}</h1>
 
-<!-- IF IMGUR_CLIENT_ID -->
+<!-- IF IMGUR_AUTH_URL -->
 <div class="errorbox notice">
-	<p>Click <a href="{IMGUR_AUTH_URL}" target="_blank" rel="nofollow noreferrer noopener">here</a> to authorize the application.</p>
+	<p>
+		{L_ACP_IMGUR_AUTH_EXPLAIN}<br />
+		<a href="{IMGUR_AUTH_URL}" target="_blank" rel="nofollow noreferrer noopener">
+			<code><strong>{IMGUR_AUTH_URL}</strong></code>
+		</a>
+	</p>
 </div>
 <!-- ENDIF -->
 
@@ -38,6 +43,7 @@
 			</dd>
 		</dl>
 
+		<!-- IF IMGUR_AUTH_URL -->
 		<dl>
 			<dt>
 				<label for="imgur_pin">{L_ACP_IMGUR_PIN}</label>
@@ -47,6 +53,7 @@
 				<input type="text" id="imgur_pin" name="imgur_pin" />
 			</dd>
 		</dl>
+		<!-- ENDIF -->
 
 		<p class="submit-buttons">
 			<input type="submit" name="submit" class="button1" value="{L_SUBMIT}" />
