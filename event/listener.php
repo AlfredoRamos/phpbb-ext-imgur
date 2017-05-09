@@ -10,16 +10,8 @@
 namespace alfredoramos\imgur\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 class listener implements EventSubscriberInterface {
-
-	protected $container;
-	protected $controller_helper;
-
-	public function __construct(Container $container) {
-		$this->container = $container;
-	}
 
 	/**
 	 * Assign functions defined in this class to event listeners in the core.
