@@ -28,7 +28,7 @@ class main_module {
 		$this->template = $phpbb_container->get('template');
 		$this->request = $phpbb_container->get('request');
 		$this->language = $phpbb_container->get('language');
-		$this->imgur = $phpbb_container->get('j0ker.imgur_api.imgur_client');
+		$this->imgur = $phpbb_container->get('j0k3r.imgur_api.imgur_client');
 	}
 
 	public function main($id, $mode) {

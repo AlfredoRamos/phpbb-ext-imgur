@@ -31,7 +31,7 @@ class imgur {
 		$this->request = $this->container->get('request');
 		$this->template = $this->container->get('template');
 		$this->helper = $this->container->get('controller.helper');
-		$this->imgur = $this->container->get('j0ker.imgur_api.imgur_client');
+		$this->imgur = $this->container->get('j0k3r.imgur_api.imgur_client');
 
 		// Mandatory API data
 		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret'])) {
