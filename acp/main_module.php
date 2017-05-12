@@ -155,7 +155,9 @@ class main_module
 			'IMGUR_ALBUM' => $this->config['imgur_album']
 		]);
 
-		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
+		// Show authorization URL if the token
+		// has not been generated
+		if (empty($this->config['imgur_access_token']))
 		{
 			$this->template->assign_var(
 				'IMGUR_AUTH_URL',
