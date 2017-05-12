@@ -80,6 +80,18 @@ class main_module
 				trigger_error('FORM_INVALID');
 			}
 
+			// Imgur token
+			$token = [
+				'access_token'		=> '',
+				'expires_in'		=> 0,
+				'token_type'		=> '',
+				'scope'				=> '',
+				'refresh_token'		=> '',
+				'account_id'		=> 0,
+				'account_username'	=> '',
+				'created_at'		=> 0
+			];
+
 			// Client ID
 			$this->config->set(
 				'imgur_client_id',
@@ -118,10 +130,14 @@ class main_module
 					);
 				}
 
-				foreach ($this->imgur->getAccessToken() as $key => $value)
-				{
-					$this->config->set( sprintf('imgur_%s', $key), $value, false);
-				}
+				// Replace token values
+				$token = array_replace($token, $this->imgur->getAccessToken());
+			}
+
+			// Update token
+			foreach ($token as $key => $value)
+			{
+				$this->config->set(sprintf('imgur_%s', $key), $value, false);
 			}
 
 			// Confirm dialog
