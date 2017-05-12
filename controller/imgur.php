@@ -83,8 +83,11 @@ class imgur
 			// Update the token in database
 			foreach($this->imgur->getAccessToken() as $key => $value)
 			{
-				// The configuration table does not accept null values
-				$value = ($key == 'scope') ? '' : $value;
+				// scope can be null, and the configuration
+				// table does not accept null values
+				if ($key == 'scope') {
+					$value = empty($value) ? '' : $value;
+				}
 
 				// Save changes
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);

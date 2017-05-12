@@ -52,7 +52,7 @@ class main_module
 		$this->template = $phpbb_container->get('template');
 		$this->request = $phpbb_container->get('request');
 		$this->language = $phpbb_container->get('language');
-		$this->imgur = $phpbb_container->get('j0k3r.imgur_api.imgur_client');
+		$this->imgur = $phpbb_container->get('j0k3r.imgur.client');
 	}
 
 	/**
@@ -137,6 +137,12 @@ class main_module
 			// Update token
 			foreach ($token as $key => $value)
 			{
+				// scope can be null, and the configuration
+				// table does not accept null values
+				if ($key == 'scope') {
+					$value = empty($value) ? '' : $value;
+				}
+
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);
 			}
 

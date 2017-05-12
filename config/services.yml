@@ -13,4 +13,4 @@ services:
             - '@config'
             - '@request'
             - '@controller.helper'
-            - '@j0k3r.imgur_api.imgur_client'
+            - '@j0k3r.imgur.client'
