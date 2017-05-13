@@ -15,6 +15,7 @@ use phpbb\config\config;
 use phpbb\request\request;
 use phpbb\request\request_interface;
 use phpbb\controller\helper;
+use phpbb\filesystem\filesystem;
 use phpbb\exception\runtime_exception;
 
 class imgur
@@ -29,6 +30,9 @@ class imgur
 	/** @var \phpbb\controller\helper $helper */
 	protected $helper;
 
+	/** @var \phpbb\filesystem\filesystem $filesystem */
+	protected $filesystem;
+
 	/** @var \Imgur\Client $imgur */
 	protected $imgur;
 
@@ -36,18 +40,20 @@ class imgur
 	/**
 	 * Controller constructor.
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\request\request	$request
-	 * @param \phpbb\controller\helper	$helper
-	 * @param \Imgur\Client				$imgur
+	 * @param \phpbb\config\config			$config
+	 * @param \phpbb\request\request		$request
+	 * @param \phpbb\controller\helper		$helper
+	 * @param \phpbb\filesystem\filesystem	$filesystem;
+	 * @param \Imgur\Client					$imgur
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, request $request, helper $helper, ImgurClient $imgur)
+	public function __construct(config $config, request $request, helper $helper, filesystem $filesystem, ImgurClient $imgur)
 	{
 		$this->config = $config;
 		$this->request = $request;
 		$this->helper = $helper;
+		$this->filesystem = $filesystem;
 		$this->imgur = $imgur;
 
 		// Mandatory API data
@@ -123,8 +129,8 @@ class imgur
 		{
 			foreach ($images['name'] as $key => $value)
 			{
-				// Image file must exist
-				if (!file_exists($images['tmp_name'][$key]))
+				// Image file must exist and be readable
+				if (!$this->filesystem->is_readable($images['tmp_name'][$key]))
 				{
 					break;
 				}

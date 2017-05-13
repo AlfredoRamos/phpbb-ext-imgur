@@ -16,4 +16,5 @@ services:
             - '@config'
             - '@request'
             - '@controller.helper'
+            - '@filesystem'
             - '@j0k3r.imgur.client'
