@@ -36,5 +36,5 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_SETTINGS_SAVED' => 'Imgur settings have been succesfully saved.',
 
 	// Exceptions
-	'EXCEPTION_IMGUR_NO_API_DATA' => 'Client ID and Client Secret are mandatory.',
+	'EXCEPTION_IMGUR_NO_API_DATA' => 'Client ID and Client Secret are mandatory.'
 ]);
