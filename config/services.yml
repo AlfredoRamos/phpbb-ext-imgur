@@ -4,6 +4,9 @@ imports:
 services:
     alfredoramos.imgur.listener:
         class: alfredoramos\imgur\event\listener
+        arguments:
+            - '@template'
+            - '@routing.helper'
         tags:
             - { name: event.listener }
 

@@ -41,7 +41,7 @@ $(function() {
 
 		// Upload the image(s)
 		$.ajax({
-			url: 'app.php/imgur/upload',
+			url: $(this).attr('data-ajax-action'),
 			type: 'POST',
 			data: $formData,
 			contentType: false,

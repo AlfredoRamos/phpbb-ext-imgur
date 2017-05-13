@@ -9,10 +9,32 @@
 
 namespace alfredoramos\imgur\event;
 
+use phpbb\template\template;
+use phpbb\routing\helper as routing_helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
+
+	/** @var \phpbb\template\template $template */
+	protected $template;
+
+	/** @var \phpbb\routing\helper $routing_helper */
+	protected $routing_helper;
+
+	/**
+	 * Listener constructor.
+	 *
+	 * @param \phpbb\template\template	$template
+	 * @param \phpbb\routing\helper		$routing_helper;
+	 *
+	 * @return void
+	 */
+	public function __construct(template $template, routing_helper $routing_helper)
+	{
+		$this->template = $template;
+		$this->routing_helper = $routing_helper;
+	}
 
 	/**
 	 * Assign functions defined in this class to event listeners in the core.
@@ -22,7 +44,8 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.user_setup'	=> 'user_setup'
+			'core.user_setup'		=> 'user_setup',
+			'core.user_setup_after'	=> 'user_setup_after'
 		];
 	}
 
@@ -41,6 +64,21 @@ class listener implements EventSubscriberInterface
 			'lang_set'	=> 'imgur'
 		];
 		$event['lang_set_ext'] = $lang_set_ext;
+	}
+
+	/**
+	 * Assign upload URL to a template variable.
+	 *
+	 * @param object	$event
+	 *
+	 * @return void
+	 */
+	public function user_setup_after($event)
+	{
+		$this->template->assign_var(
+			'IMGUR_UPLOAD_URL',
+			$this->routing_helper->route('imgur_upload_controller')
+		);
 	}
 
 }

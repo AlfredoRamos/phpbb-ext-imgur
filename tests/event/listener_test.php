@@ -10,24 +10,44 @@
 namespace alfredoramos\imgur\tests\event;
 
 use phpbb_test_case;
+use phpbb\template\template;
+use phpbb\routing\helper as routing_helper;
 use alfredoramos\imgur\event\listener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener_test extends phpbb_test_case
 {
 
+	/** @var \phpbb\template\template $template */
+	protected $template;
+
+	/** @var \phpbb\routing\helper $routing_helper */
+	protected $routing_helper;
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->template = $this->getMockBuilder(template::class)->getMock();
+		$this->routing_helper = $this->getMockBuilder(routing_helper::class)
+			->disableOriginalConstructor()->getMock();
+	}
+
 	public function test_instance()
 	{
 		$this->assertInstanceOf(
 			EventSubscriberInterface::class,
-			new listener
+			new listener($this->template, $this->routing_helper)
 		);
 	}
 
 	public function test_suscribed_events()
 	{
 		$this->assertSame(
-			['core.user_setup'],
+			[
+				'core.user_setup',
+				'core.user_setup_after'
+			],
 			array_keys(listener::getSubscribedEvents())
 		);
 	}
