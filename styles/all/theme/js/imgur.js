@@ -6,6 +6,7 @@
  */
 
 $(function() {
+
 	// Show image selection window
 	$('#imgur-button').on('click', function() {
 		$('#imgur-image').trigger('click');
@@ -13,13 +14,16 @@ $(function() {
 
 	// Upload images
 	$('#imgur-image').on('change', function() {
+		phpbb.clearLoadingTimeout();
+
 		var $formData = new FormData();
 		var $files = $(this).prop('files');
-		var $postBody = {
+		var $contentBody = {
 			message: $('#postingbox #message'),
 			signature: $('#postform #signature')
 		};
 		var $imgurButton = $(this);
+		var $loadingIndicator;
 
 		// Exit if there's no images to upload
 		if ($files.length <= 0) {
@@ -31,9 +35,11 @@ $(function() {
 			$formData.append('imgur_image[]', $files[i]);
 		}
 
-		// Prevent spamming
+		// Prevent button spamming
 		$imgurButton.prop('disabled', true);
+		$loadingIndicator = phpbb.loadingIndicator();
 
+		// Upload the image(s)
 		$.ajax({
 			url: 'app.php/imgur/upload',
 			type: 'POST',
@@ -49,22 +55,27 @@ $(function() {
 				$bbcode = '[img]' + $value.link.replace('http://', 'https://') + '[/img]';
 
 				// Add BBCode to content
-				for (var $key in $postBody) {
-					if ($postBody.hasOwnProperty($key)) {
-						if ($postBody[$key].length > 0) {
-							$postBody[$key].val($postBody[$key].val() + $bbcode);
+				for (var $key in $contentBody) {
+					if ($contentBody.hasOwnProperty($key)) {
+						if ($contentBody[$key].length > 0) {
+							$contentBody[$key].val($contentBody[$key].val() + $bbcode);
 						}
 					}
 				}
-
-				// Delete hash
-				console.log('[' + $value.id + '] ' + $value.deletehash);
 			});
 		}).fail(function($data, $textStatus, $error) {
-			console.log('status: ' + $textStatus);
-			console.log('error: ' + $error);
+			// Show a phpBB alert with the error
+			phpbb.alert($textStatus, $error);
 		}).always(function() {
+			// Re-enable button
 			$imgurButton.prop('disabled', false);
+
+			// Hide loading indicator
+			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
+				$loadingIndicator.fadeOut(phpbb.alertTime);
+			}
 		});
+
 	});
+
 });
