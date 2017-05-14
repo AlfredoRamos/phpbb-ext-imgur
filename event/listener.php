@@ -77,7 +77,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->template->assign_var(
 			'IMGUR_UPLOAD_URL',
-			$this->routing_helper->route('imgur_upload_controller')
+			$this->routing_helper->route('alfredoramos_imgur_upload')
 		);
 	}
 
