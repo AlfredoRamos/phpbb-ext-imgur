@@ -110,7 +110,7 @@ class imgur
 	{
 		if (!$this->request->is_ajax())
 		{
-			exit;
+			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
 		}
 
 		// Not using $request->file() because I need an array of arrays
