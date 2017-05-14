@@ -8,12 +8,15 @@ Imgur Extension for phpBB 3.2.x
 
 - `php` 5.6 or greater
 - `phpBB` 3.2 or greater
+- `composer` (for development only)
+- Imgur API data (`client_id` and `client_secret`)
 
 ### Installation
 
 - Download the [latest release](https://github.com/AlfredoRamos/phpbb-ext-imgur/releases)
 - Decompress the `*.zip` or `*.tar.gz` file
-- Copy the files and directories inside `<PHPBB_ROOT>/ext/alfredoramos/simplespoiler/`
+- Copy the files and directories inside `{PHPBB_ROOT}/ext/alfredoramos/imgur/`
+- Run `composer install --prefer-dist --no-dev` inside `{PHPBB_ROOT}/ext/alfredoramos/imgur/`
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
 - Click on `Enable` and confirm.
 
@@ -35,23 +38,23 @@ If the upload is successful it will add the `[img]` BBCode with its respective l
 
 ### Configuration
 
-- Go to your `Administration Control Panel` > `Extensions` > `Imgur settings`.
-- Set the `Client ID`, `Client Secret` and optionally an `Album`.
-- Click on `Submit`.
-- Once you have the required API data. Click on the authorization link shown above.
-- In the Imgur authorization link, click on `Allow` and copy the `PIN`.
-- Go back to `Imgur settings` paste the `PIN`.
-- Click on `Submit`.
+- Go to your `Administration Control Panel` > `Extensions` > `Imgur settings`
+- Set the `Client ID`, `Client Secret` and optionally an `Album`
+- Click on `Submit`
+- Once you have the required API data. Click on the authorization link shown above
+- In the Imgur authorization link, click on `Allow` and copy the `PIN`
+- Go back to `Imgur settings` paste the `PIN`
+- Click on `Submit`
 
 ### Uninstallation
 
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
-- Click on `Disable` and confirm.
-- Go back to `Manage extensions` > `Imgur` > `Delete data` and confirm.
+- Click on `Disable` and confirm
+- Go back to `Manage extensions` > `Imgur` > `Delete data` and confirm
 
 ### Upgrade
 
-- Uninstall the extension.
-- Delete all the files inside `<PHPBB_ROOT>/alfredoramos/imgur/`.
-- Download the new version.
-- Install the extension.
+- Uninstall the extension
+- Delete all the files inside `{PHPBB_ROOT}/alfredoramos/imgur/`
+- Download the new version
+- Install the extension
