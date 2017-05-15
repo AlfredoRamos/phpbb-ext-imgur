@@ -52,7 +52,7 @@ class main_module
 		$this->template = $phpbb_container->get('template');
 		$this->request = $phpbb_container->get('request');
 		$this->language = $phpbb_container->get('language');
-		$this->imgur = $phpbb_container->get('j0k3r.imgur.client');
+		$this->imgur = $phpbb_container->get('alfredoramos.imgur.j0k3r.imgur.client');
 	}
 
 	/**
