@@ -5,7 +5,8 @@
  * @license GNU GPL-2.0
  */
 
-$(function() {
+(function($) {
+	'use strict';
 
 	// Show image selection window
 	$('#imgur-button').on('click', function() {
@@ -78,4 +79,4 @@ $(function() {
 
 	});
 
-});
+})(jQuery);
