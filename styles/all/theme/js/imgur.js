@@ -56,10 +56,10 @@
 				$bbcode = '[img]' + $value.link.replace('http://', 'https://') + '[/img]';
 
 				// Add BBCode to content
-				for (var $key in $contentBody) {
-					if ($contentBody.hasOwnProperty($key)) {
-						if ($contentBody[$key].length > 0) {
-							$contentBody[$key].val($contentBody[$key].val() + $bbcode);
+				for (var $k in $contentBody) {
+					if ($contentBody.hasOwnProperty($k)) {
+						if ($contentBody[$k].length > 0) {
+							$contentBody[$k].val($contentBody[$k].val() + $bbcode);
 						}
 					}
 				}
