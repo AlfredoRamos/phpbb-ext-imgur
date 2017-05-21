@@ -10,6 +10,7 @@
 namespace alfredoramos\imgur\tests\event;
 
 use phpbb_test_case;
+use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\routing\helper as routing_helper;
 use alfredoramos\imgur\event\listener;
@@ -17,6 +18,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener_test extends phpbb_test_case
 {
+
+	/** @var \phpbb\config\config $config */
+	protected $config;
 
 	/** @var \phpbb\template\template $template */
 	protected $template;
@@ -28,6 +32,8 @@ class listener_test extends phpbb_test_case
 	{
 		parent::setUp();
 
+		$this->config = $this->getMockBuilder(config::class)
+			->disableOriginalConstructor()->getMock();
 		$this->template = $this->getMockBuilder(template::class)->getMock();
 		$this->routing_helper = $this->getMockBuilder(routing_helper::class)
 			->disableOriginalConstructor()->getMock();
@@ -37,7 +43,7 @@ class listener_test extends phpbb_test_case
 	{
 		$this->assertInstanceOf(
 			EventSubscriberInterface::class,
-			new listener($this->template, $this->routing_helper)
+			new listener($this->config, $this->template, $this->routing_helper)
 		);
 	}
 

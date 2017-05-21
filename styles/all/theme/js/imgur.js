@@ -71,6 +71,7 @@
 			// Parse JSON response
 			try {
 				$responseBody = $.parseJSON($data.responseText);
+				$errors.push($responseBody.message);
 			} catch (ex) {
 				$errors.push(ex.message);
 			}
@@ -78,15 +79,16 @@
 			// Failure error message
 			$errors.push($error);
 
-			// Response error message
-			$errors.push($responseBody.message);
-
 			// Show a phpBB alert with the errors
 			if ($errors.length > 0) {
 				var $message = '';
 
 				for (var $i = 0; $i < $errors.length; $i++) {
-					$message += $errors[$i] + '<br />';
+					$message += $errors[$i];
+
+					if ($i < ($errors.length - 1)) {
+						$message += ' <br />';
+					}
 				}
 
 				if ($message.length > 0) {
