@@ -44,26 +44,8 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.user_setup'		=> 'user_setup',
 			'core.user_setup_after'	=> 'user_setup_after'
 		];
-	}
-
-	/**
-	 * Load language files and modify user data on every page.
-	 *
-	 * @param object	$event
-	 *
-	 * @return void
-	 */
-	public function user_setup($event)
-	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = [
-			'ext_name'	=> 'alfredoramos/imgur',
-			'lang_set'	=> 'imgur'
-		];
-		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**

@@ -17,4 +17,5 @@ services:
             - '@request'
             - '@controller.helper'
             - '@filesystem'
+            - '@language'
             - '@alfredoramos.imgur.j0k3r.imgur.client'

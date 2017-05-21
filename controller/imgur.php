@@ -16,6 +16,7 @@ use phpbb\request\request;
 use phpbb\request\request_interface;
 use phpbb\controller\helper;
 use phpbb\filesystem\filesystem;
+use phpbb\language\language;
 use phpbb\exception\runtime_exception;
 
 class imgur
@@ -33,6 +34,9 @@ class imgur
 	/** @var \phpbb\filesystem\filesystem $filesystem */
 	protected $filesystem;
 
+	/** @var \phpbb\language\language $language */
+	protected $language;
+
 	/** @var \Imgur\Client $imgur */
 	protected $imgur;
 
@@ -43,18 +47,23 @@ class imgur
 	 * @param \phpbb\config\config			$config
 	 * @param \phpbb\request\request		$request
 	 * @param \phpbb\controller\helper		$helper
-	 * @param \phpbb\filesystem\filesystem	$filesystem;
+	 * @param \phpbb\filesystem\filesystem	$filesystem
+	 * @param \phpbb\language\language		$language
 	 * @param \Imgur\Client					$imgur
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, request $request, helper $helper, filesystem $filesystem, ImgurClient $imgur)
+	public function __construct(config $config, request $request, helper $helper, filesystem $filesystem, language $language, ImgurClient $imgur)
 	{
 		$this->config = $config;
 		$this->request = $request;
 		$this->helper = $helper;
 		$this->filesystem = $filesystem;
+		$this->language = $language;
 		$this->imgur = $imgur;
+
+		// Add exception translations
+		$this->language->add_lang('imgur', 'alfredoramos/imgur');
 
 		// Mandatory API data
 		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))

@@ -24,18 +24,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	// ACP
-	'ACP_IMGUR'	=> 'Ajustes de Imgur',
-	'ACP_IMGUR_CLIENT_ID' => '<em>Client ID</em>',
-	'ACP_IMGUR_CLIENT_SECRET' => '<em>Client Secret</em>',
-	'ACP_IMGUR_ALBUM'	=> 'Álbum',
-	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Identificador del álbum en donde las imágenes serán subidas. Déjalo vacío si deseas que las imágenes sean subidas en la ubicación por defecto.',
-	'ACP_IMGUR_AUTH_EXPLAIN' => 'Haz clic en el siguiente enlace para autorizar la aplicación.',
-	'ACP_IMGUR_PIN' => 'PIN',
-	'ACP_IMGUR_PIN_EXPLAIN' => 'PIN de autorización necesario para acceder a tu cuenta de Imgur.',
-	'ACP_IMGUR_SETTINGS_SAVED' => 'Los ajustes de Imgur han sido guardados satisfactoriamente.',
-
-	// Exceptions
 	'EXCEPTION_IMGUR_NO_API_DATA' => '<em>Client ID</em> y <em>Client Secret</em> son obligatorios.',
 	'EXCEPTION_IMGUR_AJAX_ONLY' => 'Esta ruta sólo puede ser usada en llamadas AJAX.'
 ]);
