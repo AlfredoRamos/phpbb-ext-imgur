@@ -5,6 +5,7 @@ services:
     alfredoramos.imgur.listener:
         class: alfredoramos\imgur\event\listener
         arguments:
+            - '@config'
             - '@template'
             - '@routing.helper'
         tags:

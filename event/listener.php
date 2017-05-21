@@ -9,12 +9,16 @@
 
 namespace alfredoramos\imgur\event;
 
+use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\routing\helper as routing_helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
+
+	/** @var \phpbb\config\config $config */
+	protected $config;
 
 	/** @var \phpbb\template\template $template */
 	protected $template;
@@ -25,13 +29,15 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Listener constructor.
 	 *
+	 * @param \phpbb\config\config		$config
 	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\routing\helper		$routing_helper;
+	 * @param \phpbb\routing\helper		$routing_helper
 	 *
 	 * @return void
 	 */
-	public function __construct(template $template, routing_helper $routing_helper)
+	public function __construct(config $config, template $template, routing_helper $routing_helper)
 	{
+		$this->config = $config;
 		$this->template = $template;
 		$this->routing_helper = $routing_helper;
 	}
@@ -57,10 +63,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function user_setup_after($event)
 	{
-		$this->template->assign_var(
-			'IMGUR_UPLOAD_URL',
-			$this->routing_helper->route('alfredoramos_imgur_upload')
-		);
+		$this->template->assign_vars([
+			'IMGUR_UPLOAD_URL'	=> $this->routing_helper->route('alfredoramos_imgur_upload'),
+			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token'])
+		]);
 	}
 
 }

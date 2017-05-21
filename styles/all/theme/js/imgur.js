@@ -65,8 +65,34 @@
 				}
 			});
 		}).fail(function($data, $textStatus, $error) {
-			// Show a phpBB alert with the error
-			phpbb.alert($textStatus, $error);
+			var $responseBody;
+			var $errors = [];
+
+			// Parse JSON response
+			try {
+				$responseBody = $.parseJSON($data.responseText);
+			} catch (ex) {
+				$errors.push(ex.message);
+			}
+
+			// Failure error message
+			$errors.push($error);
+
+			// Response error message
+			$errors.push($responseBody.message);
+
+			// Show a phpBB alert with the errors
+			if ($errors.length > 0) {
+				var $message = '';
+
+				for (var $i = 0; $i < $errors.length; $i++) {
+					$message += $errors[$i] + '<br />';
+				}
+
+				if ($message.length > 0) {
+					phpbb.alert($textStatus, $message);
+				}
+			}
 		}).always(function() {
 			// Re-enable button
 			$imgurButton.prop('disabled', false);
