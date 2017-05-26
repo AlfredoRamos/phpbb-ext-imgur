@@ -1,67 +1,67 @@
-<!-- INCLUDE overall_header.html -->
+{% include 'overall_header.html' %}
 
-<h1>{L_SETTINGS}</h1>
+<h1>{{ lang('SETTINGS') }}</h1>
 
-<!-- IF IMGUR_AUTH_URL -->
+{% if IMGUR_AUTH_URL %}
 <div class="errorbox notice">
 	<p>
-		{L_ACP_IMGUR_AUTH_EXPLAIN}<br />
+		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br />
 		<a href="{IMGUR_AUTH_URL}" target="_blank" rel="nofollow noreferrer noopener">
-			<code><strong>{IMGUR_AUTH_URL}</strong></code>
+			<code><strong>{{ IMGUR_AUTH_URL }}</strong></code>
 		</a>
 	</p>
 </div>
-<!-- ENDIF -->
+{% endif %}
 
-<form id="acp_board" method="POST" action="{U_ACTION}">
+<form id="acp_board" method="POST" action="{{ U_ACTION }}">
 	<fieldset>
 		<dl>
 			<dt>
-				<label for="imgur_client_id">{L_ACP_IMGUR_CLIENT_ID}</label>
+				<label for="imgur_client_id">{{ lang('ACP_IMGUR_CLIENT_ID') }}</label>
 			</dt>
 			<dd>
-				<input type="text" id="imgur_client_id" name="imgur_client_id" value="<!-- IF IMGUR_CLIENT_ID -->{IMGUR_CLIENT_ID}<!-- ENDIF -->" required="required" autocomplete="off" />
+				<input type="text" id="imgur_client_id" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off" />
 			</dd>
 		</dl>
 
 		<dl>
 			<dt>
-				<label for="imgur_client_secret">{L_ACP_IMGUR_CLIENT_SECRET}</label>
+				<label for="imgur_client_secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') }}</label>
 			</dt>
 			<dd>
-				<input type="password" id="imgur_client_secret" name="imgur_client_secret" value="<!-- IF IMGUR_CLIENT_SECRET -->{IMGUR_CLIENT_SECRET}<!-- ENDIF -->" required="required" autocomplete="off" />
+				<input type="password" id="imgur_client_secret" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off" />
 			</dd>
 		</dl>
 
 		<dl>
 			<dt>
-				<label for="imgur_album">{L_ACP_IMGUR_ALBUM}</label>
-				<br /><span>{L_ACP_IMGUR_ALBUM_EXPLAIN}</span>
+				<label for="imgur_album">{{ lang('ACP_IMGUR_ALBUM') }}</label>
+				<br /><span>{{ lang('ACP_IMGUR_ALBUM_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="imgur_album" name="imgur_album" value="<!-- IF IMGUR_ALBUM -->{IMGUR_ALBUM}<!-- ENDIF -->" autocomplete="off" />
+				<input type="text" id="imgur_album" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off" />
 			</dd>
 		</dl>
 
-		<!-- IF IMGUR_AUTH_URL -->
+		{% if IMGUR_AUTH_URL %}
 		<dl>
 			<dt>
-				<label for="imgur_pin">{L_ACP_IMGUR_PIN}</label>
-				<br /><span>{L_ACP_IMGUR_PIN_EXPLAIN}</span>
+				<label for="imgur_pin">{{ lang('ACP_IMGUR_PIN') }}</label>
+				<br /><span>{{ lang('ACP_IMGUR_PIN_EXPLAIN') }}</span>
 			</dt>
 			<dd>
 				<input type="text" id="imgur_pin" name="imgur_pin" autocomplete="off" />
 			</dd>
 		</dl>
-		<!-- ENDIF -->
+		{% endif %}
 
 		<p class="submit-buttons">
-			<input type="submit" name="submit" class="button1" value="{L_SUBMIT}" />
-			<input type="reset" class="button1" value="{L_RESET}" />
+			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
+			<input type="reset" class="button1" value="{{ lang('RESET') }}" />
 		</p>
 
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 </form>
 
-<!-- INCLUDE overall_footer.html -->
+{% include 'overall_footer.html' %}
