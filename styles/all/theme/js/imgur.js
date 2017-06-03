@@ -67,7 +67,7 @@
 				}
 			});
 		}).fail(function($data, $textStatus, $error) {
-			var $responseBody;
+			var $responseBody = {};
 			var $errors = [];
 
 			// Parse JSON response
