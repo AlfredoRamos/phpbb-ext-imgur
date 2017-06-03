@@ -5,7 +5,7 @@
  * @license GNU GPL-2.0
  */
 
-#imgur-button > .icon {
+.imgur-button > .icon {
 	display: inline-block;
 	background-image: url(../../../all/theme/images/imgur.svg);
 	width: 14px;

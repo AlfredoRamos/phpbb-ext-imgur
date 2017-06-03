@@ -9,8 +9,10 @@
 	'use strict';
 
 	// Show image selection window
-	$('#imgur-button').on('click', function() {
-		$('#imgur-image').trigger('click');
+	$.each($('.imgur-button'), function() {
+		$(this).on('click', function() {
+			$('#imgur-image').trigger('click');
+		});
 	});
 
 	// Upload images
