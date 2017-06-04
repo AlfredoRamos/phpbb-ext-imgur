@@ -141,7 +141,7 @@ class imgur
 				// Image file must exist and be readable
 				if (!$this->filesystem->is_readable($images['tmp_name'][$key]))
 				{
-					break;
+					continue;
 				}
 
 				// Upload image and save response, it will be used
