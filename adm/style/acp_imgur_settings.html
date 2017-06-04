@@ -6,7 +6,7 @@
 <div class="errorbox notice">
 	<p>
 		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br />
-		<a href="{IMGUR_AUTH_URL}" target="_blank" rel="nofollow noreferrer noopener">
+		<a href="{{ IMGUR_AUTH_URL }}" target="_blank" rel="nofollow noreferrer noopener">
 			<code><strong>{{ IMGUR_AUTH_URL }}</strong></code>
 		</a>
 	</p>
@@ -17,7 +17,7 @@
 	<fieldset>
 		<dl>
 			<dt>
-				<label for="imgur_client_id">{{ lang('ACP_IMGUR_CLIENT_ID') }}</label>
+				<label for="imgur_client_id">{{ lang('ACP_IMGUR_CLIENT_ID') }}{{ lang('COLON') }}</label>
 			</dt>
 			<dd>
 				<input type="text" id="imgur_client_id" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off" />
@@ -26,7 +26,7 @@
 
 		<dl>
 			<dt>
-				<label for="imgur_client_secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') }}</label>
+				<label for="imgur_client_secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') }}{{ lang('COLON') }}</label>
 			</dt>
 			<dd>
 				<input type="password" id="imgur_client_secret" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off" />
@@ -35,7 +35,7 @@
 
 		<dl>
 			<dt>
-				<label for="imgur_album">{{ lang('ACP_IMGUR_ALBUM') }}</label>
+				<label for="imgur_album">{{ lang('ACP_IMGUR_ALBUM') }}{{ lang('COLON') }}</label>
 				<br /><span>{{ lang('ACP_IMGUR_ALBUM_EXPLAIN') }}</span>
 			</dt>
 			<dd>
@@ -46,7 +46,7 @@
 		{% if IMGUR_AUTH_URL %}
 		<dl>
 			<dt>
-				<label for="imgur_pin">{{ lang('ACP_IMGUR_PIN') }}</label>
+				<label for="imgur_pin">{{ lang('ACP_IMGUR_PIN') }}{{ lang('COLON') }}</label>
 				<br /><span>{{ lang('ACP_IMGUR_PIN_EXPLAIN') }}</span>
 			</dt>
 			<dd>
