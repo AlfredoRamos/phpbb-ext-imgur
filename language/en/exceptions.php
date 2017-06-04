@@ -24,5 +24,6 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'IMGUR_BUTTON_EXPLAIN' => 'Upload the selected images to Imgur and post its [img] BBCode'
+	'EXCEPTION_IMGUR_NO_API_DATA' => 'Client ID and Client Secret are mandatory.',
+	'EXCEPTION_IMGUR_AJAX_ONLY' => 'This route can only be used on AJAX calls.'
 ]);

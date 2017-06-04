@@ -50,7 +50,10 @@ class listener_test extends phpbb_test_case
 	public function test_suscribed_events()
 	{
 		$this->assertSame(
-			['core.user_setup_after'],
+			[
+				'core.user_setup',
+				'core.user_setup_after'
+			],
 			array_keys(listener::getSubscribedEvents())
 		);
 	}
