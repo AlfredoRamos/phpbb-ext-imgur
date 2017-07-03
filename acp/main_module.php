@@ -137,10 +137,17 @@ class main_module
 			// Update token
 			foreach ($token as $key => $value)
 			{
-				// scope can be null, and the configuration
+				// The scope column can be null, and the configuration
 				// table does not accept null values
-				if ($key == 'scope') {
+				if ($key == 'scope')
+				{
 					$value = empty($value) ? '' : $value;
+				}
+
+				// Force access_token refresh after 1 day
+				if ($key == 'expires_in')
+				{
+					$value = min((int) $value, (24 * 60 * 60));
 				}
 
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);

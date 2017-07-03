@@ -95,13 +95,25 @@ class imgur
 		{
 			$this->imgur->refreshToken();
 
+			// Generate new token
+			$new_token = array_merge($this->imgur->getAccessToken(), [
+				'created_at' => time()
+			]);
+
 			// Update the token in database
-			foreach($this->imgur->getAccessToken() as $key => $value)
+			foreach ($new_token as $key => $value)
 			{
-				// scope can be null, and the configuration
+				// The scope column can be null, and the configuration
 				// table does not accept null values
-				if ($key == 'scope') {
+				if ($key == 'scope')
+				{
 					$value = empty($value) ? '' : $value;
+				}
+
+				// Force access_token refresh after 1 day
+				if ($key == 'expires_in')
+				{
+					$value = min((int) $value, (24 * 60 * 60));
 				}
 
 				// Save changes
