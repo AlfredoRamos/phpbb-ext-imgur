@@ -91,6 +91,12 @@ class imgur
 		// Set token
 		$this->imgur->setAccessToken($token);
 
+		// Refresh token
+		if ($this->imgur->checkAccessTokenExpired())
+		{
+			$this->refreshToken();
+		}
+
 		// Check if token unexpectedly expired
 		try
 		{
@@ -98,51 +104,36 @@ class imgur
 		}
 		catch (ImgurErrorException $ex)
 		{
-			$this->imgur->refreshToken();
-
-			// Generate new token
-			$new_token = array_merge($this->imgur->getAccessToken(), [
-				'created_at' => time()
-			]);
-
-			// Update the token in database
-			foreach ($new_token as $key => $value)
-			{
-				// The scope column can be null, and the configuration
-				// table does not accept null values
-				if ($key == 'scope')
-				{
-					$value = empty($value) ? '' : $value;
-				}
-
-				// Save changes
-				$this->config->set(sprintf('imgur_%s', $key), $value, false);
-			}
+			$this->refreshToken();
 		}
+	}
 
-		// Refresh token
-		if ($this->imgur->checkAccessTokenExpired())
+	/**
+	 * Refresh token helper.
+	 *
+	 * @return void
+	 */
+	private function refreshToken()
+	{
+		$this->imgur->refreshToken();
+
+		// Generate new token
+		$new_token = array_merge($this->imgur->getAccessToken(), [
+			'created_at' => time()
+		]);
+
+		// Update the token in database
+		foreach ($new_token as $key => $value)
 		{
-			$this->imgur->refreshToken();
-
-			// Generate new token
-			$new_token = array_merge($this->imgur->getAccessToken(), [
-				'created_at' => time()
-			]);
-
-			// Update the token in database
-			foreach ($new_token as $key => $value)
+			// The scope column can be null, and the configuration
+			// table does not accept null values
+			if ($key == 'scope')
 			{
-				// The scope column can be null, and the configuration
-				// table does not accept null values
-				if ($key == 'scope')
-				{
-					$value = empty($value) ? '' : $value;
-				}
-
-				// Save changes
-				$this->config->set(sprintf('imgur_%s', $key), $value, false);
+				$value = empty($value) ? '' : $value;
 			}
+
+			// Save changes
+			$this->config->set(sprintf('imgur_%s', $key), $value, false);
 		}
 	}
 
