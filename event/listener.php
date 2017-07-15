@@ -62,7 +62,8 @@ class listener implements EventSubscriberInterface
 	 *
 	 * @return void
 	 */
-	public function user_setup($event) {
+	public function user_setup($event)
+	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = [
 			'ext_name'	=> 'alfredoramos/imgur',

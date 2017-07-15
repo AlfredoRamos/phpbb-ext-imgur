@@ -9,7 +9,7 @@
 
 namespace alfredoramos\imgur\acp;
 
-use Exception;
+use Imgur\Exception\AuthException;
 
 class main_module
 {
@@ -122,7 +122,7 @@ class main_module
 				{
 					$this->imgur->requestAccessToken($pin, 'pin');
 				}
-				catch (Exception $ex)
+				catch (AuthException $ex)
 				{
 					trigger_error(
 						$ex->getMessage() . adm_back_link($this->u_action),
