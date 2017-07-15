@@ -144,12 +144,6 @@ class main_module
 					$value = empty($value) ? '' : $value;
 				}
 
-				// Force access_token refresh after 1 day
-				if ($key == 'expires_in')
-				{
-					$value = min((int) $value, (24 * 60 * 60));
-				}
-
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);
 			}
 

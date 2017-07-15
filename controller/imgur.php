@@ -10,6 +10,7 @@
 namespace alfredoramos\imgur\controller;
 
 use Imgur\Client as ImgurClient;
+use Imgur\Exception\ErrorException as ImgurErrorException;
 use phpbb\json_response;
 use phpbb\config\config;
 use phpbb\request\request;
@@ -90,8 +91,12 @@ class imgur
 		// Set token
 		$this->imgur->setAccessToken($token);
 
-		// Refresh token
-		if ($this->imgur->checkAccessTokenExpired())
+		// Check if token unexpectedly expired
+		try
+		{
+			$this->imgur->getHttpClient()->get('credits');
+		}
+		catch (ImgurErrorException $ex)
 		{
 			$this->imgur->refreshToken();
 
@@ -110,10 +115,29 @@ class imgur
 					$value = empty($value) ? '' : $value;
 				}
 
-				// Force access_token refresh after 1 day
-				if ($key == 'expires_in')
+				// Save changes
+				$this->config->set(sprintf('imgur_%s', $key), $value, false);
+			}
+		}
+
+		// Refresh token
+		if ($this->imgur->checkAccessTokenExpired())
+		{
+			$this->imgur->refreshToken();
+
+			// Generate new token
+			$new_token = array_merge($this->imgur->getAccessToken(), [
+				'created_at' => time()
+			]);
+
+			// Update the token in database
+			foreach ($new_token as $key => $value)
+			{
+				// The scope column can be null, and the configuration
+				// table does not accept null values
+				if ($key == 'scope')
 				{
-					$value = min((int) $value, (24 * 60 * 60));
+					$value = empty($value) ? '' : $value;
 				}
 
 				// Save changes
