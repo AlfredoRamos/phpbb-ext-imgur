@@ -96,16 +96,6 @@ class imgur
 		{
 			$this->refreshToken();
 		}
-
-		// Check if token unexpectedly expired
-		try
-		{
-			$this->imgur->getHttpClient()->get('credits');
-		}
-		catch (ImgurErrorException $ex)
-		{
-			$this->refreshToken();
-		}
 	}
 
 	/**
@@ -158,7 +148,7 @@ class imgur
 		);
 
 		// Upload responses
-		$upload_data = [];
+		$data = [];
 
 		// Upload images
 		if (!empty($images['name']))
@@ -173,19 +163,26 @@ class imgur
 
 				// Upload image and save response, it will be used
 				// later to show a JSON object
-				$upload_data[] = $this->imgur->api('image')->upload([
-					'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
-					'type'	=> 'base64',
-					'album'	=> $this->config['imgur_album'],
-					'name'	=> $value
-				]);
+				try
+				{
+					$data[] = $this->imgur->api('image')->upload([
+						'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
+						'type'	=> 'base64',
+						'album'	=> $this->config['imgur_album'],
+						'name'	=> $value
+					]);
+				}
+				catch (ImgurErrorException $ex)
+				{
+					$this->refreshToken();
+				}
 			}
 		}
 
 		// Return a JSON response
 		$response = new json_response;
 
-		return $response->send($upload_data);
+		return $response->send($data);
 	}
 
 }
