@@ -174,7 +174,27 @@ class imgur
 				}
 				catch (ImgurErrorException $ex)
 				{
+					// Update token as it expired unexpectedly
 					$this->refreshToken();
+
+					// Clear previous data
+					$data = [];
+
+					// Try again to upload the image, if succeed it will add
+					// the BBCode of the image, otherwise an error message
+					try
+					{
+						$data[] = $this->imgur->api('image')->upload([
+							'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
+							'type'	=> 'base64',
+							'album'	=> $this->config['imgur_album'],
+							'name'	=> $value
+						]);
+					}
+					catch (ImgurErrorException $ex)
+					{
+						throw new runtime_exception('EXCEPTION_IMGUR_BAD_REQUEST', [$ex->getMessage()], $ex);
+					}
 				}
 			}
 		}

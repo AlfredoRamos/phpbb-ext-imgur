@@ -25,5 +25,6 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'EXCEPTION_IMGUR_NO_API_DATA' => '<em>Client ID</em> y <em>Client Secret</em> son obligatorios.',
-	'EXCEPTION_IMGUR_AJAX_ONLY' => 'Esta ruta sólo puede ser usada en llamadas AJAX.'
+	'EXCEPTION_IMGUR_AJAX_ONLY' => 'Esta ruta sólo puede ser usada en llamadas AJAX.',
+	'EXCEPTION_IMGUR_BAD_REQUEST' => '%s'
 ]);
