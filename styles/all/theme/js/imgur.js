@@ -9,21 +9,20 @@
 	'use strict';
 
 	// Show image selection window
-	$.each($('.imgur-button'), function() {
-		$(this).on('click', function() {
-			$('#imgur-image').trigger('click');
-		});
+	$(document).on('click', '.imgur-button', function() {
+		$('#imgur-image').trigger('click');
 	});
 
 	// Upload images
-	$('#imgur-image').on('change', function() {
+	$(document).on('change', '#imgur-image', function() {
 		phpbb.clearLoadingTimeout();
 
 		var $formData = new FormData();
 		var $files = $(this).prop('files');
 		var $contentBody = {
 			message: $('#postingbox #message'),
-			signature: $('#postform #signature')
+			signature: $('#postform #signature'),
+			quickreply: $('#qr_postform [name="message"]')
 		};
 		var $imgurButton = $(this);
 		var $loadingIndicator;
