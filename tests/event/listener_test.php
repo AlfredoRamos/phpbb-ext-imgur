@@ -16,6 +16,9 @@ use phpbb\routing\helper as routing_helper;
 use alfredoramos\imgur\event\listener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @group event
+ */
 class listener_test extends phpbb_test_case
 {
 
