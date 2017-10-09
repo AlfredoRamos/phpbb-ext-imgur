@@ -18,6 +18,7 @@ use phpbb\request\request_interface;
 use phpbb\controller\helper;
 use phpbb\filesystem\filesystem;
 use phpbb\language\language;
+use phpbb\exception\http_exception;
 use phpbb\exception\runtime_exception;
 
 class imgur
@@ -91,7 +92,7 @@ class imgur
 		// Set token
 		$this->imgur->setAccessToken($token);
 
-		// Refresh token
+		// Check if token expired
 		if ($this->imgur->checkAccessTokenExpired())
 		{
 			$this->refreshToken();
@@ -134,9 +135,22 @@ class imgur
 	 */
 	public function upload()
 	{
+		// This route only responds to AJAX calls
 		if (!$this->request->is_ajax())
 		{
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
+		}
+
+		// Add CSFR protection
+		if (!check_link_hash($this->request->variable('hash', ''), 'imgur_upload'))
+		{
+			throw new http_exception(403, 'NO_AUTH_OPERATION');
+		}
+
+		// Check if token expired
+		if ($this->imgur->checkAccessTokenExpired())
+		{
+			$this->refreshToken();
 		}
 
 		// Not using $request->file() because I need an array of arrays
