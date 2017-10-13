@@ -1,0 +1,15 @@
+/**Slightly edited by Regend Soh <https://bio.regend.xyz/>
+  *Credits to Alfredo Ramos <alfredo.ramos@yandex.com>
+  */
+
+.imgur-button > .icon {
+	display: inline-block;
+  	width: 30px;
+ 	height: 30px;
+	background-image: url(../../../all/theme/images/imgur.svg);
+	
+}
+
+.imgur-button.abbc3_button {
+	background-image: url(../../../all/theme/images/imgur.svg);
+}
