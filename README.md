@@ -18,7 +18,7 @@ Imgur Extension for phpBB 3.2.x
 - Copy the files and directories inside `{PHPBB_ROOT}/ext/alfredoramos/imgur/`
 - Run `composer install --prefer-dist --no-dev` inside `{PHPBB_ROOT}/ext/alfredoramos/imgur/`
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
-- Click on `Enable` and confirm.
+- Click on `Enable` and confirm
 
 ### Usage
 
@@ -45,6 +45,11 @@ If the upload is successful it will add the `[img]` BBCode with its respective l
 - In the Imgur authorization link, click on `Allow` and copy the `PIN`
 - Go back to `Imgur settings` paste the `PIN`
 - Click on `Submit`
+
+To add support for more styles:
+
+- Copy the `styles/prosilver/` directory into `styles/{NEW_STYLE}/`
+- Edit the file `styles/{NEW_STYLE}/theme/css/imgur.css` as needed
 
 ### Uninstallation
 
