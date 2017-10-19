@@ -63,3 +63,10 @@ To add support for more styles:
 - Delete all the files inside `{PHPBB_ROOT}/alfredoramos/imgur/`
 - Download the new version
 - Install the extension
+
+
+### Contributors
+
+Thanks to the following people for contributing to the extension:
+
+- [alhitary](https://www.phpbb.com/community/memberlist.php?mode=viewprofile&u=294346) - Arabic translation
