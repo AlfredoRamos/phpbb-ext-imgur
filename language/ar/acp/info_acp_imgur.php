@@ -33,4 +33,6 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_PIN' => 'رمز التعريف الشخصي ',
 	'ACP_IMGUR_PIN_EXPLAIN' => 'اكتب رقم الـ PIN للمُصادقة والوصول إلى حسابك في Imgur.',
 	'ACP_IMGUR_SETTINGS_SAVED' => 'تم حفظ الإعدادات بنجاح.'
+	
+	'LOG_IMGUR_DATA' => '<strong>تم تغيير بيانات الإضافة : Imgur</strong>'
 ]);
