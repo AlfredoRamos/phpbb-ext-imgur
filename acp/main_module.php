@@ -35,6 +35,12 @@ class main_module
 	/** @var \phpbb\language\language $language */
 	protected $language;
 
+	/** @var \phpbb\user $user */
+	protected $user;
+
+	/** @var \phpbb\log\log $log */
+	protected $log;
+
 	/** @var \Imgur\Client $imgur */
 	protected $imgur;
 
@@ -52,6 +58,8 @@ class main_module
 		$this->template = $phpbb_container->get('template');
 		$this->request = $phpbb_container->get('request');
 		$this->language = $phpbb_container->get('language');
+		$this->user = $phpbb_container->get('user');
+		$this->log = $phpbb_container->get('log');
 		$this->imgur = $phpbb_container->get('alfredoramos.imgur.j0k3r.imgur.client');
 	}
 
@@ -146,6 +154,14 @@ class main_module
 
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);
 			}
+
+			// Admin log
+			$this->log->add(
+				'admin',
+				$this->user->data['user_id'],
+				$this->user->ip,
+				'LOG_IMGUR_DATA'
+			);
 
 			// Confirm dialog
 			trigger_error(

@@ -32,5 +32,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_AUTH_EXPLAIN' => 'Click the following link to authorize the application.',
 	'ACP_IMGUR_PIN' => 'PIN',
 	'ACP_IMGUR_PIN_EXPLAIN' => 'Authorization PIN needed to access to your Imgur account.',
-	'ACP_IMGUR_SETTINGS_SAVED' => 'Imgur settings have been succesfully saved.'
+	'ACP_IMGUR_SETTINGS_SAVED' => 'Imgur settings have been succesfully saved.',
+
+	'LOG_IMGUR_DATA' => '<strong>Imgur data changed</strong>'
 ]);
