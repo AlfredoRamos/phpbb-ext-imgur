@@ -15,7 +15,7 @@ class m2_imgur_modules extends migration
 {
 
 	/**
-	 * Add Imgur ACP settings
+	 * Add Imgur ACP settings.
 	 *
 	 * @return array
 	 */
