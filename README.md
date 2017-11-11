@@ -28,11 +28,7 @@ If the upload is successful it will add the `[img]` BBCode with its respective l
 
 ### Preview
 
-[![ACP settings](https://i.imgur.com/ydMrvEUm.png)](https://i.imgur.com/ydMrvEU.png)
-
-[![ACP settings API](https://i.imgur.com/ylIBynrm.png)](https://i.imgur.com/ylIBynr.png)
-
-[![Topic](https://i.imgur.com/8C7sMR2m.png)](https://i.imgur.com/8C7sMR2.png)
+[![ACP settings](https://i.imgur.com/ydMrvEUt.png)](https://i.imgur.com/ydMrvEU.png) [![ACP settings API](https://i.imgur.com/ylIBynrt.png)](https://i.imgur.com/ylIBynr.png) [![Topic](https://i.imgur.com/8C7sMR2t.png)](https://i.imgur.com/8C7sMR2.png)
 
 *(Click to view in full size)*
 
