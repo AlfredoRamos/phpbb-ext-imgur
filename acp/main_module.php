@@ -74,6 +74,9 @@ class main_module
 		$this->page_title = $this->language->lang('ACP_IMGUR');
 		add_form_key('alfredoramos_imgur');
 
+		// Load additional language keys
+		$this->language->add_lang('acp/database');
+
 		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
 		{
 			$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
@@ -185,6 +188,15 @@ class main_module
 			$this->template->assign_var(
 				'IMGUR_AUTH_URL',
 				$this->imgur->getAuthenticationUrl('pin')
+			);
+		}
+
+		// Show album download URL
+		if (!empty($this->config['imgur_album']))
+		{
+			$this->template->assign_var(
+				'IMGUR_ALBUM_DOWNLOAD_URL',
+				sprintf('https://imgur.com/a/%s/zip', $this->config['imgur_album'])
 			);
 		}
 	}
