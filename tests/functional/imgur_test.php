@@ -45,10 +45,10 @@ class imgur_test extends phpbb_functional_test_case
 			$this->sid
 		));
 
-		$this->assertEquals(1, $crawler->filter(
+		$this->assertSame(1, $crawler->filter(
 			'#postingbox #format-buttons .imgur-button'
 		)->count());
-		$this->assertEquals(1, $crawler->filter(
+		$this->assertSame(1, $crawler->filter(
 			'#postingbox #imgur-image'
 		)->count());
 	}
