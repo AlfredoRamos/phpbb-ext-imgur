@@ -13,7 +13,7 @@
 </div>
 {% endif %}
 
-<form id="acp_board" method="POST" action="{{ U_ACTION }}">
+<form id="imgur_settings" method="POST" action="{{ U_ACTION }}">
 	<fieldset>
 		<dl>
 			<dt>
@@ -55,7 +55,7 @@
 				<br /><span>{{ lang('ACP_IMGUR_PIN_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="imgur_pin" name="imgur_pin" autocomplete="off" />
+				<input type="text" id="imgur_pin" class="narrow" name="imgur_pin" autocomplete="off" />
 			</dd>
 		</dl>
 		{% endif %}
