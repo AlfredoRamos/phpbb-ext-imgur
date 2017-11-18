@@ -109,8 +109,8 @@ class imgur_test extends phpbb_functional_test_case
 
 		$crawler = self::submit($form);
 
-		$this->assertContainsLang(
-			'ERROR_TEMPLATE_MISSING_TOKEN',
+		$this->assertContains(
+			strip_tags($this->lang('ERROR_TEMPLATE_MISSING_TOKEN', '{URL}')),
 			$crawler->filter('.main')->text()
 		);
 	}
