@@ -27,6 +27,11 @@ class main_info
 					'title'	=> 'SETTINGS',
 					'auth'	=> 'ext_alfredoramos/imgur && acl_a_board',
 					'cat'	=> ['ACP_IMGUR']
+				],
+				'output'	=> [
+					'title'	=> 'OUTPUT',
+					'auth'	=> 'ext_alfredoramos/imgur && acl_a_board',
+					'cat'	=> ['ACP_IMGUR']
 				]
 			]
 		];

@@ -85,7 +85,10 @@ class listener implements EventSubscriberInterface
 			'IMGUR_UPLOAD_URL'	=> $this->routing_helper->route('alfredoramos_imgur_upload', [
 				'hash' => generate_link_hash('imgur_upload')
 			]),
-			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token'])
+			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token']),
+			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
+			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size'],
+			'IMGUR_OUTPUT_TEMPLATE'	=> $this->config['imgur_output_template']
 		]);
 	}
 

@@ -34,5 +34,20 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_PIN_EXPLAIN' => 'Authorization PIN needed to access to your Imgur account.',
 	'ACP_IMGUR_SETTINGS_SAVED' => 'Imgur settings have been succesfully saved.',
 
+	'ACP_IMGUR_OUTPUT' => 'Imgur output settings',
+	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
+	'ACP_IMGUR_OUTPUT_URL' => 'URL',
+	'ACP_IMGUR_OUTPUT_IMAGE' => 'Image',
+	'ACP_IMGUR_OUTPUT_THUMBNAIL' => 'Thumbnail',
+	'ACP_IMGUR_OUTPUT_CUSTOM' => 'Custom',
+	'ACP_IMGUR_OUTPUT_TEMPLATE' => 'Template',
+	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Thumbnail size',
+	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Small',
+	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Medium',
+
+	'ERROR_TEMPLATE_MISSING_TOKEN' => 'The template is missing the <code>%s</code> token.',
+
+	'OUTPUT' => 'Output',
+
 	'LOG_IMGUR_DATA' => '<strong>Imgur data changed</strong>'
 ]);

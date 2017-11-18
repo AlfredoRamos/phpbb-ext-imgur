@@ -1,0 +1,63 @@
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('SETTINGS') }}</h1>
+
+<form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
+	<fieldset>
+		<dl>
+			<dt>
+				<label for="imgur_output_type">{{ lang('ACP_IMGUR_OUTPUT_TYPE') }}{{ lang('COLON') }}</label>
+			</dt>
+			<dd>
+				<select id="imgur_output_type" name="imgur_output_type">
+					<option value="url"{% if IMGUR_OUTPUT_TYPE == "url" %} selected="selected"{% endif %}>
+						{{ lang('ACP_IMGUR_OUTPUT_URL') }}
+					</option>
+					<option value="image"{% if IMGUR_OUTPUT_TYPE == "image" or IMGUR_OUTPUT_TYPE is empty %} selected="selected"{% endif %}>
+						{{ lang('ACP_IMGUR_OUTPUT_IMAGE') }}
+					</option>
+					<option value="thumbnail"{% if IMGUR_OUTPUT_TYPE == "thumbnail" %} selected="selected"{% endif %}>
+						{{ lang('ACP_IMGUR_OUTPUT_THUMBNAIL') }}
+					</option>
+					<option value="custom"{% if IMGUR_OUTPUT_TYPE == "custom" %} selected="selected"{% endif %}>
+						{{ lang('ACP_IMGUR_OUTPUT_CUSTOM') }}
+					</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="imgur_thumbnail_size">{{ lang('ACP_IMGUR_THUMBNAIL_SIZE') }}{{ lang('COLON') }}</label>
+			</dt>
+			<dd>
+				<select id="imgur_thumbnail_size" name="imgur_thumbnail_size"{% if IMGUR_OUTPUT_TYPE != 'thumbnail' %} disabled="disabled"{% endif %}>
+					<option value="t"{% if IMGUR_THUMBNAIL_SIZE is same as("t") or IMGUR_THUMBNAIL_SIZE is empty %} selected="selected"{% endif %}>
+						{{ lang('ACP_IMGUR_THUMBNAIL_SMALL') }}
+					</option>
+					<option value="m"{% if IMGUR_THUMBNAIL_SIZE is same as("m") %} selected="selected"{% endif %}>
+						{{ lang('ACP_IMGUR_THUMBNAIL_MEDIUM') }}
+					</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="imgur_output_template">{{ lang('ACP_IMGUR_OUTPUT_TEMPLATE') }}{{ lang('COLON') }}</label>
+			</dt>
+			<dd>
+				<input type="text" id="imgur_output_template" class="medium" name="imgur_output_template" value="{% if IMGUR_OUTPUT_TEMPLATE %}{{ IMGUR_OUTPUT_TEMPLATE }}{% endif %}" autocomplete="off"{% if IMGUR_OUTPUT_TYPE != 'custom' %} disabled="disabled"{% endif %} />
+			</dd>
+		</dl>
+
+		<p class="submit-buttons">
+			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
+			<input type="reset" class="button1" value="{{ lang('RESET') }}" />
+		</p>
+
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+
+{% include 'overall_footer.html' %}

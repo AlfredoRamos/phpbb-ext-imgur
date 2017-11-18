@@ -80,7 +80,7 @@
 
 		// Upload the image(s)
 		$.ajax({
-			url: $(this).attr('data-ajax-action'),
+			url: $imgurButton.attr('data-ajax-action'),
 			type: 'POST',
 			data: $formData,
 			contentType: false,
@@ -89,9 +89,37 @@
 		}).done(function($data) {
 			$.each($data, function($key, $value) {
 				var $bbcode = '';
+				var $image = {
+					link: $value.link.replace('http://', 'https://')
+				};
 
-				// BBCode data
-				$bbcode = '[img]' + $value.link.replace('http://', 'https://') + '[/img]';
+				if ($image.link.length >= 0) {
+					var $ext = '.' + $image.link.split('.').pop();
+					var $size = $imgurButton.attr('data-thumbnail-size') || 't';
+
+					$image.thumbnail = $image.link.replace(
+						$ext,
+						$size + $ext
+					);
+				}
+
+				switch ($imgurButton.attr('data-output-type')) {
+					case 'url':
+						$bbcode = '[url]' + $image.link + '[/url]';
+						break;
+					case 'thumbnail':
+						$bbcode = '[url=' + $image.link + '][img]'
+							+ $image.thumbnail + '[/img][/url]';
+						break;
+					case 'custom':
+						$bbcode = $imgurButton.attr('data-thumbnail-size')
+							.replace('{URL}', $image.link)
+							.replace('{THUMBNAIL}', $image.thumbnail);
+						break;
+					default:
+						$bbcode = '[img]' + $image.link + '[/img]';
+						break;
+				}
 
 				// Add BBCode to content
 				for (var $k in $contentBody) {
