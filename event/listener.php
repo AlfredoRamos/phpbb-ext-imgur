@@ -87,8 +87,7 @@ class listener implements EventSubscriberInterface
 			]),
 			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token']),
 			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
-			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size'],
-			'IMGUR_OUTPUT_TEMPLATE'	=> $this->config['imgur_output_template']
+			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
 		]);
 	}
 

@@ -221,7 +221,7 @@ class main_module
 				// Value contracts
 				$contract = [
 					// Output type
-					'types'	=> ['url', 'image', 'thumbnail', 'custom'],
+					'types'	=> ['text', 'url', 'image', 'thumbnail', 'custom'],
 
 					// Thumbnail sizes
 					'sizes'	=> ['t', 'm']
@@ -244,29 +244,15 @@ class main_module
 
 					// Output type
 					$output['type'] = trim($this->request->variable('imgur_output_type', ''));
-					$output['type'] = in_array($output['type'], $contract['types']) ? $output['type'] : $contract['types'][1];
+					$output['type'] = in_array($output['type'], $contract['types']) ? $output['type'] : $contract['types'][2];
 
 					// Thumbnail size
 					$output['size'] = trim($this->request->variable('imgur_thumbnail_size', ''));
 					$output['size'] = in_array($output['size'], $contract['sizes']) ? $output['size'] : $contract['sizes'][0];
 
-					// Custom output template
-					$output['template'] = trim(strip_tags($this->request->variable('imgur_output_template', '')));
-
-					// Output template must contain the '{URL}' token
-					if ($output['type'] === 'custom' && !(strpos($output['template'], '{URL}') > -1))
-					{
-						trigger_error(
-							$this->language->lang('ERROR_TEMPLATE_MISSING_TOKEN', '{URL}') .
-							adm_back_link($this->u_action),
-							E_USER_WARNING
-						);
-					}
-
 					// Update config data
 					$this->config->set('imgur_output_type', $output['type'], false);
 					$this->config->set('imgur_thumbnail_size', $output['size'], false);
-					$this->config->set('imgur_output_template', $output['template'], false);
 
 					// Admin log
 					$this->log->add(
@@ -286,8 +272,7 @@ class main_module
 				// Assign template variables
 				$this->template->assign_vars([
 					'IMGUR_OUTPUT_TYPE'		=> $this->config['imgur_output_type'],
-					'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size'],
-					'IMGUR_OUTPUT_TEMPLATE'	=> $this->config['imgur_output_template']
+					'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
 				]);
 
 			break;

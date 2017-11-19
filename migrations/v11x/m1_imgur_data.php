@@ -39,10 +39,6 @@ class m1_imgur_data extends migration
 			[
 				'config.add',
 				['imgur_thumbnail_size', 't', true]
-			],
-			[
-				'config.add',
-				['imgur_output_format', '', true]
 			]
 		];
 	}
@@ -59,8 +55,7 @@ class m1_imgur_data extends migration
 				'config.remove',
 				[
 					'imgur_output_type',
-					'imgur_thumbnail_size',
-					'imgur_output_format'
+					'imgur_thumbnail_size'
 				]
 			]
 		];

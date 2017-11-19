@@ -38,7 +38,6 @@ class imgur_test extends phpbb_functional_test_case
 		unset($db);
 
 		$this->login();
-		$this->add_lang_ext('alfredoramos/imgur', 'acp/info_acp_imgur');
 	}
 
 	public function test_imgur_input()
@@ -65,7 +64,7 @@ class imgur_test extends phpbb_functional_test_case
 			$this->sid
 		));
 
-		$form = $crawler->selectButton('Submit')->form();
+		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
 		$this->assertSame(1, $crawler->filter('#imgur_settings')->count());
 
@@ -97,21 +96,5 @@ class imgur_test extends phpbb_functional_test_case
 
 		$this->assertTrue($form->has('imgur_thumbnail_size'));
 		$this->assertSame('t', $form->get('imgur_thumbnail_size')->getValue());
-
-		$this->assertTrue($form->has('imgur_output_template'));
-		$this->assertSame('', $form->get('imgur_output_template')->getValue());
-
-		$form->setValues([
-			'imgur_output_type'		=> 'custom',
-			'imgur_thumbnail_size'	=> 'm',
-			'imgur_output_template'	=> '[x]{INVALID}[/x]'
-		]);
-
-		$crawler = self::submit($form);
-
-		$this->assertContains(
-			strip_tags($this->lang('ERROR_TEMPLATE_MISSING_TOKEN', '{URL}')),
-			$crawler->filter('.main')->text()
-		);
 	}
 }

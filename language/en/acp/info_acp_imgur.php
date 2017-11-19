@@ -36,16 +36,14 @@ $lang = array_merge($lang, [
 
 	'ACP_IMGUR_OUTPUT' => 'Imgur output settings',
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
+	'ACP_IMGUR_OUTPUT_TEXT' => 'Text',
 	'ACP_IMGUR_OUTPUT_URL' => 'URL',
 	'ACP_IMGUR_OUTPUT_IMAGE' => 'Image',
 	'ACP_IMGUR_OUTPUT_THUMBNAIL' => 'Thumbnail',
-	'ACP_IMGUR_OUTPUT_CUSTOM' => 'Custom',
-	'ACP_IMGUR_OUTPUT_TEMPLATE' => 'Template',
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Thumbnail size',
+	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'This setting will not have any effect if the output type is not set to <samp>Thumbnail</samp>. Thumbnails keep the image proportions and their sizes are 160x160 for <samp>Small</samp> and 320x320 for <samp>Medium</samp>.',
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Small',
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Medium',
-
-	'ERROR_TEMPLATE_MISSING_TOKEN' => 'The template is missing the <code>%s</code> token.',
 
 	'OUTPUT' => 'Output',
 

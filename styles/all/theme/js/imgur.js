@@ -54,14 +54,14 @@
 	$(document).on('change', '#imgur-image', function() {
 		phpbb.clearLoadingTimeout();
 
+		var $imgurButton = $(this);
 		var $formData = new FormData();
-		var $files = $(this).prop('files');
+		var $files = $imgurButton.prop('files');
 		var $contentBody = {
 			message: $('#postingbox #message'),
 			signature: $('#postform #signature'),
 			quickreply: $('#qr_postform [name="message"]')
 		};
-		var $imgurButton = $(this);
 		var $loadingIndicator;
 
 		// Exit if there are no images to upload
@@ -109,17 +109,16 @@
 					case 'url':
 						$bbcode = '[url]' + $image.link + '[/url]';
 						break;
+					case 'image':
+						$bbcode = '[img]' + $image.link + '[/img]';
+						break;
 					case 'thumbnail':
 						$bbcode = '[url=' + $image.link + '][img]'
 							+ $image.thumbnail + '[/img][/url]';
 						break;
-					case 'custom':
-						$bbcode = $imgurButton.attr('data-output-template')
-							.replace('{URL}', $image.link)
-							.replace('{THUMBNAIL}', $image.thumbnail);
-						break;
 					default:
-						$bbcode = '[img]' + $image.link + '[/img]';
+						// Text
+						$bbcode = $image.link;
 						break;
 				}
 
