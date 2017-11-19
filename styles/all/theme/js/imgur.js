@@ -64,7 +64,7 @@
 		var $imgurButton = $(this);
 		var $loadingIndicator;
 
-		// Exit if there's no images to upload
+		// Exit if there are no images to upload
 		if ($files.length <= 0) {
 			return;
 		}
@@ -93,6 +93,7 @@
 					link: $value.link.replace('http://', 'https://')
 				};
 
+				// Generate thumbnail
 				if ($image.link.length >= 0) {
 					var $ext = '.' + $image.link.split('.').pop();
 					var $size = $imgurButton.attr('data-thumbnail-size') || 't';
@@ -103,6 +104,7 @@
 					);
 				}
 
+				// Generate BBCode
 				switch ($imgurButton.attr('data-output-type')) {
 					case 'url':
 						$bbcode = '[url]' + $image.link + '[/url]';
@@ -112,7 +114,7 @@
 							+ $image.thumbnail + '[/img][/url]';
 						break;
 					case 'custom':
-						$bbcode = $imgurButton.attr('data-thumbnail-size')
+						$bbcode = $imgurButton.attr('data-output-template')
 							.replace('{URL}', $image.link)
 							.replace('{THUMBNAIL}', $image.thumbnail);
 						break;
@@ -170,7 +172,5 @@
 				$loadingIndicator.fadeOut(phpbb.alertTime);
 			}
 		});
-
 	});
-
 })(jQuery);

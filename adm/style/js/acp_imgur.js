@@ -13,5 +13,8 @@
 
 		// Disable template <input>
 		$('#imgur_output_template').prop('disabled', ($(this).val() != 'custom'));
+
+		// Make template required
+		$('#imgur_output_template').prop('required', ($(this).val() == 'custom'));
 	});
 })(jQuery);
