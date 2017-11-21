@@ -34,5 +34,18 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_PIN_EXPLAIN' => 'PIN de autorización necesario para acceder a su cuenta de Imgur.',
 	'ACP_IMGUR_SETTINGS_SAVED' => 'Los ajustes de Imgur han sido guardados satisfactoriamente.',
 
+	'ACP_IMGUR_OUTPUT' => 'Ajustes de salida de contenido de Imgur',
+	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
+	'ACP_IMGUR_OUTPUT_TEXT' => 'Texto',
+	'ACP_IMGUR_OUTPUT_URL' => 'URL',
+	'ACP_IMGUR_OUTPUT_IMAGE' => 'Imagen',
+	'ACP_IMGUR_OUTPUT_THUMBNAIL' => 'Miniatura',
+	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Tamaño de miniatura',
+	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'Este ajuste no tendrá ningun efecto si el tipo de salida no se establece en <samp>Miniatura</samp>. Los tamaños de las miniaturas son de 160x160 para <samp>Pequeña</samp> y 320x320 para <samp>Mediana</samp>, las proporciones de la imagen son mantenidas.',
+	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Pequeña',
+	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Mediana',
+
+	'OUTPUT' => 'Salida',
+
 	'LOG_IMGUR_DATA' => '<strong>Datos de Imgur actualizados</strong>'
 ]);

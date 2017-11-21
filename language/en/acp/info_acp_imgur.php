@@ -41,7 +41,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_OUTPUT_IMAGE' => 'Image',
 	'ACP_IMGUR_OUTPUT_THUMBNAIL' => 'Thumbnail',
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Thumbnail size',
-	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'This setting will not have any effect if the output type is not set to <samp>Thumbnail</samp>. Thumbnails keep the image proportions and their sizes are 160x160 for <samp>Small</samp> and 320x320 for <samp>Medium</samp>.',
+	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'This setting will not have any effect if the output type is not set to <samp>Thumbnail</samp>. Thumbnails sizes are 160x160 for <samp>Small</samp> and 320x320 for <samp>Medium</samp>, image proportions are kept.',
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Small',
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Medium',
 
