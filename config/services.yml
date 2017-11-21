@@ -20,3 +20,14 @@ services:
             - '@filesystem'
             - '@language'
             - '@alfredoramos.imgur.j0k3r.imgur.client'
+
+    alfredoramos.imgur.acp.controller:
+        class: alfredoramos\imgur\controller\acp
+        arguments:
+            - '@config'
+            - '@template'
+            - '@request'
+            - '@language'
+            - '@user'
+            - '@log'
+            - '@alfredoramos.imgur.j0k3r.imgur.client'

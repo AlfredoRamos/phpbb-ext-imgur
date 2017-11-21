@@ -24,22 +24,22 @@ use phpbb\exception\runtime_exception;
 class imgur
 {
 
-	/** @var \phpbb\config\config $config */
+	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\request\request $request */
+	/** @var \phpbb\request\request */
 	protected $request;
 
-	/** @var \phpbb\controller\helper $helper */
+	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/** @var \phpbb\filesystem\filesystem $filesystem */
+	/** @var \phpbb\filesystem\filesystem */
 	protected $filesystem;
 
-	/** @var \phpbb\language\language $language */
+	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \Imgur\Client $imgur */
+	/** @var \Imgur\Client */
 	protected $imgur;
 
 
