@@ -17,13 +17,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
 
-	/** @var \phpbb\config\config $config */
+	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\template\template $template */
+	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\routing\helper $routing_helper */
+	/** @var \phpbb\routing\helper */
 	protected $routing_helper;
 
 	/**
@@ -58,7 +58,7 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Load language files.
 	 *
-	 * @param object	$event
+	 * @param object $event
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Assign upload URL to a template variable.
 	 *
-	 * @param object	$event
+	 * @param object $event
 	 *
 	 * @return void
 	 */

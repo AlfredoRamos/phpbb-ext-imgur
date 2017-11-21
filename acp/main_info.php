@@ -13,7 +13,7 @@ class main_info
 {
 
 	/**
-	 * Set up ACP module
+	 * Set up ACP module.
 	 *
 	 * @return array
 	 */

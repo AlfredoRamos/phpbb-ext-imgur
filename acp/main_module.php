@@ -9,8 +9,6 @@
 
 namespace alfredoramos\imgur\acp;
 
-use Imgur\Exception\AuthException;
-
 class main_module
 {
 
@@ -23,26 +21,11 @@ class main_module
 	/** @var string */
 	public $page_title;
 
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\request\request */
-	protected $request;
-
 	/** @var \phpbb\language\language */
 	protected $language;
-
-	/** @var \phpbb\user */
-	protected $user;
-
-	/** @var \phpbb\log\log */
-	protected $log;
-
-	/** @var \Imgur\Client */
-	protected $imgur;
 
 	/** @var \alfredoramos\imgur\controller\acp */
 	protected $acp_controller;
@@ -64,8 +47,8 @@ class main_module
 	/**
 	 * Main module method.
 	 *
-	 * @param integer	$id
-	 * @param string	$mode
+	 * @param string $id
+	 * @param string $mode
 	 *
 	 * @return void
 	 */

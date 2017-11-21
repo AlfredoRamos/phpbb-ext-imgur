@@ -9,17 +9,17 @@
 
 namespace alfredoramos\imgur\controller;
 
-use Imgur\Client as ImgurClient;
-use Imgur\Exception\ErrorException as ImgurErrorException;
-use phpbb\json_response;
 use phpbb\config\config;
 use phpbb\request\request;
-use phpbb\request\request_interface;
 use phpbb\controller\helper;
 use phpbb\filesystem\filesystem;
 use phpbb\language\language;
-use phpbb\exception\http_exception;
 use phpbb\exception\runtime_exception;
+use phpbb\exception\http_exception;
+use phpbb\request\request_interface;
+use phpbb\json_response;
+use Imgur\Client as ImgurClient;
+use Imgur\Exception\ErrorException as ImgurErrorException;
 
 class imgur
 {
