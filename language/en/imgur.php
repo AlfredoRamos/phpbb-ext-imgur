@@ -24,5 +24,5 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'IMGUR_BUTTON_EXPLAIN' => 'Upload the selected images to Imgur and post its [img] BBCode'
+	'IMGUR_BUTTON_EXPLAIN' => 'Upload the selected images to Imgur and post its content'
 ]);
