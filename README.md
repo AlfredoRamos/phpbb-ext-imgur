@@ -24,7 +24,7 @@ Imgur Extension for phpBB 3.2.x
 
 Click on the `Imgur` posting button and select the image(s) you want to upload.
 
-If the upload is successful it will add the `[img]` BBCode with its respective link in the topic, private message or signature content.
+If the upload is successful it will add the image in the topic, private message or signature content. You can choose in the `Administration Control Panel` to show the uploaded image as plan text or with BBCode as URL, image (default) or thumbnail.
 
 ### Preview
 
@@ -42,10 +42,12 @@ If the upload is successful it will add the `[img]` BBCode with its respective l
 - Go back to `Imgur settings` paste the `PIN`
 - Click on `Submit`
 
-To add support for more styles:
+To customize the look and feel:
 
-- Copy the `styles/prosilver/` directory into `styles/{NEW_STYLE}/`
-- Edit the file `styles/{NEW_STYLE}/theme/css/imgur.css` as needed
+- Copy the `styles/prosilver/` directory into `styles/{STYLE}/`
+- Edit the file `styles/{STYLE}/theme/css/imgur.css` as needed
+
+**Note:** If your style doesn't inherit from `prosilver`, you should follow the steps above even if you don't want to change any file.
 
 ### Uninstallation
 
