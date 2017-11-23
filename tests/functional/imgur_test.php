@@ -37,6 +37,8 @@ class imgur_test extends phpbb_functional_test_case
 		$db->sql_close();
 		unset($db);
 
+		$this->add_lang_ext('alfredoramos/imgur', 'imgur');
+
 		$this->login();
 	}
 
@@ -47,12 +49,20 @@ class imgur_test extends phpbb_functional_test_case
 			$this->sid
 		));
 
-		$this->assertSame(1, $crawler->filter(
-			'#postingbox #format-buttons .imgur-button'
-		)->count());
-		$this->assertSame(1, $crawler->filter(
-			'#postingbox #imgur-image'
-		)->count());
+		$elements = [
+			'button' => $crawler->filter('#postingbox #format-buttons .imgur-button'),
+			'input' => $crawler->filter('#postingbox #imgur-image')
+		];
+
+		$this->assertSame(1, $elements['button']->count());
+		$this->assertSame(
+			$this->lang('IMGUR_BUTTON_EXPLAIN'),
+			$elements['button']->attr('title')
+		);
+
+		$this->assertSame(1, $elements['input']->count());
+		$this->assertSame('image', $elements['input']->attr('data-output-type'));
+		$this->assertSame('t', $elements['input']->attr('data-thumbnail-size'));
 	}
 
 	public function test_acp_form_settings()
