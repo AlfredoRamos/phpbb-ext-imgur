@@ -58,7 +58,7 @@ To customize the look and feel:
 ### Upgrade
 
 - Uninstall the extension
-- Delete all the files inside `{PHPBB_ROOT}/alfredoramos/imgur/`
+- Delete all the files inside `{PHPBB_ROOT}/ext/alfredoramos/imgur/`
 - Download the new version
 - Install the extension
 
