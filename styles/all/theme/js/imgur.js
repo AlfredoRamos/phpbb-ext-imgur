@@ -46,12 +46,12 @@
 	};
 
 	// Show image selection window
-	$(document).on('click', '.imgur-button', function() {
+	$(document.body).on('click', '.imgur-button', function() {
 		$('#imgur-image').trigger('click');
 	});
 
 	// Upload images
-	$(document).on('change', '#imgur-image', function() {
+	$(document.body).on('change', '#imgur-image', function() {
 		phpbb.clearLoadingTimeout();
 
 		var $imgurButton = $(this);
