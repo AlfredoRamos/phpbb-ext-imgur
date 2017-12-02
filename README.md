@@ -44,7 +44,8 @@ If the upload is successful it will add the image in the topic, private message 
 
 To customize the look and feel:
 
-- Copy the `styles/prosilver/` directory into `styles/{STYLE}/`
+- Move into `{PHPBB_ROOT}/ext/alfredoramos/imgur/`
+- Copy the `styles/prosilver/` directory to `styles/{STYLE}/`
 - Edit the file `styles/{STYLE}/theme/css/imgur.css` as needed
 
 **Note:** If your style doesn't inherit from `prosilver`, you should follow the steps above even if you don't want to change any file.
