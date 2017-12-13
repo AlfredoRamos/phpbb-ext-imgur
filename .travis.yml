@@ -26,7 +26,6 @@ matrix:
   allow_failures:
     - php: 7.2
     - php: nightly
-    - env: DB=none;NOTESTS=1
   fast_finish: true
 
 env:
@@ -47,6 +46,9 @@ branches:
 cache:
   directories:
     - $HOME/.composer/cache/files
+
+before_install:
+  - travis_retry composer self-update -r -n 1.5.2
 
 install:
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
