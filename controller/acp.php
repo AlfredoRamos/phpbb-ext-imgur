@@ -227,7 +227,7 @@ class acp
 		// Value contracts
 		$contract = [
 			// Output type
-			'types'	=> ['text', 'url', 'image', 'thumbnail', 'custom'],
+			'types'	=> ['text', 'url', 'image', 'thumbnail'],
 
 			// Thumbnail sizes
 			'sizes'	=> ['t', 'm']
