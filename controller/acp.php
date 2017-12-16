@@ -116,26 +116,26 @@ class acp
 			// Client ID
 			$this->config->set(
 				'imgur_client_id',
-				trim($this->request->variable('imgur_client_id', '')),
+				$this->request->variable('imgur_client_id', ''),
 				false
 			);
 
 			// Client secret
 			$this->config->set(
 				'imgur_client_secret',
-				trim($this->request->variable('imgur_client_secret', '')),
+				$this->request->variable('imgur_client_secret', ''),
 				false
 			);
 
 			// Album
 			$this->config->set(
 				'imgur_album',
-				trim($this->request->variable('imgur_album', '')),
+				$this->request->variable('imgur_album', ''),
 				false
 			);
 
 			// PIN
-			$pin = trim($this->request->variable('imgur_pin', ''));
+			$pin = $this->request->variable('imgur_pin', '');
 
 			if (!empty($pin))
 			{
@@ -249,11 +249,11 @@ class acp
 			$output = [];
 
 			// Output type
-			$output['type'] = trim($this->request->variable('imgur_output_type', ''));
+			$output['type'] = $this->request->variable('imgur_output_type', '');
 			$output['type'] = in_array($output['type'], $contract['types']) ? $output['type'] : $contract['types'][2];
 
 			// Thumbnail size
-			$output['size'] = trim($this->request->variable('imgur_thumbnail_size', ''));
+			$output['size'] = $this->request->variable('imgur_thumbnail_size', '');
 			$output['size'] = in_array($output['size'], $contract['sizes']) ? $output['size'] : $contract['sizes'][0];
 
 			// Update config data
@@ -280,6 +280,30 @@ class acp
 			'IMGUR_OUTPUT_TYPE'		=> $this->config['imgur_output_type'],
 			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
 		]);
+
+		// Assign allowed output types
+		foreach ($contract['types'] as $type)
+		{
+			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
+				'KEY' => $type,
+				'NAME' => $this->language->lang(sprintf(
+					'ACP_IMGUR_OUTPUT_%s',
+					strtoupper($type)
+				))
+			]);
+		}
+
+		// Assign allowed thumbnail sizes
+		foreach ($contract['sizes'] as $size)
+		{
+			$this->template->assign_block_vars('IMGUR_THUMBNAIL_SIZES', [
+				'KEY' => $size,
+				'NAME' => $this->language->lang(sprintf(
+					'ACP_IMGUR_THUMBNAIL_%s',
+					($size === 'm') ? 'MEDIUM' : 'SMALL'
+				))
+			]);
+		}
 	}
 
 }

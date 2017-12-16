@@ -24,10 +24,11 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_IMGUR'	=> 'Imgur settings',
+	'ACP_IMGUR' => 'Imgur settings',
+	'ACP_IMGUR_API_SETTINGS' => 'API settings',
 	'ACP_IMGUR_CLIENT_ID' => 'Client ID',
 	'ACP_IMGUR_CLIENT_SECRET' => 'Client Secret',
-	'ACP_IMGUR_ALBUM'	=> 'Album',
+	'ACP_IMGUR_ALBUM' => 'Album',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Album ID where all images will be uploaded to. Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_AUTH_EXPLAIN' => 'Click the following link to authorize the application.',
 	'ACP_IMGUR_PIN' => 'PIN',
@@ -46,6 +47,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Medium',
 
 	'OUTPUT' => 'Output',
+	'OUTPUT_SETTINGS' => 'Output settings',
 
 	'LOG_IMGUR_DATA' => '<strong>Imgur data changed</strong>'
 ]);

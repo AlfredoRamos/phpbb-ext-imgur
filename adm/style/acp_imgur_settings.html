@@ -1,6 +1,6 @@
 {% include 'overall_header.html' %}
 
-<h1>{{ lang('SETTINGS') }}</h1>
+<h1>{{ lang('ACP_IMGUR') }}</h1>
 
 {% if IMGUR_AUTH_URL %}
 <div class="errorbox notice">
@@ -14,7 +14,9 @@
 {% endif %}
 
 <form id="imgur_settings" method="POST" action="{{ U_ACTION }}">
+
 	<fieldset>
+		<legend>{{ lang('ACP_IMGUR_API_SETTINGS') }}</legend>
 		<dl>
 			<dt>
 				<label for="imgur_client_id">{{ lang('ACP_IMGUR_CLIENT_ID') }}{{ lang('COLON') }}</label>
@@ -59,14 +61,17 @@
 			</dd>
 		</dl>
 		{% endif %}
+	</fieldset>
 
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
 			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
 			<input type="reset" class="button1" value="{{ lang('RESET') }}" />
 		</p>
-
-		{{ S_FORM_TOKEN }}
 	</fieldset>
+
+	{{ S_FORM_TOKEN }}
 </form>
 
 {% include 'overall_footer.html' %}

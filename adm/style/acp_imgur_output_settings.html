@@ -1,27 +1,20 @@
 {% include 'overall_header.html' %}
 
-<h1>{{ lang('SETTINGS') }}</h1>
+<h1>{{ lang('ACP_IMGUR_OUTPUT') }}</h1>
 
 <form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
+
 	<fieldset>
+		<legend>{{ lang('OUTPUT_SETTINGS') }}</legend>
 		<dl>
 			<dt>
 				<label for="imgur_output_type">{{ lang('ACP_IMGUR_OUTPUT_TYPE') }}{{ lang('COLON') }}</label>
 			</dt>
 			<dd>
 				<select id="imgur_output_type" name="imgur_output_type">
-					<option value="text"{% if IMGUR_OUTPUT_TYPE is same as('text') %} selected="selected"{% endif %}>
-						{{ lang('ACP_IMGUR_OUTPUT_TEXT') }}
-					</option>
-					<option value="url"{% if IMGUR_OUTPUT_TYPE is same as('url') %} selected="selected"{% endif %}>
-						{{ lang('ACP_IMGUR_OUTPUT_URL') }}
-					</option>
-					<option value="image"{% if IMGUR_OUTPUT_TYPE is same as('image') or IMGUR_OUTPUT_TYPE is empty %} selected="selected"{% endif %}>
-						{{ lang('ACP_IMGUR_OUTPUT_IMAGE') }}
-					</option>
-					<option value="thumbnail"{% if IMGUR_OUTPUT_TYPE is same as('thumbnail') %} selected="selected"{% endif %}>
-						{{ lang('ACP_IMGUR_OUTPUT_THUMBNAIL') }}
-					</option>
+					{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
+					<option value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} selected="selected"{% endif %}>{{ OUTPUT_TYPE.NAME }}</option>
+					{% endfor %}
 				</select>
 			</dd>
 		</dl>
@@ -33,23 +26,23 @@
 			</dt>
 			<dd>
 				<select id="imgur_thumbnail_size" name="imgur_thumbnail_size">
-					<option value="t"{% if IMGUR_THUMBNAIL_SIZE is same as('t') or IMGUR_THUMBNAIL_SIZE is empty %} selected="selected"{% endif %}>
-						{{ lang('ACP_IMGUR_THUMBNAIL_SMALL') }}
-					</option>
-					<option value="m"{% if IMGUR_THUMBNAIL_SIZE is same as('m') %} selected="selected"{% endif %}>
-						{{ lang('ACP_IMGUR_THUMBNAIL_MEDIUM') }}
-					</option>
+					{% for THUMBNAIL_SIZE in IMGUR_THUMBNAIL_SIZES %}
+					<option value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} selected="selected"{% endif %}>{{ THUMBNAIL_SIZE.NAME }}</option>
+					{% endfor %}
 				</select>
 			</dd>
 		</dl>
+	</fieldset>
 
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
 			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
 			<input type="reset" class="button1" value="{{ lang('RESET') }}" />
 		</p>
-
-		{{ S_FORM_TOKEN }}
 	</fieldset>
+
+	{{ S_FORM_TOKEN }}
 </form>
 
 {% include 'overall_footer.html' %}
