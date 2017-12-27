@@ -96,7 +96,7 @@ class acp
 			{
 				trigger_error(
 					$this->language->lang('FORM_INVALID') .
-					adm_back_link($this->u_action),
+					adm_back_link($u_action),
 					E_USER_WARNING
 				);
 			}
