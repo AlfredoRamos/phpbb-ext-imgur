@@ -37,7 +37,7 @@ class imgur_test extends phpbb_functional_test_case
 		$db->sql_close();
 		unset($db);
 
-		$this->add_lang_ext('alfredoramos/imgur', 'imgur');
+		$this->add_lang_ext('alfredoramos/imgur', 'posting');
 
 		$this->login();
 	}
