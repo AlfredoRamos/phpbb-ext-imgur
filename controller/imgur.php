@@ -64,7 +64,7 @@ class imgur
 		$this->language = $language;
 		$this->imgur = $imgur;
 
-		// Add exception translations
+		// Add controller translations
 		$this->language->add_lang('controller', 'alfredoramos/imgur');
 
 		// Mandatory API data

@@ -173,7 +173,7 @@ class acp
 				'admin',
 				$this->user->data['user_id'],
 				$this->user->ip,
-				'LOG_IMGUR_DATA'
+				'LOG_IMGUR_API_DATA'
 			);
 
 			// Confirm dialog
@@ -265,7 +265,7 @@ class acp
 				'admin',
 				$this->user->data['user_id'],
 				$this->user->ip,
-				'LOG_IMGUR_DATA'
+				'LOG_IMGUR_OUTPUT_DATA'
 			);
 
 			// Confirm dialog
