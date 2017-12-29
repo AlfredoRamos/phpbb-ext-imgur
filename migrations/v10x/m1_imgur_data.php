@@ -69,31 +69,4 @@ class m1_imgur_data extends migration
 		];
 	}
 
-	/**
-	 * Remove Imgur configuration.
-	 *
-	 * @return array
-	 */
-	public function revert_data()
-	{
-		return [
-			[
-				'config.remove',
-				[
-					'imgur_client_id',
-					'imgur_client_secret',
-					'imgur_access_token',
-					'imgur_expires_in',
-					'imgur_token_type',
-					'imgur_scope',
-					'imgur_refresh_token',
-					'imgur_account_id',
-					'imgur_account_username',
-					'imgur_created_at',
-					'imgur_album'
-				]
-			]
-		];
-	}
-
 }

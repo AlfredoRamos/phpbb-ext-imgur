@@ -43,22 +43,4 @@ class m1_imgur_data extends migration
 		];
 	}
 
-	/**
-	 * Remove Imgur configuration.
-	 *
-	 * @return array
-	 */
-	public function revert_data()
-	{
-		return [
-			[
-				'config.remove',
-				[
-					'imgur_output_type',
-					'imgur_thumbnail_size'
-				]
-			]
-		];
-	}
-
 }
