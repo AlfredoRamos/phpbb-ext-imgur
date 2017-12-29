@@ -65,7 +65,7 @@ class imgur
 		$this->imgur = $imgur;
 
 		// Add exception translations
-		$this->language->add_lang('exceptions', 'alfredoramos/imgur');
+		$this->language->add_lang('controller', 'alfredoramos/imgur');
 
 		// Mandatory API data
 		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))
