@@ -173,7 +173,9 @@ class acp
 				'admin',
 				$this->user->data['user_id'],
 				$this->user->ip,
-				'LOG_IMGUR_API_DATA'
+				'LOG_IMGUR_DATA',
+				false,
+				[$this->language->lang('ACP_IMGUR_API_SETTINGS')]
 			);
 
 			// Confirm dialog
@@ -265,7 +267,9 @@ class acp
 				'admin',
 				$this->user->data['user_id'],
 				$this->user->ip,
-				'LOG_IMGUR_OUTPUT_DATA'
+				'LOG_IMGUR_DATA',
+				false,
+				[$this->language->lang('OUTPUT_SETTINGS')]
 			);
 
 			// Confirm dialog
