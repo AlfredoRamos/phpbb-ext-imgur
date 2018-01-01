@@ -49,5 +49,5 @@ $lang = array_merge($lang, [
 	'OUTPUT' => 'Output',
 	'OUTPUT_SETTINGS' => 'Output settings',
 
-	'LOG_IMGUR_DATA'	=> '<strong>Imgur data changed</strong><br />» %s'
+	'LOG_IMGUR_DATA' => '<strong>Imgur data changed</strong><br />» %s'
 ]);
