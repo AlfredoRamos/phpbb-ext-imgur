@@ -165,7 +165,7 @@ class imgur
 		$data = [];
 
 		// Upload images
-		if (!empty($images['name']))
+		if (!empty($images['tmp_name']))
 		{
 			foreach ($images['name'] as $key => $value)
 			{

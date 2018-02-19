@@ -63,15 +63,31 @@
 			quickreply: $('#qr_postform [name="message"]')
 		};
 		var $loadingIndicator;
+		var $maxFileSize = (10 * 1024 * 1024);
+		var $responseBody = {};
+		var $errors = [];
 
 		// Exit if there are no images to upload
 		if ($files.length <= 0) {
 			return;
 		}
 
+		// Set soft-limit
+		$formData.append('MAX_FILE_SIZE', $maxFileSize);
+
 		// Get images
 		for (var i = 0; i < $files.length; i++) {
+			if (parseInt($files[i].size) > $maxFileSize) {
+				continue;
+			}
+
 			$formData.append('imgur_image[]', $files[i]);
+		}
+
+		// Exit if no images were added, images were
+		// bigger than $maxFileSize
+		if (!$formData.has('imgur_image[]')) {
+			$errors.push('No images to upload.');
 		}
 
 		// Prevent button spamming
@@ -87,54 +103,55 @@
 			cache: false,
 			processData: false
 		}).done(function($data) {
-			$.each($data, function($key, $value) {
-				var $bbcode = '';
-				var $image = {
-					link: $value.link.replace('http://', 'https://')
-				};
+			try {
+				$.each($data, function($key, $value) {
+					var $bbcode = '';
+					var $image = {
+						link: $value.link.replace('http://', 'https://')
+					};
 
-				// Generate thumbnail
-				if ($image.link.length >= 0) {
-					var $ext = '.' + $image.link.split('.').pop();
-					var $size = $imgurButton.attr('data-thumbnail-size') || 't';
+					// Generate thumbnail
+					if ($image.link.length > 0) {
+						var $ext = '.' + $image.link.split('.').pop();
+						var $size = $imgurButton.attr('data-thumbnail-size') || 't';
 
-					$image.thumbnail = $image.link.replace(
-						$ext,
-						$size + $ext
-					);
-				}
+						$image.thumbnail = $image.link.replace(
+							$ext,
+							$size + $ext
+						);
+					}
 
-				// Generate BBCode
-				switch ($imgurButton.attr('data-output-type')) {
-					case 'url':
-						$bbcode = '[url]' + $image.link + '[/url]';
-						break;
-					case 'image':
-						$bbcode = '[img]' + $image.link + '[/img]';
-						break;
-					case 'thumbnail':
-						$bbcode = '[url=' + $image.link + '][img]'
-							+ $image.thumbnail + '[/img][/url]';
-						break;
-					default:
-						// Text
-						$bbcode = $image.link;
-						break;
-				}
+					// Generate BBCode
+					switch ($imgurButton.attr('data-output-type')) {
+						case 'url':
+							$bbcode = '[url]' + $image.link + '[/url]';
+							break;
+						case 'image':
+							$bbcode = '[img]' + $image.link + '[/img]';
+							break;
+						case 'thumbnail':
+							$bbcode = '[url=' + $image.link + '][img]'
+								+ $image.thumbnail + '[/img][/url]';
+							break;
+						default:
+							// Text
+							$bbcode = $image.link;
+							break;
+					}
 
-				// Add BBCode to content
-				for (var $k in $contentBody) {
-					if ($contentBody.hasOwnProperty($k)) {
-						if ($contentBody[$k].length > 0) {
-							$contentBody[$k].insertAtCaret($bbcode);
+					// Add BBCode to content
+					for (var $k in $contentBody) {
+						if ($contentBody.hasOwnProperty($k)) {
+							if ($contentBody[$k].length > 0) {
+								$contentBody[$k].insertAtCaret($bbcode);
+							}
 						}
 					}
-				}
-			});
+				});
+			} catch (ex) {
+				$errors.push(ex.message);
+			}
 		}).fail(function($data, $textStatus, $error) {
-			var $responseBody = {};
-			var $errors = [];
-
 			// Parse JSON response
 			try {
 				$responseBody = $.parseJSON($data.responseText);
@@ -145,7 +162,7 @@
 
 			// Failure error message
 			$errors.push($error);
-
+		}).then(function() {
 			// Show a phpBB alert with the errors
 			if ($errors.length > 0) {
 				var $message = '';
@@ -159,7 +176,7 @@
 				}
 
 				if ($message.length > 0) {
-					phpbb.alert($textStatus, $message);
+					phpbb.alert('Error', $message);
 				}
 			}
 		}).always(function() {
@@ -170,6 +187,10 @@
 			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
 				$loadingIndicator.fadeOut(phpbb.alertTime);
 			}
+
+			// Clean response and errors
+			$responseBody = {};
+			$errors = [];
 		});
 	});
 })(jQuery);
