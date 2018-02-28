@@ -63,7 +63,10 @@
 			quickreply: $('#qr_postform [name="message"]')
 		};
 		var $loadingIndicator;
+
+		// Imgur API limit
 		var $maxFileSize = (10 * 1024 * 1024);
+
 		var $responseBody = {};
 		var $errors = [];
 
@@ -72,26 +75,31 @@
 			return;
 		}
 
-		// Set soft-limit
-		$formData.append('MAX_FILE_SIZE', $maxFileSize);
+		// Prevent button spamming
+		$imgurButton.prop('disabled', true);
 
-		// Get images
+		// Add images
 		for (var i = 0; i < $files.length; i++) {
+			// Don't send images bigger than $maxFileSize
 			if (parseInt($files[i].size) > $maxFileSize) {
+				$errors.push(
+					$imgur.lang.image_too_big
+					.replace('{file}', $files[i].name)
+					.replace('{size}', (($files[i].size / 1024) / 1024))
+					.replace('{max_size}', (($maxFileSize / 1024) / 1024))
+				);
 				continue;
 			}
 
 			$formData.append('imgur_image[]', $files[i]);
 		}
 
-		// Exit if no images were added, images were
-		// bigger than $maxFileSize
+		// Exit if no images were added
 		if (!$formData.has('imgur_image[]')) {
-			$errors.push('No images to upload.');
+			$errors.push($imgur.lang.no_images);
 		}
 
-		// Prevent button spamming
-		$imgurButton.prop('disabled', true);
+		// Prepare image uploading
 		$loadingIndicator = phpbb.loadingIndicator();
 
 		// Upload the image(s)
@@ -176,7 +184,7 @@
 				}
 
 				if ($message.length > 0) {
-					phpbb.alert('Error', $message);
+					phpbb.alert($imgur.lang.error, $message);
 				}
 			}
 		}).always(function() {
