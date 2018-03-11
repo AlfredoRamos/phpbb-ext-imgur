@@ -217,11 +217,11 @@ class imgur
 		{
 			$data['errors'] = [];
 
-			foreach($images['error'] as $key => $value)
+			foreach ($images['error'] as $key => $value)
 			{
 				$value = (int) $value;
 
-				switch($value)
+				switch ($value)
 				{
 					case UPLOAD_ERR_INI_SIZE:
 						$data['errors'][] = $this->language->lang('UPLOAD_ERR_INI_SIZE');
