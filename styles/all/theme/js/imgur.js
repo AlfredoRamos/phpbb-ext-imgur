@@ -112,6 +112,12 @@
 			processData: false
 		}).done(function($data) {
 			try {
+				if ($data.errors.length > 0) {
+					for (var i = 0; i < $data.errors.length; i++) {
+						$errors.push($data.errors[i]);
+					}
+				}
+
 				$.each($data, function($key, $value) {
 					var $bbcode = '';
 					var $image = {

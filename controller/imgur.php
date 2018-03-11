@@ -42,7 +42,6 @@ class imgur
 	/** @var \Imgur\Client */
 	protected $imgur;
 
-
 	/**
 	 * Controller constructor.
 	 *
@@ -209,6 +208,52 @@ class imgur
 					{
 						throw new runtime_exception('EXCEPTION_IMGUR_BAD_REQUEST', [$ex->getMessage()], $ex);
 					}
+				}
+			}
+		}
+
+		// Image errors
+		if (!empty($images['error']))
+		{
+			$data['errors'] = [];
+
+			foreach($images['error'] as $key => $value)
+			{
+				$value = (int) $value;
+
+				switch($value)
+				{
+					case UPLOAD_ERR_INI_SIZE:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_INI_SIZE');
+					break;
+
+					case UPLOAD_ERR_FORM_SIZE:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_FORM_SIZE');
+					break;
+
+					case UPLOAD_ERR_PARTIAL:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_PARTIAL');
+					break;
+
+					case UPLOAD_ERR_NO_FILE:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_NO_FILE');
+					break;
+
+					case UPLOAD_ERR_NO_TMP_DIR:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_NO_TMP_DIR');
+					break;
+
+					case UPLOAD_ERR_CANT_WRITE:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_CANT_WRITE');
+					break;
+
+					case UPLOAD_ERR_EXTENSION:
+						$data['errors'][] = $this->language->lang('UPLOAD_ERR_EXTENSION');
+					break;
+
+					default: // UPLOAD_ERR_OK
+						continue;
+					break;
 				}
 			}
 		}
