@@ -52,8 +52,6 @@
 
 	// Upload images
 	$(document.body).on('change', '#imgur-image', function() {
-		phpbb.clearLoadingTimeout();
-
 		var $imgurButton = $(this);
 		var $formData = new FormData();
 		var $files = $imgurButton.prop('files');
@@ -62,7 +60,7 @@
 			signature: $('#postform #signature'),
 			quickreply: $('#qr_postform [name="message"]')
 		};
-		var $loadingIndicator;
+		var $progressBar = $('#imgur-progress');
 
 		// Imgur API limit
 		var $maxFileSize = (10 * 1024 * 1024);
@@ -99,9 +97,6 @@
 			$errors.push($imgur.lang.no_images);
 		}
 
-		// Prepare image uploading
-		$loadingIndicator = phpbb.loadingIndicator();
-
 		// Upload the image(s)
 		$.ajax({
 			url: $imgurButton.attr('data-ajax-action'),
@@ -109,15 +104,44 @@
 			data: $formData,
 			contentType: false,
 			cache: false,
-			processData: false
+			processData: false,
+			xhr: function() {
+				var $xhr = $.ajaxSettings.xhr();
+
+				$xhr.upload.addEventListener('progress', function($event) {
+					if ($event.lengthComputable) {
+						var $percentage = ($event.loaded * 100) / $event.total;
+
+						if ($percentage > 0) {
+							$progressBar.addClass('uploading');
+						}
+
+						$progressBar.val($percentage);
+						console.log($percentage);
+
+						if ($percentage >= 100) {
+							$progressBar.removeClass('uploading');
+						}
+					}
+				}, false);
+
+				return $xhr;
+			}
 		}).done(function($data) {
 			try {
+				// Empty response
+				if ($data.length <= 0) {
+					return;
+				}
+
+				// PHP $_FILE errors
 				if ($data.errors.length > 0) {
 					for (var $i = 0; $i < $data.errors.length; $i++) {
 						$errors.push($data.errors[$i]);
 					}
 				}
 
+				// Add image
 				$.each($data, function($key, $value) {
 					var $bbcode = '';
 					var $image = {
@@ -197,10 +221,8 @@
 			// Re-enable button
 			$imgurButton.prop('disabled', false);
 
-			// Hide loading indicator
-			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
-				$loadingIndicator.fadeOut(phpbb.alertTime);
-			}
+			// Reset progress bar
+			$progressBar.val(0);
 
 			// Clean response and errors
 			$responseBody = {};

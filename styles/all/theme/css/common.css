@@ -5,6 +5,19 @@
  * @license GPL-2.0
  */
 
-#imgur-image {
+#imgur-image,
+#imgur-progress {
 	display: none;
+}
+
+#imgur-progress {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#imgur-progress.uploading {
+	display: block;
 }
