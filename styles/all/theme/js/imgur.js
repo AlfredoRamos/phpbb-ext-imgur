@@ -79,19 +79,19 @@
 		$imgurButton.prop('disabled', true);
 
 		// Add images
-		for (var i = 0; i < $files.length; i++) {
+		for (var $i = 0; $i < $files.length; $i++) {
 			// Don't send images bigger than $maxFileSize
-			if (parseInt($files[i].size) > $maxFileSize) {
+			if ($files[$i].size > $maxFileSize) {
 				$errors.push(
 					$imgur.lang.image_too_big
-					.replace('{file}', $files[i].name)
-					.replace('{size}', (($files[i].size / 1024) / 1024))
+					.replace('{file}', $files[$i].name)
+					.replace('{size}', (($files[$i].size / 1024) / 1024))
 					.replace('{max_size}', (($maxFileSize / 1024) / 1024))
 				);
 				continue;
 			}
 
-			$formData.append('imgur_image[]', $files[i]);
+			$formData.append('imgur_image[]', $files[$i]);
 		}
 
 		// Exit if no images were added
@@ -113,8 +113,8 @@
 		}).done(function($data) {
 			try {
 				if ($data.errors.length > 0) {
-					for (var i = 0; i < $data.errors.length; i++) {
-						$errors.push($data.errors[i]);
+					for (var $i = 0; $i < $data.errors.length; $i++) {
+						$errors.push($data.errors[$i]);
 					}
 				}
 
