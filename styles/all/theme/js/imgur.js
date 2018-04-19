@@ -58,7 +58,8 @@
 		var $contentBody = {
 			message: $('#postingbox #message'),
 			signature: $('#postform #signature'),
-			quickreply: $('#qr_postform [name="message"]')
+			quickreply: $('#qr_postform [name="message"]'),
+			default: $('[name="message"]')
 		};
 		var $progressBar = $('#imgur-progress');
 
@@ -117,7 +118,6 @@
 						}
 
 						$progressBar.val($percentage);
-						console.log($percentage);
 
 						if ($percentage >= 100) {
 							$progressBar.removeClass('uploading');
@@ -143,10 +143,19 @@
 
 				// Add image
 				$.each($data, function($key, $value) {
+					// Check only numeric keys
+					// https://stackoverflow.com/a/9716488
+					if (isNaN(parseFloat($key)) || !isFinite($key)) {
+						return;
+					}
+
 					var $bbcode = '';
 					var $image = {
-						link: $value.link.replace('http://', 'https://')
+						link: '',
+						thumbnail: ''
 					};
+
+					$image.link = $value.link;
 
 					// Generate thumbnail
 					if ($image.link.length > 0) {
