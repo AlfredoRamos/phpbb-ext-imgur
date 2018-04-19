@@ -134,7 +134,7 @@
 					return;
 				}
 
-				// PHP $_FILE errors
+				// PHP $_FILES errors
 				if ($data.errors.length > 0) {
 					for (var $i = 0; $i < $data.errors.length; $i++) {
 						$errors.push($data.errors[$i]);
