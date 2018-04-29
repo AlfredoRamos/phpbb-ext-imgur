@@ -56,12 +56,11 @@
 		var $formData = new FormData();
 		var $files = $imgurButton.prop('files');
 		var $contentBody = {
-			message: $('#postingbox #message'),
-			signature: $('#postform #signature'),
-			quickreply: $('#qr_postform [name="message"]'),
-			default: $('[name="message"]')
+			message: $('[name="message"]'),
+			signature: $('[name="signature"]')
 		};
 		var $progressBar = $('#imgur-progress');
+		var $loadingIndicator;
 
 		// Imgur API limit
 		var $maxFileSize = (10 * 1024 * 1024);
@@ -98,6 +97,9 @@
 			$errors.push($imgur.lang.no_images);
 		}
 
+		// Show progress bar
+		$progressBar.addClass('uploading');
+
 		// Upload the image(s)
 		$.ajax({
 			url: $imgurButton.attr('data-ajax-action'),
@@ -111,17 +113,9 @@
 
 				$xhr.upload.addEventListener('progress', function($event) {
 					if ($event.lengthComputable) {
-						var $percentage = ($event.loaded * 100) / $event.total;
-
-						if ($percentage > 0) {
-							$progressBar.addClass('uploading');
-						}
+						var $percentage = ($event.loaded / $event.total) * 100;
 
 						$progressBar.val($percentage);
-
-						if ($percentage >= 100) {
-							$progressBar.removeClass('uploading');
-						}
 					}
 				}, false);
 
@@ -129,6 +123,9 @@
 			}
 		}).done(function($data) {
 			try {
+				// Process images
+				$loadingIndicator = phpbb.loadingIndicator();
+
 				// Empty response
 				if ($data.length <= 0) {
 					return;
@@ -231,7 +228,13 @@
 			$imgurButton.prop('disabled', false);
 
 			// Reset progress bar
+			$progressBar.removeClass('uploading');
 			$progressBar.val(0);
+
+			// Hide loading indicator
+			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
+				$loadingIndicator.fadeOut(phpbb.alertTime);
+			}
 
 			// Clean response and errors
 			$responseBody = {};
