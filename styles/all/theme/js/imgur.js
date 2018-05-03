@@ -229,7 +229,7 @@
 
 			// Reset progress bar
 			$progressBar.removeClass('uploading');
-			$progressBar.val(0);
+			$progressBar.removeAttr('value');
 
 			// Hide loading indicator
 			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
