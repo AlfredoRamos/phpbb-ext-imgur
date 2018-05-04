@@ -52,6 +52,8 @@
 
 	// Upload images
 	$(document.body).on('change', '#imgur-image', function() {
+		phpbb.clearLoadingTimeout();
+
 		var $imgurButton = $(this);
 		var $formData = new FormData();
 		var $files = $imgurButton.prop('files');
