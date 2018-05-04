@@ -18,6 +18,7 @@
 }
 
 #imgur-progress-wrapper.uploading {
+	display: -ms-flexbox;
 	display: flex;
 }
 
