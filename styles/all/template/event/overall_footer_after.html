@@ -4,12 +4,16 @@ var $imgur = {
 	lang: {
 		error: '{{ lang("ERROR")|escape("js") }}',
 		image_too_big: '{{ lang("IMGUR_IMAGE_TOO_BIG")|escape("js") }}',
-		no_images: '{{ lang("IMGUR_NO_IMAGES")|escape("js") }}'
+		no_images: '{{ lang("IMGUR_NO_IMAGES")|escape("js") }}',
+		upload_progress: '{{ lang("IMGUR_UPLOAD_PROGRESS")|escape("js") }}'
 	}
 };
 </script>
 {% set INCLUDED_IMGUR_CONFIG = true %}
 {% endif %}
 {% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON %}
-<progress id="imgur-progress" max="100"></progress>
+<div id="imgur-progress-wrapper">
+	<div id="imgur-progress-label"><code><!--// placeholder //--></code></div>
+	<progress id="imgur-progress" max="100"></progress>
+</div>
 {% endif %}

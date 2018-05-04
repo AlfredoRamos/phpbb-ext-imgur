@@ -59,14 +59,18 @@
 			message: $('[name="message"]'),
 			signature: $('[name="signature"]')
 		};
-		var $progressBar = $('#imgur-progress');
-		var $loadingIndicator;
-
-		// Imgur API limit
-		var $maxFileSize = (10 * 1024 * 1024);
-
+		var $progress = {};
 		var $responseBody = {};
 		var $errors = [];
+		var $loadingIndicator;
+
+		// Imgur API limit (MiB)
+		var $maxFileSize = (10 * 1024 * 1024);
+
+		// Progress objects
+		$progress.wrapper = $('#imgur-progress-wrapper').first();
+		$progress.bar = $progress.wrapper.children('#imgur-progress').first();
+		$progress.label = $progress.wrapper.find('#imgur-progress-label > code').first();
 
 		// Exit if there are no images to upload
 		if ($files.length <= 0) {
@@ -98,7 +102,7 @@
 		}
 
 		// Show progress bar
-		$progressBar.addClass('uploading');
+		$progress.wrapper.addClass('uploading');
 
 		// Upload the image(s)
 		$.ajax({
@@ -115,7 +119,16 @@
 					if ($event.lengthComputable) {
 						var $percentage = ($event.loaded / $event.total) * 100;
 
-						$progressBar.val($percentage);
+						// Update progress bar percentage
+						$progress.bar.val($percentage);
+
+						// Show progress bar info
+						$progress.label.text(
+							$imgur.lang.upload_progress
+							.replace('{percentage}', $percentage)
+							.replace('{loaded}', (($event.loaded / 1024) / 1024))
+							.replace('{total}', (($event.total / 1024) / 1024))
+						);
 					}
 				}, false);
 
@@ -228,17 +241,13 @@
 			$imgurButton.prop('disabled', false);
 
 			// Reset progress bar
-			$progressBar.removeClass('uploading');
-			$progressBar.removeAttr('value');
+			$progress.wrapper.removeClass('uploading');
+			$progress.bar.removeAttr('value');
 
 			// Hide loading indicator
 			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
 				$loadingIndicator.fadeOut(phpbb.alertTime);
 			}
-
-			// Clean response and errors
-			$responseBody = {};
-			$errors = [];
 		});
 	});
 })(jQuery);
