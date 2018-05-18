@@ -6,7 +6,7 @@
 	"version": "1.2.0-dev",
 	"time": "2018-05-01",
 	"keywords": ["phpbb", "extension", "imgur", "uploader"],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Alfredo Ramos",
