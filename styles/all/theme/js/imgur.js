@@ -9,7 +9,7 @@
 	'use strict';
 
 	// Insert text at cursor position
-	// Slightly modified version
+	// Modified version of Mathias Bynens' code
 	// https://gist.github.com/mathiasbynens/326491
 	$.fn.insertAtCaret = function($text) {
 		return this.each(function() {
@@ -52,8 +52,6 @@
 
 	// Upload images
 	$(document.body).on('change', '#imgur-image', function() {
-		phpbb.clearLoadingTimeout();
-
 		var $imgurButton = $(this);
 		var $formData = new FormData();
 		var $files = $imgurButton.prop('files');
@@ -64,7 +62,6 @@
 		var $progress = {};
 		var $responseBody = {};
 		var $errors = [];
-		var $loadingIndicator;
 
 		// Imgur API limit (MiB)
 		var $maxFileSize = (10 * 1024 * 1024);
@@ -117,6 +114,7 @@
 			xhr: function() {
 				var $xhr = $.ajaxSettings.xhr();
 
+				// Progress listener
 				$xhr.upload.addEventListener('progress', function($event) {
 					if ($event.lengthComputable) {
 						var $percentage = ($event.loaded / $event.total) * 100;
@@ -131,6 +129,14 @@
 							.replace('{loaded}', (($event.loaded / 1024) / 1024))
 							.replace('{total}', (($event.total / 1024) / 1024))
 						);
+
+						// Progress bar native animation will
+						// be used as loading indicator
+						if ($percentage >= 100) {
+							setTimeout(function() {
+								$progress.bar.removeAttr('value');
+							}, 500);
+						}
 					}
 				}, false);
 
@@ -138,9 +144,6 @@
 			}
 		}).done(function($data) {
 			try {
-				// Process images
-				$loadingIndicator = phpbb.loadingIndicator();
-
 				// Empty response
 				if ($data.length <= 0) {
 					return;
@@ -245,11 +248,6 @@
 			// Reset progress bar
 			$progress.wrapper.removeClass('uploading');
 			$progress.bar.removeAttr('value');
-
-			// Hide loading indicator
-			if ($loadingIndicator && $loadingIndicator.is(':visible')) {
-				$loadingIndicator.fadeOut(phpbb.alertTime);
-			}
 		});
 	});
 })(jQuery);
