@@ -22,13 +22,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener_test extends phpbb_test_case
 {
 
-	/** @var \phpbb\config\config $config */
+	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\template\template $template */
+	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\routing\helper $routing_helper */
+	/** @var \phpbb\routing\helper */
 	protected $routing_helper;
 
 	public function setUp()
