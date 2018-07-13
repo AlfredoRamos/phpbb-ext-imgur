@@ -6,9 +6,9 @@ Imgur Extension for phpBB 3.2.x
 
 ### Dependencies
 
-- `php` 5.6 or greater
-- `phpBB` 3.2 or greater
-- `composer` (for development only)
+- PHP 5.6 or greater
+- phpBB 3.2 or greater
+- Composer (for development only)
 - Imgur API data (`client_id` and `client_secret`)
 
 ### Installation
