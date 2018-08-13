@@ -19,7 +19,7 @@
 				var $selection = document.selection.createRange();
 				$selection.text = $text;
 				this.focus();
-			} else if (this.selectionStart || this.selectionStart == '0') {
+			} else if (this.selectionStart || this.selectionStart === '0') {
 				// Modern browsers
 				var $position = {
 					start: this.selectionStart,
