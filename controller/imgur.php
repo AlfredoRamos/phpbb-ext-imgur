@@ -20,6 +20,7 @@ use phpbb\request\request_interface;
 use phpbb\json_response;
 use Imgur\Client as ImgurClient;
 use Imgur\Exception\ErrorException as ImgurErrorException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class imgur
 {
@@ -256,6 +257,8 @@ class imgur
 					break;
 				}
 			}
+
+			return new JsonResponse($data['errors'], 500);
 		}
 
 		// Return a JSON response
