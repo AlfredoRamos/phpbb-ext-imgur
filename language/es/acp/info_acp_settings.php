@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_IMGUR' => 'Ajustes de Imgur',
+	'ACP_IMGUR' => 'Imgur',
 	'ACP_IMGUR_API_SETTINGS' => 'Ajustes de la API',
 	'ACP_IMGUR_CLIENT_ID' => '<em>Client ID</em>',
 	'ACP_IMGUR_CLIENT_SECRET' => '<em>Client Secret</em>',
@@ -35,7 +35,6 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_PIN_EXPLAIN' => 'PIN de autorización necesario para acceder a su cuenta de Imgur.',
 	'ACP_IMGUR_SETTINGS_SAVED' => 'Los ajustes de Imgur han sido guardados satisfactoriamente.',
 
-	'ACP_IMGUR_OUTPUT' => 'Ajustes de salida de contenido de Imgur',
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TEXT' => 'Texto',
 	'ACP_IMGUR_OUTPUT_URL' => 'URL',

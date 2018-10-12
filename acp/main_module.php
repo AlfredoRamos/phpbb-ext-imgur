@@ -60,13 +60,21 @@ class main_module
 		{
 			case 'settings':
 				$this->tpl_name = 'acp_imgur_settings';
-				$this->page_title = $this->language->lang('ACP_IMGUR');
+				$this->page_title = sprintf(
+					'%s - %s',
+					$this->language->lang('SETTINGS'),
+					$this->language->lang('ACP_IMGUR')
+				);
 				$this->acp_controller->settings_mode($this->u_action);
 			break;
 
 			case 'output':
 				$this->tpl_name = 'acp_imgur_output_settings';
-				$this->page_title = $this->language->lang('ACP_IMGUR_OUTPUT');
+				$this->page_title = sprintf(
+					'%s - %s',
+					$this->language->lang('OUTPUT'),
+					$this->language->lang('ACP_IMGUR')
+				);
 				$this->acp_controller->output_mode($this->u_action);
 			break;
 
