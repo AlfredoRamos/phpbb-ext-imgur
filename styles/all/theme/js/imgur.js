@@ -45,6 +45,25 @@
 		});
 	};
 
+	function showErrors($errors) {
+		// Show a phpBB alert with the errors
+		if ($errors.length > 0) {
+			var $message = '';
+
+			for (var $i = 0; $i < $errors.length; $i++) {
+				$message += $errors[$i];
+
+				if ($i < ($errors.length - 1)) {
+					$message += '<br />';
+				}
+			}
+
+			if ($message.length > 0) {
+				phpbb.alert($imgur.lang.error, $message);
+			}
+		}
+	}
+
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
 		$('#imgur-image').trigger('click');
@@ -149,21 +168,8 @@
 					return;
 				}
 
-				// PHP $_FILES errors
-				if ($data.errors.length > 0) {
-					for (var $i = 0; $i < $data.errors.length; $i++) {
-						$errors.push($data.errors[$i]);
-					}
-				}
-
 				// Add image
 				$.each($data, function($key, $value) {
-					// Check only numeric keys
-					// https://stackoverflow.com/a/9716488
-					if (isNaN(parseFloat($key)) || !isFinite($key)) {
-						return;
-					}
-
 					var $bbcode = '';
 					var $image = {
 						link: '',
@@ -213,34 +219,30 @@
 			} catch (ex) {
 				$errors.push(ex.message);
 			}
+
+			showErrors($errors);
 		}).fail(function($data, $textStatus, $error) {
 			// Parse JSON response
 			try {
 				$responseBody = $.parseJSON($data.responseText);
-				$errors.push($responseBody.message);
+
+				if ($.isArray($responseBody.message)) {
+					for (var $i = 0; $i < $responseBody.message.length; $i++) {
+						$errors.push($responseBody.message[$i]);
+					}
+				} else {
+					$errors.push($responseBody.message);
+				}
 			} catch (ex) {
 				$errors.push(ex.message);
 			}
 
 			// Failure error message
 			$errors.push($error);
+
+			showErrors($errors);
 		}).then(function() {
-			// Show a phpBB alert with the errors
-			if ($errors.length > 0) {
-				var $message = '';
-
-				for (var $i = 0; $i < $errors.length; $i++) {
-					$message += $errors[$i];
-
-					if ($i < ($errors.length - 1)) {
-						$message += '<br />';
-					}
-				}
-
-				if ($message.length > 0) {
-					phpbb.alert($imgur.lang.error, $message);
-				}
-			}
+			showErrors($errors);
 		}).always(function() {
 			// Re-enable button
 			$imgurButton.prop('disabled', false);

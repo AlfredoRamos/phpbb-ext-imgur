@@ -216,7 +216,7 @@ class imgur
 		// Image errors
 		if (!empty($images['error']))
 		{
-			$data['errors'] = [];
+			$errors = ['message' => []];
 
 			foreach ($images['error'] as $key => $value)
 			{
@@ -225,31 +225,31 @@ class imgur
 				switch ($value)
 				{
 					case UPLOAD_ERR_INI_SIZE:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_INI_SIZE');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_INI_SIZE');
 					break;
 
 					case UPLOAD_ERR_FORM_SIZE:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_FORM_SIZE');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_FORM_SIZE');
 					break;
 
 					case UPLOAD_ERR_PARTIAL:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_PARTIAL');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_PARTIAL');
 					break;
 
 					case UPLOAD_ERR_NO_FILE:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_NO_FILE');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_NO_FILE');
 					break;
 
 					case UPLOAD_ERR_NO_TMP_DIR:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_NO_TMP_DIR');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_NO_TMP_DIR');
 					break;
 
 					case UPLOAD_ERR_CANT_WRITE:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_CANT_WRITE');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_CANT_WRITE');
 					break;
 
 					case UPLOAD_ERR_EXTENSION:
-						$data['errors'][] = $this->language->lang('UPLOAD_ERR_EXTENSION');
+						$errors['message'][] = $this->language->lang('UPLOAD_ERR_EXTENSION');
 					break;
 
 					default: // UPLOAD_ERR_OK
@@ -258,7 +258,10 @@ class imgur
 				}
 			}
 
-			return new JsonResponse($data['errors'], 500);
+			if (!empty($errors['message']))
+			{
+				return new JsonResponse($errors, 500);
+			}
 		}
 
 		// Return a JSON response
