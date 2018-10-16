@@ -226,9 +226,9 @@
 			try {
 				$responseBody = $.parseJSON($data.responseText);
 
-				if ($.isArray($responseBody.message)) {
-					for (var $i = 0; $i < $responseBody.message.length; $i++) {
-						$errors.push($responseBody.message[$i]);
+				if ($.isArray($responseBody)) {
+					for (var $i = 0; $i < $responseBody.length; $i++) {
+						$errors.push($responseBody[$i].message);
 					}
 				} else {
 					$errors.push($responseBody.message);
