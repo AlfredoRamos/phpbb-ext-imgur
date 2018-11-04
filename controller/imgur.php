@@ -82,7 +82,6 @@ class imgur
 			'access_token'		=> $this->config['imgur_access_token'],
 			'expires_in'		=> (int) $this->config['imgur_expires_in'],
 			'token_type'		=> $this->config['imgur_token_type'],
-			'scope'				=> (empty($this->config['imgur_scope']) ? null : $this->config['imgur_scope']),
 			'refresh_token'		=> $this->config['imgur_refresh_token'],
 			'account_id'		=> (int) $this->config['imgur_accound_id'],
 			'account_username'	=> $this->config['imgur_account_username'],
@@ -116,13 +115,6 @@ class imgur
 		// Update the token in database
 		foreach ($new_token as $key => $value)
 		{
-			// The scope column can be null, and the configuration
-			// table does not accept null values
-			if ($key == 'scope')
-			{
-				$value = empty($value) ? '' : $value;
-			}
-
 			// Save changes
 			$this->config->set(sprintf('imgur_%s', $key), $value, false);
 		}

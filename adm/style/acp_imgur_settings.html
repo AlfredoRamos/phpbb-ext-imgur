@@ -6,7 +6,7 @@
 <div class="errorbox notice">
 	<p>
 		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br />
-		<a href="{{ IMGUR_AUTH_URL }}" target="_blank" rel="nofollow noreferrer noopener">
+		<a href="{{ IMGUR_AUTH_URL }}" target="imgur_auth_url" rel="nofollow noreferrer noopener">
 			<code><strong>{{ IMGUR_AUTH_URL }}</strong></code>
 		</a>
 	</p>
@@ -53,11 +53,11 @@
 		{% if IMGUR_AUTH_URL %}
 		<dl>
 			<dt>
-				<label for="imgur_pin">{{ lang('ACP_IMGUR_PIN') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_IMGUR_PIN_EXPLAIN') }}</span>
+				<label for="imgur_token_url">{{ lang('ACP_IMGUR_TOKEN_URL') }}{{ lang('COLON') }}</label>
+				<br /><span>{{ lang('ACP_IMGUR_TOKEN_URL_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="imgur_pin" class="narrow" name="imgur_pin" autocomplete="off" />
+				<input type="text" id="imgur_token_url" class="medium" name="imgur_token_url" autocomplete="off" />
 			</dd>
 		</dl>
 		{% endif %}

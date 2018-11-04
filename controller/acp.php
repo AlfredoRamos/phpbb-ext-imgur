@@ -106,11 +106,9 @@ class acp
 				'access_token'		=> '',
 				'expires_in'		=> 0,
 				'token_type'		=> '',
-				'scope'				=> '',
 				'refresh_token'		=> '',
 				'account_id'		=> 0,
-				'account_username'	=> '',
-				'created_at'		=> 0
+				'account_username'	=> ''
 			];
 
 			// Client ID
@@ -134,14 +132,14 @@ class acp
 				false
 			);
 
-			// PIN
-			$pin = $this->request->variable('imgur_pin', '');
+			// Token URL
+			$token_url = $this->request->variable('imgur_token_url', '');
 
-			if (!empty($pin))
+			if (!empty($token_url))
 			{
 				try
 				{
-					$this->imgur->requestAccessToken($pin, 'pin');
+					$this->imgur->requestAccessToken($token_url);
 				}
 				catch (ImgurAuthException $ex)
 				{
@@ -158,13 +156,6 @@ class acp
 			// Update token
 			foreach ($token as $key => $value)
 			{
-				// The scope column can be null, and the configuration
-				// table does not accept null values
-				if ($key == 'scope')
-				{
-					$value = empty($value) ? '' : $value;
-				}
-
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);
 			}
 
@@ -198,7 +189,7 @@ class acp
 		{
 			$this->template->assign_var(
 				'IMGUR_AUTH_URL',
-				$this->imgur->getAuthenticationUrl('pin')
+				$this->imgur->getAuthenticationUrl()
 			);
 		}
 
