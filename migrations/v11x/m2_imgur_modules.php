@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Imgur Extension for phpBB.
+ * Imgur extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
@@ -13,7 +13,6 @@ use phpbb\db\migration\migration;
 
 class m2_imgur_modules extends migration
 {
-
 	/**
 	 * Migration dependencies.
 	 *
@@ -45,5 +44,4 @@ class m2_imgur_modules extends migration
 			]
 		];
 	}
-
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Imgur Extension for phpBB.
+ * Imgur extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class imgur
 {
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -266,5 +265,4 @@ class imgur
 
 		return $response->send($data);
 	}
-
 }

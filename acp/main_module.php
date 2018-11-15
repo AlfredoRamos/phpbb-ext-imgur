@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Imgur Extension for phpBB.
+ * Imgur extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
@@ -11,7 +11,6 @@ namespace alfredoramos\imgur\acp;
 
 class main_module
 {
-
 	/** @var string */
 	public $u_action;
 
@@ -90,5 +89,4 @@ class main_module
 		// Assign global template variables
 		$this->template->assign_var('U_ACTION', $this->u_action);
 	}
-
 }

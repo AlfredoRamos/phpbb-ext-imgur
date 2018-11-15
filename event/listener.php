@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Imgur Extension for phpBB.
+ * Imgur extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
@@ -16,7 +16,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -91,5 +90,4 @@ class listener implements EventSubscriberInterface
 			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
 		]);
 	}
-
 }

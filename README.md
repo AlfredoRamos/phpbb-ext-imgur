@@ -1,6 +1,6 @@
 ### About
 
-Imgur Extension for phpBB 3.2.x
+Imgur extension for phpBB.
 
 [![Build Status](https://img.shields.io/travis/AlfredoRamos/phpbb-ext-imgur.svg?style=flat-square)](https://travis-ci.org/AlfredoRamos/phpbb-ext-imgur) [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-imgur.svg?label=stable&style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-imgur/releases) [![Code Quality](https://img.shields.io/codacy/grade/96ac8d6766cb481483284c89cca8b347.svg?style=flat-square)](https://app.codacy.com/app/AlfredoRamos/phpbb-ext-imgur) [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-imgur.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-imgur/master/license.txt)
 
