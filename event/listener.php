@@ -82,8 +82,9 @@ class listener implements EventSubscriberInterface
 	public function user_setup_after($event)
 	{
 		$this->template->assign_vars([
-			'IMGUR_UPLOAD_URL'	=> $this->routing_helper->route('alfredoramos_imgur_upload', [
-				'hash' => generate_link_hash('imgur_upload')
+			'IMGUR_UPLOAD_URL'	=> vsprintf('%1$s/%2$s', [
+				$this->routing_helper->route('alfredoramos_imgur_upload'),
+				generate_link_hash('imgur_upload')
 			]),
 			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token']),
 			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],

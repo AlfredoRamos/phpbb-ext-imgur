@@ -61,6 +61,10 @@ class imgur_test extends phpbb_functional_test_case
 		);
 
 		$this->assertSame(1, $elements['input']->count());
+		$this->assertSame(1, preg_match(
+			'#^/app\.php/imgur/upload/\w+$#',
+			$elements['input']->attr('data-ajax-action')
+		));
 		$this->assertSame('image', $elements['input']->attr('data-output-type'));
 		$this->assertSame('t', $elements['input']->attr('data-thumbnail-size'));
 	}

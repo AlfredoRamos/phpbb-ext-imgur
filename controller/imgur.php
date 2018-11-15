@@ -123,9 +123,11 @@ class imgur
 	/**
 	 * Upload controller handler. AJAX calls only.
 	 *
+	 * @param string $hash
+	 *
 	 * @return string
 	 */
-	public function upload()
+	public function upload($hash = '')
 	{
 		// This route only responds to AJAX calls
 		if (!$this->request->is_ajax())
@@ -133,8 +135,11 @@ class imgur
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
 		}
 
+		// Security hash
+		$hash = trim($hash);
+
 		// Add CSFR protection
-		if (!check_link_hash($this->request->variable('hash', ''), 'imgur_upload'))
+		if (empty($hash) || !check_link_hash($hash, 'imgur_upload'))
 		{
 			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
