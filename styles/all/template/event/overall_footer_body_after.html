@@ -1,4 +1,8 @@
-{% if not INCLUDED_IMGUR_JS %}
-{% INCLUDEJS '@alfredoramos_imgur/js/imgur.js' %}
-{% set INCLUDED_IMGUR_JS = true %}
-{% endif %}
+{%- if not INCLUDED_IMGUR_FUNCTIONS_JS -%}
+{%- INCLUDEJS '@alfredoramos_imgur/js/functions.js' %}
+{%- set INCLUDED_IMGUR_FUNCTIONS_JS = true -%}
+{%- endif -%}
+{%- if not INCLUDED_IMGUR_JS -%}
+{%- INCLUDEJS '@alfredoramos_imgur/js/imgur.js' %}
+{%- set INCLUDED_IMGUR_JS = true -%}
+{%- endif -%}

@@ -14,11 +14,15 @@ services:
     alfredoramos.imgur.controller:
         class: alfredoramos\imgur\controller\imgur
         arguments:
+            - '@auth'
             - '@config'
+            - '@template'
             - '@request'
             - '@controller.helper'
             - '@filesystem'
             - '@language'
+            - '@user'
+            - '@log'
             - '@alfredoramos.imgur.j0k3r.imgur.client'
 
     alfredoramos.imgur.acp.controller:

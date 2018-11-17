@@ -9,23 +9,34 @@
 
 namespace alfredoramos\imgur\controller;
 
+use phpbb\auth\auth;
 use phpbb\config\config;
+use phpbb\template\template;
 use phpbb\request\request;
 use phpbb\controller\helper;
 use phpbb\filesystem\filesystem;
 use phpbb\language\language;
+use phpbb\user;
+use phpbb\log\log;
 use phpbb\exception\runtime_exception;
 use phpbb\exception\http_exception;
 use phpbb\request\request_interface;
 use phpbb\json_response;
 use Imgur\Client as ImgurClient;
 use Imgur\Exception\ErrorException as ImgurErrorException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class imgur
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\template\template */
+	protected $template;
 
 	/** @var \phpbb\request\request */
 	protected $request;
@@ -39,32 +50,46 @@ class imgur
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbb\log\log */
+	protected $log;
+
 	/** @var \Imgur\Client */
 	protected $imgur;
 
 	/**
 	 * Controller constructor.
 	 *
+	 * @param \phpbb\auth\auth				$auth
 	 * @param \phpbb\config\config			$config
+	 * @param \phpbb\template\template		$template
 	 * @param \phpbb\request\request		$request
 	 * @param \phpbb\controller\helper		$helper
 	 * @param \phpbb\filesystem\filesystem	$filesystem
 	 * @param \phpbb\language\language		$language
+	 * @param \phpbb\user					$user
+	 * @param \phpbb\log\log				$log
 	 * @param \Imgur\Client					$imgur
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, request $request, helper $helper, filesystem $filesystem, language $language, ImgurClient $imgur)
+	public function __construct(auth $auth, config $config, template $template, request $request, helper $helper, filesystem $filesystem, language $language, user $user, log $log, ImgurClient $imgur)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
+		$this->template = $template;
 		$this->request = $request;
 		$this->helper = $helper;
 		$this->filesystem = $filesystem;
 		$this->language = $language;
+		$this->user = $user;
+		$this->log = $log;
 		$this->imgur = $imgur;
 
 		// Add controller translations
-		$this->language->add_lang('controller', 'alfredoramos/imgur');
+		$this->language->add_lang(['controller', 'acp/info_acp_settings'], 'alfredoramos/imgur');
 
 		// Mandatory API data
 		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))
@@ -75,48 +100,79 @@ class imgur
 		// Setup Imgur API
 		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
-
-		// Construct Imgur token
-		$token = [
-			'access_token'		=> $this->config['imgur_access_token'],
-			'expires_in'		=> (int) $this->config['imgur_expires_in'],
-			'token_type'		=> $this->config['imgur_token_type'],
-			'refresh_token'		=> $this->config['imgur_refresh_token'],
-			'account_id'		=> (int) $this->config['imgur_accound_id'],
-			'account_username'	=> $this->config['imgur_account_username'],
-			'created_at'		=> (int) $this->config['imgur_created_at']
-		];
-
-		// Set token
-		$this->imgur->setAccessToken($token);
-
-		// Check if token expired
-		if ($this->imgur->checkAccessTokenExpired())
-		{
-			$this->refreshToken();
-		}
 	}
 
 	/**
-	 * Refresh token helper.
+	 * Imgur authorization controller handler.
 	 *
-	 * @return void
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	private function refreshToken()
+	public function authorize()
 	{
-		$this->imgur->refreshToken();
+		// This route can only be used by admins
+		// Users do not need to know this page exist
+		if ((int) $this->auth->acl_get('a_') !== 1)
+		{
+			throw new http_exception(404, 'PAGE_NOT_FOUND');
+		}
+
+		// Get Imgur token
+		$token = $this->imgur_token();
+
+		// Parse response fom Imgur API
+		if (!$this->request->is_ajax())
+		{
+			$this->template->assign_vars([
+				'IMGUR_IS_AUTHORIZED' => (!empty($token['access_token']) && !empty($token['refresh_token'])),
+				'IMGUR_AUTHORIZE_URL' => $this->helper->route('alfredoramos_imgur_authorize')
+			]);
+
+			return $this->helper->render('imgur_authorize.html', $this->language->lang('IMGUR_AUTHORIZE'));
+		}
+
+		// Construct new token
+		$new_token = [
+			'access_token'		=> '',
+			'expires_in'		=> 0,
+			'token_type'		=> '',
+			'refresh_token'		=> '',
+			'account_id'		=> 0,
+			'account_username'	=> ''
+		];
 
 		// Generate new token
-		$new_token = array_merge($this->imgur->getAccessToken(), [
-			'created_at' => time()
-		]);
-
-		// Update the token in database
 		foreach ($new_token as $key => $value)
 		{
-			// Save changes
+			// Cast values
+			$value = (in_array($key, ['expires_in', 'account_id'])) ? (int) $value : trim($value);
+
+			// Generate new token
+			$new_token[$key] = $this->request->variable($key, $value);
+		}
+
+		// Set token
+		$this->imgur->setAccessToken($new_token);
+
+		// Update token
+		$token = $this->imgur->getAccessToken();
+
+		// Save new token
+		foreach ($token as $key => $value)
+		{
 			$this->config->set(sprintf('imgur_%s', $key), $value, false);
 		}
+
+		// Admin log
+		$this->log->add(
+			'admin',
+			$this->user->data['user_id'],
+			$this->user->ip,
+			'LOG_IMGUR_DATA',
+			false,
+			[$this->language->lang('ACP_IMGUR_API_SETTINGS')]
+		);
+
+		return new Response;
 	}
 
 	/**
@@ -143,10 +199,16 @@ class imgur
 			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
+		// Get Imgur token
+		$token = $this->imgur_token();
+
+		// Set token
+		$this->imgur->setAccessToken($token);
+
 		// Check if token expired
 		if ($this->imgur->checkAccessTokenExpired())
 		{
-			$this->refreshToken();
+			$this->refresh_token();
 		}
 
 		// Not using $request->file() because I need an array of arrays
@@ -185,7 +247,7 @@ class imgur
 				catch (ImgurErrorException $ex)
 				{
 					// Update token as it expired unexpectedly
-					$this->refreshToken();
+					$this->refresh_token();
 
 					// Clear previous data
 					$data = [];
@@ -264,5 +326,45 @@ class imgur
 		$response = new json_response;
 
 		return $response->send($data);
+	}
+
+	/**
+	 * Get Imgur token stored in database.
+	 *
+	 * @return array
+	 */
+	private function imgur_token()
+	{
+		return [
+			'access_token'		=> $this->config['imgur_access_token'],
+			'expires_in'		=> (int) $this->config['imgur_expires_in'],
+			'token_type'		=> $this->config['imgur_token_type'],
+			'refresh_token'		=> $this->config['imgur_refresh_token'],
+			'account_id'		=> (int) $this->config['imgur_accound_id'],
+			'account_username'	=> $this->config['imgur_account_username'],
+			'created_at'		=> (int) $this->config['imgur_created_at']
+		];
+	}
+
+	/**
+	 * Refresh token helper.
+	 *
+	 * @return void
+	 */
+	private function refresh_oken()
+	{
+		$this->imgur->refreshToken();
+
+		// Generate new token
+		$new_token = array_merge($this->imgur->getAccessToken(), [
+			'created_at' => time()
+		]);
+
+		// Update the token in database
+		foreach ($new_token as $key => $value)
+		{
+			// Save changes
+			$this->config->set(sprintf('imgur_%s', $key), $value, false);
+		}
 	}
 }

@@ -1,0 +1,12 @@
+<h2>{{ lang('IMGUR_AUTHORIZE') }}</h2>
+<div class="panel bg1">
+	<div class="inner">
+		<p id="imgur-authorize">
+		{%- if IMGUR_IS_AUTHORIZED -%}
+			{{ lang('IMGUR_AUTHORIZED') }}
+		{%- else -%}
+			{{ lang('IMGUR_AUTHORIZE_EXPLAIN') }}
+		{%- endif -%}
+		</p>
+	</div>
+</div>

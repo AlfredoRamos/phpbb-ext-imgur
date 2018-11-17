@@ -3,7 +3,7 @@
 <h1>{{ lang('SETTINGS') }}</h1>
 
 {% if IMGUR_AUTH_URL %}
-<div class="errorbox notice">
+<div class="warningbox">
 	<p>
 		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br />
 		<a href="{{ IMGUR_AUTH_URL }}" target="imgur_auth_url" rel="nofollow noreferrer noopener">
@@ -49,18 +49,6 @@
 				{% endif %}
 			</dd>
 		</dl>
-
-		{% if IMGUR_AUTH_URL %}
-		<dl>
-			<dt>
-				<label for="imgur_token_url">{{ lang('ACP_IMGUR_TOKEN_URL') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_IMGUR_TOKEN_URL_EXPLAIN') }}</span>
-			</dt>
-			<dd>
-				<input type="text" id="imgur_token_url" class="medium" name="imgur_token_url" autocomplete="off" />
-			</dd>
-		</dl>
-		{% endif %}
 	</fieldset>
 
 	<fieldset>

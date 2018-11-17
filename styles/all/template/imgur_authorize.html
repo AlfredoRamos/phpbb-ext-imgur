@@ -1,0 +1,9 @@
+{%- include 'overall_header.html' -%}
+{%- if not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED -%}
+{%- INCLUDEJS '@alfredoramos_imgur/js/authorize.js' %}
+{%- set INCLUDED_IMGUR_AUTHORIZE_JS = true -%}
+{%- endif -%}
+<div id="imgur-authorize" data-ajax-authorized="{% if IMGUR_IS_AUTHORIZED %}{{ IMGUR_IS_AUTHORIZED }}{% else %}0{% endif %}" data-ajax-action="{{ IMGUR_AUTHORIZE_URL }}">
+{%- include '@alfredoramos_imgur/imgur_token_message.html' ignore missing -%}
+</div>
+{%- include 'overall_footer.html' -%}

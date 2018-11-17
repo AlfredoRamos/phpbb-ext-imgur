@@ -131,28 +131,7 @@ class acp
 				false
 			);
 
-			// Token URL
-			$token_url = $this->request->variable('imgur_token_url', '');
-
-			if (!empty($token_url))
-			{
-				try
-				{
-					$this->imgur->requestAccessToken($token_url);
-				}
-				catch (ImgurAuthException $ex)
-				{
-					trigger_error(
-						$ex->getMessage() . adm_back_link($u_action),
-						E_USER_WARNING
-					);
-				}
-
-				// Replace token values
-				$token = array_replace($token, $this->imgur->getAccessToken());
-			}
-
-			// Update token
+			// Clear token
 			foreach ($token as $key => $value)
 			{
 				$this->config->set(sprintf('imgur_%s', $key), $value, false);
@@ -182,9 +161,11 @@ class acp
 			'IMGUR_ALBUM'			=> $this->config['imgur_album']
 		]);
 
-		// Show	authorization URL if the token
-		// has not been generated
-		if (!empty($this->config['imgur_client_id']) && empty($this->config['imgur_access_token']))
+		// Show	authorization URL
+		if (!empty($this->config['imgur_client_id']) &&
+			!empty($this->config['imgur_client_secret']) &&
+			empty($this->config['imgur_access_token']
+		))
 		{
 			$this->template->assign_var(
 				'IMGUR_AUTH_URL',
