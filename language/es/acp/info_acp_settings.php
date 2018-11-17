@@ -31,8 +31,6 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM' => 'Álbum',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Identificador del álbum en donde las imágenes serán subidas. Déjelo vacío si desea que las imágenes sean subidas en la ubicación por defecto.',
 	'ACP_IMGUR_AUTH_EXPLAIN' => 'Haga clic en el siguiente enlace para autorizar la aplicación.',
-	'ACP_IMGUR_TOKEN_URL' => 'URL del token',
-	'ACP_IMGUR_TOKEN_URL_EXPLAIN' => 'URL de autorización necesario para acceder a su cuenta de Imgur.',
 	'ACP_IMGUR_SETTINGS_SAVED' => 'Los ajustes de Imgur han sido guardados satisfactoriamente.',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',

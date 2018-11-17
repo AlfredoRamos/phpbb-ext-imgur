@@ -34,5 +34,9 @@ $lang = array_merge($lang, [
 	'UPLOAD_ERR_NO_FILE' => 'Ningun archivo fue subido',
 	'UPLOAD_ERR_NO_TMP_DIR' => 'Carpeta temporal faltante',
 	'UPLOAD_ERR_CANT_WRITE' => 'Error al escribir el archivo en disco',
-	'UPLOAD_ERR_EXTENSION' => 'Una extensión PHP detuvo la subida de la imagen'
+	'UPLOAD_ERR_EXTENSION' => 'Una extensión PHP detuvo la subida de la imagen',
+
+	'IMGUR_AUTHORIZATION' => 'Autorización',
+	'IMGUR_AUTHORIZATION_EXPLAIN' => 'Autorización Imgur en progreso, por favor espera.',
+	'IMGUR_AUTHORIZED' => 'Ya has autorizado la aplicación Imgur, puedes cerrar esta ventana.'
 ]);
