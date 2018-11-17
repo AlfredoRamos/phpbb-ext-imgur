@@ -16,7 +16,6 @@ use phpbb\language\language;
 use phpbb\user;
 use phpbb\log\log;
 use Imgur\Client as ImgurClient;
-use Imgur\Exception\AuthException as ImgurAuthException;
 
 class acp
 {
