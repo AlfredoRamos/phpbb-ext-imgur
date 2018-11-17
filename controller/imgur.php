@@ -24,7 +24,6 @@ use phpbb\request\request_interface;
 use phpbb\json_response;
 use Imgur\Client as ImgurClient;
 use Imgur\Exception\ErrorException as ImgurErrorException;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class imgur
@@ -123,11 +122,21 @@ class imgur
 		if (!$this->request->is_ajax())
 		{
 			$this->template->assign_vars([
+				'IMGUR_AUTHORIZATION_HASH' => generate_link_hash('imgur_authorize'),
 				'IMGUR_IS_AUTHORIZED' => (!empty($token['access_token']) && !empty($token['refresh_token'])),
 				'IMGUR_AUTHORIZE_URL' => $this->helper->route('alfredoramos_imgur_authorize')
 			]);
 
-			return $this->helper->render('imgur_authorize.html', $this->language->lang('IMGUR_AUTHORIZE'));
+			return $this->helper->render('imgur_authorize.html', $this->language->lang('IMGUR_AUTHORIZATION'));
+		}
+
+		// Form hash
+		$hash = $this->request->variable('hash', '');
+
+		// CSRF protection
+		if (empty($hash) || !check_link_hash($hash, 'imgur_authorize'))
+		{
+			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
 		// Construct new token
@@ -169,10 +178,13 @@ class imgur
 			$this->user->ip,
 			'LOG_IMGUR_DATA',
 			false,
-			[$this->language->lang('ACP_IMGUR_API_SETTINGS')]
+			[$this->language->lang('IMGUR_AUTHORIZATION')]
 		);
 
-		return new Response;
+		// Return a JSON response
+		$response = new json_response;
+
+		return $response->send(['message' => 'success']);
 	}
 
 	/**
@@ -193,7 +205,7 @@ class imgur
 		// Security hash
 		$hash = trim($hash);
 
-		// Add CSFR protection
+		// CSRF protection
 		if (empty($hash) || !check_link_hash($hash, 'imgur_upload'))
 		{
 			throw new http_exception(403, 'NO_AUTH_OPERATION');

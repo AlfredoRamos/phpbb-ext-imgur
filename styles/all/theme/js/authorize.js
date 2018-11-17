@@ -8,22 +8,33 @@
 (function($) {
 	'use strict';
 
-	var $formData = new FormData();
-	var $queryString = location.hash.substring(1);
-	var $regexp = /([^&=]+)=([^&]*)/g;
-	var $match = null;
 	var $imgurAuthorize = $('#imgur-authorize').first();
-	var $errors = [];
+
+	// CSRF protection
+	if ($imgurAuthorize.attr('data-ajax-hash').length <= 0) {
+		return;
+	}
 
 	// Check if is already authorized
 	if (parseInt($imgurAuthorize.attr('data-ajax-authorized')) === 1) {
 		return;
 	}
 
+	// Helper variables
+	var $formData = new FormData();
+	var $queryString = location.hash.substring(1);
+	var $regexp = /([^&=]+)=([^&]*)/g;
+	var $match = null;
+	var $responseBody = {};
+	var $errors = [];
+
 	// Add form data
 	while ($match = $regexp.exec($queryString)) {
-		$formData.append([decodeURIComponent($match[1])], decodeURIComponent($match[2]));
+		$formData.set([decodeURIComponent($match[1])], decodeURIComponent($match[2]));
 	}
+
+	// Add hash
+	$formData.set('hash', $imgurAuthorize.attr('data-ajax-hash'));
 
 	// Execute AJAX call
 	$.ajax({
@@ -33,11 +44,25 @@
 		contentType: false,
 		cache: false,
 		processData: false
-	}).done(function($data) {
-		console.log($data);
+	}).done(function($data, $textStatus, $jqXHR) {
 		try {
-			// Empty response
-			if ($data.length <= 0) {
+			// Redirect or show message
+			if ($jqXHR.readyState == 4 && $jqXHR.status == 200) {
+				if (window.opener != null) {
+					// Refresh ACP page
+					window.opener.location.reload(true);
+
+					// Close current window
+					window.close();
+				}
+
+				// Fallback to redirect to homepage
+				var $url = window.location.href;
+				$url = $url.replace(/(?:app\.php\/)?imgur\/authorize(#.*)$/, '');
+				window.location.replace($url);
+			} else {
+				$responseBody = $.parseJSON($jqXHR.responseText);
+				$errors.push($responseBody.message);
 			}
 		} catch (ex) {
 			$errors.push(ex.message);
@@ -45,7 +70,6 @@
 
 		showImgurErrors($errors);
 	}).fail(function($data, $textStatus, $error) {
-		console.log($data);
 		// Parse JSON response
 		try {
 			$responseBody = $.parseJSON($data.responseText);
@@ -65,10 +89,9 @@
 		$errors.push($error);
 
 		showImgurErrors($errors);
-	}).then(function() {
-		showImgurErrors($errors);
 	}).always(function() {
-		$errors = [];
 		$formData = new FormData();
+		$responseBody = {};
+		$errors = [];
 	});
 })(jQuery);

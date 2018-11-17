@@ -36,7 +36,7 @@ $lang = array_merge($lang, [
 	'UPLOAD_ERR_CANT_WRITE' => 'Failed to write file to disk',
 	'UPLOAD_ERR_EXTENSION' => 'A PHP extension stopped the file upload',
 
-	'IMGUR_AUTHORIZE' => 'Authorize Imgur',
-	'IMGUR_AUTHORIZE_EXPLAIN' => 'Wait 5 seconds to get redirected to the home page. If you did not get redirected from Imgur to this page, you can close this tab.',
-	'IMGUR_AUTHORIZED' => 'You already authorized the Imgur application. You will get redirected to the home page within 3 seconds, if not you can close this tab.'
+	'IMGUR_AUTHORIZATION' => 'Authorization',
+	'IMGUR_AUTHORIZATION_EXPLAIN' => 'Imgur authorization in progress, please wait.',
+	'IMGUR_AUTHORIZED' => 'You already authorized the Imgur application, you can close this window.'
 ]);
