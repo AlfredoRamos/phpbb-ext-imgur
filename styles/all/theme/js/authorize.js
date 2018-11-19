@@ -41,7 +41,7 @@
 	}).done(function($data, $textStatus, $jqXHR) {
 		try {
 			// Redirect or show message
-			if ($jqXHR.readyState == 4 && $jqXHR.status == 200) {
+			if ($jqXHR.readyState === 4 && $jqXHR.status === 200) {
 				if (window.opener != null) {
 					// Refresh ACP page
 					window.opener.location.reload(true);
