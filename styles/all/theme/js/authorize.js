@@ -8,14 +8,11 @@
 (function($) {
 	'use strict';
 
+	// Container
 	var $imgurAuthorize = $('#imgur-authorize').first();
 
-	// CSRF protection
-	if ($imgurAuthorize.attr('data-ajax-hash').length <= 0) {
-		return;
-	}
-
-	// Check if is already authorized
+	// Additional check if is already authorized
+	// just in case, for some reason, user got this far
 	if (parseInt($imgurAuthorize.attr('data-ajax-authorized')) === 1) {
 		return;
 	}
@@ -32,9 +29,6 @@
 	while ($match = $regexp.exec($queryString)) {
 		$formData.set([decodeURIComponent($match[1])], decodeURIComponent($match[2]));
 	}
-
-	// Add hash
-	$formData.set('hash', $imgurAuthorize.attr('data-ajax-hash'));
 
 	// Execute AJAX call
 	$.ajax({

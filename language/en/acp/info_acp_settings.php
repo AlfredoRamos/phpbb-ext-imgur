@@ -30,7 +30,8 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_CLIENT_SECRET' => 'Client Secret',
 	'ACP_IMGUR_ALBUM' => 'Album',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Album ID where all images will be uploaded to. Leave it empty if you want all the images to be uploaded in the default location.',
-	'ACP_IMGUR_AUTH_EXPLAIN' => 'Click the following link to authorize the application.',
+	'ACP_IMGUR_AUTH_EXPLAIN' => 'You need to authorize the application in order to upload the images to your account.',
+	'ACP_IMGUR_AUTHORIZE' => 'Authorize access',
 	'ACP_IMGUR_SETTINGS_SAVED' => 'Imgur settings have been succesfully saved.',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',

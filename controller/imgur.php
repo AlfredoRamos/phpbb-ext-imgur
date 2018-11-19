@@ -104,9 +104,11 @@ class imgur
 	/**
 	 * Imgur authorization controller handler.
 	 *
+	 * @param string $hash
+	 *
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function authorize()
+	public function authorize($hash = '')
 	{
 		// This route can only be used by admins
 		// Users do not need to know this page exist
@@ -122,16 +124,18 @@ class imgur
 		if (!$this->request->is_ajax())
 		{
 			$this->template->assign_vars([
-				'IMGUR_AUTHORIZATION_HASH' => generate_link_hash('imgur_authorize'),
 				'IMGUR_IS_AUTHORIZED' => (!empty($token['access_token']) && !empty($token['refresh_token'])),
-				'IMGUR_AUTHORIZE_URL' => $this->helper->route('alfredoramos_imgur_authorize')
+				'IMGUR_AUTHORIZE_URL' => vsprintf('%1$s/%2$s', [
+					$this->helper->route('alfredoramos_imgur_authorize'),
+					generate_link_hash('imgur_authorize')
+				])
 			]);
 
 			return $this->helper->render('imgur_authorize.html', $this->language->lang('IMGUR_AUTHORIZATION'));
 		}
 
-		// Form hash
-		$hash = $this->request->variable('hash', '');
+		// Security hash
+		$hash = trim($hash);
 
 		// CSRF protection
 		if (empty($hash) || !check_link_hash($hash, 'imgur_authorize'))

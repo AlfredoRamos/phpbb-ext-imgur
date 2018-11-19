@@ -5,9 +5,10 @@
 {% if IMGUR_AUTH_URL %}
 <div class="warningbox">
 	<p>
-		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br />
+		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br /><br />
 		<a href="{{ IMGUR_AUTH_URL }}" id="imgur-auth-url" rel="nofollow noreferrer">
-			<code><strong>{{ IMGUR_AUTH_URL }}</strong></code>
+			<i class="icon fa-lg fa-sign-in" aria-hidden="true"></i>
+			<span>{{ lang('ACP_IMGUR_AUTHORIZE') }}</span>
 		</a>
 	</p>
 </div>

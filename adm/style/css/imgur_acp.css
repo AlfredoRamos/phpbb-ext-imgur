@@ -1,0 +1,22 @@
+/**
+ * Imgur extension for phpBB.
+ * @author Alfredo Ramos <alfredo.ramos@yandex.com>
+ * @copyright 2017 Alfredo Ramos
+ * @license GPL-2.0-only
+ */
+
+#imgur-auth-url{
+	padding: 10px 20px;
+	background-color: #1bb76e;
+	border-radius: 4px;
+	color: #f2f2f2;
+}
+
+#imgur-auth-url:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+#imgur-auth-url > span {
+	font-weight: bold;
+}
