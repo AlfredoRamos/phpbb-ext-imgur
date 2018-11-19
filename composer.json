@@ -1,7 +1,7 @@
 {
 	"name": "alfredoramos/imgur",
 	"type": "phpbb-extension",
-	"description": "Imgur Extension for phpBB 3.2.x",
+	"description": "Imgur extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-imgur",
 	"version": "1.2.0",
 	"time": "2018-11-19",
