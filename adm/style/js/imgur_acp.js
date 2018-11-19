@@ -9,6 +9,6 @@
 	'use strict';
 	$('#imgur-auth-url').on('click', function($event) {
 		$event.preventDefault();
-		popup($(this).attr('href'), 400, 240, '_imgurauth');
+		popup($(this).attr('href'), 760, 570, '_imgurauth');
 	});
 })(jQuery);
