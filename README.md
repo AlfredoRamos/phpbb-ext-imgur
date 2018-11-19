@@ -28,7 +28,7 @@ If the upload is successful it will add the image in the topic, private message 
 
 ### Preview
 
-[![ACP settings](https://i.imgur.com/FDKbWoqt.png)](https://i.imgur.com/FDKbWoq.png) [![ACP settings API](https://i.imgur.com/3O0raaYt.png)](https://i.imgur.com/3O0raaY.png) [![ACP output settings](https://i.imgur.com/CKcYnY2t.png)](https://i.imgur.com/CKcYnY2.png) [![Topic](https://i.imgur.com/8C7sMR2t.png)](https://i.imgur.com/8C7sMR2.png)
+[![ACP settings](https://i.imgur.com/FDKbWoqt.png)](https://i.imgur.com/FDKbWoq.png) [![ACP settings API](https://i.imgur.com/xxCEse7t.png)](https://i.imgur.com/xxCEse7.png) [![ACP output settings](https://i.imgur.com/CKcYnY2t.png)](https://i.imgur.com/CKcYnY2.png) [![Topic](https://i.imgur.com/8C7sMR2t.png)](https://i.imgur.com/8C7sMR2.png)
 
 *(Click to view in full size)*
 
@@ -38,9 +38,9 @@ If the upload is successful it will add the image in the topic, private message 
 - Set the `Client ID`, `Client Secret` and optionally an `Album`
 - Click on `Submit`
 - Once you have the required API data. Click on the authorization link shown above
-- In the Imgur authorization link, click on `Allow` and copy the `PIN`
-- Go back to `Imgur settings` paste the `PIN`
-- Click on `Submit`
+- A new window will popup to authorize the application
+- Login to your Imgur account to allow account access
+- The window will close itself when it's done, or show an error message
 
 To customize the look and feel:
 
