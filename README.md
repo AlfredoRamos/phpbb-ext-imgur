@@ -32,14 +32,24 @@ If the upload is successful it will add the image in the topic, private message 
 
 *(Click to view in full size)*
 
+### Imgur API
+- Create an Imgur account, if you don't have one already
+- Register your application at https://api.imgur.com/oauth2/addclient
+- Type an application name
+- Select `OAuth 2 authorization with a callback URL`
+- Set `Authorization callback URL` to `http://domain.tld/app.php/imgur/authorize`, use `https://` in if you have an SSL certificate
+- Check that the previous URL works
+- Type your email and a short description
+- After clicking `Submit` you should get a `client_id` and `client_secret`
+
 ### Configuration
 
 - Go to your `Administration Control Panel` > `Extensions` > `Imgur settings`
 - Set the `Client ID`, `Client Secret` and optionally an `Album`
 - Click on `Submit`
-- Once you have the required API data. Click on the authorization link shown above
+- Once you have the required API data, click on the authorization link shown above
 - A new window will popup to authorize the application
-- Login to your Imgur account to allow account access
+- Login to your Imgur account and grant access
 - The window will close itself when it's done, or show an error message
 
 To customize the look and feel:
