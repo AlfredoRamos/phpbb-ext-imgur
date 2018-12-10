@@ -54,6 +54,16 @@ function showImgurErrors(errors) {
 		$imgur = window.$imgur;
 	}
 
+	// Extend settings
+	$imgur = $.extend({
+		lang: {
+			error: 'Error',
+			image_too_big: 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
+			no_images: 'There are no images to upload.',
+			upload_progress: '{percentage}% ({loaded} / {total} MiB)'
+		}
+	}, $imgur);
+
 	// Show a phpBB alert with the errors
 	if (errors.length > 0) {
 		var message = '';
