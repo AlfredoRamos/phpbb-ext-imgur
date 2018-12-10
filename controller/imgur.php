@@ -21,7 +21,6 @@ use phpbb\log\log;
 use phpbb\exception\runtime_exception;
 use phpbb\exception\http_exception;
 use phpbb\request\request_interface;
-use phpbb\json_response;
 use Imgur\Client as ImgurClient;
 use Imgur\Exception\ErrorException as ImgurErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -86,19 +85,6 @@ class imgur
 		$this->user = $user;
 		$this->log = $log;
 		$this->imgur = $imgur;
-
-		// Add controller translations
-		$this->language->add_lang(['controller', 'acp/info_acp_settings'], 'alfredoramos/imgur');
-
-		// Mandatory API data
-		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))
-		{
-			throw new runtime_exception('EXCEPTION_IMGUR_NO_API_DATA');
-		}
-
-		// Setup Imgur API
-		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
-		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 	}
 
 	/**
@@ -106,16 +92,19 @@ class imgur
 	 *
 	 * @param string $hash
 	 *
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return \Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpFoundation\JsonResponse
 	 */
 	public function authorize($hash = '')
 	{
 		// This route can only be used by admins
 		// Users do not need to know this page exist
-		if ((int) $this->auth->acl_get('a_') !== 1)
+		if (!$this->auth->acl_get('a_'))
 		{
 			throw new http_exception(404, 'PAGE_NOT_FOUND');
 		}
+
+		// Add translations
+		$this->language->add_lang(['controller', 'acp/info_acp_settings'], 'alfredoramos/imgur');
 
 		// Get Imgur token
 		$token = $this->imgur_token();
@@ -186,9 +175,7 @@ class imgur
 		);
 
 		// Return a JSON response
-		$response = new json_response;
-
-		return $response->send(['message' => 'success']);
+		return new JsonResponse(['message' => 'success']);
 	}
 
 	/**
@@ -196,7 +183,7 @@ class imgur
 	 *
 	 * @param string $hash
 	 *
-	 * @return string
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse
 	 */
 	public function upload($hash = '')
 	{
@@ -205,6 +192,19 @@ class imgur
 		{
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
 		}
+
+		// Mandatory API data
+		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))
+		{
+			throw new runtime_exception('EXCEPTION_IMGUR_NO_API_DATA');
+		}
+
+		// Add translations
+		$this->language->add_lang('controller', 'alfredoramos/imgur');
+
+		// Setup Imgur API
+		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
+		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 
 		// Security hash
 		$hash = trim($hash);
@@ -251,39 +251,12 @@ class imgur
 
 				// Upload image and save response, it will be used
 				// later to show a JSON object
-				try
-				{
-					$data[] = $this->imgur->api('image')->upload([
-						'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
-						'type'	=> 'base64',
-						'album'	=> $this->config['imgur_album'],
-						'name'	=> $value
-					]);
-				}
-				catch (ImgurErrorException $ex)
-				{
-					// Update token as it expired unexpectedly
-					$this->refresh_token();
-
-					// Clear previous data
-					$data = [];
-
-					// Try again to upload the image, if succeed it will add
-					// the BBCode of the image, otherwise an error message
-					try
-					{
-						$data[] = $this->imgur->api('image')->upload([
-							'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
-							'type'	=> 'base64',
-							'album'	=> $this->config['imgur_album'],
-							'name'	=> $value
-						]);
-					}
-					catch (ImgurErrorException $ex)
-					{
-						throw new runtime_exception('EXCEPTION_IMGUR_BAD_REQUEST', [$ex->getMessage()], $ex);
-					}
-				}
+				$data[] = $this->imgur->api('image')->upload([
+					'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
+					'type'	=> 'base64',
+					'album'	=> $this->config['imgur_album'],
+					'name'	=> $value
+				]);
 			}
 		}
 
@@ -339,9 +312,7 @@ class imgur
 		}
 
 		// Return a JSON response
-		$response = new json_response;
-
-		return $response->send($data);
+		return new JsonResponse($data);
 	}
 
 	/**
@@ -367,7 +338,7 @@ class imgur
 	 *
 	 * @return void
 	 */
-	private function refresh_oken()
+	private function refresh_token()
 	{
 		$this->imgur->refreshToken();
 
