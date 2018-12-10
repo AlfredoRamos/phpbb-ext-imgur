@@ -22,7 +22,6 @@ use phpbb\exception\runtime_exception;
 use phpbb\exception\http_exception;
 use phpbb\request\request_interface;
 use Imgur\Client as ImgurClient;
-use Imgur\Exception\ErrorException as ImgurErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class imgur
