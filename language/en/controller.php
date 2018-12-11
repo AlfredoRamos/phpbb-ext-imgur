@@ -26,7 +26,6 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	'EXCEPTION_IMGUR_NO_API_DATA' => 'Client ID and Client Secret are mandatory.',
 	'EXCEPTION_IMGUR_AJAX_ONLY' => 'This route can only be used on AJAX calls.',
-	'EXCEPTION_IMGUR_BAD_REQUEST' => '%s',
 
 	'UPLOAD_ERR_INI_SIZE' => 'The uploaded file exceeds the <samp>upload_max_filesize</samp> directive in <samp>php.ini</samp>',
 	'UPLOAD_ERR_FORM_SIZE' => 'The uploaded file exceeds the <samp>MAX_FILE_SIZE</samp> directive that was specified in the HTML form',
