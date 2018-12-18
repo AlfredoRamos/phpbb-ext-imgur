@@ -17,10 +17,9 @@
 	// Extend settings
 	$imgur = $.extend({
 		lang: {
-			error: 'Error',
-			image_too_big: 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
-			no_images: 'There are no images to upload.',
-			upload_progress: '{percentage}% ({loaded} / {total} MiB)'
+			imageTooBig: 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
+			noImages: 'There are no images to upload.',
+			uploadProgress: '{percentage}% ({loaded} / {total} MiB)'
 		}
 	}, $imgur);
 
@@ -63,7 +62,7 @@
 			// Don't send images bigger than $maxFileSize
 			if ($files[$i].size > $maxFileSize) {
 				$errors.push(
-					$imgur.lang.image_too_big
+					$imgur.lang.imageTooBig
 					.replace('{file}', $files[$i].name)
 					.replace('{size}', (($files[$i].size / 1024) / 1024))
 					.replace('{max_size}', (($maxFileSize / 1024) / 1024))
@@ -76,7 +75,7 @@
 
 		// Exit if no images were added
 		if (!$formData.has('imgur_image[]')) {
-			$errors.push($imgur.lang.no_images);
+			$errors.push($imgur.lang.noImages);
 		}
 
 		// Show progress bar
@@ -103,7 +102,7 @@
 
 						// Show progress bar info
 						$progress.label.text(
-							$imgur.lang.upload_progress
+							$imgur.lang.uploadProgress
 							.replace('{percentage}', $percentage)
 							.replace('{loaded}', (($event.loaded / 1024) / 1024))
 							.replace('{total}', (($event.total / 1024) / 1024))
