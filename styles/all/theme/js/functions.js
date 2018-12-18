@@ -51,15 +51,12 @@ function showImgurErrors(errors) {
 	if (typeof window.$imgur === 'undefined') {
 		var $imgur = {};
 	} else {
-		$imgur = window.$imgur;
+		$imgur = $.extend(true, {
+			lang: {
+				error: 'Error'
+			}
+		}, window.$imgur);
 	}
-
-	// Extend settings
-	$imgur = $.extend({
-		lang: {
-			error: 'Error'
-		}
-	}, $imgur);
 
 	// Show a phpBB alert with the errors
 	if (errors.length > 0) {

@@ -11,17 +11,14 @@
 	if (typeof window.$imgur === 'undefined') {
 		var $imgur = {};
 	} else {
-		$imgur = window.$imgur;
+		$imgur = $.extend(true, {
+			lang: {
+				imageTooBig: 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
+				noImages: 'There are no images to upload.',
+				uploadProgress: '{percentage}% ({loaded} / {total} MiB)'
+			}
+		}, window.$imgur);
 	}
-
-	// Extend settings
-	$imgur = $.extend({
-		lang: {
-			imageTooBig: 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
-			noImages: 'There are no images to upload.',
-			uploadProgress: '{percentage}% ({loaded} / {total} MiB)'
-		}
-	}, $imgur);
 
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {

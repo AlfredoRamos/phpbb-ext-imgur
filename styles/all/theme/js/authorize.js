@@ -26,8 +26,20 @@
 	var $errors = [];
 
 	// Add form data
-	while ($match = $regexp.exec($queryString)) {
+	do {
+		$match = $regexp.exec($queryString);
+
+		// No more matches
+		if (!$match) {
+			break;
+		}
+
 		$formData.set([decodeURIComponent($match[1])], decodeURIComponent($match[2]));
+	} while ($match);
+
+	// Check if form data is empty
+	if ($formData.entries().next().done) {
+		return;
 	}
 
 	// Execute AJAX call
