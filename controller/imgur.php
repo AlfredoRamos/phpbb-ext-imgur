@@ -95,15 +95,15 @@ class imgur
 	 */
 	public function authorize($hash = '')
 	{
+		// Add translations
+		$this->language->add_lang(['controller', 'acp/info_acp_settings'], 'alfredoramos/imgur');
+
 		// This route can only be used by admins
 		// Users do not need to know this page exist
 		if (!$this->auth->acl_get('a_'))
 		{
 			throw new http_exception(404, 'PAGE_NOT_FOUND');
 		}
-
-		// Add translations
-		$this->language->add_lang(['controller', 'acp/info_acp_settings'], 'alfredoramos/imgur');
 
 		// Get Imgur token
 		$token = $this->imgur_token();
@@ -186,6 +186,9 @@ class imgur
 	 */
 	public function upload($hash = '')
 	{
+		// Add translations
+		$this->language->add_lang('controller', 'alfredoramos/imgur');
+
 		// This route only responds to AJAX calls
 		if (!$this->request->is_ajax())
 		{
@@ -197,9 +200,6 @@ class imgur
 		{
 			throw new runtime_exception('EXCEPTION_IMGUR_NO_API_DATA');
 		}
-
-		// Add translations
-		$this->language->add_lang('controller', 'alfredoramos/imgur');
 
 		// Setup Imgur API
 		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
