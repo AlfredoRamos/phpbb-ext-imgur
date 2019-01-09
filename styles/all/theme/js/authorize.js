@@ -61,11 +61,6 @@
 					// Close current window
 					window.close();
 				}
-
-				// Fallback to redirect to homepage
-				var $url = window.location.href;
-				$url = $url.replace(/(?:app\.php\/)?imgur\/authorize(#.*)$/, '');
-				window.location.replace($url);
 			} else {
 				$responseBody = $.parseJSON($jqXHR.responseText);
 				$errors.push($responseBody.message);
