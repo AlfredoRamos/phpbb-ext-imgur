@@ -33,6 +33,9 @@
 			</dt>
 			<dd>
 				<input type="password" id="imgur_client_secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off" />
+				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET')) }}">
+					<i class="icon fa-lg fa-eye" aria-hidden="true"></i>
+				</span>
 			</dd>
 		</dl>
 

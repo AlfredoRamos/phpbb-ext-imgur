@@ -44,6 +44,8 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Pequeña',
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Mediana',
 
+	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
+
 	'OUTPUT' => 'Salida',
 	'OUTPUT_SETTINGS' => 'Ajustes de salida',
 

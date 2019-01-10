@@ -5,6 +5,11 @@
  * @license GPL-2.0-only
  */
 
+#imgur_settings input[type="text"],
+#imgur_settings input[type="password"] {
+	font-family: Consolas, monaco, monospace;
+}
+
 #imgur-auth-url{
 	padding: 10px 20px;
 	background-color: #1bb76e;
@@ -19,4 +24,9 @@
 
 #imgur-auth-url > span {
 	font-weight: bold;
+}
+
+#toggle-client-secret {
+	cursor: pointer;
+	color: #d58512;
 }
