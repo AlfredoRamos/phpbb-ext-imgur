@@ -32,7 +32,6 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Identificador del álbum en donde las imágenes serán subidas. Déjalo vacío si deseas que las imágenes sean subidas en la ubicación por defecto.',
 	'ACP_IMGUR_AUTH_EXPLAIN' => 'Necesitas autorizar la aplicación para poder subir las imágenes a tu cuenta.',
 	'ACP_IMGUR_AUTHORIZE' => 'Autorizar acceso',
-	'ACP_IMGUR_SETTINGS_SAVED' => 'Los ajustes de Imgur han sido guardados satisfactoriamente.',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TEXT' => 'Texto',
@@ -45,6 +44,8 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Mediana',
 
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
+
+	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos o vacíos para los campos: %s',
 
 	'OUTPUT' => 'Salida',
 	'OUTPUT_SETTINGS' => 'Ajustes de salida',

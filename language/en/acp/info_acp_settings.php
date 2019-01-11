@@ -32,7 +32,6 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Album ID where all images will be uploaded to. Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_AUTH_EXPLAIN' => 'You need to authorize the application in order to upload the images to your account.',
 	'ACP_IMGUR_AUTHORIZE' => 'Authorize access',
-	'ACP_IMGUR_SETTINGS_SAVED' => 'Imgur settings have been succesfully saved.',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
 	'ACP_IMGUR_OUTPUT_TEXT' => 'Text',
@@ -45,6 +44,8 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Medium',
 
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Show/Hide %s',
+
+	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Invalid or empty values for fields: %s',
 
 	'OUTPUT' => 'Output',
 	'OUTPUT_SETTINGS' => 'Output settings',

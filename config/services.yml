@@ -11,6 +11,11 @@ services:
         tags:
             - { name: event.listener }
 
+    alfredoramos.imgur.helper:
+        class: alfredoramos\imgur\includes\helper
+        arguments:
+            - '@language'
+
     alfredoramos.imgur.controller:
         class: alfredoramos\imgur\controller\imgur
         arguments:
@@ -35,3 +40,4 @@ services:
             - '@user'
             - '@log'
             - '@alfredoramos.imgur.j0k3r.imgur.client'
+            - '@alfredoramos.imgur.helper'

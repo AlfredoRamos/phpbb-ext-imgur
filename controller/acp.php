@@ -16,6 +16,7 @@ use phpbb\language\language;
 use phpbb\user;
 use phpbb\log\log;
 use Imgur\Client as ImgurClient;
+use alfredoramos\imgur\includes\helper;
 
 class acp
 {
@@ -40,19 +41,23 @@ class acp
 	/** @var \Imgur\Client */
 	protected $imgur;
 
+	/** @var \alfredoramos\imgur\includes\helper */
+	protected $helper;
+
 	/**
 	 * Controller constructor.
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\request\request	$request
-	 * @param \phpbb\language\language	$language
-	 * @param \phpbb\user				$user
-	 * @param \Imgur\Client				$imgur
+	 * @param \phpbb\config\config					$config
+	 * @param \phpbb\template\template				$template
+	 * @param \phpbb\request\request				$request
+	 * @param \phpbb\language\language				$language
+	 * @param \phpbb\user							$user
+	 * @param \Imgur\Client							$imgur
+	 * @param \alfredoramos\imgur\includes\helper	$helper
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log, ImgurClient $imgur)
+	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log, ImgurClient $imgur, helper $helper)
 	{
 		$this->config = $config;
 		$this->template = $template;
@@ -61,6 +66,7 @@ class acp
 		$this->user = $user;
 		$this->log = $log;
 		$this->imgur = $imgur;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -87,6 +93,31 @@ class acp
 			$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 		}
 
+		// Validation errors
+		$errors = [];
+
+		// Field filters
+		$filters = [
+			'imgur_client_id' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'options' => [
+					'regexp' => '#^[a-fA-F0-9]{15}$#'
+				]
+			],
+			'imgur_client_secret' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'options' => [
+					'regexp' => '#^[a-fA-F0-9]{40}$#'
+				]
+			],
+			'imgur_album' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'options' => [
+					'regexp' => '#^[a-zA-Z0-9]{5,10}$#'
+				]
+			]
+		];
+
 		// Request form data
 		if ($this->request->is_set_post('submit'))
 		{
@@ -109,48 +140,44 @@ class acp
 				'account_username'	=> ''
 			];
 
-			// Client ID
-			$this->config->set(
-				'imgur_client_id',
-				$this->request->variable('imgur_client_id', ''),
-				false
-			);
+			// Form data
+			$fields = [
+				'imgur_client_id' => $this->request->variable('imgur_client_id', ''),
+				'imgur_client_secret' => $this->request->variable('imgur_client_secret', ''),
+				'imgur_album' => $this->request->variable('imgur_album', '')
+			];
 
-			// Client secret
-			$this->config->set(
-				'imgur_client_secret',
-				$this->request->variable('imgur_client_secret', ''),
-				false
-			);
-
-			// Album
-			$this->config->set(
-				'imgur_album',
-				$this->request->variable('imgur_album', ''),
-				false
-			);
-
-			// Clear token
-			foreach ($token as $key => $value)
+			// Validation check
+			if ($this->helper->validate($fields, $filters, $errors))
 			{
-				$this->config->set(sprintf('imgur_%s', $key), $value, false);
+				// Save configuration
+				foreach ($fields as $key => $value)
+				{
+					$this->config->set($key, $value, false);
+				}
+
+				// Clear token
+				foreach ($token as $key => $value)
+				{
+					$this->config->set(sprintf('imgur_%s', $key), $value, false);
+				}
+
+				// Admin log
+				$this->log->add(
+					'admin',
+					$this->user->data['user_id'],
+					$this->user->ip,
+					'LOG_IMGUR_DATA',
+					false,
+					[$this->language->lang('ACP_IMGUR_API_SETTINGS')]
+				);
+
+				// Confirm dialog
+				trigger_error(
+					$this->language->lang('CONFIG_UPDATED') .
+					adm_back_link($u_action)
+				);
 			}
-
-			// Admin log
-			$this->log->add(
-				'admin',
-				$this->user->data['user_id'],
-				$this->user->ip,
-				'LOG_IMGUR_DATA',
-				false,
-				[$this->language->lang('ACP_IMGUR_API_SETTINGS')]
-			);
-
-			// Confirm dialog
-			trigger_error(
-				$this->language->lang('ACP_IMGUR_SETTINGS_SAVED') .
-				adm_back_link($u_action)
-			);
 		}
 
 		// Assign template variables
@@ -160,7 +187,7 @@ class acp
 			'IMGUR_ALBUM'			=> $this->config['imgur_album']
 		]);
 
-		// Show	authorization URL
+		// Assign authorization URL
 		if (!empty($this->config['imgur_client_id']) &&
 			!empty($this->config['imgur_client_secret']) &&
 			empty($this->config['imgur_access_token']
@@ -172,13 +199,22 @@ class acp
 			);
 		}
 
-		// Show album download URL
+		// Assign album download URL
 		if (!empty($this->config['imgur_album']))
 		{
 			$this->template->assign_var(
 				'IMGUR_ALBUM_DOWNLOAD_URL',
 				sprintf('https://imgur.com/a/%s/zip', $this->config['imgur_album'])
 			);
+		}
+
+		// Assign validation errors
+		foreach($errors as $key => $value)
+		{
+			$this->template->assign_block_vars('VALIDATION_ERRORS', [
+				'KEY' => $key,
+				'VALUE' => $value['message']
+			]);
 		}
 	}
 
@@ -197,12 +233,31 @@ class acp
 		}
 
 		// Value contracts
-		$contract = [
+		$contracts = [
 			// Output type
 			'types'	=> ['text', 'url', 'image', 'thumbnail'],
 
 			// Thumbnail sizes
 			'sizes'	=> ['t', 'm']
+		];
+
+		// Validation errors
+		$errors = [];
+
+		// Field filters
+		$filters = [
+			'imgur_output_type' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'options' => [
+					'regexp' => '#^(?:' . implode('|', $contracts['types']) . ')$#'
+				]
+			],
+			'imgur_thumbnail_size' => [
+				'filter' => FILTER_VALIDATE_REGEXP,
+				'options' => [
+					'regexp' => '#^[' . implode('', $contracts['sizes']) . ']$#'
+				]
+			]
 		];
 
 		// Request form data
@@ -217,36 +272,37 @@ class acp
 				);
 			}
 
-			// Output helper
-			$output = [];
+			// Form data
+			$fields = [
+				'imgur_output_type' => $this->request->variable('imgur_output_type', ''),
+				'imgur_thumbnail_size' => $this->request->variable('imgur_thumbnail_size', '')
+			];
 
-			// Output type
-			$output['type'] = $this->request->variable('imgur_output_type', '');
-			$output['type'] = in_array($output['type'], $contract['types']) ? $output['type'] : $contract['types'][2];
+			// Validation check
+			if ($this->helper->validate($fields, $filters, $errors))
+			{
+				// Save configuration
+				foreach ($fields as $key => $value)
+				{
+					$this->config->set($key, $value, false);
+				}
 
-			// Thumbnail size
-			$output['size'] = $this->request->variable('imgur_thumbnail_size', '');
-			$output['size'] = in_array($output['size'], $contract['sizes']) ? $output['size'] : $contract['sizes'][0];
+				// Admin log
+				$this->log->add(
+					'admin',
+					$this->user->data['user_id'],
+					$this->user->ip,
+					'LOG_IMGUR_DATA',
+					false,
+					[$this->language->lang('OUTPUT_SETTINGS')]
+				);
 
-			// Update config data
-			$this->config->set('imgur_output_type', $output['type'], false);
-			$this->config->set('imgur_thumbnail_size', $output['size'], false);
-
-			// Admin log
-			$this->log->add(
-				'admin',
-				$this->user->data['user_id'],
-				$this->user->ip,
-				'LOG_IMGUR_DATA',
-				false,
-				[$this->language->lang('OUTPUT_SETTINGS')]
-			);
-
-			// Confirm dialog
-			trigger_error(
-				$this->language->lang('ACP_IMGUR_SETTINGS_SAVED') .
-				adm_back_link($u_action)
-			);
+				// Confirm dialog
+				trigger_error(
+					$this->language->lang('CONFIG_UPDATED') .
+					adm_back_link($u_action)
+				);
+			}
 		}
 
 		// Assign template variables
@@ -256,7 +312,7 @@ class acp
 		]);
 
 		// Assign allowed output types
-		foreach ($contract['types'] as $type)
+		foreach ($contracts['types'] as $type)
 		{
 			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
 				'KEY' => $type,
@@ -268,7 +324,7 @@ class acp
 		}
 
 		// Assign allowed thumbnail sizes
-		foreach ($contract['sizes'] as $size)
+		foreach ($contracts['sizes'] as $size)
 		{
 			$this->template->assign_block_vars('IMGUR_THUMBNAIL_SIZES', [
 				'KEY' => $size,
@@ -276,6 +332,15 @@ class acp
 					'ACP_IMGUR_THUMBNAIL_%s',
 					($size === 'm') ? 'MEDIUM' : 'SMALL'
 				))
+			]);
+		}
+
+		// Assign validation errors
+		foreach($errors as $key => $value)
+		{
+			$this->template->assign_block_vars('VALIDATION_ERRORS', [
+				'KEY' => $key,
+				'VALUE' => $value['message']
 			]);
 		}
 	}

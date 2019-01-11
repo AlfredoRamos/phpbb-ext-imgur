@@ -2,6 +2,14 @@
 
 <h1>{{ lang('OUTPUT_SETTINGS') }}</h1>
 
+{% if VALIDATION_ERRORS %}
+<div class="errorbox">
+	{% for ERROR in VALIDATION_ERRORS %}
+	<p class="error-{{ ERROR.KEY }}">{{ ERROR.VALUE }}</p>
+	{% endfor %}
+</div>
+{% endif %}
+
 <form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
 
 	<fieldset>
