@@ -64,7 +64,8 @@ class helper
 		// Generate field messages
 		foreach ($errors as $key => $value)
 		{
-			switch ($key) {
+			switch ($key)
+			{
 				case 'invalid':
 					$errors[$key]['message'] = $this->language->lang(
 						'ACP_IMGUR_VALIDATE_INVALID_FIELDS',

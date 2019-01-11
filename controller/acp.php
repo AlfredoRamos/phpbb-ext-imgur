@@ -209,7 +209,7 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach($errors as $key => $value)
+		foreach ($errors as $key => $value)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
 				'KEY' => $key,
@@ -336,7 +336,7 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach($errors as $key => $value)
+		foreach ($errors as $key => $value)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
 				'KEY' => $key,
