@@ -59,7 +59,7 @@ class helper
 				$invalid[] = $this->language->lang(
 					sprintf('ACP_%s', strtoupper($key))
 				);
-				unset($data[$key]);
+				unset($fields[$key]);
 				continue;
 			}
 		}
