@@ -47,13 +47,16 @@ class helper
 		// Filter fields
 		$data = filter_var_array($fields, $filters, false);
 
+		// Invalid fields helper
+		$invalid = [];
+
 		// Validate fields
 		foreach ($data as $key => $value)
 		{
 			// Remove and generate error if field did not pass validation
 			if (empty($value))
 			{
-				$errors['invalid']['fields'][] = $this->language->lang(
+				$invalid[] = $this->language->lang(
 					sprintf('ACP_%s', strtoupper($key))
 				);
 				unset($data[$key]);
@@ -61,19 +64,12 @@ class helper
 			}
 		}
 
-		// Generate field messages
-		foreach ($errors as $key => $value)
+		if (!empty($invalid))
 		{
-			switch ($key)
-			{
-				case 'invalid':
-					$errors[$key]['message'] = $this->language->lang(
-						'ACP_IMGUR_VALIDATE_INVALID_FIELDS',
-						implode(', ', $value['fields'])
-					);
-					unset($errors[$key]['fields']);
-				break;
-			}
+			$errors[]['message'] = $this->language->lang(
+				'ACP_IMGUR_VALIDATE_INVALID_FIELDS',
+				implode(', ', $invalid)
+			);
 		}
 
 		// Validation check

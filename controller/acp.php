@@ -187,14 +187,24 @@ class acp
 			'IMGUR_ALBUM'			=> $this->config['imgur_album']
 		]);
 
-		// Assign authorization URL
+		// Assign register URL
+		if (empty($this->config['imgur_client_id']) ||
+			empty($this->config['imgur_client_secret']))
+		{
+			$this->template->assign_var(
+				'IMGUR_REGISTER_URL',
+				'https://api.imgur.com/oauth2/addclient'
+			);
+		}
+
+		// Assign authorize URL
 		if (!empty($this->config['imgur_client_id']) &&
 			!empty($this->config['imgur_client_secret']) &&
 			empty($this->config['imgur_access_token']
 		))
 		{
 			$this->template->assign_var(
-				'IMGUR_AUTH_URL',
+				'IMGUR_AUTHORIZE_URL',
 				$this->imgur->getAuthenticationUrl()
 			);
 		}
@@ -212,8 +222,7 @@ class acp
 		foreach ($errors as $key => $value)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'KEY' => $key,
-				'VALUE' => $value['message']
+				'MESSAGE' => $value['message']
 			]);
 		}
 	}
@@ -339,8 +348,7 @@ class acp
 		foreach ($errors as $key => $value)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'KEY' => $key,
-				'VALUE' => $value['message']
+				'MESSAGE' => $value['message']
 			]);
 		}
 	}

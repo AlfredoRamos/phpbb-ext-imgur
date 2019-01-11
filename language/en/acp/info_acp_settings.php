@@ -25,13 +25,18 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_IMGUR' => 'Imgur',
+	'ACP_IMGUR_REGISTER' => 'Register a new application',
+	'ACP_IMGUR_REGISTER_EXPLAIN' => 'If you do not have the API credentials required below, login with your Imgur account and register a new application with the following link.<br /><strong>If you already have the API credentials, you do not need to create a new application.</strong>',
+	'ACP_IMGUR_AUTHORIZE' => 'Authorize access',
+	'ACP_IMGUR_AUTHORIZE_EXPLAIN' => 'You need to authorize the application in order to upload the images to your account.',
+
 	'ACP_IMGUR_API_SETTINGS' => 'API settings',
 	'ACP_IMGUR_CLIENT_ID' => 'Client ID',
+	'ACP_IMGUR_CLIENT_ID_EXPLAIN' => 'String consisting of hexadecimal numbers with a length of 15 characters.',
 	'ACP_IMGUR_CLIENT_SECRET' => 'Client Secret',
+	'ACP_IMGUR_CLIENT_SECRET_EXPLAIN' => 'String consisting of hexadecimal numbers with a length of 40 characters.',
 	'ACP_IMGUR_ALBUM' => 'Album',
-	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Album ID where all images will be uploaded to. Leave it empty if you want all the images to be uploaded in the default location.',
-	'ACP_IMGUR_AUTH_EXPLAIN' => 'You need to authorize the application in order to upload the images to your account.',
-	'ACP_IMGUR_AUTHORIZE' => 'Authorize access',
+	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images. Leave it empty if you want all the images to be uploaded in the default location.',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
 	'ACP_IMGUR_OUTPUT_TEXT' => 'Text',

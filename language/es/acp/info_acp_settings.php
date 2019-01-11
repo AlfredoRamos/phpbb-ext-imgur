@@ -25,13 +25,18 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_IMGUR' => 'Imgur',
+	'ACP_IMGUR_REGISTER' => 'Registrar una nueva aplicación',
+	'ACP_IMGUR_REGISTER_EXPLAIN' => 'Si no cuenta con las credenciales de la API que se piden a continuación, inicie sesión en su cuenta de Imgur y registre una nueva aplicación con el siguiente enlace.<br /><strong>Si ya cuenta con las credenciales de la API, no necesita crear una nueva aplicación.</strong>',
+	'ACP_IMGUR_AUTHORIZE' => 'Autorizar acceso',
+	'ACP_IMGUR_AUTHORIZE_EXPLAIN' => 'Necesita autorizar la aplicación para poder subir las imágenes a su cuenta.',
+
 	'ACP_IMGUR_API_SETTINGS' => 'Ajustes de la API',
 	'ACP_IMGUR_CLIENT_ID' => '<em>Client ID</em>',
+	'ACP_IMGUR_CLIENT_ID_EXPLAIN' => 'Cadena de texto compuesta por números hexadecimales con una longitud de 15 caracteres.',
 	'ACP_IMGUR_CLIENT_SECRET' => '<em>Client Secret</em>',
+	'ACP_IMGUR_CLIENT_SECRET_EXPLAIN' => 'Cadena de texto compuesta por números hexadecimales con una longitud de 40 caracteres.',
 	'ACP_IMGUR_ALBUM' => 'Álbum',
-	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Identificador del álbum en donde las imágenes serán subidas. Déjelo vacío si desea que las imágenes sean subidas en la ubicación por defecto.',
-	'ACP_IMGUR_AUTH_EXPLAIN' => 'Necesita autorizar la aplicación para poder subir las imágenes a su cuenta.',
-	'ACP_IMGUR_AUTHORIZE' => 'Autorizar acceso',
+	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Cadena de texto alfanumérico con una longitud igual o mayor a 5 caracteres. Será usado para almacenar las imágenes subidas. Déjelo vacío si desea que las imágenes sean subidas en la ubicación por defecto.',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TEXT' => 'Texto',

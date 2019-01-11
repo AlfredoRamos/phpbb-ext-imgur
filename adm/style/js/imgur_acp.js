@@ -9,7 +9,7 @@
 	'use strict';
 
 	// Authentication window
-	$('#imgur-auth-url').on('click', function($event) {
+	$('#imgur-authorize-url').on('click', function($event) {
 		$event.preventDefault();
 		popup($(this).attr('href'), 760, 570, '_imgurauth');
 	});

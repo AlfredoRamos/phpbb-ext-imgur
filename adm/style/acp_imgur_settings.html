@@ -5,16 +5,28 @@
 {% if VALIDATION_ERRORS %}
 <div class="errorbox">
 	{% for ERROR in VALIDATION_ERRORS %}
-	<p class="error-{{ ERROR.KEY }}">{{ ERROR.VALUE }}</p>
+	<p>{{ ERROR.MESSAGE }}</p>
 	{% endfor %}
 </div>
 {% endif %}
 
-{% if IMGUR_AUTH_URL %}
+{% if IMGUR_REGISTER_URL %}
+<div class="warningbox notice">
+	<p>
+		{{ lang('ACP_IMGUR_REGISTER_EXPLAIN') }}<br /><br />
+		<a href="{{ IMGUR_REGISTER_URL }}" target="_blank" id="imgur-register-url" class="imgur-link-button" rel="nofollow noreferrer">
+			<i class="icon fa-lg fa-external-link" aria-hidden="true"></i>
+			<span>{{ lang('ACP_IMGUR_REGISTER') }}</span>
+		</a>
+	</p>
+</div>
+{% endif %}
+
+{% if IMGUR_AUTHORIZE_URL %}
 <div class="warningbox">
 	<p>
-		{{ lang('ACP_IMGUR_AUTH_EXPLAIN') }}<br /><br />
-		<a href="{{ IMGUR_AUTH_URL }}" id="imgur-auth-url" rel="nofollow noreferrer">
+		{{ lang('ACP_IMGUR_AUTHORIZE_EXPLAIN') }}<br /><br />
+		<a href="{{ IMGUR_AUTHORIZE_URL }}" id="imgur-authorize-url" class="imgur-link-button" rel="nofollow noreferrer">
 			<i class="icon fa-lg fa-sign-in" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_AUTHORIZE') }}</span>
 		</a>
@@ -41,9 +53,11 @@
 			</dt>
 			<dd>
 				<input type="password" id="imgur_client_secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off" />
+				{% if IMGUR_CLIENT_SECRET %}
 				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET'))|striptags|escape }}">
 					<i class="icon fa-lg fa-eye" aria-hidden="true"></i>
 				</span>
+				{% endif %}
 			</dd>
 		</dl>
 
