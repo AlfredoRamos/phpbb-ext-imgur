@@ -264,7 +264,7 @@ class acp
 			'imgur_thumbnail_size' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^[' . implode('', $contracts['sizes']) . ']$#'
+					'regexp' => '#^[' . implode($contracts['sizes']) . ']$#'
 				]
 			]
 		];
