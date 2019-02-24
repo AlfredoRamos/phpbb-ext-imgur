@@ -75,3 +75,13 @@ function showImgurErrors(errors) {
 		}
 	}
 }
+
+function formatImageSize(fileSize) {
+	return fileSize.toLocaleString(
+		undefined,
+		{
+			minimumFractionDigits: 3,
+			maximumFractionDigits: 3
+		}
+	);
+}

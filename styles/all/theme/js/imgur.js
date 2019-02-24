@@ -101,8 +101,8 @@
 						$progress.label.text(
 							$imgur.lang.uploadProgress
 							.replace('{percentage}', $percentage)
-							.replace('{loaded}', (($event.loaded / 1024) / 1024))
-							.replace('{total}', (($event.total / 1024) / 1024))
+							.replace('{loaded}', formatImageSize(($event.loaded / 1024) / 1024))
+							.replace('{total}', formatImageSize(($event.total / 1024) / 1024))
 						);
 
 						// Progress bar native animation will
