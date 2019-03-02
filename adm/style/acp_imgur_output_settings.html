@@ -5,7 +5,7 @@
 {% if VALIDATION_ERRORS %}
 <div class="errorbox">
 	{% for ERROR in VALIDATION_ERRORS %}
-	<p class="error-{{ ERROR.KEY }}">{{ ERROR.VALUE }}</p>
+	<p>{{ ERROR.MESSAGE }}</p>
 	{% endfor %}
 </div>
 {% endif %}
