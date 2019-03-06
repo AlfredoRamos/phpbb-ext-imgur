@@ -37,6 +37,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_CLIENT_SECRET_EXPLAIN' => 'Cadena de texto compuesta por números hexadecimales con una longitud de 40 caracteres.',
 	'ACP_IMGUR_ALBUM' => 'Álbum',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Cadena de texto alfanumérico con una longitud igual o mayor a 5 caracteres. Será usado para almacenar las imágenes subidas. Déjelo vacío si desea que las imágenes sean subidas en la ubicación por defecto.',
+	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TEXT' => 'Texto',

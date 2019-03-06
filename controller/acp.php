@@ -83,9 +83,6 @@ class acp
 			return;
 		}
 
-		// Load additional language keys
-		$this->language->add_lang('acp/database');
-
 		// Set Imgur API data
 		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
 		{
