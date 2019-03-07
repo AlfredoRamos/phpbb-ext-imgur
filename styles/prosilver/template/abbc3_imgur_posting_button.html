@@ -1,3 +1,18 @@
 {% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON %}
-<input type="button" class="imgur-button abbc3_button" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape }}" />
+<div class="imgur-dropdown-container">
+	<input type="button" class="imgur-button abbc3_button" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape }}" />
+	{% if IMGUR_ALLOWED_OUTPUT_TYPES %}
+	<div class="imgur-dropdown">
+		<ul class="imgur-dropdown-content" role="menu">
+			{% for OUTPUT_TYPE in IMGUR_ALLOWED_OUTPUT_TYPES %}
+			<li>
+				<span data-output-type="{{ OUTPUT_TYPE.KEY }}" role="menuitem"{% if OUTPUT_TYPE.DEFAULT %} class="default"{% endif %}>
+					{{ OUTPUT_TYPE.NAME }}
+				</span>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+</div>
 {% endif %}

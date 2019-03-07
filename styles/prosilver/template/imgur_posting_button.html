@@ -1,5 +1,5 @@
 {% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON %}
-<span class="imgur-dropdown-container">
+<div class="imgur-dropdown-container">
 	<button type="button" class="imgur-button button button-icon-only bbcode-color" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape }}">
 		<span class="icon"></span>
 	</button>
@@ -16,5 +16,5 @@
 		</ul>
 	</div>
 	{% endif %}
-</span>
+</div>
 {% endif %}
