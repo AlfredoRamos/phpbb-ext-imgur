@@ -13,6 +13,7 @@ use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\routing\helper as routing_helper;
 use phpbb\language\language;
+use phpbb\extension\manager as extension_manager;
 
 class helper
 {
@@ -28,6 +29,9 @@ class helper
 	/** @var \phpbb\language\language */
 	protected $language;
 
+	/** @var \phpbb\extension\manager */
+	protected $extension_manager;
+
 	/**
 	 * Helper constructor
 	 *
@@ -35,15 +39,17 @@ class helper
 	 * @param \phpbb\template\template	$template
 	 * @param \phpbb\routing\helper		$routing_helper
 	 * @param \phpbb\language\language	$language
+	 * @param \phpbb\extension\manager	$extension_manager
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language)
+	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language, extension_manager $extension_manager)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->routing_helper = $routing_helper;
 		$this->language = $language;
+		$this->extension_manager = $extension_manager;
 	}
 
 	/**
@@ -65,15 +71,7 @@ class helper
 		]);
 
 		// Allowed output types
-		// TODO: Get them from database
-		$types = [
-			'text',
-			'url',
-			'image',
-			'thumbnail',
-			'markdown_image',
-			'markdown_thumbnail'
-		];
+		$types = $this->allowed_imgur_values('types');
 
 		// Assign allowed output types
 		foreach ($types as $type)
@@ -135,5 +133,46 @@ class helper
 
 		// Validation check
 		return empty($errors);
+	}
+
+	/**
+	 * Allowed imgur values for output.
+	 *
+	 * @param array $settings (optional)
+	 *
+	 * @return array
+	 */
+	public function allowed_imgur_values($key = '', $extras = true)
+	{
+		// Allowed values
+		$data = [
+			// Output types
+			'types' => ['text', 'url', 'image', 'thumbnail'],
+
+			// Thumbnail sizes
+			'sizes'	=> ['t', 'm']
+		];
+
+		// Value casting
+		$key = trim($key);
+		$extras = (bool) $extras;
+
+		// Add support for Markdown extension
+		if ($this->extension_manager->is_enabled('alfredoramos/markdown') && $extras)
+		{
+			$data['types'] = array_merge($data['types'], [
+				'markdown_image',
+				'markdown_thumbnail'
+			]);
+		}
+
+		// Get specific key
+		if (!empty($key) && !empty($data[$key]))
+		{
+			return $data[$key];
+		}
+
+		// Return whole array
+		return $data;
 	}
 }

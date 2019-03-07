@@ -241,14 +241,9 @@ class acp
 		// Load additional language keys
 		$this->language->add_lang('posting', 'alfredoramos/imgur');
 
-		// Value contracts
-		$contracts = [
-			// Output type
-			'types'	=> ['text', 'url', 'image', 'thumbnail'],
-
-			// Thumbnail sizes
-			'sizes'	=> ['t', 'm']
-		];
+		// Markdown options are optional and can be deleted latter,
+		// so they shouldn't be choices to set them as default values
+		$contracts = $this->helper->allowed_imgur_values(null, false);
 
 		// Validation errors
 		$errors = [];
