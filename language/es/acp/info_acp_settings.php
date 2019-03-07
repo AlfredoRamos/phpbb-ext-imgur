@@ -40,10 +40,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
-	'ACP_IMGUR_OUTPUT_TEXT' => 'Texto',
-	'ACP_IMGUR_OUTPUT_URL' => 'URL',
-	'ACP_IMGUR_OUTPUT_IMAGE' => 'Imagen',
-	'ACP_IMGUR_OUTPUT_THUMBNAIL' => 'Miniatura',
+
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Tamaño de miniatura',
 	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'Este ajuste no tendrá ningun efecto si el tipo de salida no se establece en <samp>Miniatura</samp>. Los tamaños de las miniaturas son de 160x160 para <samp>Pequeña</samp> y 320x320 para <samp>Mediana</samp>, las proporciones de la imagen son mantenidas.',
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Pequeña',
