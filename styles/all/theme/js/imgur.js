@@ -118,7 +118,6 @@
 				return $xhr;
 			}
 		}).done(function($data) {
-			console.log($data);
 			try {
 				// Empty response
 				if ($data.length <= 0) {
@@ -191,7 +190,6 @@
 
 			showImgurErrors($errors);
 		}).fail(function($data, $textStatus, $error) {
-			console.log($data);
 			// Parse JSON response
 			try {
 				$responseBody = $.parseJSON($data.responseText);
@@ -226,27 +224,34 @@
 	// Imgur dropdown menu
 	$(document.body).on('contextmenu', '.imgur-button', function($event) {
 		$event.preventDefault();
-		$(this).parents('.imgur-dropdown-container').first()
-			.children('.imgur-dropdown').first().toggleClass('show');
+
+		var $select = $(this).parents('.imgur-wrapper').first()
+			.children('.imgur-output-select').first();
+
+		$select.toggleClass('select');
+		$select.focus();
 	});
 
-	// Imgur dropdown menu item actions
-	$(document.body).on('click', '.imgur-dropdown-content li > span', function() {
-		var $imgurButton = $('#imgur-image');
+	// Update output type
+	$(document.body).on('change', '.imgur-output-select', function() {
+		$('#imgur-image').attr('data-output-type', $(this).val());
+	});
 
-		// Update output type
-		$imgurButton.attr('data-output-type', $(this).attr('data-output-type'));
+	// Handle Imgur click events
+	$(document.body).on('click', function($event) {
+		var $select = '.imgur-output-select';
+		var $class = 'select';
 
 		// Trigger upload
-		$imgurButton.trigger('click');
-	});
+		if ($event.target.matches($select + ' > option')) {
+			$('#imgur-image').trigger('click');
+		}
 
-	// Close Imgur dropdown menu
-	$(document.body).on('click', function($event) {
-		if (!$event.target.matches('.imgur-button-content li > span')) {
-			$.each($('.imgur-dropdown'), function() {
-				if ($(this).hasClass('show')) {
-					$(this).removeClass('show');
+		// Close select
+		if (!$event.target.matches($select)) {
+			$.each($($select), function() {
+				if ($(this).hasClass($class)) {
+					$(this).removeClass($class);
 				}
 			});
 		}

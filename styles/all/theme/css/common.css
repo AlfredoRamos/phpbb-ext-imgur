@@ -32,26 +32,14 @@
 	position: absolute;
 }
 
-.imgur-dropdown-container {
-	position: relative;
+.imgur-wrapper {
 	display: inline-block;
 }
 
-.imgur-dropdown {
+.imgur-output-select {
 	display: none;
-	position: absolute;
-	overflow: hidden;
-	z-index: 1;
 }
 
-.imgur-dropdown.show {
-	display: block;
-}
-
-.imgur-dropdown-content {
-	list-style-type: none;
-}
-
-.imgur-dropdown-content li > span {
-	cursor: pointer;
+.imgur-output-select.select {
+	display: inline-block;
 }
