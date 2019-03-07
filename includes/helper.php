@@ -9,23 +9,84 @@
 
 namespace alfredoramos\imgur\includes;
 
+use phpbb\config\config;
+use phpbb\template\template;
+use phpbb\routing\helper as routing_helper;
 use phpbb\language\language;
 
 class helper
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\routing\helper */
+	protected $routing_helper;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
 	/**
 	 * Helper constructor
 	 *
-	 * @param \phpbb\language\language $language
+	 * @param \phpbb\config\config		$config
+	 * @param \phpbb\template\template	$template
+	 * @param \phpbb\routing\helper		$routing_helper
+	 * @param \phpbb\language\language	$language
 	 *
 	 * @return void
 	 */
-	public function __construct(language $language)
+	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language)
 	{
+		$this->config = $config;
+		$this->template = $template;
+		$this->routing_helper = $routing_helper;
 		$this->language = $language;
+	}
+
+	/**
+	 * Assign global template variables.
+	 *
+	 * @return void
+	 */
+	public function assign_template_variables()
+	{
+		// Assign global template variables
+		$this->template->assign_vars([
+			'IMGUR_UPLOAD_URL'	=> vsprintf('%1$s/%2$s', [
+				$this->routing_helper->route('alfredoramos_imgur_upload'),
+				generate_link_hash('imgur_upload')
+			]),
+			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token']),
+			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
+			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
+		]);
+
+		// Allowed output types
+		// TODO: Get them from database
+		$types = [
+			'text',
+			'url',
+			'image',
+			'thumbnail',
+			'markdown_image',
+			'markdown_thumbnail'
+		];
+
+		// Assign allowed output types
+		foreach ($types as $type)
+		{
+			$this->template->assign_block_vars('IMGUR_ALLOWED_OUTPUT_TYPES', [
+				'KEY' => $type,
+				'NAME' => $this->language->lang(sprintf(
+					'IMGUR_OUTPUT_%s',
+					strtoupper($type)
+				)),
+				'DEFAULT' => $this->config['imgur_output_type'] === $type
+			]);
+		}
 	}
 
 	/**

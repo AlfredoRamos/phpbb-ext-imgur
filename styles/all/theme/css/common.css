@@ -31,3 +31,27 @@
 	text-align: center;
 	position: absolute;
 }
+
+.imgur-dropdown-container {
+	position: relative;
+	display: inline-block;
+}
+
+.imgur-dropdown {
+	display: none;
+	position: absolute;
+	overflow: hidden;
+	z-index: 1;
+}
+
+.imgur-dropdown.show {
+	display: block;
+}
+
+.imgur-dropdown-content {
+	list-style-type: none;
+}
+
+.imgur-dropdown-content li > span {
+	cursor: pointer;
+}

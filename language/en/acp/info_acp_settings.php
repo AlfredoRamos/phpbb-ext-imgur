@@ -40,10 +40,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
-	'ACP_IMGUR_OUTPUT_TEXT' => 'Text',
-	'ACP_IMGUR_OUTPUT_URL' => 'URL',
-	'ACP_IMGUR_OUTPUT_IMAGE' => 'Image',
-	'ACP_IMGUR_OUTPUT_THUMBNAIL' => 'Thumbnail',
+
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Thumbnail size',
 	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'This setting will not have any effect if the output type is not set to <samp>Thumbnail</samp>. Thumbnail sizes are 160x160 for <samp>Small</samp> and 320x320 for <samp>Medium</samp>, image proportions are kept.',
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Small',

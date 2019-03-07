@@ -5,15 +5,16 @@ services:
     alfredoramos.imgur.listener:
         class: alfredoramos\imgur\event\listener
         arguments:
-            - '@config'
-            - '@template'
-            - '@routing.helper'
+            - '@alfredoramos.imgur.helper'
         tags:
             - { name: event.listener }
 
     alfredoramos.imgur.helper:
         class: alfredoramos\imgur\includes\helper
         arguments:
+            - '@config'
+            - '@template'
+            - '@routing.helper'
             - '@language'
 
     alfredoramos.imgur.controller:

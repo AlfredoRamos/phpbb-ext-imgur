@@ -10,10 +10,8 @@
 namespace alfredoramos\imgur\tests\event;
 
 use phpbb_test_case;
-use phpbb\config\config;
-use phpbb\template\template;
-use phpbb\routing\helper as routing_helper;
 use alfredoramos\imgur\event\listener;
+use alfredoramos\imgur\includes\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -21,24 +19,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener_test extends phpbb_test_case
 {
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/** @var \phpbb\template\template */
-	protected $template;
-
-	/** @var \phpbb\routing\helper */
-	protected $routing_helper;
+	/** @var \alfredoramos\imgur\includes\helper */
+	protected $helper;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(config::class)
-			->disableOriginalConstructor()->getMock();
-		$this->template = $this->getMockBuilder(template::class)->getMock();
-		$this->routing_helper = $this->getMockBuilder(routing_helper::class)
+		$this->helper = $this->getMockBuilder(helper::class)
 			->disableOriginalConstructor()->getMock();
 	}
 
@@ -46,7 +34,7 @@ class listener_test extends phpbb_test_case
 	{
 		$this->assertInstanceOf(
 			EventSubscriberInterface::class,
-			new listener($this->config, $this->template, $this->routing_helper)
+			new listener($this->helper)
 		);
 	}
 
@@ -60,5 +48,4 @@ class listener_test extends phpbb_test_case
 			array_keys(listener::getSubscribedEvents())
 		);
 	}
-
 }

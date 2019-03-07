@@ -7,13 +7,13 @@
 
 .imgur-button > .icon {
 	display: inline-block;
-	background-image: url(../../../all/theme/images/imgur.svg);
 	width: 14px;
 	height: 14px;
 }
 
+.imgur-button > .icon,
 .imgur-button.abbc3_button {
-	background-image: url(../../../all/theme/images/imgur.svg);
+	background-image: url('../../../all/theme/images/imgur.svg');
 }
 
 #imgur-progress {
@@ -25,4 +25,31 @@
 	font-weight: bold;
 	color: #000;
 	text-shadow: -1px 0 #ccc, 0 1px #ccc, 1px 0 #ccc, 0 -1px #ccc;
+}
+
+.imgur-dropdown {
+	background-color: #fff;
+	border: 1px solid #b9b9b9;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.imgur-dropdown-content li {
+	display: list-item;
+	margin-bottom 2.5px;
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.imgur-dropdown-content li:last-child {
+	margin-bottom: none;
+	border-bottom: none;
+}
+
+.imgur-dropdown-content li > span {
+	padding: 5px;
+	display: inline-block;
+}
+
+.imgur-dropdown-content li > span.default {
+	font-weight: bold;
 }

@@ -9,36 +9,24 @@
 
 namespace alfredoramos\imgur\event;
 
-use phpbb\config\config;
-use phpbb\template\template;
-use phpbb\routing\helper as routing_helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use alfredoramos\imgur\includes\helper;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/** @var \phpbb\template\template */
-	protected $template;
-
-	/** @var \phpbb\routing\helper */
-	protected $routing_helper;
+	/** @var \alfredoramos\imgur\includes\helper */
+	protected $helper;
 
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\routing\helper		$routing_helper
+	 * @param \alfredoramos\imgur\includes\helper $helper;
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, routing_helper $routing_helper)
+	public function __construct(helper $helper)
 	{
-		$this->config = $config;
-		$this->template = $template;
-		$this->routing_helper = $routing_helper;
+		$this->helper = $helper;
 	}
 
 	/**
@@ -80,14 +68,6 @@ class listener implements EventSubscriberInterface
 	 */
 	public function user_setup_after($event)
 	{
-		$this->template->assign_vars([
-			'IMGUR_UPLOAD_URL'	=> vsprintf('%1$s/%2$s', [
-				$this->routing_helper->route('alfredoramos_imgur_upload'),
-				generate_link_hash('imgur_upload')
-			]),
-			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token']),
-			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
-			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
-		]);
+		$this->helper->assign_template_variables();
 	}
 }

@@ -118,6 +118,7 @@
 				return $xhr;
 			}
 		}).done(function($data) {
+			console.log($data);
 			try {
 				// Empty response
 				if ($data.length <= 0) {
@@ -131,7 +132,9 @@
 						link: '',
 						thumbnail: ''
 					};
+					var $output = {};
 
+					// Get image link
 					$image.link = $value.link;
 
 					// Generate thumbnail
@@ -145,29 +148,39 @@
 						);
 					}
 
+					// Generate output types
+					$output.text = $image.link;
+					$output.url = '[url]' + $image.link + '[/url]';
+					$output.image = '[img]' + $image.link + '[/img]';
+					$output.thumbnail = '[url=' + $image.link + '][img]'
+						+ $image.thumbnail + '[/img][/url]';
+					$output.markdown_image = '![](' + $image.link + ')';
+					$output.markdown_thumbnail = '[![](' + $image.thumbnail
+						+ ')](' + $image.link + ')';
+
 					// Generate BBCode
-					switch ($imgurButton.attr('data-output-type')) {
-						case 'url':
-							$bbcode = '[url]' + $image.link + '[/url]';
-							break;
-						case 'image':
-							$bbcode = '[img]' + $image.link + '[/img]';
-							break;
-						case 'thumbnail':
-							$bbcode = '[url=' + $image.link + '][img]'
-								+ $image.thumbnail + '[/img][/url]';
-							break;
-						default:
-							// Text
-							$bbcode = $image.link;
-							break;
+					if ($output.hasOwnProperty($imgurButton.attr('data-output-type'))) {
+						if ($output[$imgurButton.attr('data-output-type')].length > 0) {
+							$bbcode = $output[$imgurButton.attr('data-output-type')];
+						}
 					}
 
 					// Add BBCode to content
 					for (var $k in $contentBody) {
 						if ($contentBody.hasOwnProperty($k)) {
-							if ($contentBody[$k].length > 0) {
+							if ($contentBody[$k].length > 0 && $bbcode.length > 0) {
 								$contentBody[$k].insertAtCaret($bbcode);
+							}
+						}
+					}
+
+					// Add generated output in posting editor panel
+					for (var $k in $output) {
+						if ($output.hasOwnProperty($k)) {
+							var $field = $('[name="imgur_output_' + $k + '"]').first();
+
+							if ($field.length > 0 && $output[$k].length > 0) {
+								$field.val($output[$k]);
 							}
 						}
 					}
@@ -178,6 +191,7 @@
 
 			showImgurErrors($errors);
 		}).fail(function($data, $textStatus, $error) {
+			console.log($data);
 			// Parse JSON response
 			try {
 				$responseBody = $.parseJSON($data.responseText);
@@ -207,5 +221,34 @@
 			$progress.wrapper.removeClass('uploading');
 			$progress.bar.removeAttr('value');
 		});
+	});
+
+	// Imgur dropdown menu
+	$(document.body).on('contextmenu', '.imgur-button', function($event) {
+		$event.preventDefault();
+		$(this).parents('.imgur-dropdown-container').first()
+			.children('.imgur-dropdown').first().toggleClass('show');
+	});
+
+	// Imgur dropdown menu item actions
+	$(document.body).on('click', '.imgur-dropdown-content li > span', function() {
+		var $imgurButton = $('#imgur-image');
+
+		// Update output type
+		$imgurButton.attr('data-output-type', $(this).attr('data-output-type'));
+
+		// Trigger upload
+		$imgurButton.trigger('click');
+	});
+
+	// Close Imgur dropdown menu
+	$(document.body).on('click', function($event) {
+		if (!$event.target.matches('.imgur-button-content li > span')) {
+			$.each($('.imgur-dropdown'), function() {
+				if ($(this).hasClass('show')) {
+					$(this).removeClass('show');
+				}
+			});
+		}
 	});
 })(jQuery);

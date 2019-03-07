@@ -238,6 +238,9 @@ class acp
 			return;
 		}
 
+		// Load additional language keys
+		$this->language->add_lang('posting', 'alfredoramos/imgur');
+
 		// Value contracts
 		$contracts = [
 			// Output type
@@ -323,7 +326,7 @@ class acp
 			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
 				'KEY' => $type,
 				'NAME' => $this->language->lang(sprintf(
-					'ACP_IMGUR_OUTPUT_%s',
+					'IMGUR_OUTPUT_%s',
 					strtoupper($type)
 				))
 			]);
