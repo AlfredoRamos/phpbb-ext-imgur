@@ -299,7 +299,7 @@ class imgur
 					break;
 
 					default: // UPLOAD_ERR_OK
-						continue;
+						continue 2;
 					break;
 				}
 			}

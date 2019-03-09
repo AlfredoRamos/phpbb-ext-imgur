@@ -242,12 +242,7 @@
 		var $select = '.imgur-output-select';
 		var $class = 'select';
 
-		// Trigger upload
-		if ($event.target.matches($select + ' > option')) {
-			$('#imgur-image').trigger('click');
-		}
-
-		// Close select
+		// Hide select
 		if (!$event.target.matches($select)) {
 			$.each($($select), function() {
 				if ($(this).hasClass($class)) {
