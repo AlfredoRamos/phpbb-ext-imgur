@@ -51,7 +51,8 @@ class imgur_test extends phpbb_functional_test_case
 
 		$elements = [
 			'button' => $crawler->filter('#postingbox #format-buttons .imgur-button'),
-			'input' => $crawler->filter('#postingbox #imgur-image')
+			'input' => $crawler->filter('#postingbox #imgur-image'),
+			'select' => $crawler->filter('#postingbox #format-buttons .imgur-output-select')
 		];
 
 		$this->assertSame(1, $elements['button']->count());
@@ -67,6 +68,8 @@ class imgur_test extends phpbb_functional_test_case
 		));
 		$this->assertSame('image', $elements['input']->attr('data-output-type'));
 		$this->assertSame('t', $elements['input']->attr('data-thumbnail-size'));
+
+		$this->assertSame(1, $elements['select']->count());
 	}
 
 	public function test_acp_form_settings()
