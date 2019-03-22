@@ -113,7 +113,8 @@ class helper
 		foreach ($data as $key => $value)
 		{
 			// Remove and generate error if field did not pass validation
-			if (empty($value))
+			// Not using empty() because an empty string can be a valid value
+			if (!isset($value) || $value === false)
 			{
 				$invalid[] = $this->language->lang(
 					sprintf('ACP_%s', strtoupper($key))

@@ -48,7 +48,7 @@ $lang = array_merge($lang, [
 
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
 
-	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos o vacíos para los campos: %s',
+	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
 
 	'OUTPUT' => 'Salida',
 	'OUTPUT_SETTINGS' => 'Ajustes de salida',

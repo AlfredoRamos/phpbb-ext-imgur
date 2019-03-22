@@ -110,7 +110,7 @@ class acp
 			'imgur_album' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^[a-zA-Z0-9]{5,10}$#'
+					'regexp' => '#^(?:[a-zA-Z0-9]{5,10})?$#'
 				]
 			]
 		];
