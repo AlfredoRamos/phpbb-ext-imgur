@@ -52,6 +52,7 @@ class acp
 	 * @param \phpbb\request\request				$request
 	 * @param \phpbb\language\language				$language
 	 * @param \phpbb\user							$user
+	 * @param \phpbb\log\log						$log
 	 * @param \Imgur\Client							$imgur
 	 * @param \alfredoramos\imgur\includes\helper	$helper
 	 *
