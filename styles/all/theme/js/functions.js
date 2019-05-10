@@ -85,3 +85,15 @@ function formatImageSize(fileSize) {
 		}
 	);
 }
+
+function fillOutputFields(output) {
+	for (var k in output) {
+		if (output.hasOwnProperty(k)) {
+			var $field = $('[name="imgur_output_' + k + '"]').first();
+
+			if ($field.length > 0 && output[k].length > 0) {
+				$field.val(output[k]);
+			}
+		}
+	}
+}

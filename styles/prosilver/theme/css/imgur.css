@@ -26,3 +26,20 @@
 	color: #000;
 	text-shadow: -1px 0 #ccc, 0 1px #ccc, 1px 0 #ccc, 0 -1px #ccc;
 }
+
+#imgur-panel .imgur-upload-button {
+	background-color: #1bb76e;
+	margin-bottom: 1em;
+	padding: 10px 20px;
+	border-radius: 4px;
+	color: #f2f2f2;
+	font-size: 1.25em;
+	font-weight: bold;
+}
+
+#imgur-panel .imgur-upload-button > .icon {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+	border-radius: 4px;
+}

@@ -20,6 +20,17 @@
 		}, window.$imgur);
 	}
 
+	// Global variables
+	var $imgurCookies = Cookies.noConflict();
+	var $cookie = {
+		name: 'imgur_output',
+		options: {
+			expires: (5 / 24 / 24), // 5 minutes
+			path: ''
+		}
+	};
+	var $output = {};
+
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
 		$('#imgur-image').trigger('click');
@@ -124,6 +135,9 @@
 					return;
 				}
 
+				// Clear cookie
+				$imgurCookies.remove($cookie.name, $cookie.options);
+
 				// Add image
 				$.each($data, function($key, $value) {
 					var $bbcode = '';
@@ -131,7 +145,6 @@
 						link: '',
 						thumbnail: ''
 					};
-					var $output = {};
 
 					// Get image link
 					$image.link = $value.link;
@@ -157,6 +170,9 @@
 					$output.markdown_thumbnail = '[![](' + $image.thumbnail
 						+ ')](' + $image.link + ')';
 
+					// Save output to cookie
+					$imgurCookies.set($cookie.name, $output, $cookie.options);
+
 					// Generate BBCode
 					if ($output.hasOwnProperty($imgurButton.attr('data-output-type'))) {
 						if ($output[$imgurButton.attr('data-output-type')].length > 0) {
@@ -174,15 +190,7 @@
 					}
 
 					// Add generated output in posting editor panel
-					for (var $k in $output) {
-						if ($output.hasOwnProperty($k)) {
-							var $field = $('[name="imgur_output_' + $k + '"]').first();
-
-							if ($field.length > 0 && $output[$k].length > 0) {
-								$field.val($output[$k]);
-							}
-						}
-					}
+					fillOutputFields($output);
 				});
 			} catch (ex) {
 				$errors.push(ex.message);
@@ -190,8 +198,8 @@
 
 			showImgurErrors($errors);
 		}).fail(function($data, $textStatus, $error) {
-			// Parse JSON response
 			try {
+				// Parse JSON response
 				$responseBody = $.parseJSON($data.responseText);
 
 				if ($.isArray($responseBody)) {
@@ -201,6 +209,9 @@
 				} else {
 					$errors.push($responseBody.message);
 				}
+
+				// Clear cookie
+				$imgurCookies.remove($cookie.name, $cookie.options);
 			} catch (ex) {
 				$errors.push(ex.message);
 			}
@@ -251,4 +262,8 @@
 			});
 		}
 	});
+
+	// Add generated output in posting editor panel
+	$.extend($output, $imgurCookies.getJSON($cookie.name));
+	fillOutputFields($output);
 })(jQuery);
