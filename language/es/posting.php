@@ -33,6 +33,9 @@ $lang = array_merge($lang, [
 	'IMGUR_OUTPUT_MARKDOWN_IMAGE' => 'Imagen Markdown',
 	'IMGUR_OUTPUT_MARKDOWN_THUMBNAIL' => 'Miniatura Markdown',
 
+	'IMGUR_TAB' => 'Imgur',
+	'IMGUR_UPLOAD' => 'Subir a Imgur',
+
 	'IMGUR_IMAGE_TOO_BIG' => 'La imagen <samp>{file}</samp> pesa <code>{size}</code> MiB y debe pesar menos de <code>{max_size}</code> MiB.',
 	'IMGUR_NO_IMAGES' => 'No hay imágenes que subir.',
 	'IMGUR_UPLOAD_PROGRESS' => '{percentage}% ({loaded} / {total} MiB)'
