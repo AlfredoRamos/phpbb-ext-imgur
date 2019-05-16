@@ -278,7 +278,7 @@
 		$.extend($output, $imgurCookies.getJSON($cookie.name));
 		fillOutputFields($output);
 	} catch (ex) {
-		$erros.push(ex.message);
+		$errors.push(ex.message);
 	}
 	showImgurErrors($errors);
 })(jQuery);
