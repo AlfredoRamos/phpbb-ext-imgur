@@ -236,7 +236,7 @@
 	});
 
 	// Imgur dropdown menu
-	$(document.body).on('contextmenu', '.imgur-button', function($event) {
+	$(document.body).on('contextmenu', '.imgur-wrapper > .imgur-button', function($event) {
 		$event.preventDefault();
 
 		var $select = $(this).parents('.imgur-wrapper').first()
