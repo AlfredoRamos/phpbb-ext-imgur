@@ -43,3 +43,16 @@
 	vertical-align: middle;
 	border-radius: 4px;
 }
+
+#imgur-panel .imgur-output-paste {
+	color: #f2f2f2;
+	background-color: #105289;
+	padding: 2px 4px;
+	border-radius: 4px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+#imgur-panel .imgur-output-paste > .fa-fw {
+	font-size: 1em;
+}

@@ -12,7 +12,10 @@
 					<label for="imgur_output_{{ OUTPUT_TYPE.KEY }}">{{ OUTPUT_TYPE.NAME }}</label>
 				</dt>
 				<dd>
-					<input type="text" id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field inputbox" />
+					<input type="text" id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field inputbox" autocomplete="off" readonly="readonly" />
+					<span type="buttom" class="imgur-output-paste" title="{{ lang('IMGUR_ADD_TO_POST') }}">
+						<i class="icon fa-paste fa-fw" aria-hidden="true"></i>
+					</span>
 				</dd>
 			</dl>
 			{% endfor %}

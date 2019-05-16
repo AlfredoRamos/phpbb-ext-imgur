@@ -21,6 +21,12 @@
 	}
 
 	// Global variables
+	var $contentBody = {
+		message: $('[name="message"]'),
+		signature: $('[name="signature"]')
+	};
+	var $output = {};
+	var $errors = [];
 	var $imgurCookies = Cookies.noConflict();
 	var $cookie = {
 		name: 'imgur_output',
@@ -29,8 +35,6 @@
 			path: ''
 		}
 	};
-	var $output = {};
-	var $errors = [];
 
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
@@ -42,10 +46,6 @@
 		var $imgurButton = $(this);
 		var $formData = new FormData();
 		var $files = $imgurButton.prop('files');
-		var $contentBody = {
-			message: $('[name="message"]'),
-			signature: $('[name="signature"]')
-		};
 		var $progress = {};
 		var $responseBody = {};
 
@@ -263,6 +263,25 @@
 					$(this).removeClass($class);
 				}
 			});
+		}
+	});
+
+	// Copy output field text to message
+	$(document.body).on('click', '.imgur-output-paste', function() {
+		var $bbcode = $.trim($(this).siblings('.imgur-output-field').first().val());
+
+		// BBCode value should not be empty
+		if ($bbcode.length <= 0) {
+			return;
+		}
+
+		// Add BBCode to content
+		for (var $k in $contentBody) {
+			if ($contentBody.hasOwnProperty($k)) {
+				if ($contentBody[$k].length > 0 && $bbcode.length > 0) {
+					$contentBody[$k].insertAtCaret($bbcode);
+				}
+			}
 		}
 	});
 
