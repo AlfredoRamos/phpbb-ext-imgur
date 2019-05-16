@@ -30,6 +30,7 @@
 		}
 	};
 	var $output = {};
+	var $errors = [];
 
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
@@ -47,7 +48,6 @@
 		};
 		var $progress = {};
 		var $responseBody = {};
-		var $errors = [];
 
 		// Imgur API limit (MiB)
 		var $maxFileSize = (10 * 1024 * 1024);
@@ -229,6 +229,9 @@
 			// Reset progress bar
 			$progress.wrapper.removeClass('uploading');
 			$progress.bar.removeAttr('value');
+
+			// Clear errors messages
+			$errors = [];
 		});
 	});
 
@@ -264,6 +267,18 @@
 	});
 
 	// Add generated output in posting editor panel
-	$.extend($output, $imgurCookies.getJSON($cookie.name));
-	fillOutputFields($output);
+	try {
+		// Delete cookie if page can't show output fields
+		if ($('#imgur-panel .imgur-output-field').length <= 0) {
+			$imgurCookies.remove($cookie.name, $cookie.options);
+			return;
+		}
+
+		// Get stored cookies
+		$.extend($output, $imgurCookies.getJSON($cookie.name));
+		fillOutputFields($output);
+	} catch (ex) {
+		$erros.push(ex.message);
+	}
+	showImgurErrors($errors);
 })(jQuery);
