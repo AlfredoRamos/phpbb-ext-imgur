@@ -24,12 +24,6 @@
 		"phing/phing": "^2.16.0",
 		"pear/archive_tar": "^1.4.0"
 	},
-	"repositories": [
-		{
-			"type": "git",
-			"url": "https://github.com/AlfredoRamos/php-imgur-api-client.git"
-		}
-	],
 	"extra": {
 		"display-name": "Imgur",
 		"soft-require": {

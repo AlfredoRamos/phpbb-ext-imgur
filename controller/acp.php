@@ -203,7 +203,7 @@ class acp
 		{
 			$this->template->assign_var(
 				'IMGUR_AUTHORIZE_URL',
-				$this->imgur->getAuthenticationUrl()
+				$this->imgur->getAuthenticationUrl('token')
 			);
 		}
 

@@ -160,6 +160,13 @@ class imgur
 		// Save new token
 		foreach ($token as $key => $value)
 		{
+			// Scope can be NULL
+			// Configuration table does not allow NULL values
+			if ($key === 'scope')
+			{
+				$value = '';
+			}
+
 			$this->config->set(sprintf('imgur_%s', $key), $value, false);
 		}
 
@@ -349,6 +356,13 @@ class imgur
 		// Update the token in database
 		foreach ($new_token as $key => $value)
 		{
+			// Scope can be NULL
+			// Configuration table does not allow NULL values
+			if ($key === 'scope')
+			{
+				$value = '';
+			}
+
 			// Save changes
 			$this->config->set(sprintf('imgur_%s', $key), $value, false);
 		}
