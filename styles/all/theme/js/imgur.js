@@ -29,9 +29,12 @@
 	var $errors = [];
 	var $supportWebStorageApi = (typeof(Storage) !== 'undefined');
 	var $imgurOutputSession = 'imgur_output';
+	var $addOutput = true;
 
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
+		$addOutput = (typeof($(this).attr('data-add-output')) === 'undefined' ||
+			$(this).attr('data-add-output') === 'true');
 		$('#imgur-image').trigger('click');
 	});
 
@@ -130,7 +133,8 @@
 				}
 
 				// Remove session data
-				if ($supportWebStorageApi && window.sessionStorage.getItem($imgurOutputSession) !== null) {
+				if ($supportWebStorageApi &&
+					window.sessionStorage.getItem($imgurOutputSession) !== null) {
 					window.sessionStorage.removeItem($imgurOutputSession);
 				}
 
@@ -182,10 +186,12 @@
 					}
 
 					// Add BBCode to content
-					for (var $k in $contentBody) {
-						if ($contentBody.hasOwnProperty($k)) {
-							if ($contentBody[$k].length > 0 && $bbcode.length > 0) {
-								$contentBody[$k].insertAtCaret($bbcode);
+					if ($addOutput) {
+						for (var $k in $contentBody) {
+							if ($contentBody.hasOwnProperty($k)) {
+								if ($contentBody[$k].length > 0 && $bbcode.length > 0) {
+									$contentBody[$k].insertAtCaret($bbcode);
+								}
 							}
 						}
 					}
@@ -283,10 +289,21 @@
 		}
 	});
 
+	// Show output fields only when needed
+	$(document.body).on('change', '.imgur-output-field', function() {
+		var $wrapper = $(this).parents('dl').first();
+		var $class = 'hidden';
+
+		if ($(this).val().length > 0 && $wrapper.hasClass($class)) {
+			$wrapper.removeClass($class);
+		}
+	});
+
 	// Add generated output in posting editor panel
 	try {
 		// Delete output if page doesn't have the fields to do so
-		if ($('#imgur-panel .imgur-output-field').length <= 0 && window.sessionStorage.getItem($imgurOutputSession) !== null) {
+		if ($('#imgur-panel .imgur-output-field').length <= 0 &&
+			window.sessionStorage.getItem($imgurOutputSession) !== null) {
 			window.sessionStorage.removeItem($imgurOutputSession);
 			return;
 		}

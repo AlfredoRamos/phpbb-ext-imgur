@@ -1,13 +1,13 @@
 <div class="panel bg3 panel-container" id="imgur-panel">
 	<div class="inner">
-		<button type="button" class="imgur-button imgur-upload-button">
+		<button type="button" class="imgur-button imgur-upload-button" data-add-output="false">
 			<span class="icon"></span> {{ lang('IMGUR_UPLOAD') }}
 		</button>
 		<p>{{ lang('IMGUR_BUTTON_EXPLAIN') }}</p>
 		{% if IMGUR_ALLOWED_OUTPUT_TYPES %}
 		<fieldset class="imgur-output-fields fields2">
 			{% for OUTPUT_TYPE in IMGUR_ALLOWED_OUTPUT_TYPES %}
-			<dl>
+			<dl class="hidden">
 				<dt>
 					<label for="imgur_output_{{ OUTPUT_TYPE.KEY }}">{{ OUTPUT_TYPE.NAME }}</label>
 				</dt>
