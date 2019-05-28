@@ -25,7 +25,7 @@
 		message: $('[name="message"]'),
 		signature: $('[name="signature"]')
 	};
-	var $output = {};
+	var $outputList = [];
 	var $errors = [];
 	var $supportWebStorageApi = (typeof(Storage) !== 'undefined');
 	var $imgurOutputSession = 'imgur_output';
@@ -140,6 +140,7 @@
 
 				// Add image
 				$.each($data, function($key, $value) {
+					var $output = {};
 					var $bbcode = '';
 					var $image = {
 						link: '',
@@ -173,9 +174,14 @@
 					$output.markdown_thumbnail = '[![' + $image.title + '](' + $image.thumbnail
 						+ ')](' + $image.link + ')';
 
-					// Save data to session
+					// Save (and append) data to session
 					if ($supportWebStorageApi) {
-						window.sessionStorage.setItem($imgurOutputSession, JSON.stringify($output));
+						if (window.sessionStorage.getItem($imgurOutputSession) !== null) {
+							$outputList = (JSON.parse(window.sessionStorage.getItem($imgurOutputSession)));
+						}
+
+						$outputList.push($output);
+						window.sessionStorage.setItem($imgurOutputSession, JSON.stringify($outputList));
 					}
 
 					// Generate BBCode
@@ -195,9 +201,6 @@
 							}
 						}
 					}
-
-					// Add generated output in posting editor panel
-					fillOutputFields($output);
 				});
 			} catch (ex) {
 				$errors.push(ex.message);
@@ -225,6 +228,12 @@
 
 			showImgurErrors($errors);
 		}).then(function() {
+			try {
+				fillOutputFields($outputList);
+			} catch (ex) {
+				$errors.push(ex.message);
+			}
+
 			showImgurErrors($errors);
 		}).always(function() {
 			// Re-enable button
@@ -309,8 +318,11 @@
 		}
 
 		// Get stored output
-		$.extend($output, JSON.parse(window.sessionStorage.getItem($imgurOutputSession)));
-		fillOutputFields($output);
+		$outputList = $outputList.concat(JSON.parse(
+			window.sessionStorage.getItem($imgurOutputSession)
+		));
+
+		fillOutputFields($outputList);
 	} catch (ex) {
 		$errors.push(ex.message);
 	}

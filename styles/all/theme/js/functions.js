@@ -8,9 +8,15 @@
 (function($) {
 	'use strict';
 
-	// Insert text at cursor position
-	// Modified version of Mathias Bynens' code
-	// https://gist.github.com/mathiasbynens/326491
+	/**
+	 * Insert text at cursor position
+	 * Modified version of Mathias Bynens' code
+	 * https://gist.github.com/mathiasbynens/326491
+	 *
+	 * @param string $text
+	 *
+	 * @return object
+	 */
 	$.fn.insertAtCaret = function($text) {
 		return this.each(function() {
 			if (document.selection) {
@@ -46,6 +52,13 @@
 	};
 })(jQuery);
 
+/**
+ * Show errors in a modal window.
+ *
+ * @param array errors
+ *
+ * @return void
+ */
 function showImgurErrors(errors) {
 	// Ensure settings exist
 	if (typeof window.$imgur === 'undefined') {
@@ -76,6 +89,13 @@ function showImgurErrors(errors) {
 	}
 }
 
+/**
+ * Format filesize to show 3 fractional digits.
+ *
+ * @param float fileSize
+ *
+ * @return string
+ */
 function formatImageSize(fileSize) {
 	return fileSize.toLocaleString(
 		undefined,
@@ -86,14 +106,35 @@ function formatImageSize(fileSize) {
 	);
 }
 
+/**
+ * Fill output fields.
+ *
+ * @param array output
+ *
+ * @return void
+ */
 function fillOutputFields(output) {
-	for (var k in output) {
-		if (output.hasOwnProperty(k)) {
-			var $field = $('[name="imgur_output_' + k + '"]').first();
-			output[k] = $.trim(output[k]);
+	if (output === null || output.length <= 0) {
+		return;
+	}
 
-			if ($field.length > 0 && output[k].length > 0) {
-				$field.val(output[k]);
+	for (var i = 0; i < output.length; i++) {
+		for (var k in output[i]) {
+			if (!output[i].hasOwnProperty(k)) {
+				continue;
+			}
+
+			var $field = $('[name="imgur_output_' + k + '"]').first();
+			$field.val($.trim($field.val()));
+			output[i][k] = $.trim(output[i][k]);
+
+			if ($field.length > 0 && output[i][k].length > 0) {
+				if ($field.val().length > 0) {
+					$field.val($field.val() + '\n' + output[i][k]);
+				} else {
+					$field.val(output[i][k]);
+				}
+
 				$field.trigger('change');
 			}
 		}
