@@ -36,6 +36,8 @@ $lang = array_merge($lang, [
 	'IMGUR_TAB' => 'Imgur',
 	'IMGUR_UPLOAD' => 'Subir a Imgur',
 	'IMGUR_ADD_TO_POST' => 'Agregar al mensaje',
+	'IMGUR_PANEL_BUTTON_EXPLAIN' => 'Las imágenes subidas no serán agregadas al mensaje para que pueda elegir sólo las que desee.',
+
 
 	'IMGUR_IMAGE_TOO_BIG' => 'La imagen <samp>{file}</samp> pesa <code>{size}</code> MiB y debe pesar menos de <code>{max_size}</code> MiB.',
 	'IMGUR_NO_IMAGES' => 'No hay imágenes que subir.',
