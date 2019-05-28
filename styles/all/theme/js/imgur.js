@@ -27,14 +27,8 @@
 	};
 	var $output = {};
 	var $errors = [];
-	var $imgurCookies = Cookies.noConflict();
-	var $cookie = {
-		name: 'imgur_output',
-		options: {
-			expires: (5 / 24 / 24), // 5 minutes
-			path: ''
-		}
-	};
+	var $supportWebStorageApi = (typeof(Storage) !== 'undefined');
+	var $imgurOutputSession = 'imgur_output';
 
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
@@ -135,8 +129,10 @@
 					return;
 				}
 
-				// Clear cookie
-				$imgurCookies.remove($cookie.name, $cookie.options);
+				// Remove session data
+				if ($supportWebStorageApi && window.sessionStorage.getItem($imgurOutputSession) !== null) {
+					window.sessionStorage.removeItem($imgurOutputSession);
+				}
 
 				// Add image
 				$.each($data, function($key, $value) {
@@ -148,6 +144,9 @@
 
 					// Get image link
 					$image.link = $value.link;
+
+					// Get image title
+					$image.title = $value.title || $value.name || '';
 
 					// Generate thumbnail
 					if ($image.link.length > 0) {
@@ -166,12 +165,14 @@
 					$output.image = '[img]' + $image.link + '[/img]';
 					$output.thumbnail = '[url=' + $image.link + '][img]'
 						+ $image.thumbnail + '[/img][/url]';
-					$output.markdown_image = '![](' + $image.link + ')';
-					$output.markdown_thumbnail = '[![](' + $image.thumbnail
+					$output.markdown_image = '![' + $image.title + '](' + $image.link + ')';
+					$output.markdown_thumbnail = '[![' + $image.title + '](' + $image.thumbnail
 						+ ')](' + $image.link + ')';
 
-					// Save output to cookie
-					$imgurCookies.set($cookie.name, $output, $cookie.options);
+					// Save data to session
+					if ($supportWebStorageApi) {
+						window.sessionStorage.setItem($imgurOutputSession, JSON.stringify($output));
+					}
 
 					// Generate BBCode
 					if ($output.hasOwnProperty($imgurButton.attr('data-output-type'))) {
@@ -287,14 +288,14 @@
 
 	// Add generated output in posting editor panel
 	try {
-		// Delete cookie if page can't show output fields
-		if ($('#imgur-panel .imgur-output-field').length <= 0) {
-			$imgurCookies.remove($cookie.name, $cookie.options);
+		// Delete output if page doesn't have the fields to do so
+		if ($('#imgur-panel .imgur-output-field').length <= 0 && window.sessionStorage.getItem($imgurOutputSession) !== null) {
+			window.sessionStorage.removeItem($imgurOutputSession);
 			return;
 		}
 
-		// Get stored cookies
-		$.extend($output, $imgurCookies.getJSON($cookie.name));
+		// Get stored output
+		$.extend($output, JSON.parse(window.sessionStorage.getItem($imgurOutputSession)));
 		fillOutputFields($output);
 	} catch (ex) {
 		$errors.push(ex.message);
