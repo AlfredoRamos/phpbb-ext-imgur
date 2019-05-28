@@ -210,9 +210,6 @@
 				} else {
 					$errors.push($responseBody.message);
 				}
-
-				// Clear cookie
-				$imgurCookies.remove($cookie.name, $cookie.options);
 			} catch (ex) {
 				$errors.push(ex.message);
 			}
