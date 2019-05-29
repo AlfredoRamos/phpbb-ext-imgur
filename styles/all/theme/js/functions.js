@@ -9,8 +9,8 @@
 	'use strict';
 
 	/**
-	 * Insert text at cursor position
-	 * Modified version of Mathias Bynens' code
+	 * Insert text at cursor position.
+	 * Modified version of Mathias Bynens' code:
 	 * https://gist.github.com/mathiasbynens/326491
 	 *
 	 * @param string $text

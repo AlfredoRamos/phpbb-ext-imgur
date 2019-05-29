@@ -27,8 +27,11 @@
 	};
 	var $outputList = [];
 	var $errors = [];
-	var $supportWebStorageApi = (typeof(Storage) !== 'undefined');
-	var $imgurOutputSession = 'imgur_output';
+	var $imgurStorage = {
+		enabled: (typeof(Storage) !== 'undefined'),
+		local: 'imgur_output_type',
+		session: 'imgur_output_list'
+	};
 	var $addOutput = true;
 
 	// Show image selection window
@@ -57,6 +60,12 @@
 		// Exit if there are no images to upload
 		if ($files.length <= 0) {
 			return;
+		}
+
+		// Restore user preference
+		if ($imgurStorage.enabled &&
+			window.localStorage.getItem($imgurStorage.local) !== null) {
+			$imgurButton.attr('data-output-type', window.localStorage.getItem($imgurStorage.local));
 		}
 
 		// Prevent button spamming
@@ -133,9 +142,9 @@
 				}
 
 				// Remove session data
-				if ($supportWebStorageApi &&
-					window.sessionStorage.getItem($imgurOutputSession) !== null) {
-					window.sessionStorage.removeItem($imgurOutputSession);
+				if ($imgurStorage.enabled &&
+					window.sessionStorage.getItem($imgurStorage.session) !== null) {
+					window.sessionStorage.removeItem($imgurStorage.session);
 				}
 
 				// Add image
@@ -175,13 +184,13 @@
 						+ ')](' + $image.link + ')';
 
 					// Save (and append) data to session
-					if ($supportWebStorageApi) {
-						if (window.sessionStorage.getItem($imgurOutputSession) !== null) {
-							$outputList = (JSON.parse(window.sessionStorage.getItem($imgurOutputSession)));
+					if ($imgurStorage.enabled) {
+						if (window.sessionStorage.getItem($imgurStorage.session) !== null) {
+							$outputList = (JSON.parse(window.sessionStorage.getItem($imgurStorage.session)));
 						}
 
 						$outputList.push($output);
-						window.sessionStorage.setItem($imgurOutputSession, JSON.stringify($outputList));
+						window.sessionStorage.setItem($imgurStorage.session, JSON.stringify($outputList));
 					}
 
 					// Generate BBCode
@@ -262,6 +271,11 @@
 	// Update output type
 	$(document.body).on('change', '.imgur-output-select', function() {
 		$('#imgur-image').attr('data-output-type', $(this).val());
+
+		// Save user preference
+		if ($imgurStorage.enabled) {
+			window.localStorage.setItem($imgurStorage.local, $(this).val());
+		}
 	});
 
 	// Handle Imgur click events
@@ -310,19 +324,29 @@
 
 	// Add generated output in posting editor panel
 	try {
-		// Delete output if page doesn't have the fields to do so
-		if ($('#imgur-panel .imgur-output-field').length <= 0 &&
-			window.sessionStorage.getItem($imgurOutputSession) !== null) {
-			window.sessionStorage.removeItem($imgurOutputSession);
-			return;
+		if ($imgurStorage.enabled) {
+			// Restore user preference
+			if ($('.imgur-output-select').length > 0 &&
+				window.localStorage.getItem($imgurStorage.local) !== null) {
+				$('.imgur-output-select').val(
+					window.localStorage.getItem($imgurStorage.local)
+				);
+			}
+
+			// Delete output if page doesn't have the fields to do so
+			if ($('#imgur-panel .imgur-output-field').length <= 0 &&
+				window.sessionStorage.getItem($imgurStorage.session) !== null) {
+				window.sessionStorage.removeItem($imgurStorage.session);
+				return;
+			}
+
+			// Get stored output
+			$outputList = $outputList.concat(JSON.parse(
+				window.sessionStorage.getItem($imgurStorage.session)
+			));
+
+			fillOutputFields($outputList);
 		}
-
-		// Get stored output
-		$outputList = $outputList.concat(JSON.parse(
-			window.sessionStorage.getItem($imgurOutputSession)
-		));
-
-		fillOutputFields($outputList);
 	} catch (ex) {
 		$errors.push(ex.message);
 	}
