@@ -41,3 +41,9 @@
 .imgur-output-fields.filled {
 	display: block;
 }
+
+.imgur-output-fields {
+	max-height: 365px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
