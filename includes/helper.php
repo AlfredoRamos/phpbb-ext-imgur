@@ -13,7 +13,7 @@ use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\routing\helper as routing_helper;
 use phpbb\language\language;
-use phpbb\extension\manager as extension_manager;
+use phpbb\event\dispatcher_interface as dispatcher;
 
 class helper
 {
@@ -29,27 +29,27 @@ class helper
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \phpbb\extension\manager */
-	protected $extension_manager;
+	/** @var \phpbb\event\dispatcher_interface */
+	protected $dispatcher;
 
 	/**
 	 * Helper constructor
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\routing\helper		$routing_helper
-	 * @param \phpbb\language\language	$language
-	 * @param \phpbb\extension\manager	$extension_manager
+	 * @param \phpbb\config\config				$config
+	 * @param \phpbb\template\template			$template
+	 * @param \phpbb\routing\helper				$routing_helper
+	 * @param \phpbb\language\language			$language
+	 * @param \phpbb\event\dispatcher_interface	$dispatcher
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language, extension_manager $extension_manager)
+	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language, dispatcher $dispatcher)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->routing_helper = $routing_helper;
 		$this->language = $language;
-		$this->extension_manager = $extension_manager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -72,6 +72,12 @@ class helper
 
 		// Allowed output types
 		$types = $this->allowed_imgur_values('types');
+
+		// Fallback to image
+		if (!in_array($this->config['imgur_output_type'], $types, true))
+		{
+			$this->config->set('imgur_output_type', 'image');
+		}
 
 		// Assign allowed output types
 		foreach ($types as $type)
@@ -139,7 +145,8 @@ class helper
 	/**
 	 * Allowed imgur values for output.
 	 *
-	 * @param array $settings (optional)
+	 * @param string	$key	(optional)
+	 * @param bool		$extras	(optional)
 	 *
 	 * @return array
 	 */
@@ -158,14 +165,19 @@ class helper
 		$key = trim($key);
 		$extras = (bool) $extras;
 
-		// Add support for Markdown extension
-		if ($this->extension_manager->is_enabled('alfredoramos/markdown') && $extras)
-		{
-			$data['types'] = array_merge($data['types'], [
-				'markdown_image',
-				'markdown_thumbnail'
-			]);
-		}
+		/**
+		 * Manipulate allowed values.
+		 *
+		 * @event alfredoramos.imgur.allowed_values_after
+		 *
+		 * @var array	data	List of allowed values ordered by type.
+		 * @var string	key		Key of specific list of allowed values.
+		 * @var bool	extras	Whether extra allowed values will be returned.
+		 *
+		 * @since 1.3.0
+		 */
+		$vars = ['data', 'key', 'extras'];
+		extract($this->dispatcher->trigger_event('alfredoramos.imgur.allowed_values_after', compact($vars)));
 
 		// Get specific key
 		if (!empty($key) && !empty($data[$key]))

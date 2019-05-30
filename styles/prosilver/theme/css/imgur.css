@@ -37,22 +37,32 @@
 	font-weight: bold;
 }
 
+#imgur-panel dt {
+	text-align: right;
+}
+
+#imgur-panel .imgur-upload-button > .icon,
+#imgur-panel .imgur-output-field,
+#imgur-panel .imgur-output-paste {
+	vertical-align: middle;
+}
+
 #imgur-panel .imgur-upload-button > .icon {
 	width: 20px;
 	height: 20px;
-	vertical-align: middle;
 	border-radius: 4px;
+}
+
+#imgur-panel .imgur-output-field {
+	resize: vertical;
+	min-height: 25px;
+	max-height: 250px;
 }
 
 #imgur-panel .imgur-output-paste {
 	color: #f2f2f2;
 	background-color: #105289;
-	padding: 2px 4px;
+	padding: 8px 6px;
 	border-radius: 4px;
 	cursor: pointer;
-	vertical-align: middle;
-}
-
-#imgur-panel .imgur-output-paste > .fa-fw {
-	font-size: 1em;
 }

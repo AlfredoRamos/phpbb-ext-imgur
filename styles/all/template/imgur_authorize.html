@@ -1,15 +1,15 @@
-{%- include 'simple_header.html' -%}
-{%- if not INCLUDED_IMGUR_AUTHORIZE_CSS -%}
-{%- INCLUDECSS '@alfredoramos_imgur/css/authorize.css' %}
+{% include 'simple_header.html' %}
+{% if not INCLUDED_IMGUR_AUTHORIZE_CSS %}
+{% INCLUDECSS '@alfredoramos_imgur/css/authorize.css' %}
 {%- set INCLUDED_IMGUR_AUTHORIZE_CSS = true -%}
-{%- endif -%}
+{% endif %}
 <div id="imgur-authorize" data-ajax-authorized="{% if IMGUR_IS_AUTHORIZED %}{{ IMGUR_IS_AUTHORIZED }}{% else %}0{% endif %}" data-ajax-action="{{ IMGUR_AUTHORIZE_URL }}">
 {%- include '@alfredoramos_imgur/imgur_token_message.html' ignore missing -%}
 </div>
-{%- include '@alfredoramos_imgur/imgur_config.html' ignore missing -%}
-{%- include '@alfredoramos_imgur/event/overall_footer_body_after.html' ignore missing -%}
-{%- if not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED -%}
-{%- INCLUDEJS '@alfredoramos_imgur/js/authorize.js' %}
+{% include '@alfredoramos_imgur/imgur_config.html' ignore missing %}
+{% include '@alfredoramos_imgur/event/overall_footer_body_after.html' ignore missing %}
+{% if not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED %}
+{% INCLUDEJS '@alfredoramos_imgur/js/authorize.js' %}
 {%- set INCLUDED_IMGUR_AUTHORIZE_JS = true -%}
-{%- endif -%}
-{%- include 'simple_footer.html' -%}
+{% endif %}
+{% include 'simple_footer.html' %}
