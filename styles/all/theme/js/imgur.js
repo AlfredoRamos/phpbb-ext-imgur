@@ -179,9 +179,9 @@
 					$output.image = '[img]' + $image.link + '[/img]';
 					$output.thumbnail = '[url=' + $image.link + '][img]'
 						+ $image.thumbnail + '[/img][/url]';
-					$output.markdown_image = '![' + $image.title + '](' + $image.link + ')';
-					$output.markdown_thumbnail = '[![' + $image.title + '](' + $image.thumbnail
-						+ ')](' + $image.link + ')';
+
+					// Add custom output types
+					$(document.body).trigger('alfredoramos.imgur.output_append', [$output, $image]);
 
 					// Save (and append) data to session
 					if ($imgurStorage.enabled) {
@@ -198,6 +198,12 @@
 						if ($output[$imgurButton.attr('data-output-type')].length > 0) {
 							$bbcode = $output[$imgurButton.attr('data-output-type')];
 						}
+					} else {
+						// Fallback to image
+						$imgurButton.attr('data-output-type', 'image');
+						$('.imgur-output-select').val('image');
+						$('.imgur-output-select').trigger('change');
+						$bbcode = $output['image'];
 					}
 
 					// Add BBCode to content
@@ -331,6 +337,7 @@
 				$('.imgur-output-select').val(
 					window.localStorage.getItem($imgurStorage.local)
 				);
+				$('.imgur-output-select').trigger('change');
 			}
 
 			// Delete output if page doesn't have the fields to do so

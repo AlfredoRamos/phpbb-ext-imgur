@@ -30,8 +30,6 @@ $lang = array_merge($lang, [
 	'IMGUR_OUTPUT_URL' => 'URL',
 	'IMGUR_OUTPUT_IMAGE' => 'Image',
 	'IMGUR_OUTPUT_THUMBNAIL' => 'Thumbnail',
-	'IMGUR_OUTPUT_MARKDOWN_IMAGE' => 'Markdown image',
-	'IMGUR_OUTPUT_MARKDOWN_THUMBNAIL' => 'Markdown thumbnail',
 
 	'IMGUR_TAB' => 'Imgur',
 	'IMGUR_UPLOAD' => 'Upload to Imgur',

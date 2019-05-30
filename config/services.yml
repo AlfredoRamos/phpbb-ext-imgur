@@ -16,7 +16,7 @@ services:
             - '@template'
             - '@routing.helper'
             - '@language'
-            - '@ext.manager'
+            - '@dispatcher'
 
     alfredoramos.imgur.controller:
         class: alfredoramos\imgur\controller\imgur
