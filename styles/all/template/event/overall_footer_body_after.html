@@ -1,16 +1,16 @@
-{%- if not INCLUDED_FORMDATA_POLYFILL_JS -%}
+{% if not INCLUDED_FORMDATA_POLYFILL_JS %}
 {%- if S_ALLOW_CDN -%}
-{%- INCLUDEJS 'https://rawcdn.githack.com/jimmywarting/FormData/3.0.17/formdata.min.js' -%}
+{% INCLUDEJS 'https://rawcdn.githack.com/jimmywarting/FormData/3.0.17/formdata.min.js' %}
 {%- else -%}
-{%- INCLUDEJS '@alfredoramos_imgur/js/formdata.min.js' -%}
+{% INCLUDEJS '@alfredoramos_imgur/js/formdata.min.js' %}
 {%- endif -%}
 {%- set INCLUDED_FORMDATA_POLYFILL_JS = true -%}
-{%- endif -%}
-{%- if not INCLUDED_IMGUR_FUNCTIONS_JS -%}
-{%- INCLUDEJS '@alfredoramos_imgur/js/functions.js' %}
+{% endif %}
+{% if not INCLUDED_IMGUR_FUNCTIONS_JS %}
+{% INCLUDEJS '@alfredoramos_imgur/js/functions.js' %}
 {%- set INCLUDED_IMGUR_FUNCTIONS_JS = true -%}
-{%- endif -%}
-{%- if not INCLUDED_IMGUR_JS -%}
-{%- INCLUDEJS '@alfredoramos_imgur/js/imgur.js' %}
+{% endif %}
+{% if not INCLUDED_IMGUR_JS %}
+{% INCLUDEJS '@alfredoramos_imgur/js/imgur.js' %}
 {%- set INCLUDED_IMGUR_JS = true -%}
-{%- endif -%}
+{% endif %}

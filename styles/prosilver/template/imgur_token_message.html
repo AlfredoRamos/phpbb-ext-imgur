@@ -2,11 +2,11 @@
 <div class="panel bg1">
 	<div class="inner">
 		<p id="imgur-authorize">
-		{%- if IMGUR_IS_AUTHORIZED -%}
+		{% if IMGUR_IS_AUTHORIZED %}
 			{{ lang('IMGUR_AUTHORIZED') }}
-		{%- else -%}
+		{% else %}
 			{{ lang('IMGUR_AUTHORIZATION_EXPLAIN') }}
-		{%- endif -%}
+		{% endif %}
 		</p>
 	</div>
 </div>
