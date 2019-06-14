@@ -63,9 +63,10 @@
 		}
 
 		// Restore user preference
-		if ($imgurStorage.enabled &&
-			window.localStorage.getItem($imgurStorage.local) !== null) {
-			$imgurButton.attr('data-output-type', window.localStorage.getItem($imgurStorage.local));
+		if ($imgurStorage.enabled) {
+			if (window.localStorage.getItem($imgurStorage.local) !== null) {
+				$imgurButton.attr('data-output-type', window.localStorage.getItem($imgurStorage.local));
+			}
 		}
 
 		// Prevent button spamming
@@ -142,9 +143,10 @@
 				}
 
 				// Remove session data
-				if ($imgurStorage.enabled &&
-					window.sessionStorage.getItem($imgurStorage.session) !== null) {
-					window.sessionStorage.removeItem($imgurStorage.session);
+				if ($imgurStorage.enabled) {
+					if (window.sessionStorage.getItem($imgurStorage.session) !== null) {
+						window.sessionStorage.removeItem($imgurStorage.session);
+					}
 				}
 
 				// Add image
@@ -186,7 +188,7 @@
 					// Save (and append) data to session
 					if ($imgurStorage.enabled) {
 						if (window.sessionStorage.getItem($imgurStorage.session) !== null) {
-							$outputList = (JSON.parse(window.sessionStorage.getItem($imgurStorage.session)));
+							$outputList = JSON.parse(window.sessionStorage.getItem($imgurStorage.session));
 						}
 
 						$outputList.push($output);
