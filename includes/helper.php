@@ -153,7 +153,7 @@ class helper
 	public function allowed_imgur_values($key = '', $extras = true)
 	{
 		// Allowed values
-		$data = [
+		$allowed = [
 			// Output types
 			'types' => ['text', 'url', 'image', 'thumbnail'],
 
@@ -165,27 +165,38 @@ class helper
 		$key = trim($key);
 		$extras = (bool) $extras;
 
+		// Extra values
+		$data = [
+			'types' => [],
+			'sizes' => []
+		];
+
 		/**
-		 * Manipulate allowed values.
+		 * Append allowed values.
 		 *
-		 * @event alfredoramos.imgur.allowed_values_after
+		 * @event alfredoramos.imgur.allowed_values_append
 		 *
-		 * @var array	data	List of allowed values ordered by type.
-		 * @var string	key		Key of specific list of allowed values.
-		 * @var bool	extras	Whether extra allowed values will be returned.
+		 * @var array	data	List of allowed values.
+		 * @var bool	extras	Whether extra values will be returned.
 		 *
 		 * @since 1.3.0
 		 */
-		$vars = ['data', 'key', 'extras'];
-		extract($this->dispatcher->trigger_event('alfredoramos.imgur.allowed_values_after', compact($vars)));
+		$vars = ['data', 'extras'];
+		extract($this->dispatcher->trigger_event('alfredoramos.imgur.allowed_values_append', compact($vars)));
+
+		// Add extra values
+		if ($extras && (!empty($data['types']) || !empty($data['sizes'])))
+		{
+			$allowed = array_merge_recursive($allowed, $data);
+		}
 
 		// Get specific key
-		if (!empty($key) && !empty($data[$key]))
+		if (!empty($key) && !empty($allowed[$key]))
 		{
-			return $data[$key];
+			return $allowed[$key];
 		}
 
 		// Return whole array
-		return $data;
+		return $allowed;
 	}
 }
