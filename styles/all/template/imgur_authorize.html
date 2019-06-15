@@ -4,7 +4,7 @@
 {%- set INCLUDED_IMGUR_AUTHORIZE_CSS = true -%}
 {% endif %}
 <div id="imgur-authorize" data-ajax-authorized="{% if IMGUR_IS_AUTHORIZED %}{{ IMGUR_IS_AUTHORIZED }}{% else %}0{% endif %}" data-ajax-action="{{ IMGUR_AUTHORIZE_URL }}">
-{%- include '@alfredoramos_imgur/imgur_token_message.html' ignore missing -%}
+{% include '@alfredoramos_imgur/imgur_token_message.html' ignore missing %}
 </div>
 {% include '@alfredoramos_imgur/imgur_config.html' ignore missing %}
 {% include '@alfredoramos_imgur/event/overall_footer_body_after.html' ignore missing %}
