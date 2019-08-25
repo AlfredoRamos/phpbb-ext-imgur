@@ -79,7 +79,7 @@ function showImgurErrors(errors) {
 			message += errors[i];
 
 			if (i < (errors.length - 1)) {
-				message += '<br />';
+				message += '<br>';
 			}
 		}
 
