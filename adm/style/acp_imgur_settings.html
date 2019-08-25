@@ -13,7 +13,7 @@
 {% if IMGUR_REGISTER_URL %}
 <div class="warningbox notice">
 	<p>
-		{{ lang('ACP_IMGUR_REGISTER_EXPLAIN') }}<br /><br />
+		{{ lang('ACP_IMGUR_REGISTER_EXPLAIN') }}<br><br>
 		<a href="{{ IMGUR_REGISTER_URL }}" target="_blank" id="imgur-register-url" class="imgur-link-button" rel="nofollow noreferrer">
 			<i class="icon fa-lg fa-external-link" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_REGISTER') }}</span>
@@ -25,7 +25,7 @@
 {% if IMGUR_AUTHORIZE_URL %}
 <div class="warningbox">
 	<p>
-		{{ lang('ACP_IMGUR_AUTHORIZE_EXPLAIN') }}<br /><br />
+		{{ lang('ACP_IMGUR_AUTHORIZE_EXPLAIN') }}<br><br>
 		<a href="{{ IMGUR_AUTHORIZE_URL }}" id="imgur-authorize-url" class="imgur-link-button" rel="nofollow noreferrer">
 			<i class="icon fa-lg fa-sign-in" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_AUTHORIZE') }}</span>
@@ -43,7 +43,7 @@
 				<label for="imgur_client_id">{{ lang('ACP_IMGUR_CLIENT_ID') }}{{ lang('COLON') }}</label>
 			</dt>
 			<dd>
-				<input type="text" id="imgur_client_id" class="medium" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off" />
+				<input type="text" id="imgur_client_id" class="medium" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off">
 			</dd>
 		</dl>
 
@@ -52,7 +52,7 @@
 				<label for="imgur_client_secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') }}{{ lang('COLON') }}</label>
 			</dt>
 			<dd>
-				<input type="password" id="imgur_client_secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off" />
+				<input type="password" id="imgur_client_secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off">
 				{% if IMGUR_CLIENT_SECRET %}
 				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET'))|striptags|escape }}">
 					<i class="icon fa-lg fa-eye" aria-hidden="true"></i>
@@ -64,10 +64,10 @@
 		<dl>
 			<dt>
 				<label for="imgur_album">{{ lang('ACP_IMGUR_ALBUM') }}{{ lang('COLON') }}</label>
-				<br /><span>{{ lang('ACP_IMGUR_ALBUM_EXPLAIN') }}</span>
+				<br><span>{{ lang('ACP_IMGUR_ALBUM_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="imgur_album" class="narrow" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off" />
+				<input type="text" id="imgur_album" class="narrow" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off">
 				{% if IMGUR_ALBUM_DOWNLOAD_URL %}
 				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape }}">
 					<i class="icon fa-lg fa-download" aria-hidden="true"></i>
@@ -80,8 +80,8 @@
 	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
 		<p class="submit-buttons">
-			<input type="reset" class="button2" value="{{ lang('RESET') }}" />
-			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}" />
+			<input type="reset" class="button2" value="{{ lang('RESET') }}">
+			<input type="submit" name="submit" class="button1" value="{{ lang('SUBMIT') }}">
 		</p>
 	</fieldset>
 

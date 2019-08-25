@@ -26,7 +26,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	'ACP_IMGUR' => 'Imgur',
 	'ACP_IMGUR_REGISTER' => 'Registrar una nueva aplicación',
-	'ACP_IMGUR_REGISTER_EXPLAIN' => 'Si no cuentas con las credenciales de la API que se piden a continuación, inicia sesión en tu cuenta de Imgur y registra una nueva aplicación con el siguiente enlace.<br /><strong>Si ya cuentas con las credenciales de la API, no necesitas crear una nueva aplicación.</strong>',
+	'ACP_IMGUR_REGISTER_EXPLAIN' => 'Si no cuentas con las credenciales de la API que se piden a continuación, inicia sesión en tu cuenta de Imgur y registra una nueva aplicación con el siguiente enlace.<br><strong>Si ya cuentas con las credenciales de la API, no necesitas crear una nueva aplicación.</strong>',
 	'ACP_IMGUR_AUTHORIZE' => 'Autorizar acceso',
 	'ACP_IMGUR_AUTHORIZE_EXPLAIN' => 'Necesitas autorizar la aplicación para poder subir las imágenes a tu cuenta.',
 
@@ -53,5 +53,5 @@ $lang = array_merge($lang, [
 	'OUTPUT' => 'Salida',
 	'OUTPUT_SETTINGS' => 'Ajustes de salida',
 
-	'LOG_IMGUR_DATA' => '<strong>Datos de Imgur actualizados</strong><br />» %s'
+	'LOG_IMGUR_DATA' => '<strong>Datos de Imgur actualizados</strong><br>» %s'
 ]);
