@@ -87,6 +87,9 @@ class main_module
 		}
 
 		// Assign global template variables
-		$this->template->assign_var('U_ACTION', $this->u_action);
+		$this->template->assign_vars([
+			'U_ACTION' => $this->u_action,
+			'IN_IMGUR_SETTINGS' => true
+		]);
 	}
 }

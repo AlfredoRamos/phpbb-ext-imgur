@@ -1,5 +1,5 @@
-{%- if not INCLUDED_IMGUR_ACP_CSS -%}
-{%- INCLUDECSS '@alfredoramos_imgur/css/imgur_acp.css' %}
+{% if IN_IMGUR_SETTINGS and not INCLUDED_IMGUR_ACP_CSS %}
+{% INCLUDECSS '@alfredoramos_imgur/css/imgur_acp.css' %}
 {%- set INCLUDED_IMGUR_ACP_CSS = true -%}
-{%- endif -%}
+{% endif %}
 
