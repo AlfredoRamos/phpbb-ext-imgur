@@ -31,7 +31,7 @@
 		},
 		"version-check": {
 			"host": "alfredoramos.github.io",
-			"directory": "/phpbb-extensions",
+			"directory": "/phpbb-extensions/versions",
 			"filename": "imgur.json",
 			"ssl": true
 		}
