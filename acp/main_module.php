@@ -53,6 +53,10 @@ class main_module
 	 */
 	public function main($id, $mode)
 	{
+		// Load translations
+		$this->language->add_lang('acp/settings', 'alfredoramos/imgur');
+
+		// Form token
 		add_form_key('alfredoramos_imgur');
 
 		switch ($mode)
