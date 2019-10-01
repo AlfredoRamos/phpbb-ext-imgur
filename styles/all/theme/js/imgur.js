@@ -291,6 +291,12 @@
 		var $select = '.imgur-output-select';
 		var $class = 'select';
 
+		// Polyfill for Element.matches()
+		// https://developer.mozilla.org/en-US/docs/Web/API/Element/matches#Polyfill
+		if (!Element.prototype.matches) {
+			Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+		}
+
 		// Hide select
 		if (!$event.target.matches($select)) {
 			$.each($($select), function() {
