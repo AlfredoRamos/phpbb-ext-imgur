@@ -5,52 +5,7 @@
  * @license GPL-2.0-only
  */
 
-(function($) {
-	'use strict';
-
-	/**
-	 * Insert text at cursor position.
-	 * Modified version of Mathias Bynens' code:
-	 * https://gist.github.com/mathiasbynens/326491
-	 *
-	 * @param string $text
-	 *
-	 * @return object
-	 */
-	$.fn.insertAtCaret = function($text) {
-		return this.each(function() {
-			if (document.selection) {
-				// Internet Explorer
-				this.focus();
-				var $selection = document.selection.createRange();
-				$selection.text = $text;
-				this.focus();
-			} else if (this.selectionStart || this.selectionStart === '0') {
-				// Modern browsers
-				var $position = {
-					start: this.selectionStart,
-					end: this.selectionEnd,
-					top: this.scrollTop
-				};
-
-				// Insert text
-				this.value = this.value.substring(0, $position.start)
-					+ $text
-					+ this.value.substring($position.end, this.value.length);
-				this.focus();
-
-				// Update position
-				this.selectionStart = $position.start + $text.length;
-				this.selectionEnd = $position.start + $text.length;
-				this.scrollTop = $position.top;
-			} else {
-				// Fallback
-				this.value += $text;
-				this.focus();
-			}
-		});
-	};
-})(jQuery);
+'use strict';
 
 /**
  * Show errors in a modal window.
