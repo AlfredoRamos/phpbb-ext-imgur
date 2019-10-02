@@ -96,7 +96,7 @@ class imgur
 	public function authorize($hash = '')
 	{
 		// Add translations
-		$this->language->add_lang(['controller', 'acp/info_acp_settings'], 'alfredoramos/imgur');
+		$this->language->add_lang(['controller', 'acp/info_acp_common'], 'alfredoramos/imgur');
 
 		// This route can only be used by admins
 		// Users do not need to know this page exist
