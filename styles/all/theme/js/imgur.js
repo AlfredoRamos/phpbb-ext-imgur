@@ -21,10 +21,6 @@
 	}
 
 	// Global variables
-	var $contentBody = {
-		message: $('[name="message"]'),
-		signature: $('[name="signature"]')
-	};
 	var $outputList = [];
 	var $errors = [];
 	var $imgurStorage = {
@@ -210,13 +206,7 @@
 
 					// Add BBCode to content
 					if ($addOutput) {
-						for (var $k in $contentBody) {
-							if ($contentBody.hasOwnProperty($k)) {
-								if ($contentBody[$k].length > 0 && $bbcode.length > 0) {
-									$contentBody[$k].insertAtCaret($bbcode);
-								}
-							}
-						}
+						insert_text($bbcode);
 					}
 				});
 			} catch (ex) {
@@ -317,13 +307,7 @@
 		}
 
 		// Add BBCode to content
-		for (var $k in $contentBody) {
-			if ($contentBody.hasOwnProperty($k)) {
-				if ($contentBody[$k].length > 0 && $bbcode.length > 0) {
-					$contentBody[$k].insertAtCaret($bbcode);
-				}
-			}
-		}
+		insert_text($bbcode);
 	});
 
 	// Show output fields only when needed
