@@ -97,6 +97,8 @@ class imgur
 	 *
 	 * @param string $hash
 	 *
+	 * @throws \phpbb\exception\http_exception
+	 *
 	 * @return \Symfony\Component\HttpFoundation\Response|\Symfony\Component\HttpFoundation\JsonResponse
 	 */
 	public function authorize($hash = '')
@@ -170,7 +172,7 @@ class imgur
 			// Configuration table does not allow NULL values
 			if ($key === 'scope')
 			{
-				$value = '';
+				$value = trim($value);
 			}
 
 			$this->config->set(sprintf('imgur_%s', $key), $value, false);
@@ -194,6 +196,9 @@ class imgur
 	 * Upload controller handler. AJAX calls only.
 	 *
 	 * @param string $hash
+	 *
+	 * @throws \phpbb\exception\runtime_exception
+	 * @throws \phpbb\exception\http_exception
 	 *
 	 * @return \Symfony\Component\HttpFoundation\JsonResponse
 	 */
@@ -348,7 +353,7 @@ class imgur
 			// Configuration table does not allow NULL values
 			if ($key === 'scope')
 			{
-				$value = '';
+				$value = trim($value);
 			}
 
 			// Save changes
