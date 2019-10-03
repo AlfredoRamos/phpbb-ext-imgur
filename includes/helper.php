@@ -143,6 +143,24 @@ class helper
 	}
 
 	/**
+	 * Get Imgur token stored in database.
+	 *
+	 * @return array
+	 */
+	public function imgur_token()
+	{
+		return [
+			'access_token'		=> $this->config['imgur_access_token'],
+			'expires_in'		=> (int) $this->config['imgur_expires_in'],
+			'token_type'		=> $this->config['imgur_token_type'],
+			'refresh_token'		=> $this->config['imgur_refresh_token'],
+			'account_id'		=> (int) $this->config['imgur_accound_id'],
+			'account_username'	=> $this->config['imgur_account_username'],
+			'created_at'		=> (int) $this->config['imgur_created_at']
+		];
+	}
+
+	/**
 	 * Allowed imgur values for output.
 	 *
 	 * @param string	$key	(optional)

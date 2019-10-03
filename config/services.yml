@@ -31,6 +31,7 @@ services:
             - '@user'
             - '@log'
             - '@alfredoramos.imgur.j0k3r.imgur.client'
+            - '@alfredoramos.imgur.helper'
 
     alfredoramos.imgur.acp.controller:
         class: alfredoramos\imgur\controller\acp

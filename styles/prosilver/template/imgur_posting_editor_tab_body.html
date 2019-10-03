@@ -1,3 +1,4 @@
+{% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON %}
 <div class="panel bg3 panel-container" id="imgur-panel">
 	<div class="inner">
 		<button type="button" class="imgur-button imgur-upload-button" data-add-output="false">
@@ -23,3 +24,4 @@
 		{% endif %}
 	</div>
 </div>
+{% endif %}

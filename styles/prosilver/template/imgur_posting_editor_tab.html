@@ -1,3 +1,5 @@
+{% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON %}
 <li id="imgur-panel-tab" class="tab">
 	<a href="#tabs" data-subpanel="imgur-panel" role="tab" aria-controls="imgur-panel">{{ lang('IMGUR_TAB') }}</a>
 </li>
+{% endif %}
