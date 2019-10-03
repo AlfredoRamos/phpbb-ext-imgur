@@ -228,7 +228,7 @@ class imgur
 		}
 
 		// Get Imgur token
-		$token = $this->imgur_token();
+		$token = $this->helper->imgur_token();
 
 		// Set token
 		$this->imgur->setAccessToken($token);
