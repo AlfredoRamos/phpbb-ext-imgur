@@ -39,3 +39,17 @@
 	cursor: pointer;
 	color: #d58512;
 }
+
+.imgur-table th {
+	text-transform: none;
+	font-size: 1em;
+}
+
+.imgur-table th + th {
+	text-align: center;
+}
+
+.imgur-table td > label {
+	font-size: 1em;
+	padding: 0;
+}

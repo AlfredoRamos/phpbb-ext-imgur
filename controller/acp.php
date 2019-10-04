@@ -240,11 +240,39 @@ class acp
 		}
 
 		// Load additional language keys
+		$this->language->add_lang('acp/permissions');
 		$this->language->add_lang('posting', 'alfredoramos/imgur');
 
 		// Markdown options are optional and can be deleted latter,
 		// so they shouldn't be choices to set them as default values
 		$contracts = $this->helper->allowed_imgur_values(null, false);
+
+		// Helper for thumbnails sizes
+		$contracts['thumbnails'] = [
+			// Keep image proportions
+			['t', 'm', 'l', 'h'],
+
+			// Do not keep image proportions
+			['s', 'b'],
+		];
+
+		// Enabled options
+		$enabled = [
+			'types' => explode(',', trim($this->config['imgur_enabled_output_types'])),
+			'sizes' => explode(',', trim($this->config['imgur_enabled_thumbnail_sizes']))
+		];
+
+		// Remove empty options
+		$enabled = $this->helper->filter_empty_items($enabled);
+
+		// Administrator must not disable all options
+		foreach ($enabled as $key => $value)
+		{
+			if (empty($value) && !empty($contracts[$key]))
+			{
+				$enabled[$key] = $contracts[$key];
+			}
+		}
 
 		// Validation errors
 		$errors = [];
@@ -324,19 +352,56 @@ class acp
 				'NAME' => $this->language->lang(sprintf(
 					'IMGUR_OUTPUT_%s',
 					strtoupper($type)
-				))
+				)),
+				'ENABLED' => in_array($type, $enabled['types'], true),
 			]);
 		}
 
 		// Assign allowed thumbnail sizes
 		foreach ($contracts['sizes'] as $size)
 		{
+			switch ($size)
+			{
+				case 't':
+					$name = 'SMALL';
+				break;
+
+				case 'm':
+					$name = 'MEDIUM';
+					break;
+
+				case 'l':
+					$name = 'LARGE';
+					break;
+
+				case 'h':
+					$name = 'HUGE';
+				break;
+
+				case 's':
+					$name = 'SMALL_SQUARE';
+				break;
+
+				case 'b':
+					$name = 'BIG_SQUARE';
+				break;
+
+				default:
+					$name = '';
+				break;
+			}
+
+			// Invalid o not yet supported size
+			if (empty($name))
+			{
+				return;
+			}
+
 			$this->template->assign_block_vars('IMGUR_THUMBNAIL_SIZES', [
 				'KEY' => $size,
-				'NAME' => $this->language->lang(sprintf(
-					'ACP_IMGUR_THUMBNAIL_%s',
-					($size === 'm') ? 'MEDIUM' : 'SMALL'
-				))
+				'NAME' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s', $name)),
+				'ENABLED' => in_array($size, $enabled['sizes'], true),
+				'KEEP_PROPORTIONS' => in_array($size, $contracts['thumbnails'][1], true),
 			]);
 		}
 

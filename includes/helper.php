@@ -161,6 +161,48 @@ class helper
 	}
 
 	/**
+	 * Remove empty items from an array, recursively.
+	 *
+	 * @param array		$data
+	 * @param integer	$depth
+	 *
+	 * @return array
+	 */
+	public function filter_empty_items($data = [], $depth = 0)
+	{
+		if (empty($data))
+		{
+			return [];
+		}
+
+		$max_depth = 5;
+		$depth = abs($depth) + 1;
+
+		// Do not go deeper, return data as is
+		if ($depth > $max_depth)
+		{
+			return $data;
+		}
+
+		// Remove empty elements
+		foreach ($data as $key => $value)
+		{
+			if (empty($value))
+			{
+				unset($data[$key]);
+			}
+
+			if (is_array($value) && !empty($value))
+			{
+				$data[$key] = $this->filter_empty_items($data[$key], $depth);
+			}
+		}
+
+		// Return a copy
+		return $data;
+	}
+
+	/**
 	 * Allowed imgur values for output.
 	 *
 	 * @param string	$key	(optional)
@@ -176,7 +218,7 @@ class helper
 			'types' => ['text', 'url', 'image', 'thumbnail'],
 
 			// Thumbnail sizes
-			'sizes'	=> ['t', 'm']
+			'sizes'	=> ['t', 'm', 'l', 'h', 's', 'b',]
 		];
 
 		// Value casting

@@ -38,12 +38,21 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images. Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
 
+	'ACP_IMGUR_OUTPUT_EXPLAIN' => 'You must select at least one option of each section.',
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
 
+	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Thumbnail sizes that keep image proportions',
+	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Thumbnail sizes that do <u>not</u> keep image proportions',
+
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Thumbnail size',
-	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'This setting will not have any effect if the output type is not set to <samp>Thumbnail</samp>. Thumbnail sizes are 160x160 for <samp>Small</samp> and 320x320 for <samp>Medium</samp>, image proportions are kept.',
+	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => '<samp>Thumbnail size</samp> options will not have any effect if the output type is not set to <samp>Thumbnail</samp>.',
+
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Small',
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Medium',
+	'ACP_IMGUR_THUMBNAIL_LARGE' => 'Large',
+	'ACP_IMGUR_THUMBNAIL_HUGE' => 'Huge',
+	'ACP_IMGUR_THUMBNAIL_SMALL_SQUARE' => 'Small square',
+	'ACP_IMGUR_THUMBNAIL_BIG_SQUARE' => 'Big square',
 
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Show/Hide %s',
 
