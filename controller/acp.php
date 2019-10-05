@@ -327,6 +327,13 @@ class acp
 					]);
 				}
 
+				// Can't set as default a disabled option
+				if (!in_array($fields[$data['filter']], $fields[$key]))
+				{
+					// Set as default the first available
+					$fields[$data['filter']] = $fields[$key][0];
+				}
+
 				// Enabled (input) values must be in the allowed values
 				if (!empty(array_diff($fields[$key], $contracts[$data['contract']])))
 				{
@@ -354,7 +361,7 @@ class acp
 				// Save configuration
 				foreach ($fields as $key => $value)
 				{
-					//$this->config->set($key, $value, false);
+					$this->config->set($key, $value, false);
 				}
 
 				// Admin log
