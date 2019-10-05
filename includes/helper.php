@@ -59,28 +59,36 @@ class helper
 	 */
 	public function assign_template_variables()
 	{
+		// Enabled output values
+		$enabled = $this->enabled_imgur_values();
+
+		// Fallback output type
+		if (!in_array($this->config['imgur_output_type'], $enabled['types'], true))
+		{
+			$this->config->set('imgur_output_type', $enabled['types'][0], false);
+		}
+
+		// Fallback thumbnail size
+		if (!in_array($this->config['imgur_thumbnail_size'], $enabled['sizes'], true))
+		{
+			$this->config->set('imgur_thumbnail_size', $enabled['sizes'][0], false);
+		}
+
 		// Assign global template variables
 		$this->template->assign_vars([
-			'IMGUR_UPLOAD_URL'	=> vsprintf('%1$s/%2$s', [
+			'IMGUR_UPLOAD_URL' => vsprintf('%1$s/%2$s', [
 				$this->routing_helper->route('alfredoramos_imgur_upload'),
 				generate_link_hash('imgur_upload')
 			]),
-			'SHOW_IMGUR_BUTTON'	=> !empty($this->config['imgur_access_token']),
+			'SHOW_IMGUR_BUTTON' => !empty($this->config['imgur_access_token']),
 			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
-			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
+			'IMGUR_THUMBNAIL_SIZE' => $this->config['imgur_thumbnail_size'],
+			'IMGUR_ALLOWED_OUTPUT_TYPES' => implode(',', $enabled['types']),
+			'IMGUR_ALLOWED_THUMBNAIL_SIZES' => implode(',', $enabled['sizes'])
 		]);
 
-		// Enabled output types
-		$types = $this->enabled_imgur_values('types');
-
-		// Fallback to image
-		if (!in_array($this->config['imgur_output_type'], $types, true))
-		{
-			$this->config->set('imgur_output_type', 'image');
-		}
-
 		// Assign enabled output types
-		foreach ($types as $type)
+		foreach ($enabled['types'] as $type)
 		{
 			$this->template->assign_block_vars('IMGUR_ENABLED_OUTPUT_TYPES', [
 				'KEY' => $type,
