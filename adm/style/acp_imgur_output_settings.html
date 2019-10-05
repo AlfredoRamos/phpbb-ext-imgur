@@ -40,7 +40,7 @@
 					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
 				</td>
 				<td class="actions">
-					<input type="radio" name="imgur_output_type"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
+					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
 			{% endfor %}
@@ -91,7 +91,7 @@
 					<input type="checkbox" id="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}" name="imgur_enabled_thumbnail_sizes[]" value="{{ THUMBNAIL_SIZE.KEY }}"{% if THUMBNAIL_SIZE.ENABLED %} checked="checked"{% endif %}>
 				</td>
 				<td class="actions">
-					<input type="radio" name="imgur_thumbnail_size"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
 			{% endfor %}
@@ -115,7 +115,7 @@
 					<input type="checkbox" id="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}" name="imgur_enabled_thumbnail_sizes[]" value="{{ THUMBNAIL_SIZE.KEY }}"{% if THUMBNAIL_SIZE.ENABLED %} checked="checked"{% endif %}>
 				</td>
 				<td class="actions">
-					<input type="radio" name="imgur_thumbnail_size"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
 			{% endfor %}
@@ -135,7 +135,7 @@
 					<input type="checkbox" id="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}" name="imgur_enabled_thumbnail_sizes[]" value="{{ THUMBNAIL_SIZE.KEY }}"{% if THUMBNAIL_SIZE.ENABLED %} checked="checked"{% endif %}>
 				</td>
 				<td class="actions">
-					<input type="radio" name="imgur_thumbnail_size"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
 			{% endfor %}
@@ -151,36 +151,6 @@
 		<p class="small">
 		<a href="#" onclick="marklist('imgur_thumbnail_list', 'imgur_enabled_thumbnail_sizes', true)">{{ lang('MARK_ALL') }}</a> • <a href="#" onclick="marklist('imgur_thumbnail_list', 'imgur_enabled_thumbnail_sizes', false)">{{ lang('UNMARK_ALL') }}</a>
 		</p>
-	</fieldset>
-
-	<fieldset>
-		<legend>{{ lang('OUTPUT_SETTINGS') }}</legend>
-		<dl>
-			<dt>
-				<label for="imgur_output_type">{{ lang('ACP_IMGUR_OUTPUT_TYPE') }}{{ lang('COLON') }}</label>
-			</dt>
-			<dd>
-				<select id="imgur_output_type" name="imgur_output_type">
-					{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
-					<option value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} selected="selected"{% endif %}>{{ OUTPUT_TYPE.NAME }}</option>
-					{% endfor %}
-				</select>
-			</dd>
-		</dl>
-
-		<dl>
-			<dt>
-				<label for="imgur_thumbnail_size">{{ lang('ACP_IMGUR_THUMBNAIL_SIZE') }}{{ lang('COLON') }}</label>
-				<br><span>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</span>
-			</dt>
-			<dd>
-				<select id="imgur_thumbnail_size" name="imgur_thumbnail_size">
-					{% for THUMBNAIL_SIZE in IMGUR_THUMBNAIL_SIZES %}
-					<option value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} selected="selected"{% endif %}>{{ THUMBNAIL_SIZE.NAME }}</option>
-					{% endfor %}
-				</select>
-			</dd>
-		</dl>
 	</fieldset>
 
 	<fieldset>

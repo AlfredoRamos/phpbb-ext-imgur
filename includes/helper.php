@@ -70,8 +70,8 @@ class helper
 			'IMGUR_THUMBNAIL_SIZE'	=> $this->config['imgur_thumbnail_size']
 		]);
 
-		// Allowed output types
-		$types = $this->allowed_imgur_values('types');
+		// Enabled output types
+		$types = $this->enabled_imgur_values('types');
 
 		// Fallback to image
 		if (!in_array($this->config['imgur_output_type'], $types, true))
@@ -79,15 +79,12 @@ class helper
 			$this->config->set('imgur_output_type', 'image');
 		}
 
-		// Assign allowed output types
+		// Assign enabled output types
 		foreach ($types as $type)
 		{
-			$this->template->assign_block_vars('IMGUR_ALLOWED_OUTPUT_TYPES', [
+			$this->template->assign_block_vars('IMGUR_ENABLED_OUTPUT_TYPES', [
 				'KEY' => $type,
-				'NAME' => $this->language->lang(sprintf(
-					'IMGUR_OUTPUT_%s',
-					strtoupper($type)
-				)),
+				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
 				'DEFAULT' => $this->config['imgur_output_type'] === $type
 			]);
 		}
@@ -200,6 +197,43 @@ class helper
 
 		// Return a copy
 		return $data;
+	}
+
+	/**
+	 * Enabled imgur values for output.
+	 *
+	 * @param string $key (optional)
+	 *
+	 * @return array
+	 */
+	public function enabled_imgur_values($key = '')
+	{
+		$key = trim($key);
+
+		// Enabled options
+		$enabled = [
+			'types' => explode(',', trim($this->config['imgur_enabled_output_types'])),
+			'sizes' => explode(',', trim($this->config['imgur_enabled_thumbnail_sizes']))
+		];
+
+		// Remove empty options
+		$enabled = $this->filter_empty_items($enabled);
+
+		// Administrator must not disable all options
+		foreach ($enabled as $k => $v)
+		{
+			if (empty($v))
+			{
+				$enabled[$k] = $this->allowed_imgur_values($k, false);
+			}
+		}
+
+		if (!empty($key) && !empty($enabled[$key]))
+		{
+			return $enabled[$key];
+		}
+
+		return $enabled;
 	}
 
 	/**

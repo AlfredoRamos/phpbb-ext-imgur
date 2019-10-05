@@ -256,23 +256,7 @@ class acp
 			['s', 'b'],
 		];
 
-		// Enabled options
-		$enabled = [
-			'types' => explode(',', trim($this->config['imgur_enabled_output_types'])),
-			'sizes' => explode(',', trim($this->config['imgur_enabled_thumbnail_sizes']))
-		];
-
-		// Remove empty options
-		$enabled = $this->helper->filter_empty_items($enabled);
-
-		// Administrator must not disable all options
-		foreach ($enabled as $key => $value)
-		{
-			if (empty($value) && !empty($contracts[$key]))
-			{
-				$enabled[$key] = $contracts[$key];
-			}
-		}
+		$enabled = $this->helper->enabled_imgur_values();
 
 		// Validation errors
 		$errors = [];
@@ -308,8 +292,61 @@ class acp
 			// Form data
 			$fields = [
 				'imgur_output_type' => $this->request->variable('imgur_output_type', ''),
-				'imgur_thumbnail_size' => $this->request->variable('imgur_thumbnail_size', '')
+				'imgur_thumbnail_size' => $this->request->variable('imgur_thumbnail_size', ''),
+				'imgur_enabled_output_types' => $this->request->variable('imgur_enabled_output_types', [0 => '']),
+				'imgur_enabled_thumbnail_sizes' => $this->request->variable('imgur_enabled_thumbnail_sizes', [0 => ''])
 			];
+
+			// Update filtes by the given input
+			foreach (['imgur_enabled_output_types', 'imgur_enabled_thumbnail_sizes'] as $key)
+			{
+				// Remove empty values
+				$fields[$key] = $this->helper->filter_empty_items($fields[$key]);
+
+				if (empty($fields[$key]))
+				{
+					continue;
+				}
+
+				// Data helper
+				// Output types
+				$data = [
+					'contract' => 'types',
+					'filter' => 'imgur_output_type',
+					'regexp' => '#^(?:' . implode('|', $fields[$key]) . ')$#'
+				];
+
+				// Update data helper
+				// Thumbnail sizes
+				if ($key === 'imgur_enabled_thumbnail_sizes')
+				{
+					$data = array_merge($data, [
+						'contract' => 'sizes',
+						'filter' => 'imgur_thumbnail_size',
+						'regexp' => '#^[' . implode($fields[$key]) . ']$#'
+					]);
+				}
+
+				// Enabled (input) values must be in the allowed values
+				if (!empty(array_diff($fields[$key], $contracts[$data['contract']])))
+				{
+					$errors[]['message'] = $this->language->lang(
+						'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED',
+						$this->language->lang('ACP_' . strtoupper($data['filter'])),
+						implode(',', $fields[$key])
+					);
+					continue;
+				}
+
+				// Update validation regexp
+				$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
+
+				// Convert enabled values (array) to string
+				if (is_array($fields[$key]))
+				{
+					$fields[$key] = implode(',', $fields[$key]);
+				}
+			}
 
 			// Validation check
 			if ($this->helper->validate($fields, $filters, $errors))
@@ -317,7 +354,7 @@ class acp
 				// Save configuration
 				foreach ($fields as $key => $value)
 				{
-					$this->config->set($key, $value, false);
+					//$this->config->set($key, $value, false);
 				}
 
 				// Admin log
@@ -349,11 +386,9 @@ class acp
 		{
 			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
 				'KEY' => $type,
-				'NAME' => $this->language->lang(sprintf(
-					'IMGUR_OUTPUT_%s',
-					strtoupper($type)
-				)),
-				'ENABLED' => in_array($type, $enabled['types'], true),
+				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
+				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_OUTPUT_%s_EXPLAIN', strtoupper($type))),
+				'ENABLED' => in_array($type, $enabled['types'], true)
 			]);
 		}
 
@@ -400,8 +435,9 @@ class acp
 			$this->template->assign_block_vars('IMGUR_THUMBNAIL_SIZES', [
 				'KEY' => $size,
 				'NAME' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s', $name)),
+				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s_EXPLAIN', $name)),
 				'ENABLED' => in_array($size, $enabled['sizes'], true),
-				'KEEP_PROPORTIONS' => in_array($size, $contracts['thumbnails'][1], true),
+				'KEEP_PROPORTIONS' => in_array($size, $contracts['thumbnails'][0], true)
 			]);
 		}
 
