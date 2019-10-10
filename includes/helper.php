@@ -68,12 +68,6 @@ class helper
 			$this->config->set('imgur_output_type', $enabled['types'][0], false);
 		}
 
-		// Fallback thumbnail size
-		if (!in_array($this->config['imgur_thumbnail_size'], $enabled['sizes'], true))
-		{
-			$this->config->set('imgur_thumbnail_size', $enabled['sizes'][0], false);
-		}
-
 		// Assign global template variables
 		$this->template->assign_vars([
 			'IMGUR_UPLOAD_URL' => vsprintf('%1$s/%2$s', [
@@ -83,8 +77,7 @@ class helper
 			'SHOW_IMGUR_BUTTON' => !empty($this->config['imgur_access_token']),
 			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
 			'IMGUR_THUMBNAIL_SIZE' => $this->config['imgur_thumbnail_size'],
-			'IMGUR_ALLOWED_OUTPUT_TYPES' => implode(',', $enabled['types']),
-			'IMGUR_ALLOWED_THUMBNAIL_SIZES' => implode(',', $enabled['sizes'])
+			'IMGUR_ALLOWED_OUTPUT_TYPES' => implode(',', $enabled['types'])
 		]);
 
 		// Assign enabled output types
@@ -173,15 +166,16 @@ class helper
 	 *
 	 * @return array
 	 */
-	public function filter_empty_items($data = [], $depth = 0)
+	public function filter_empty_items($data = [], $depth = 0, $max_depth = 5)
 	{
 		if (empty($data))
 		{
 			return [];
 		}
 
-		$max_depth = 5;
+		// Cast values
 		$depth = abs($depth) + 1;
+		$max_depth = !empty($max_depth) ? abs($max_depth) : 5;
 
 		// Do not go deeper, return data as is
 		if ($depth > $max_depth)
@@ -220,8 +214,7 @@ class helper
 
 		// Enabled options
 		$enabled = [
-			'types' => explode(',', trim($this->config['imgur_enabled_output_types'])),
-			'sizes' => explode(',', trim($this->config['imgur_enabled_thumbnail_sizes']))
+			'types' => explode(',', trim($this->config['imgur_enabled_output_types']))
 		];
 
 		// Remove empty options

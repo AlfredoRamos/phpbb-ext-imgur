@@ -64,7 +64,6 @@
 		<thead>
 			<tr>
 				<th>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE') }}</th>
-				<th>{{ lang('ENABLED') }}</th>
 				<th>{{ lang('DEFAULT') }}</th>
 			</tr>
 		</thead>
@@ -88,9 +87,6 @@
 					{% if THUMBNAIL_SIZE.EXPLAIN %}<br><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
 				</td>
 				<td class="actions">
-					<input type="checkbox" id="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}" name="imgur_enabled_thumbnail_sizes[]" value="{{ THUMBNAIL_SIZE.KEY }}"{% if THUMBNAIL_SIZE.ENABLED %} checked="checked"{% endif %}>
-				</td>
-				<td class="actions">
 					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
@@ -112,9 +108,6 @@
 					{% if THUMBNAIL_SIZE.EXPLAIN %}<br><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
 				</td>
 				<td class="actions">
-					<input type="checkbox" id="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}" name="imgur_enabled_thumbnail_sizes[]" value="{{ THUMBNAIL_SIZE.KEY }}"{% if THUMBNAIL_SIZE.ENABLED %} checked="checked"{% endif %}>
-				</td>
-				<td class="actions">
 					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
@@ -132,9 +125,6 @@
 					{% if THUMBNAIL_SIZE.EXPLAIN %}<br /><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
 				</td>
 				<td class="actions">
-					<input type="checkbox" id="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}" name="imgur_enabled_thumbnail_sizes[]" value="{{ THUMBNAIL_SIZE.KEY }}"{% if THUMBNAIL_SIZE.ENABLED %} checked="checked"{% endif %}>
-				</td>
-				<td class="actions">
 					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
@@ -147,11 +137,6 @@
 			{%- endif -%}
 		</tbody>
 	</table>
-	<fieldset class="quick">
-		<p class="small">
-		<a href="#" onclick="marklist('imgur_thumbnail_list', 'imgur_enabled_thumbnail_sizes', true)">{{ lang('MARK_ALL') }}</a> • <a href="#" onclick="marklist('imgur_thumbnail_list', 'imgur_enabled_thumbnail_sizes', false)">{{ lang('UNMARK_ALL') }}</a>
-		</p>
-	</fieldset>
 
 	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>

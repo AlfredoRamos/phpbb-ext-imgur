@@ -337,7 +337,7 @@
 			}
 
 			// Must be allowed
-			if ($output.type.allowed.indexOf($output.type.current) < 0) {
+			if ($output.type.allowed.length > 0 && $output.type.allowed.indexOf($output.type.current) < 0) {
 				$output.type.current = $output.type.allowed[0];
 			}
 

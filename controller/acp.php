@@ -293,65 +293,48 @@ class acp
 			$fields = [
 				'imgur_output_type' => $this->request->variable('imgur_output_type', ''),
 				'imgur_thumbnail_size' => $this->request->variable('imgur_thumbnail_size', ''),
-				'imgur_enabled_output_types' => $this->request->variable('imgur_enabled_output_types', [0 => '']),
-				'imgur_enabled_thumbnail_sizes' => $this->request->variable('imgur_enabled_thumbnail_sizes', [0 => ''])
+				'imgur_enabled_output_types' => $this->helper->filter_empty_items(
+					$this->request->variable('imgur_enabled_output_types', [0 => ''])
+				)
 			];
 
-			// Update filtes by the given input
-			foreach (['imgur_enabled_output_types', 'imgur_enabled_thumbnail_sizes'] as $key)
+			// Update filters by given output
+			if (!empty($fields['imgur_enabled_output_types']))
 			{
-				// Remove empty values
-				$fields[$key] = $this->helper->filter_empty_items($fields[$key]);
-
-				if (empty($fields[$key]))
-				{
-					continue;
-				}
-
 				// Data helper
-				// Output types
 				$data = [
+					'field' => 'imgur_enabled_output_types',
 					'contract' => 'types',
-					'filter' => 'imgur_output_type',
-					'regexp' => '#^(?:' . implode('|', $fields[$key]) . ')$#'
+					'filter' => 'imgur_output_type'
 				];
-
-				// Update data helper
-				// Thumbnail sizes
-				if ($key === 'imgur_enabled_thumbnail_sizes')
-				{
-					$data = array_merge($data, [
-						'contract' => 'sizes',
-						'filter' => 'imgur_thumbnail_size',
-						'regexp' => '#^[' . implode($fields[$key]) . ']$#'
-					]);
-				}
+				$data['regexp'] = '#^(?:' . implode('|', $fields[$data['field']]) . ')$#';
 
 				// Can't set as default a disabled option
-				if (!in_array($fields[$data['filter']], $fields[$key]))
+				if (!in_array($fields[$data['filter']], $fields[$data['field']], true))
 				{
 					// Set as default the first available
-					$fields[$data['filter']] = $fields[$key][0];
+					$fields[$data['filter']] = $fields[$data['field']][0];
 				}
 
 				// Enabled (input) values must be in the allowed values
-				if (!empty(array_diff($fields[$key], $contracts[$data['contract']])))
+				if (!empty(array_diff($fields[$data['field']], $contracts[$data['contract']])))
 				{
 					$errors[]['message'] = $this->language->lang(
 						'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED',
 						$this->language->lang('ACP_' . strtoupper($data['filter'])),
-						implode(',', $fields[$key])
+						implode(',', $fields[$data['field']])
 					);
-					continue;
+				}
+				else
+				{
+					// Update validation regexp
+					$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
 				}
 
-				// Update validation regexp
-				$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
-
 				// Convert enabled values (array) to string
-				if (is_array($fields[$key]))
+				if (is_array($fields[$data['field']]))
 				{
-					$fields[$key] = implode(',', $fields[$key]);
+					$fields[$data['field']] = implode(',', $fields[$data['field']]);
 				}
 			}
 
@@ -443,7 +426,6 @@ class acp
 				'KEY' => $size,
 				'NAME' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s', $name)),
 				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s_EXPLAIN', $name)),
-				'ENABLED' => in_array($size, $enabled['sizes'], true),
 				'KEEP_PROPORTIONS' => in_array($size, $contracts['thumbnails'][0], true)
 			]);
 		}

@@ -38,10 +38,6 @@ class m1_imgur_data extends migration
 			[
 				'config.add',
 				['imgur_enabled_output_types', 'url,image,thumbnail', true]
-			],
-			[
-				'config.add',
-				['imgur_enabled_thumbnail_sizes', 't,m,s,b', true]
 			]
 		];
 	}
