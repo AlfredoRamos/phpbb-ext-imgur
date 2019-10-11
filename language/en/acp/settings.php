@@ -38,7 +38,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images. Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
 
-	'ACP_IMGUR_OUTPUT_EXPLAIN' => 'You must select at least one option of each section.',
+	'ACP_IMGUR_OUTPUT_EXPLAIN' => 'You must enable at least one option. Default option must be enabled, otherwise it will use the first available.',
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
 
 	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Thumbnail sizes that keep image proportions',

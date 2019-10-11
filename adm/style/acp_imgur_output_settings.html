@@ -10,13 +10,11 @@
 </div>
 {% endif %}
 
-<div class="errorbox notice">
-	<p>{{ lang('ACP_IMGUR_OUTPUT_EXPLAIN') }}</p>
-	<p>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</p>
-</div>
-
 <form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
 
+	<div class="errorbox notice">
+		<p>{{ lang('ACP_IMGUR_OUTPUT_EXPLAIN') }}</p>
+	</div>
 	<table id="imgur_output_list" class="table1 responsive zebra-table imgur-table">
 		<thead>
 			<tr>
@@ -60,6 +58,9 @@
 
 	<hr>
 
+	<div class="errorbox notice">
+		<p>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</p>
+	</div>
 	<table id="imgur_thumbnail_list" class="table1 responsive zebra-table imgur-table">
 		<thead>
 			<tr>
