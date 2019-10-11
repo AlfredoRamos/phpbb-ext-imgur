@@ -175,7 +175,8 @@ class helper
 
 		// Cast values
 		$depth = abs($depth) + 1;
-		$max_depth = !empty($max_depth) ? abs($max_depth) : 5;
+		$max_depth = abs($max_depth);
+		$max_depth = !empty($max_depth) ? $max_depth : 5;
 
 		// Do not go deeper, return data as is
 		if ($depth > $max_depth)
