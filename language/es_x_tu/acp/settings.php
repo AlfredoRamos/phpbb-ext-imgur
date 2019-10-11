@@ -39,15 +39,41 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
+	'ACP_IMGUR_OUTPUT_TYPE_EXPLAIN' => 'Debes habilitar al menos una opción. La opción por defecto debe estar habilitada, sino se utilizará la primer opción disponible.',
+
+	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Tamaños de miniatura que mantienen las proporciones de la imagen',
+	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Tamaños de miniatura que <u>no</u> mantienen las proporciones de la imagen',
 
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Tamaño de miniatura',
-	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'Este ajuste no tendrá ningun efecto si el tipo de salida no se establece en <samp>Miniatura</samp>. Los tamaños de las miniaturas son de 160x160 para <samp>Pequeña</samp> y 320x320 para <samp>Mediana</samp>, las proporciones de la imagen son mantenidas.',
+	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'Este ajuste no tendrá ningun efecto si el tipo de salida no se establece en <samp>Miniatura</samp>.',
+
+	'ACP_IMGUR_OUTPUT_TEXT_EXPLAIN' => 'URL de imagen sin formato',
+	'ACP_IMGUR_OUTPUT_URL_EXPLAIN' => '<code>[url]<var>{imagen}</var>[/url]</code>',
+	'ACP_IMGUR_OUTPUT_IMAGE_EXPLAIN' => '<code>[img]<var>{imagen}</var>[/img]</code> BBCode',
+	'ACP_IMGUR_OUTPUT_THUMBNAIL_EXPLAIN' => '<code>[url=<var>{imagen}</var>][img]<var>{miniatura}</var>[/img][/url]</code>',
+
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Pequeña',
+	'ACP_IMGUR_THUMBNAIL_SMALL_EXPLAIN' => '160x160px',
+
 	'ACP_IMGUR_THUMBNAIL_MEDIUM' => 'Mediana',
+	'ACP_IMGUR_THUMBNAIL_MEDIUM_EXPLAIN' => '320x320px',
+
+	'ACP_IMGUR_THUMBNAIL_LARGE' => 'Grande',
+	'ACP_IMGUR_THUMBNAIL_LARGE_EXPLAIN' => '640x640px',
+
+	'ACP_IMGUR_THUMBNAIL_HUGE' => 'Enorme',
+	'ACP_IMGUR_THUMBNAIL_HUGE_EXPLAIN' => '1024x1024px',
+
+	'ACP_IMGUR_THUMBNAIL_SMALL_SQUARE' => 'Cuadrado pequeño',
+	'ACP_IMGUR_THUMBNAIL_SMALL_SQUARE_EXPLAIN' => '90x90px',
+
+	'ACP_IMGUR_THUMBNAIL_BIG_SQUARE' => 'Cuadrado grande',
+	'ACP_IMGUR_THUMBNAIL_BIG_SQUARE_EXPLAIN' => '160x160px',
 
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
+	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no estan permitidos: <code>%2$s</code>',
 
 	'OUTPUT_SETTINGS' => 'Ajustes de salida'
 ]);
