@@ -217,10 +217,10 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach ($errors as $key => $value)
+		foreach ($errors as $error)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'MESSAGE' => $value['message']
+				'MESSAGE' => $error['message']
 			]);
 		}
 	}
@@ -419,7 +419,7 @@ class acp
 			// Invalid o not yet supported size
 			if (empty($name))
 			{
-				return;
+				continue;
 			}
 
 			$this->template->assign_block_vars('IMGUR_THUMBNAIL_SIZES', [
@@ -431,10 +431,10 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach ($errors as $key => $value)
+		foreach ($errors as $error)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'MESSAGE' => $value['message']
+				'MESSAGE' => $error['message']
 			]);
 		}
 	}
