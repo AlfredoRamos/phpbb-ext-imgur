@@ -65,7 +65,10 @@ class acp_imgur_test extends abstract_functional_test_case
 
 		foreach ($form->get('imgur_enabled_output_types') as $key => $value)
 		{
-			$this->assertTrue($value->containsOption($allowed[$key]));
+			$this->assertTrue($value->containsOption(
+				$allowed['types'][$key],
+				$allowed['types']
+			));
 		}
 
 		foreach ($allowed['types'] as $key => $value)
