@@ -63,14 +63,6 @@ class acp_imgur_test extends abstract_functional_test_case
 		$this->assertTrue($form->has('imgur_enabled_output_types'));
 		$this->assertSame(4, count($form->get('imgur_enabled_output_types')));
 
-		foreach ($form->get('imgur_enabled_output_types') as $key => $value)
-		{
-			$this->assertTrue($value->containsOption(
-				$allowed['types'][$key],
-				$allowed['types']
-			));
-		}
-
 		foreach ($allowed['types'] as $key => $value)
 		{
 			$selector = sprintf('#imgur_output_settings #imgur_output_type_%s', $value);
