@@ -65,6 +65,6 @@ class imgur_test extends abstract_functional_test_case
 			$elements['upload']->text()
 		);
 
-		$this->assertSame(4, $elements['fields']->count());
+		$this->assertSame(3, $elements['fields']->count());
 	}
 }
