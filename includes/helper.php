@@ -60,13 +60,7 @@ class helper
 	public function assign_template_variables()
 	{
 		// Enabled output values
-		$enabled = $this->enabled_imgur_values();
-
-		// Fallback output type
-		if (!in_array($this->config['imgur_output_type'], $enabled['types'], true))
-		{
-			$this->config->set('imgur_output_type', $enabled['types'][0], false);
-		}
+		$enabled = $this->enabled_imgur_values('types');
 
 		// Assign global template variables
 		$this->template->assign_vars([
@@ -77,11 +71,11 @@ class helper
 			'SHOW_IMGUR_BUTTON' => !empty($this->config['imgur_access_token']),
 			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
 			'IMGUR_THUMBNAIL_SIZE' => $this->config['imgur_thumbnail_size'],
-			'IMGUR_ALLOWED_OUTPUT_TYPES' => implode(',', $enabled['types'])
+			'IMGUR_ALLOWED_OUTPUT_TYPES' => implode(',', $enabled)
 		]);
 
 		// Assign enabled output types
-		foreach ($enabled['types'] as $type)
+		foreach ($enabled as $type)
 		{
 			$this->template->assign_block_vars('IMGUR_ENABLED_OUTPUT_TYPES', [
 				'KEY' => $type,
@@ -205,13 +199,26 @@ class helper
 	/**
 	 * Enabled imgur values for output.
 	 *
-	 * @param string $key (optional)
+	 * @param string $kind		(optional)
+	 * @param string $allowed	(optional)
 	 *
 	 * @return array
 	 */
-	public function enabled_imgur_values($key = '')
+	public function enabled_imgur_values($kind = '', $allowed = [])
 	{
-		$key = trim($key);
+		$kind = trim($kind);
+
+		// Try to use an string
+		if (!empty($allowed) && is_string($allowed))
+		{
+			$allowed = explode(',', $allowed);
+		}
+
+		// Get allowed values
+		if (empty($allowed) || !is_array($allowed))
+		{
+			$allowed = $this->allowed_imgur_values();
+		}
 
 		// Enabled options
 		$enabled = [
@@ -221,18 +228,67 @@ class helper
 		// Remove empty options
 		$enabled = $this->filter_empty_items($enabled);
 
-		// Administrator must not disable all options
-		foreach ($enabled as $k => $v)
+		// Check if there are deleted options
+		// from disabled/deleted extensions
+		foreach ($allowed as $key => $value)
 		{
-			if (empty($v))
+			// Administrator must not disable all options
+			if (!empty($value) && empty($enabled[$key]))
 			{
-				$enabled[$k] = $this->allowed_imgur_values($k, false);
+				$enabled[$key] = $value;
+			}
+
+			// Get difference between both arrays
+			$diff = array_diff($enabled[$key], $value);
+
+			// It doesn't have leftovers
+			if (empty($diff))
+			{
+				continue;
+			}
+
+			// Get intersection between both arrays
+			// Not using array_intersect() to use already stored values
+			$same = array_filter(
+				$enabled[$key],
+				function($v) use ($diff)
+				{
+					return !in_array($v, $diff, true);
+				}
+			);
+
+			// It only has deleted options
+			if (empty($same))
+			{
+				$same = $value;
+			}
+
+			$same = $this->filter_empty_items($same);
+
+			// Configuration name
+			// Currently only custom output types are allowed
+			$name = ($key === 'types') ? 'imgur_enabled_output_types' : '';
+
+			// Update configuration
+			if (!empty($name) && !empty($same))
+			{
+				$this->config->set($name, implode(',', $same), false);
 			}
 		}
 
-		if (!empty($key) && !empty($enabled[$key]))
+		// Fallback output type
+		if (!in_array($this->config['imgur_output_type'], $enabled['types'], true))
 		{
-			return $enabled[$key];
+			// Try image output first, if not found use the first available
+			$type = array_search('image', $enabled['types']);
+			$type = ($type !== false) ? $enabled['types'][$type] : $enabled['types'][0];
+
+			$this->config->set('imgur_output_type', $type, false);
+		}
+
+		if (!empty($kind) && !empty($enabled[$kind]))
+		{
+			return $enabled[$kind];
 		}
 
 		return $enabled;
@@ -241,12 +297,13 @@ class helper
 	/**
 	 * Allowed imgur values for output.
 	 *
-	 * @param string	$key	(optional)
-	 * @param bool		$extras	(optional)
+	 * @param string	$kind			(optional)
+	 * @param bool		$extras			(optional)
+	 * @param bool		$extras_only	(optional)
 	 *
 	 * @return array
 	 */
-	public function allowed_imgur_values($key = '', $extras = true)
+	public function allowed_imgur_values($kind = '', $extras = true, $extras_only = false)
 	{
 		// Allowed values
 		$allowed = [
@@ -258,8 +315,12 @@ class helper
 		];
 
 		// Value casting
-		$key = trim($key);
+		$kind = trim($kind);
 		$extras = (bool) $extras;
+		$extras_only = (bool) $extras_only;
+
+		// $extras_only implies $extras
+		$extras = $extras_only ? ($extras || $extras_only) : $extras;
 
 		// Extra values
 		$data = [
@@ -272,12 +333,13 @@ class helper
 		 *
 		 * @event alfredoramos.imgur.allowed_values_append
 		 *
-		 * @var array	data	List of allowed values.
-		 * @var bool	extras	Whether extra values will be returned.
+		 * @var array	data		List of allowed values.
+		 * @var bool	extras		Whether extra values will be returned.
+		 * @var bool	extras_only	Wether only extra values will be returned.
 		 *
 		 * @since 1.3.0
 		 */
-		$vars = ['data', 'extras'];
+		$vars = ['data', 'extras', 'extras_only'];
 		extract($this->dispatcher->trigger_event('alfredoramos.imgur.allowed_values_append', compact($vars)));
 
 		// Add extra values
@@ -286,10 +348,16 @@ class helper
 			$allowed = array_merge_recursive($allowed, $data);
 		}
 
-		// Get specific key
-		if (!empty($key) && !empty($allowed[$key]))
+		// Get only extra values
+		if ($extras && $extras_only)
 		{
-			return $allowed[$key];
+			return $this->filter_empty_items($data);
+		}
+
+		// Get specific kind
+		if (!empty($kind) && !empty($allowed[$kind]))
+		{
+			return $allowed[$kind];
 		}
 
 		// Return whole array

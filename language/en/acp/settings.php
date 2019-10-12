@@ -30,6 +30,8 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_AUTHORIZE_EXPLAIN' => 'You need to authorize the application in order to upload the images to your account.',
 
 	'ACP_IMGUR_API_SETTINGS' => 'API settings',
+	'ACP_IMGUR_API_SETTINGS_EXPLAIN' => '<p>Here you can set the required Imgur API data. Consult the <a href="https://www.phpbb.com/customise/db/extension/imgur/faq"><strong>FAQ</strong></a> for more information. If you require assistance, please visit the <a href="https://www.phpbb.com/customise/db/extension/imgur/support"><strong>Support</strong></a> section.</p>',
+
 	'ACP_IMGUR_CLIENT_ID' => 'Client ID',
 	'ACP_IMGUR_CLIENT_ID_EXPLAIN' => 'String consisting of hexadecimal numbers with a length of 15 characters.',
 	'ACP_IMGUR_CLIENT_SECRET' => 'Client Secret',
@@ -38,8 +40,14 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images. Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
 
+	'OUTPUT_SETTINGS' => 'Output settings',
+	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Here you can enable, disable and set as default some options that will change the output of the uploaded images. It will also display custom options added by third-party extensions, however, <strong>you will need to enable each custom option in order to use it</strong>.</p>',
+
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
 	'ACP_IMGUR_OUTPUT_TYPE_EXPLAIN' => 'You must enable at least one option. Default option must be enabled, otherwise it will use the first available.',
+
+	'ACP_IMGUR_OUTPUT_TYPE_BUILTIN' => 'Built-in',
+	'ACP_IMGUR_OUTPUT_TYPE_EXTRA' => 'Provided by other extensions',
 
 	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Thumbnail sizes that keep image proportions',
 	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Thumbnail sizes that do <u>not</u> keep image proportions',
@@ -49,7 +57,7 @@ $lang = array_merge($lang, [
 
 	'ACP_IMGUR_OUTPUT_TEXT_EXPLAIN' => 'Raw image URL',
 	'ACP_IMGUR_OUTPUT_URL_EXPLAIN' => '<code>[url]<var>{image}</var>[/url]</code>',
-	'ACP_IMGUR_OUTPUT_IMAGE_EXPLAIN' => '<code>[img]<var>{image}</var>[/img]</code> BBCode',
+	'ACP_IMGUR_OUTPUT_IMAGE_EXPLAIN' => '<code>[img]<var>{image}</var>[/img]</code>',
 	'ACP_IMGUR_OUTPUT_THUMBNAIL_EXPLAIN' => '<code>[url=<var>{image}</var>][img]<var>{thumbnail}</var>[/img][/url]</code>',
 
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Small',
@@ -73,7 +81,5 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Show/Hide %s',
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Invalid values for fields: <samp>%s</samp>',
-	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'The values given for <samp>%1$s</samp> are not allowed: <code>%2$s</code>',
-
-	'OUTPUT_SETTINGS' => 'Output settings'
+	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'The values given for <samp>%1$s</samp> are not allowed: <code>%2$s</code>'
 ]);

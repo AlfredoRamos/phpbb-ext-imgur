@@ -245,10 +245,10 @@ class acp
 
 		// Markdown options are optional and can be deleted latter,
 		// so they shouldn't be choices to set them as default values
-		$contracts = $this->helper->allowed_imgur_values(null, false);
+		$contracts = $this->helper->allowed_imgur_values();
 
 		// Helper for thumbnails sizes
-		$contracts['thumbnails'] = [
+		$thumbnails = [
 			// Keep image proportions
 			['t', 'm', 'l', 'h'],
 
@@ -256,7 +256,11 @@ class acp
 			['s', 'b'],
 		];
 
-		$enabled = $this->helper->enabled_imgur_values();
+		// Enabled values
+		$enabled = $this->helper->enabled_imgur_values(null, $contracts);
+
+		// Extra values added by extensions
+		$extras = $this->helper->allowed_imgur_values(null, true, true);
 
 		// Validation errors
 		$errors = [];
@@ -374,12 +378,20 @@ class acp
 		// Assign allowed output types
 		foreach ($contracts['types'] as $type)
 		{
-			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
+			$template_data = [
 				'KEY' => $type,
 				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
 				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_OUTPUT_%s_EXPLAIN', strtoupper($type))),
 				'ENABLED' => in_array($type, $enabled['types'], true)
-			]);
+			];
+
+			// Extra values added by extensions
+			if (!empty($extras['types']))
+			{
+				$template_data['EXTRA'] = in_array($type, $extras['types'], true);
+			}
+
+			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', $template_data);
 		}
 
 		// Assign allowed thumbnail sizes
@@ -426,7 +438,7 @@ class acp
 				'KEY' => $size,
 				'NAME' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s', $name)),
 				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s_EXPLAIN', $name)),
-				'KEEP_PROPORTIONS' => in_array($size, $contracts['thumbnails'][0], true)
+				'KEEP_PROPORTIONS' => in_array($size, $thumbnails[0], true)
 			]);
 		}
 

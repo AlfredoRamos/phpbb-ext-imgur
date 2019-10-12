@@ -30,6 +30,8 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_AUTHORIZE_EXPLAIN' => 'Necesita autorizar la aplicación para poder subir las imágenes a su cuenta.',
 
 	'ACP_IMGUR_API_SETTINGS' => 'Ajustes de la API',
+	'ACP_IMGUR_API_SETTINGS_EXPLAIN' => '<p>Aquí puede añadir los datos necesarios para la API de Imgur. Consulte las <a href="https://www.phpbb.com/customise/db/extension/imgur/faq"><strong>Preguntas Frecuentes</strong></a> para obtener más información. Si requiere de ayuda, por favor visite la sección de <a href="https://www.phpbb.com/customise/db/extension/imgur/support"><strong>Soporte</strong></a>.</p>',
+
 	'ACP_IMGUR_CLIENT_ID' => '<em>Client ID</em>',
 	'ACP_IMGUR_CLIENT_ID_EXPLAIN' => 'Cadena de texto compuesta por números hexadecimales con una longitud de 15 caracteres.',
 	'ACP_IMGUR_CLIENT_SECRET' => '<em>Client Secret</em>',
@@ -38,8 +40,14 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Cadena de texto alfanumérico con una longitud igual o mayor a 5 caracteres. Será usado para almacenar las imágenes subidas. Déjelo vacío si desea que las imágenes sean subidas en la ubicación por defecto.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
 
+	'OUTPUT_SETTINGS' => 'Ajustes de salida',
+	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Aquí puede habilitar, deshabilitar y establecer por defecto algunas opciones que cambiarán la salida de las imágenes subidas. También mostrará opciones personalizadas añadidas por extensiones de terceros, sin embargo, <strong>necesitará habilitar cada opción personalizada para poder usarla</strong>.</p>',
+
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TYPE_EXPLAIN' => 'Debe habilitar al menos una opción. La opción por defecto debe estar habilitada, sino se utilizará la primer opción disponible.',
+
+	'ACP_IMGUR_OUTPUT_TYPE_BUILTIN' => 'Incluidos',
+	'ACP_IMGUR_OUTPUT_TYPE_EXTRA' => 'Proporcionados por otras extensiones',
 
 	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Tamaños de miniatura que mantienen las proporciones de la imagen',
 	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Tamaños de miniatura que <u>no</u> mantienen las proporciones de la imagen',
@@ -49,7 +57,7 @@ $lang = array_merge($lang, [
 
 	'ACP_IMGUR_OUTPUT_TEXT_EXPLAIN' => 'URL de imagen sin formato',
 	'ACP_IMGUR_OUTPUT_URL_EXPLAIN' => '<code>[url]<var>{imagen}</var>[/url]</code>',
-	'ACP_IMGUR_OUTPUT_IMAGE_EXPLAIN' => '<code>[img]<var>{imagen}</var>[/img]</code> BBCode',
+	'ACP_IMGUR_OUTPUT_IMAGE_EXPLAIN' => '<code>[img]<var>{imagen}</var>[/img]</code>',
 	'ACP_IMGUR_OUTPUT_THUMBNAIL_EXPLAIN' => '<code>[url=<var>{imagen}</var>][img]<var>{miniatura}</var>[/img][/url]</code>',
 
 	'ACP_IMGUR_THUMBNAIL_SMALL' => 'Pequeña',
@@ -73,7 +81,5 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
-	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no estan permitidos: <code>%2$s</code>',
-
-	'OUTPUT_SETTINGS' => 'Ajustes de salida'
+	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no estan permitidos: <code>%2$s</code>'
 ]);

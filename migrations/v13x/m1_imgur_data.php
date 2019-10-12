@@ -37,7 +37,7 @@ class m1_imgur_data extends migration
 			],
 			[
 				'config.add',
-				['imgur_enabled_output_types', 'url,image,thumbnail', true]
+				['imgur_enabled_output_types', '', true]
 			]
 		];
 	}

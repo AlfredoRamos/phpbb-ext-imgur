@@ -1,6 +1,7 @@
 {% include 'overall_header.html' %}
 
 <h1>{{ lang('OUTPUT_SETTINGS') }}</h1>
+{{ lang('OUTPUT_SETTINGS_EXPLAIN') }}
 
 {% if VALIDATION_ERRORS %}
 <div class="errorbox">
@@ -12,6 +13,8 @@
 
 <form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
 
+	{%- set OUTPUT_TYPES_BUILTIN = IMGUR_OUTPUT_TYPES | filter(TYPE => TYPE.EXTRA is same as(false)) -%}
+	{%- set OUTPUT_TYPES_EXTRAS = IMGUR_OUTPUT_TYPES | filter(TYPE => TYPE.EXTRA is same as(true)) -%}
 	<div class="errorbox notice">
 		<p>{{ lang('ACP_IMGUR_OUTPUT_TYPE_EXPLAIN') }}</p>
 	</div>
@@ -24,7 +27,57 @@
 			</tr>
 		</thead>
 		<tbody>
-			{%- if IMGUR_OUTPUT_TYPES and IMGUR_OUTPUT_TYPES is iterable -%}
+		{%- if (OUTPUT_TYPES_BUILTIN and OUTPUT_TYPES_BUILTIN is iterable) or (OUTPUT_TYPES_EXTRAS and OUTPUT_TYPES_EXTRAS is iterable) -%}
+
+			{% if OUTPUT_TYPES_BUILTIN and OUTPUT_TYPES_BUILTIN is iterable %}
+			<tr class="big-column">
+				<td class="row3 row1" colspan="3">
+					<strong>{{ lang('ACP_IMGUR_OUTPUT_TYPE_BUILTIN') }}</strong>
+				</td>
+			</tr>
+			{% for OUTPUT_TYPE in OUTPUT_TYPES_BUILTIN %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
+						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
+					</label>
+					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+
+			{% if OUTPUT_TYPES_EXTRAS and OUTPUT_TYPES_EXTRAS is iterable %}
+			<tr class="big-column">
+				<td class="row3 row1" colspan="3">
+					<strong>{{ lang('ACP_IMGUR_OUTPUT_TYPE_EXTRA') }}</strong>
+				</td>
+			</tr>
+			{% for OUTPUT_TYPE in OUTPUT_TYPES_EXTRAS %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
+						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
+					</label>
+					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+
+		{%- elseif IMGUR_OUTPUT_TYPES and IMGUR_OUTPUT_TYPES is iterable -%}
 
 			{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
 			<tr class="row-highlight">
@@ -43,11 +96,11 @@
 			</tr>
 			{% endfor %}
 
-			{%- else -%}
+		{%- else -%}
 			<tr class="big-column">
 				<td colspan="3" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
 			</tr>
-			{%- endif -%}
+		{%- endif -%}
 		</tbody>
 	</table>
 	<fieldset class="quick">
@@ -58,6 +111,8 @@
 
 	<hr>
 
+	{%- set THUMBNAILS_NORMAL = IMGUR_THUMBNAIL_SIZES | filter(SIZE => SIZE.KEEP_PROPORTIONS is same as(true)) -%}
+	{%- set THUMBNAILS_SQUARE = IMGUR_THUMBNAIL_SIZES | filter(SIZE => SIZE.KEEP_PROPORTIONS is same as(false)) -%}
 	<div class="errorbox notice">
 		<p>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</p>
 	</div>
@@ -69,9 +124,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{%- set THUMBNAILS_NORMAL = IMGUR_THUMBNAIL_SIZES | filter(SIZE => SIZE.KEEP_PROPORTIONS is same as(true)) -%}
-			{%- set THUMBNAILS_SQUARE = IMGUR_THUMBNAIL_SIZES | filter(SIZE => SIZE.KEEP_PROPORTIONS is same as(false)) -%}
-			{%- if (THUMBNAILS_NORMAL and THUMBNAILS_NORMAL is iterable) or (THUMBNAILS_SQUARE and THUMBNAILS_SQUARE is iterable) -%}
+		{%- if (THUMBNAILS_NORMAL and THUMBNAILS_NORMAL is iterable) or (THUMBNAILS_SQUARE and THUMBNAILS_SQUARE is iterable) -%}
 
 			{% if THUMBNAILS_NORMAL and THUMBNAILS_NORMAL is iterable %}
 			<tr class="big-column">
@@ -115,7 +168,7 @@
 			{% endfor %}
 			{% endif %}
 
-			{%- elseif IMGUR_THUMBNAIL_SIZES and IMGUR_THUMBNAIL_SIZES is iterable -%}
+		{%- elseif IMGUR_THUMBNAIL_SIZES and IMGUR_THUMBNAIL_SIZES is iterable -%}
 
 			{% for THUMBNAIL_SIZE in IMGUR_THUMBNAIL_SIZES %}
 			<tr class="row-highlight">
@@ -131,11 +184,11 @@
 			</tr>
 			{% endfor %}
 
-			{%- else -%}
+		{%- else -%}
 			<tr class="big-column">
 				<td colspan="3" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
 			</tr>
-			{%- endif -%}
+		{%- endif -%}
 		</tbody>
 	</table>
 
