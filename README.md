@@ -31,10 +31,12 @@ If the upload is successful it will add the image in the topic, private message 
 
 ### Preview
 
-[![ACP settings](https://i.imgur.com/FDKbWoqt.png)](https://i.imgur.com/FDKbWoq.png)
-[![ACP settings API](https://i.imgur.com/xxCEse7t.png)](https://i.imgur.com/xxCEse7.png)
-[![ACP output settings](https://i.imgur.com/CKcYnY2t.png)](https://i.imgur.com/CKcYnY2.png)
-[![Topic](https://i.imgur.com/8C7sMR2t.png)](https://i.imgur.com/8C7sMR2.png)
+[![ACP settings](https://i.imgur.com/FDKbWoqb.png)](https://i.imgur.com/FDKbWoq.png)
+[![ACP settings API](https://i.imgur.com/xxCEse7b.png)](https://i.imgur.com/xxCEse7.png)
+[![ACP output settings](https://i.imgur.com/CKcYnY2b.png)](https://i.imgur.com/CKcYnY2.png)
+[![Topic](https://i.imgur.com/8C7sMR2b.png)](https://i.imgur.com/8C7sMR2.png)
+[![Output menu](https://i.imgur.com/YZNmOxeb.png)](https://i.imgur.com/YZNmOxe.png)
+[![Output tab](https://i.imgur.com/a7UUoEYb.png)](https://i.imgur.com/a7UUoEY.png)
 
 *(Click to view in full size)*
 
