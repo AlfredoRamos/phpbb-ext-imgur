@@ -148,6 +148,7 @@ class helper
 			'refresh_token'		=> $this->config['imgur_refresh_token'],
 			'account_id'		=> (int) $this->config['imgur_accound_id'],
 			'account_username'	=> $this->config['imgur_account_username'],
+			'scope'				=> empty($this->config['imgur_scope']) ? null : $this->config['imgur_scope'],
 			'created_at'		=> (int) $this->config['imgur_created_at']
 		];
 	}

@@ -135,7 +135,8 @@ class acp
 				'token_type'		=> '',
 				'refresh_token'		=> '',
 				'account_id'		=> 0,
-				'account_username'	=> ''
+				'account_username'	=> '',
+				'scope'				=> null
 			];
 
 			// Form data
@@ -157,6 +158,13 @@ class acp
 				// Clear token
 				foreach ($token as $key => $value)
 				{
+					// Scope can be NULL
+					// Configuration table does not allow NULL values
+					if ($key === 'scope')
+					{
+						$value = trim($value);
+					}
+
 					$this->config->set(sprintf('imgur_%s', $key), $value, false);
 				}
 
@@ -243,8 +251,9 @@ class acp
 		$this->language->add_lang('acp/permissions');
 		$this->language->add_lang('posting', 'alfredoramos/imgur');
 
-		// Markdown options are optional and can be deleted latter,
-		// so they shouldn't be choices to set them as default values
+		// Allowed values, including those added by another extensions
+		// They need to be enabled first, and are removed when
+		// that extension is disabled or removed
 		$contracts = $this->helper->allowed_imgur_values();
 
 		// Helper for thumbnails sizes
