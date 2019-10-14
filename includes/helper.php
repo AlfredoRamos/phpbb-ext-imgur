@@ -158,6 +158,7 @@ class helper
 	 *
 	 * @param array		$data
 	 * @param integer	$depth
+	 * @param integer	$max_depth
 	 *
 	 * @return array
 	 */
