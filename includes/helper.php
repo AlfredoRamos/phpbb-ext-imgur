@@ -201,8 +201,8 @@ class helper
 	/**
 	 * Enabled imgur values for output.
 	 *
-	 * @param string $kind		(optional)
-	 * @param string $allowed	(optional)
+	 * @param string	$kind		(optional)
+	 * @param array		$allowed	(optional)
 	 *
 	 * @return array
 	 */
@@ -265,6 +265,7 @@ class helper
 				$same = $value;
 			}
 
+			// Remove empty values
 			$same = $this->filter_empty_items($same);
 
 			// Configuration name
@@ -285,14 +286,17 @@ class helper
 			$type = array_search('image', $enabled['types']);
 			$type = ($type !== false) ? $enabled['types'][$type] : $enabled['types'][0];
 
+			// Update fallback value
 			$this->config->set('imgur_output_type', $type, false);
 		}
 
+		// Get specific kind
 		if (!empty($kind) && !empty($enabled[$kind]))
 		{
 			return $enabled[$kind];
 		}
 
+		// Return whole array
 		return $enabled;
 	}
 
