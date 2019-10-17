@@ -254,7 +254,7 @@ class acp
 		// Allowed values, including those added by another extensions
 		// They need to be enabled first, and are removed when
 		// that extension is disabled or removed
-		$contracts = $this->helper->allowed_imgur_values();
+		$allowed = $this->helper->allowed_imgur_values();
 
 		// Helper for thumbnails sizes
 		$thumbnails = [
@@ -266,7 +266,7 @@ class acp
 		];
 
 		// Enabled values
-		$enabled = $this->helper->enabled_imgur_values(null, $contracts);
+		$enabled = $this->helper->enabled_imgur_values();
 
 		// Extra values added by extensions
 		$extras = $this->helper->allowed_imgur_values(null, true, true);
@@ -279,13 +279,13 @@ class acp
 			'imgur_output_type' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^(?:' . implode('|', $contracts['types']) . ')$#'
+					'regexp' => '#^(?:' . implode('|', $allowed['types']) . ')$#'
 				]
 			],
 			'imgur_thumbnail_size' => [
 				'filter' => FILTER_VALIDATE_REGEXP,
 				'options' => [
-					'regexp' => '#^[' . implode($contracts['sizes']) . ']$#'
+					'regexp' => '#^[' . implode($allowed['sizes']) . ']$#'
 				]
 			]
 		];
@@ -330,7 +330,7 @@ class acp
 				}
 
 				// Enabled (input) values must be in the allowed values
-				if (!empty(array_diff($fields[$data['field']], $contracts[$data['contract']])))
+				if (!empty(array_diff($fields[$data['field']], $allowed[$data['contract']])))
 				{
 					$errors[]['message'] = $this->language->lang(
 						'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED',
@@ -385,7 +385,7 @@ class acp
 		]);
 
 		// Assign allowed output types
-		foreach ($contracts['types'] as $type)
+		foreach ($allowed['types'] as $type)
 		{
 			$template_data = [
 				'KEY' => $type,
@@ -404,7 +404,7 @@ class acp
 		}
 
 		// Assign allowed thumbnail sizes
-		foreach ($contracts['sizes'] as $size)
+		foreach ($allowed['sizes'] as $size)
 		{
 			switch ($size)
 			{

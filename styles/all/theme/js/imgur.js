@@ -338,7 +338,14 @@
 
 			// Must be allowed
 			if ($output.type.allowed.length > 0 && $output.type.allowed.indexOf($output.type.current) < 0) {
-				$output.type.current = $output.type.allowed[0];
+				// Try image first
+				var $index = $output.type.allowed.indexOf('image');
+
+				// Fallback to first available
+				$index = ($index < 0) ? 0 : $index;
+
+				// Update current value
+				$output.type.current = $output.type.allowed[$index];
 			}
 
 			// Restore user preference
