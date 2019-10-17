@@ -1,9 +1,9 @@
 {% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON %}
 <div class="imgur-wrapper">
 	<input type="button" class="imgur-button abbc3_button" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape }}">
-	{% if IMGUR_ALLOWED_OUTPUT_TYPES %}
+	{% if IMGUR_ENABLED_OUTPUT_TYPES %}
 	<select class="imgur-output-select" role="menu">
-		{% for OUTPUT_TYPE in IMGUR_ALLOWED_OUTPUT_TYPES %}
+		{% for OUTPUT_TYPE in IMGUR_ENABLED_OUTPUT_TYPES %}
 		<option value="{{ OUTPUT_TYPE.KEY }}" role="menuitem"{% if OUTPUT_TYPE.DEFAULT %} selected="selected"{% endif %}>
 		{{ OUTPUT_TYPE.NAME }}
 		</option>

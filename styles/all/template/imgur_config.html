@@ -1,6 +1,9 @@
 {% if not INCLUDED_IMGUR_CONFIG %}
 <script>
 var $imgur = {
+	config: {
+		types: '{{ IMGUR_ALLOWED_OUTPUT_TYPES|escape("js") }}'
+	},
 	lang: {
 		error: '{{ lang("ERROR")|escape("js") }}',
 		imageTooBig: '{{ lang("IMGUR_IMAGE_TOO_BIG")|escape("js") }}',

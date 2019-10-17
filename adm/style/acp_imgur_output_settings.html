@@ -1,6 +1,7 @@
 {% include 'overall_header.html' %}
 
 <h1>{{ lang('OUTPUT_SETTINGS') }}</h1>
+{{ lang('OUTPUT_SETTINGS_EXPLAIN') }}
 
 {% if VALIDATION_ERRORS %}
 <div class="errorbox">
@@ -12,35 +13,184 @@
 
 <form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
 
-	<fieldset>
-		<legend>{{ lang('OUTPUT_SETTINGS') }}</legend>
-		<dl>
-			<dt>
-				<label for="imgur_output_type">{{ lang('ACP_IMGUR_OUTPUT_TYPE') }}{{ lang('COLON') }}</label>
-			</dt>
-			<dd>
-				<select id="imgur_output_type" name="imgur_output_type">
-					{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
-					<option value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} selected="selected"{% endif %}>{{ OUTPUT_TYPE.NAME }}</option>
-					{% endfor %}
-				</select>
-			</dd>
-		</dl>
+	{%- set OUTPUT_TYPES_BUILTIN = IMGUR_OUTPUT_TYPES | filter(TYPE => TYPE.EXTRA is same as(false)) -%}
+	{%- set OUTPUT_TYPES_EXTRAS = IMGUR_OUTPUT_TYPES | filter(TYPE => TYPE.EXTRA is same as(true)) -%}
+	<div class="errorbox notice">
+		<p>{{ lang('ACP_IMGUR_OUTPUT_TYPE_EXPLAIN') }}</p>
+	</div>
+	<table id="imgur_output_list" class="table1 responsive zebra-table imgur-table">
+		<thead>
+			<tr>
+				<th>{{ lang('ACP_IMGUR_OUTPUT_TYPE') }}</th>
+				<th>{{ lang('ENABLED') }}</th>
+				<th>{{ lang('DEFAULT') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{%- if (OUTPUT_TYPES_BUILTIN and OUTPUT_TYPES_BUILTIN is iterable) or (OUTPUT_TYPES_EXTRAS and OUTPUT_TYPES_EXTRAS is iterable) -%}
 
-		<dl>
-			<dt>
-				<label for="imgur_thumbnail_size">{{ lang('ACP_IMGUR_THUMBNAIL_SIZE') }}{{ lang('COLON') }}</label>
-				<br><span>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</span>
-			</dt>
-			<dd>
-				<select id="imgur_thumbnail_size" name="imgur_thumbnail_size">
-					{% for THUMBNAIL_SIZE in IMGUR_THUMBNAIL_SIZES %}
-					<option value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} selected="selected"{% endif %}>{{ THUMBNAIL_SIZE.NAME }}</option>
-					{% endfor %}
-				</select>
-			</dd>
-		</dl>
+			{% if OUTPUT_TYPES_BUILTIN and OUTPUT_TYPES_BUILTIN is iterable %}
+			<tr class="big-column">
+				<td class="row3 row1" colspan="3">
+					<strong>{{ lang('ACP_IMGUR_OUTPUT_TYPE_BUILTIN') }}</strong>
+				</td>
+			</tr>
+			{% for OUTPUT_TYPE in OUTPUT_TYPES_BUILTIN %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
+						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
+					</label>
+					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+
+			{% if OUTPUT_TYPES_EXTRAS and OUTPUT_TYPES_EXTRAS is iterable %}
+			<tr class="big-column">
+				<td class="row3 row1" colspan="3">
+					<strong>{{ lang('ACP_IMGUR_OUTPUT_TYPE_EXTRA') }}</strong>
+				</td>
+			</tr>
+			{% for OUTPUT_TYPE in OUTPUT_TYPES_EXTRAS %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
+						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
+					</label>
+					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+
+		{%- elseif IMGUR_OUTPUT_TYPES and IMGUR_OUTPUT_TYPES is iterable -%}
+
+			{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
+						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
+					</label>
+					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+
+		{%- else -%}
+			<tr class="big-column">
+				<td colspan="3" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
+			</tr>
+		{%- endif -%}
+		</tbody>
+	</table>
+	<fieldset class="quick">
+		<p class="small">
+		<a href="#" onclick="marklist('imgur_output_list', 'imgur_enabled_output_types', true)">{{ lang('MARK_ALL') }}</a> • <a href="#" onclick="marklist('imgur_output_list', 'imgur_enabled_output_types', false)">{{ lang('UNMARK_ALL') }}</a>
+		</p>
 	</fieldset>
+
+	<hr>
+
+	{%- set THUMBNAILS_NORMAL = IMGUR_THUMBNAIL_SIZES | filter(SIZE => SIZE.KEEP_PROPORTIONS is same as(true)) -%}
+	{%- set THUMBNAILS_SQUARE = IMGUR_THUMBNAIL_SIZES | filter(SIZE => SIZE.KEEP_PROPORTIONS is same as(false)) -%}
+	<div class="errorbox notice">
+		<p>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</p>
+	</div>
+	<table id="imgur_thumbnail_list" class="table1 responsive zebra-table imgur-table">
+		<thead>
+			<tr>
+				<th>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE') }}</th>
+				<th>{{ lang('DEFAULT') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{%- if (THUMBNAILS_NORMAL and THUMBNAILS_NORMAL is iterable) or (THUMBNAILS_SQUARE and THUMBNAILS_SQUARE is iterable) -%}
+
+			{% if THUMBNAILS_NORMAL and THUMBNAILS_NORMAL is iterable %}
+			<tr class="big-column">
+				<td class="row3 row1" colspan="3">
+					<strong>{{ lang('ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS') }}</strong>
+				</td>
+			</tr>
+			{% for THUMBNAIL_SIZE in THUMBNAILS_NORMAL %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}">
+						<strong>{{ THUMBNAIL_SIZE.NAME }}</strong>
+					</label>
+					{% if THUMBNAIL_SIZE.EXPLAIN %}<br><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+
+			{% if THUMBNAILS_SQUARE and THUMBNAILS_SQUARE is iterable %}
+			<tr class="big-column">
+				<td class="row3 row1" colspan="3">
+					<strong>{{ lang('ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS') }}</strong>
+				</td>
+			</tr>
+			{% for THUMBNAIL_SIZE in THUMBNAILS_SQUARE %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}">
+						<strong>{{ THUMBNAIL_SIZE.NAME }}</strong>
+					</label>
+					{% if THUMBNAIL_SIZE.EXPLAIN %}<br><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+
+		{%- elseif IMGUR_THUMBNAIL_SIZES and IMGUR_THUMBNAIL_SIZES is iterable -%}
+
+			{% for THUMBNAIL_SIZE in IMGUR_THUMBNAIL_SIZES %}
+			<tr class="row-highlight">
+				<td>
+					<label for="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}">
+						<strong>{{ THUMBNAIL_SIZE.NAME }}</strong>
+					</label>
+					{% if THUMBNAIL_SIZE.EXPLAIN %}<br /><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
+				</td>
+				<td class="actions">
+					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+				</td>
+			</tr>
+			{% endfor %}
+
+		{%- else -%}
+			<tr class="big-column">
+				<td colspan="3" style="text-align: center;">{{ lang('ACP_NO_ITEMS') }}</td>
+			</tr>
+		{%- endif -%}
+		</tbody>
+	</table>
 
 	<fieldset>
 		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>

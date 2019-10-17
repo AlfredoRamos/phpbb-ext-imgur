@@ -135,7 +135,8 @@ class acp
 				'token_type'		=> '',
 				'refresh_token'		=> '',
 				'account_id'		=> 0,
-				'account_username'	=> ''
+				'account_username'	=> '',
+				'scope'				=> null
 			];
 
 			// Form data
@@ -157,6 +158,13 @@ class acp
 				// Clear token
 				foreach ($token as $key => $value)
 				{
+					// Scope can be NULL
+					// Configuration table does not allow NULL values
+					if ($key === 'scope')
+					{
+						$value = trim($value);
+					}
+
 					$this->config->set(sprintf('imgur_%s', $key), $value, false);
 				}
 
@@ -217,10 +225,10 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach ($errors as $key => $value)
+		foreach ($errors as $error)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'MESSAGE' => $value['message']
+				'MESSAGE' => $error['message']
 			]);
 		}
 	}
@@ -240,11 +248,28 @@ class acp
 		}
 
 		// Load additional language keys
+		$this->language->add_lang('acp/permissions');
 		$this->language->add_lang('posting', 'alfredoramos/imgur');
 
-		// Markdown options are optional and can be deleted latter,
-		// so they shouldn't be choices to set them as default values
-		$contracts = $this->helper->allowed_imgur_values(null, false);
+		// Allowed values, including those added by another extensions
+		// They need to be enabled first, and are removed when
+		// that extension is disabled or removed
+		$contracts = $this->helper->allowed_imgur_values();
+
+		// Helper for thumbnails sizes
+		$thumbnails = [
+			// Keep image proportions
+			['t', 'm', 'l', 'h'],
+
+			// Do not keep image proportions
+			['s', 'b'],
+		];
+
+		// Enabled values
+		$enabled = $this->helper->enabled_imgur_values(null, $contracts);
+
+		// Extra values added by extensions
+		$extras = $this->helper->allowed_imgur_values(null, true, true);
 
 		// Validation errors
 		$errors = [];
@@ -280,8 +305,51 @@ class acp
 			// Form data
 			$fields = [
 				'imgur_output_type' => $this->request->variable('imgur_output_type', ''),
-				'imgur_thumbnail_size' => $this->request->variable('imgur_thumbnail_size', '')
+				'imgur_thumbnail_size' => $this->request->variable('imgur_thumbnail_size', ''),
+				'imgur_enabled_output_types' => $this->helper->filter_empty_items(
+					$this->request->variable('imgur_enabled_output_types', [0 => ''])
+				)
 			];
+
+			// Update filters by given output
+			if (!empty($fields['imgur_enabled_output_types']))
+			{
+				// Data helper
+				$data = [
+					'field' => 'imgur_enabled_output_types',
+					'contract' => 'types',
+					'filter' => 'imgur_output_type'
+				];
+				$data['regexp'] = '#^(?:' . implode('|', $fields[$data['field']]) . ')$#';
+
+				// Can't set as default a disabled option
+				if (!in_array($fields[$data['filter']], $fields[$data['field']], true))
+				{
+					// Set as default the first available
+					$fields[$data['filter']] = $fields[$data['field']][0];
+				}
+
+				// Enabled (input) values must be in the allowed values
+				if (!empty(array_diff($fields[$data['field']], $contracts[$data['contract']])))
+				{
+					$errors[]['message'] = $this->language->lang(
+						'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED',
+						$this->language->lang('ACP_' . strtoupper($data['filter'])),
+						implode(',', $fields[$data['field']])
+					);
+				}
+				else
+				{
+					// Update validation regexp
+					$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
+				}
+
+				// Convert enabled values (array) to string
+				if (is_array($fields[$data['field']]))
+				{
+					$fields[$data['field']] = implode(',', $fields[$data['field']]);
+				}
+			}
 
 			// Validation check
 			if ($this->helper->validate($fields, $filters, $errors))
@@ -319,32 +387,75 @@ class acp
 		// Assign allowed output types
 		foreach ($contracts['types'] as $type)
 		{
-			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
+			$template_data = [
 				'KEY' => $type,
-				'NAME' => $this->language->lang(sprintf(
-					'IMGUR_OUTPUT_%s',
-					strtoupper($type)
-				))
-			]);
+				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
+				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_OUTPUT_%s_EXPLAIN', strtoupper($type))),
+				'ENABLED' => in_array($type, $enabled['types'], true)
+			];
+
+			// Extra values added by extensions
+			if (!empty($extras['types']))
+			{
+				$template_data['EXTRA'] = in_array($type, $extras['types'], true);
+			}
+
+			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', $template_data);
 		}
 
 		// Assign allowed thumbnail sizes
 		foreach ($contracts['sizes'] as $size)
 		{
+			switch ($size)
+			{
+				case 't':
+					$name = 'SMALL';
+				break;
+
+				case 'm':
+					$name = 'MEDIUM';
+					break;
+
+				case 'l':
+					$name = 'LARGE';
+					break;
+
+				case 'h':
+					$name = 'HUGE';
+				break;
+
+				case 's':
+					$name = 'SMALL_SQUARE';
+				break;
+
+				case 'b':
+					$name = 'BIG_SQUARE';
+				break;
+
+				default:
+					$name = '';
+				break;
+			}
+
+			// Invalid o not yet supported size
+			if (empty($name))
+			{
+				continue;
+			}
+
 			$this->template->assign_block_vars('IMGUR_THUMBNAIL_SIZES', [
 				'KEY' => $size,
-				'NAME' => $this->language->lang(sprintf(
-					'ACP_IMGUR_THUMBNAIL_%s',
-					($size === 'm') ? 'MEDIUM' : 'SMALL'
-				))
+				'NAME' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s', $name)),
+				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_THUMBNAIL_%s_EXPLAIN', $name)),
+				'KEEP_PROPORTIONS' => in_array($size, $thumbnails[0], true)
 			]);
 		}
 
 		// Assign validation errors
-		foreach ($errors as $key => $value)
+		foreach ($errors as $error)
 		{
 			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'MESSAGE' => $value['message']
+				'MESSAGE' => $error['message']
 			]);
 		}
 	}

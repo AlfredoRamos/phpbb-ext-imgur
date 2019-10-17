@@ -51,9 +51,23 @@ class acp_imgur_test extends abstract_functional_test_case
 			$this->sid
 		));
 
+		$allowed = [
+			'types' => ['text', 'url', 'image', 'thumbnail'],
+			'sizes' => ['t', 'm', 'l', 'h', 's', 'b']
+		];
+
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
 		$this->assertSame(1, $crawler->filter('#imgur_output_settings')->count());
+
+		$this->assertTrue($form->has('imgur_enabled_output_types'));
+		$this->assertSame(4, count($form->get('imgur_enabled_output_types')));
+
+		foreach ($allowed['types'] as $type)
+		{
+			$selector = sprintf('#imgur_output_settings #imgur_output_type_%s', $type);
+			$this->assertSame(1, $crawler->filter($selector)->count());
+		}
 
 		$this->assertTrue($form->has('imgur_output_type'));
 		$this->assertSame('image', $form->get('imgur_output_type')->getValue());
