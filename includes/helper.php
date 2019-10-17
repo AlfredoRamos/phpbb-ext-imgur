@@ -188,7 +188,7 @@ class helper
 				unset($data[$key]);
 			}
 
-			if (is_array($value) && !empty($value))
+			if (!empty($data[$key]) && is_array($data[$key]))
 			{
 				$data[$key] = $this->filter_empty_items($data[$key], $depth);
 			}
@@ -202,25 +202,12 @@ class helper
 	 * Enabled imgur values for output.
 	 *
 	 * @param string	$kind		(optional)
-	 * @param array		$allowed	(optional)
 	 *
 	 * @return array
 	 */
-	public function enabled_imgur_values($kind = '', $allowed = [])
+	public function enabled_imgur_values($kind = '')
 	{
 		$kind = trim($kind);
-
-		// Try to use an string
-		if (!empty($allowed) && is_string($allowed))
-		{
-			$allowed = explode(',', $allowed);
-		}
-
-		// Get allowed values
-		if (empty($allowed) || !is_array($allowed))
-		{
-			$allowed = $this->allowed_imgur_values();
-		}
 
 		// Enabled options
 		$enabled = [
@@ -229,6 +216,16 @@ class helper
 
 		// Remove empty options
 		$enabled = $this->filter_empty_items($enabled);
+
+		// Allowed options
+		if (empty($enabled['types']))
+		{
+			$allowed = $this->allowed_imgur_values(null, false);
+		}
+		else
+		{
+			$allowed = $this->allowed_imgur_values();
+		}
 
 		// Check if there are deleted options
 		// from disabled/deleted extensions
