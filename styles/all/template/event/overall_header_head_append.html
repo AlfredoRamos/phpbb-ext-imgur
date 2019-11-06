@@ -1,4 +1,4 @@
-{% if not INCLUDED_IMGUR_CSS %}
+{% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON and not INCLUDED_IMGUR_CSS %}
 {% INCLUDECSS '@alfredoramos_imgur/css/common.css' %}
 {% INCLUDECSS '@alfredoramos_imgur/css/imgur.css' %}
 {%- set INCLUDED_IMGUR_CSS = true -%}
