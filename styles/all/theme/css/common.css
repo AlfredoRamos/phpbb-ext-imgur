@@ -47,3 +47,10 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+
+.imgur-output-field {
+	resize: vertical !important;
+	min-height: 20px;
+	height: 20px;
+	max-height: 250px;
+}
