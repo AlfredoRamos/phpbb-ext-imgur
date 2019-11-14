@@ -27,7 +27,7 @@
 	text-shadow: -1px 0 #ccc, 0 1px #ccc, 1px 0 #ccc, 0 -1px #ccc;
 }
 
-#imgur-panel .imgur-upload-button {
+.imgur-upload-button {
 	background-color: #1bb76e;
 	margin-bottom: 1em;
 	padding: 10px 20px;
@@ -35,31 +35,27 @@
 	color: #f2f2f2;
 	font-size: 1.25em;
 	font-weight: bold;
+	cursor: pointer;
 }
 
 #imgur-panel dt {
 	text-align: right;
 }
 
-#imgur-panel .imgur-upload-button > .icon,
-#imgur-panel .imgur-output-field,
-#imgur-panel .imgur-output-paste {
+.imgur-upload-button > .icon,
+.imgur-output-field,
+.imgur-output-paste {
 	vertical-align: middle;
 }
 
-#imgur-panel .imgur-upload-button > .icon {
+.imgur-upload-button > .icon {
 	width: 20px;
 	height: 20px;
 	border-radius: 4px;
+	margin-right: 5px;
 }
 
-#imgur-panel .imgur-output-field {
-	resize: vertical;
-	min-height: 25px;
-	max-height: 250px;
-}
-
-#imgur-panel .imgur-output-paste {
+.imgur-output-paste {
 	color: #f2f2f2;
 	background-color: #105289;
 	padding: 8px 6px;

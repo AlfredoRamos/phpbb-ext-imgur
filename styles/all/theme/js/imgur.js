@@ -326,6 +326,9 @@
 		}
 	});
 
+	// Resize output fields in posting editor panel
+	phpbb.resizeTextArea($('.imgur-output-field'));
+
 	// Add generated output in posting editor panel
 	try {
 		if ($imgurStorage.enabled) {
