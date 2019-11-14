@@ -366,19 +366,20 @@
 				$('.imgur-output-select').trigger('change');
 			}
 
-			// Delete output if page doesn't have the fields to do so
-			if ($('#imgur-panel .imgur-output-field').length <= 0 &&
-				window.sessionStorage.getItem($imgurStorage.session) !== 'null' &&
+			if (window.sessionStorage.getItem($imgurStorage.session) !== 'null' &&
 				window.sessionStorage.getItem($imgurStorage.session) !== null
 			) {
-				window.sessionStorage.removeItem($imgurStorage.session);
-				return;
-			}
+				// Delete output if page doesn't have the fields to do so
+				if ($('#imgur-panel .imgur-output-field').length <= 0) {
+					window.sessionStorage.removeItem($imgurStorage.session);
+					return;
+				}
 
-			// Get stored output
-			$outputList = $outputList.concat(JSON.parse(
-				window.sessionStorage.getItem($imgurStorage.session)
-			));
+				// Get stored output
+				$outputList = $outputList.concat(JSON.parse(
+					window.sessionStorage.getItem($imgurStorage.session)
+				));
+			}
 
 			fillOutputFields($outputList);
 		}
