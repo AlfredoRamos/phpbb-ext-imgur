@@ -41,13 +41,10 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
 
 	'OUTPUT_SETTINGS' => 'Ajustes de salida',
-	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Aquí puede habilitar, deshabilitar y establecer por defecto algunas opciones que cambiarán la salida de las imágenes subidas. También mostrará opciones personalizadas añadidas por extensiones de terceros, sin embargo, <strong>necesitará habilitar cada opción personalizada para poder usarla</strong>.</p>',
+	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Aquí puede habilitar, deshabilitar y establecer por defecto algunas opciones que cambiarán la salida de las imágenes subidas.</p>',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TYPE_EXPLAIN' => 'Debe habilitar al menos una opción. La opción por defecto debe estar habilitada, sino se utilizará la primer opción disponible.',
-
-	'ACP_IMGUR_OUTPUT_TYPE_BUILTIN' => 'Incluidos',
-	'ACP_IMGUR_OUTPUT_TYPE_EXTRA' => 'Proporcionados por otras extensiones',
 
 	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Tamaños de miniatura que mantienen las proporciones de la imagen',
 	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Tamaños de miniatura que <u>no</u> mantienen las proporciones de la imagen',

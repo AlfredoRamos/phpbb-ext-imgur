@@ -268,9 +268,6 @@ class acp
 		// Enabled values
 		$enabled = $this->helper->enabled_imgur_values();
 
-		// Extra values added by extensions
-		$extras = $this->helper->allowed_imgur_values(null, true, true);
-
 		// Validation errors
 		$errors = [];
 
@@ -387,20 +384,12 @@ class acp
 		// Assign allowed output types
 		foreach ($allowed['types'] as $type)
 		{
-			$template_data = [
+			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
 				'KEY' => $type,
 				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
 				'EXPLAIN' => $this->language->lang(sprintf('ACP_IMGUR_OUTPUT_%s_EXPLAIN', strtoupper($type))),
 				'ENABLED' => in_array($type, $enabled['types'], true)
-			];
-
-			// Extra values added by extensions
-			if (!empty($extras['types']))
-			{
-				$template_data['EXTRA'] = in_array($type, $extras['types'], true);
-			}
-
-			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', $template_data);
+			]);
 		}
 
 		// Assign allowed thumbnail sizes

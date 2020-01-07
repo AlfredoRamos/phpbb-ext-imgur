@@ -41,13 +41,10 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
 
 	'OUTPUT_SETTINGS' => 'Output settings',
-	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Here you can enable, disable and set as default some options that will change the output of the uploaded images. It will also display custom options added by third-party extensions, however, <strong>you will need to enable each custom option in order to use it</strong>.</p>',
+	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Here you can enable, disable and set as default some options that will change the output of the uploaded images.</p>',
 
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Output type',
 	'ACP_IMGUR_OUTPUT_TYPE_EXPLAIN' => 'You must enable at least one option. Default option must be enabled, otherwise it will use the first available.',
-
-	'ACP_IMGUR_OUTPUT_TYPE_BUILTIN' => 'Built-in',
-	'ACP_IMGUR_OUTPUT_TYPE_EXTRA' => 'Provided by other extensions',
 
 	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Thumbnail sizes that keep image proportions',
 	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Thumbnail sizes that do <u>not</u> keep image proportions',

@@ -24,38 +24,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES if OUTPUT_TYPE.EXTRA is null or OUTPUT_TYPE.EXTRA is same as(false) %}
-			{% if loop.first %}
-			<tr class="big-column">
-				<td class="row3 row1" colspan="3">
-					<strong>{{ lang('ACP_IMGUR_OUTPUT_TYPE_BUILTIN') }}</strong>
-				</td>
-			</tr>
-			{% endif %}
-			<tr class="row-highlight">
-				<td>
-					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
-						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
-					</label>
-					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
-				</td>
-				<td class="actions">
-					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
-				</td>
-				<td class="actions">
-					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
-				</td>
-			</tr>
-			{% endfor %}
-
-			{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES if OUTPUT_TYPE.EXTRA is not null and OUTPUT_TYPE.EXTRA is same as(true) %}
-			{% if loop.first %}
-			<tr class="big-column">
-				<td class="row3 row1" colspan="3">
-					<strong>{{ lang('ACP_IMGUR_OUTPUT_TYPE_EXTRA') }}</strong>
-				</td>
-			</tr>
-			{% endif %}
+			{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
 			<tr class="row-highlight">
 				<td>
 					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">

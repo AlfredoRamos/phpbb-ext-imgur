@@ -40,11 +40,11 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Cadena de texto alfanumérico con una longitud igual o mayor a 5 caracteres. Será usado para almacenar las imágenes subidas. Déjalo vacío si deseas que las imágenes sean subidas en la ubicación por defecto.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
 
+	'OUTPUT_SETTINGS' => 'Ajustes de salida',
+	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Aquí puedes habilitar, deshabilitar y establecer por defecto algunas opciones que cambiarán la salida de las imágenes subidas.</p>',
+
 	'ACP_IMGUR_OUTPUT_TYPE' => 'Tipo de salida',
 	'ACP_IMGUR_OUTPUT_TYPE_EXPLAIN' => 'Debes habilitar al menos una opción. La opción por defecto debe estar habilitada, sino se utilizará la primer opción disponible.',
-
-	'ACP_IMGUR_OUTPUT_TYPE_BUILTIN' => 'Incluidos',
-	'ACP_IMGUR_OUTPUT_TYPE_EXTRA' => 'Proporcionados por otras extensiones',
 
 	'ACP_IMGUR_THUMBNAIL_KEEP_PROPORTIONS' => 'Tamaños de miniatura que mantienen las proporciones de la imagen',
 	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Tamaños de miniatura que <u>no</u> mantienen las proporciones de la imagen',
@@ -78,8 +78,5 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
-	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no estan permitidos: <code>%2$s</code>',
-
-	'OUTPUT_SETTINGS' => 'Ajustes de salida',
-	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Aquí puedes habilitar, deshabilitar y establecer por defecto algunas opciones que cambiarán la salida de las imágenes subidas. También mostrará opciones personalizadas añadidas por extensiones de terceros, sin embargo, <strong>necesitarás habilitar cada opción personalizada para poder usarla</strong>.</p>',
+	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no estan permitidos: <code>%2$s</code>'
 ]);
