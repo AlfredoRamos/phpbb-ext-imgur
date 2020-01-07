@@ -218,17 +218,9 @@ class helper
 		$enabled = $this->filter_empty_items($enabled);
 
 		// Allowed options
-		if (empty($enabled['types']))
-		{
-			$allowed = $this->allowed_imgur_values(null, false);
-		}
-		else
-		{
-			$allowed = $this->allowed_imgur_values();
-		}
+		$allowed = $this->allowed_imgur_values();
 
 		// Check if there are deleted options
-		// from disabled/deleted extensions
 		foreach ($allowed as $key => $value)
 		{
 			// Administrator must not disable all options
@@ -266,7 +258,7 @@ class helper
 			$same = $this->filter_empty_items($same);
 
 			// Configuration name
-			// Currently only custom output types are allowed
+			// Currently only output types are allowed
 			$name = ($key === 'types') ? 'imgur_enabled_output_types' : '';
 
 			// Update configuration
@@ -300,13 +292,11 @@ class helper
 	/**
 	 * Allowed imgur values for output.
 	 *
-	 * @param string	$kind			(optional)
-	 * @param bool		$extras			(optional)
-	 * @param bool		$extras_only	(optional)
+	 * @param string $kind (optional)
 	 *
 	 * @return array
 	 */
-	public function allowed_imgur_values($kind = '', $extras = true, $extras_only = false)
+	public function allowed_imgur_values($kind = '')
 	{
 		// Allowed values
 		$allowed = [
@@ -314,48 +304,11 @@ class helper
 			'types' => ['text', 'url', 'image', 'thumbnail'],
 
 			// Thumbnail sizes
-			'sizes'	=> ['t', 'm', 'l', 'h', 's', 'b',]
+			'sizes'	=> ['t', 'm', 'l', 'h', 's', 'b']
 		];
 
 		// Value casting
 		$kind = trim($kind);
-		$extras = (bool) $extras;
-		$extras_only = (bool) $extras_only;
-
-		// $extras_only implies $extras
-		$extras = $extras_only ? ($extras || $extras_only) : $extras;
-
-		// Extra values
-		$data = [
-			'types' => [],
-			'sizes' => []
-		];
-
-		/**
-		 * Append allowed values.
-		 *
-		 * @event alfredoramos.imgur.allowed_values_append
-		 *
-		 * @var array	data		List of allowed values.
-		 * @var bool	extras		Whether extra values will be returned.
-		 * @var bool	extras_only	Wether only extra values will be returned.
-		 *
-		 * @since 1.3.0
-		 */
-		$vars = ['data', 'extras', 'extras_only'];
-		extract($this->dispatcher->trigger_event('alfredoramos.imgur.allowed_values_append', compact($vars)));
-
-		// Add extra values
-		if ($extras && (!empty($data['types']) || !empty($data['sizes'])))
-		{
-			$allowed = array_merge_recursive($allowed, $data);
-		}
-
-		// Get only extra values
-		if ($extras && $extras_only)
-		{
-			return $this->filter_empty_items($data);
-		}
 
 		// Get specific kind
 		if (!empty($kind) && !empty($allowed[$kind]))
