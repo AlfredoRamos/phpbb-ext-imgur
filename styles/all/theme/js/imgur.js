@@ -182,9 +182,6 @@
 					$output.thumbnail = '[url=' + $image.link + '][img]'
 						+ $image.thumbnail + '[/img][/url]';
 
-					// Add custom output types
-					$(document.body).trigger('alfredoramos.imgur.output_append', [$output, $image]);
-
 					// Save (and append) data to session
 					if ($imgurStorage.enabled) {
 						if (window.sessionStorage.getItem($imgurStorage.session) !== 'null' &&
