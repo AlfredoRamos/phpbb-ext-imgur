@@ -30,7 +30,7 @@
 	var $outputList = [];
 	var $errors = [];
 	var $imgurStorage = {
-		enabled: (typeof(Storage) !== 'undefined'),
+		enabled: (typeof Storage !== 'undefined'),
 		local: 'imgur_output_type',
 		session: 'imgur_output_list'
 	};
@@ -38,7 +38,7 @@
 
 	// Show image selection window
 	$(document.body).on('click', '.imgur-button', function() {
-		$addOutput = (typeof($(this).attr('data-add-output')) === 'undefined' ||
+		$addOutput = (typeof $(this).attr('data-add-output') === 'undefined' ||
 			$(this).attr('data-add-output') === 'true');
 		$('#imgur-image').trigger('click');
 	});
