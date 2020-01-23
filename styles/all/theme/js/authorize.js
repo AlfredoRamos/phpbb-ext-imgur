@@ -5,7 +5,7 @@
  * @license GPL-2.0-only
  */
 
-(function($) {
+(function() {
 	'use strict';
 
 	// Container
@@ -42,18 +42,14 @@
 		return;
 	}
 
-	// Execute AJAX call
-	$.ajax({
-		url: imgurAuthorize.attr('data-ajax-action'),
-		type: 'POST',
-		data: formData,
-		contentType: false,
-		cache: false,
-		processData: false
-	}).done(function(data, textStatus, jqXHR) {
+	// Generate AJAX object
+	const xhr = new XMLHttpRequest();
+
+	// Success
+	xhr.addEventListener('load', function(e) {
 		try {
-			// Redirect or show message
-			if (jqXHR.readyState === 4 && jqXHR.status === 200) {
+			// Redirect
+			if (e.target.readyState === 4 && e.target.status === 200) {
 				if (window.opener !== null) {
 					// Refresh ACP page
 					window.opener.location.reload(true);
@@ -61,8 +57,37 @@
 					// Close current window
 					window.close();
 				}
+
+				return;
+			}
+
+			// Get response
+			let response = e.target.responseText;
+
+			// Empty response
+			if (response.length <= 0) {
+				errors.push(imgur.lang.emptyResponse);
+				return;
+			}
+			// Parse JSON response
+			responseBody = JSON.parse(response);
+
+			// Empty response body
+			if (responseBody.length <= 0) {
+				errors.push(imgur.lang.emptyResponse);
+				return;
+			}
+
+			// Get error message
+			if (Array.isArray(responseBody)) {
+				responseBody.forEach(function(item) {
+					if (!item) {
+						return;
+					}
+
+					errors.push(item.message);
+				});
 			} else {
-				responseBody = $.parseJSON(jqXHR.responseText);
 				errors.push(responseBody.message);
 			}
 		} catch (ex) {
@@ -70,15 +95,38 @@
 		}
 
 		showImgurErrors(errors);
-	}).fail(function(data, textStatus, error) {
-		// Parse JSON response
+	});
+
+	// Failure
+	xhr.addEventListener('error', function(e) {
 		try {
-			responseBody = $.parseJSON(data.responseText);
+			// Get response
+			let response = e.target.responseText;
 
-			if ($.isArray(responseBody)) {
-				for (var i = 0; i < responseBody.length; i++) {
-					errors.push(responseBody[i].message);
-				}
+			// Empty response
+			if (response.length <= 0) {
+				errors.push(imgur.lang.emptyResponse);
+				return;
+			}
+
+			// Parse JSON response
+			responseBody = JSON.parse(response);
+
+			// Empty response body
+			if (responseBody.length <= 0) {
+				errors.push(imgur.lang.emptyResponse);
+				return;
+			}
+
+			// Check for errors
+			if (Array.isArray(responseBody)) {
+				responseBody.forEach(function(item) {
+					if (!item) {
+						return;
+					}
+
+					errors.push(item.message);
+				});
 			} else {
 				errors.push(responseBody.message);
 			}
@@ -86,13 +134,28 @@
 			errors.push(ex.message);
 		}
 
-		// Failure error message
-		errors.push(error);
-
 		showImgurErrors(errors);
-	}).always(function() {
+	});
+
+	// Post-request
+	xhr.addEventListener('loadend', function() {
+		// Reset
 		formData = new FormData();
 		responseBody = {};
 		errors = [];
 	});
-})(jQuery);
+
+	// Initialize request
+	xhr.open(
+		'POST',
+		imgurAuthorize.getAttribute('data-ajax-action').trim(),
+		true
+	);
+
+	// Additional headers
+	xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	xhr.setRequestHeader('Cache-Control', 'no-cache');
+
+	// Send request
+	xhr.send(formData);
+})();
