@@ -9,51 +9,51 @@
 	'use strict';
 
 	// Container
-	var $imgurAuthorize = $('#imgur-authorize').first();
+	let imgurAuthorize = document.body.querySelector('#imgur-authorize');
 
 	// Additional check if is already authorized
 	// just in case, for some reason, user got this far
-	if (parseInt($imgurAuthorize.attr('data-ajax-authorized')) === 1) {
+	if (parseInt(imgurAuthorize.getAttribute('data-ajax-authorized')) === 1) {
 		return;
 	}
 
 	// Helper variables
-	var $formData = new FormData();
-	var $queryString = location.hash.substring(1);
-	var $regexp = /([^&=]+)=([^&]*)/g;
-	var $match = null;
-	var $responseBody = {};
-	var $errors = [];
+	let formData = new FormData();
+	let queryString = location.hash.substring(1);
+	let regexp = /([^&=]+)=([^&]*)/g;
+	let match = null;
+	let responseBody = {};
+	let errors = [];
 
 	// Add form data
 	do {
-		$match = $regexp.exec($queryString);
+		match = regexp.exec(queryString);
 
 		// No more matches
-		if (!$match) {
+		if (!match) {
 			break;
 		}
 
-		$formData.set([decodeURIComponent($match[1])], decodeURIComponent($match[2]));
-	} while ($match);
+		formData.set([decodeURIComponent(match[1])], decodeURIComponent(match[2]));
+	} while (match);
 
 	// Check if form data is empty
-	if ($formData.entries().next().done) {
+	if (formData.entries().next().done) {
 		return;
 	}
 
 	// Execute AJAX call
 	$.ajax({
-		url: $imgurAuthorize.attr('data-ajax-action'),
+		url: imgurAuthorize.attr('data-ajax-action'),
 		type: 'POST',
-		data: $formData,
+		data: formData,
 		contentType: false,
 		cache: false,
 		processData: false
-	}).done(function($data, $textStatus, $jqXHR) {
+	}).done(function(data, textStatus, jqXHR) {
 		try {
 			// Redirect or show message
-			if ($jqXHR.readyState === 4 && $jqXHR.status === 200) {
+			if (jqXHR.readyState === 4 && jqXHR.status === 200) {
 				if (window.opener !== null) {
 					// Refresh ACP page
 					window.opener.location.reload(true);
@@ -62,37 +62,37 @@
 					window.close();
 				}
 			} else {
-				$responseBody = $.parseJSON($jqXHR.responseText);
-				$errors.push($responseBody.message);
+				responseBody = $.parseJSON(jqXHR.responseText);
+				errors.push(responseBody.message);
 			}
 		} catch (ex) {
-			$errors.push(ex.message);
+			errors.push(ex.message);
 		}
 
-		showImgurErrors($errors);
-	}).fail(function($data, $textStatus, $error) {
+		showImgurErrors(errors);
+	}).fail(function(data, textStatus, error) {
 		// Parse JSON response
 		try {
-			$responseBody = $.parseJSON($data.responseText);
+			responseBody = $.parseJSON(data.responseText);
 
-			if ($.isArray($responseBody)) {
-				for (var $i = 0; $i < $responseBody.length; $i++) {
-					$errors.push($responseBody[$i].message);
+			if ($.isArray(responseBody)) {
+				for (var i = 0; i < responseBody.length; i++) {
+					errors.push(responseBody[i].message);
 				}
 			} else {
-				$errors.push($responseBody.message);
+				errors.push(responseBody.message);
 			}
 		} catch (ex) {
-			$errors.push(ex.message);
+			errors.push(ex.message);
 		}
 
 		// Failure error message
-		$errors.push($error);
+		errors.push(error);
 
-		showImgurErrors($errors);
+		showImgurErrors(errors);
 	}).always(function() {
-		$formData = new FormData();
-		$responseBody = {};
-		$errors = [];
+		formData = new FormData();
+		responseBody = {};
+		errors = [];
 	});
 })(jQuery);
