@@ -7,7 +7,7 @@
 {% include '@alfredoramos_imgur/imgur_token_message.html' ignore missing %}
 </div>
 {% include '@alfredoramos_imgur/event/overall_footer_body_after.html' ignore missing %}
-{% if not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED %}
+{% if S_USER_LOGGED_IN and not S_IS_BOT and not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED %}
 {% INCLUDEJS '@alfredoramos_imgur/js/authorize.js' %}
 {%- set INCLUDED_IMGUR_AUTHORIZE_JS = true -%}
 {% endif %}
