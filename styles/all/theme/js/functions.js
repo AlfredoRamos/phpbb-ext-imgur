@@ -7,6 +7,54 @@
 
 'use strict';
 
+// Polifyll for Array.isArray()
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray#Polyfill
+if (!Array.isArray) {
+	Array.isArray = function(arg) {
+		return Object.prototype.toString.call(arg) === '[object Array]';
+	};
+}
+
+// Polyfill for Object.entries()
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries#Polyfill
+if (!Object.entries) {
+	Object.entries = function( obj ){
+		let ownProps = Object.keys(obj);
+		let i = ownProps.length;
+		let resArray = new Array(i);
+
+		while (i--) {
+			resArray[i] = [ownProps[i], obj[ownProps[i]]];
+		}
+
+		return resArray;
+	};
+}
+
+// Polyfill for Element.matches()
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/matches#Polyfill
+if (!Element.prototype.matches) {
+	Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
+
+// Polyfill for Element.closest()
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest#Polyfill
+if (!Element.prototype.closest) {
+	Element.prototype.closest = function(s) {
+		let el = this;
+
+		do {
+			if (el.matches(s)) {
+				return el;
+			}
+
+			el = el.parentElement || el.parentNode;
+		} while (el !== null && el.nodeType === 1);
+
+		return null;
+	};
+}
+
 /**
  * Show errors in a modal window.
  *
@@ -14,23 +62,12 @@
  *
  * @return void
  */
-function showImgurErrors(errors) {
-	// Ensure settings exist
-	if (typeof window.$imgur === 'undefined') {
-		var $imgur = {};
-	} else {
-		$imgur = $.extend(true, {
-			lang: {
-				error: 'Error'
-			}
-		}, window.$imgur);
-	}
-
+const showImgurErrors = function(errors) {
 	// Show a phpBB alert with the errors
 	if (errors.length > 0) {
-		var message = '';
+		let message = '';
 
-		for (var i = 0; i < errors.length; i++) {
+		for (let i = 0; i < errors.length; i++) {
 			message += errors[i];
 
 			if (i < (errors.length - 1)) {
@@ -39,10 +76,10 @@ function showImgurErrors(errors) {
 		}
 
 		if (message.length > 0) {
-			phpbb.alert($imgur.lang.error, message);
+			phpbb.alert(imgur.lang.error, message);
 		}
 	}
-}
+};
 
 /**
  * Format filesize to show 3 fractional digits.
@@ -51,7 +88,7 @@ function showImgurErrors(errors) {
  *
  * @return string
  */
-function formatImageSize(fileSize) {
+const formatImageSize = function(fileSize) {
 	return fileSize.toLocaleString(
 		undefined,
 		{
@@ -59,7 +96,7 @@ function formatImageSize(fileSize) {
 			maximumFractionDigits: 3
 		}
 	);
-}
+};
 
 /**
  * Fill output fields.
@@ -68,30 +105,45 @@ function formatImageSize(fileSize) {
  *
  * @return void
  */
-function fillOutputFields(output) {
-	if (output === null || output.length <= 0) {
+const fillOutputFields = function(output) {
+	if (!Array.isArray(output) || output.length <= 0) {
 		return;
 	}
 
-	for (var i = 0; i < output.length; i++) {
-		for (var k in output[i]) {
-			if (!output[i].hasOwnProperty(k)) {
-				continue;
-			}
-
-			var $field = $('[name="imgur_output_' + k + '"]').first();
-			$field.val($.trim($field.val()));
-			output[i][k] = $.trim(output[i][k]);
-
-			if ($field.length > 0 && output[i][k].length > 0) {
-				if ($field.val().length > 0) {
-					$field.val($field.val() + '\n' + output[i][k]);
-				} else {
-					$field.val(output[i][k]);
-				}
-
-				$field.trigger('change');
-			}
+	output.forEach(function(item) {
+		if (!item) {
+			return;
 		}
-	}
-}
+
+		let [key, value] = item;
+		let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+
+		if (!field) {
+			return;
+		}
+
+		field.value = field.value.trim();
+		value = value.trim();
+
+		if (value.length <= 0) {
+			return;
+		}
+
+		field.value += (field.value.length > 0 ? '\n' : '') + value;
+
+		let evt;
+
+		// IE11 fix
+		if (typeof Event !== 'function') {
+			evt = document.createEvent('Event');
+			evt.initEvent('change', true, true);
+		} else {
+			evt = new Event('change', {
+				bubbles: true,
+				cancelable: true
+			});
+		}
+
+		field.dispatchEvent(evt);
+	});
+};
