@@ -1,14 +1,16 @@
 {% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON and not INCLUDED_IMGUR_CONFIG %}
 <script>
-var $imgur = {
+var imgur = {
 	config: {
 		types: '{{ IMGUR_ALLOWED_OUTPUT_TYPES|escape("js") }}'
 	},
 	lang: {
 		error: '{{ lang("ERROR")|escape("js") }}',
+		invalidMimeType: '{{ lang("IMGUR_INVALID_MIME_TYPE")|escape("js") }}',
 		imageTooBig: '{{ lang("IMGUR_IMAGE_TOO_BIG")|escape("js") }}',
 		noImages: '{{ lang("IMGUR_NO_IMAGES")|escape("js") }}',
-		uploadProgress: '{{ lang("IMGUR_UPLOAD_PROGRESS")|escape("js") }}'
+		uploadProgress: '{{ lang("IMGUR_UPLOAD_PROGRESS")|escape("js") }}',
+		emptyResponse: '{{ lang("IMGUR_EMPTY_RESPONSE")|escape("js") }}'
 	}
 };
 </script>
