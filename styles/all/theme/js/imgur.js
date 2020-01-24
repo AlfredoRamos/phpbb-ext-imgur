@@ -504,10 +504,7 @@
 	});
 
 	// Resize output fields in posting editor panel
-	let outputFields = document.body.querySelectorAll('.imgur-output-field');
-	if (outputFields.length > 0) {
-		phpbb.resizeTextArea(document.body.querySelectorAll('.imgur-output-field'));
-	}
+	phpbb.resizeTextArea(jQuery('.imgur-output-field'));
 
 	// Add generated output in posting editor panel
 	try {
