@@ -22,14 +22,16 @@
 		'image/webp'
 	];
 
-	// Global variables
-	let outputList = [];
-	let errors = [];
-	let imgurStorage = {
+	// Local and session storage
+	const imgurStorage = {
 		enabled: (typeof Storage !== 'undefined'),
 		local: 'imgur_output_type',
 		session: 'imgur_output_list'
 	};
+
+	// Global variables
+	let outputList = [];
+	let errors = [];
 	let addOutput = true;
 
 	// Show image selection window
@@ -88,9 +90,7 @@
 		}
 
 		// Validate file
-		for (let i = 0; i < files.length; i++) {
-			let file = files.item(i);
-
+		Array.prototype.forEach.call(files, function(file) {
 			// MIME type
 			if (allowedMIMETypes.indexOf(file.type) < 0) {
 				errors.push(
@@ -98,7 +98,8 @@
 					.replace('{file}', file.name)
 					.replace('{type}', file.type)
 				);
-				continue;
+
+				return;
 			}
 
 			// Size
@@ -109,12 +110,13 @@
 					.replace('{size}', ((file.size / 1024) / 1024))
 					.replace('{max_size}', ((maxFileSize / 1024) / 1024))
 				);
-				continue;
+
+				return;
 			}
 
 			// Add image to upload queue
 			formData.append('imgur_image[]', file);
-		}
+		});
 
 		// Exit if no images were added
 		if (!formData.has('imgur_image[]')) {

@@ -63,22 +63,30 @@ if (!Element.prototype.closest) {
  * @return void
  */
 const showImgurErrors = function(errors) {
-	// Show a phpBB alert with the errors
-	if (errors.length > 0) {
-		let message = '';
-
-		for (let i = 0; i < errors.length; i++) {
-			message += errors[i];
-
-			if (i < (errors.length - 1)) {
-				message += '<br>';
-			}
-		}
-
-		if (message.length > 0) {
-			phpbb.alert(imgur.lang.error, message);
-		}
+	if (!Array.isArray(errors) || errors.length <= 0) {
+		return;
 	}
+
+	let message = '';
+
+	errors.forEach(function(error, index) {
+		if (!error) {
+			return;
+		}
+
+		message += error;
+
+		if (index < (errors.length - 1)) {
+			message += '<br>';
+		}
+	});
+
+	if (message.length <= 0) {
+		return;
+	}
+
+	// Show a phpBB alert with the errors
+	phpbb.alert(imgur.lang.error, message);
 };
 
 /**
