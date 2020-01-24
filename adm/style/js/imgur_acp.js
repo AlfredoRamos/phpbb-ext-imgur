@@ -5,28 +5,40 @@
  * @license GPL-2.0-only
  */
 
-(function($) {
+(function() {
 	'use strict';
 
 	// Authentication window
-	$('#imgur-authorize-url').on('click', function($event) {
-		$event.preventDefault();
-		popup($(this).attr('href'), 760, 570, '_imgurauth');
+	document.body.addEventListener('click', function(e) {
+		let link = e.target.closest('#imgur-authorize-url');
+
+		if (!link) {
+			return;
+		}
+
+		e.preventDefault();
+		popup(link.getAttribute('href').trim(), 760, 570, '_imgur_auth');
 	});
 
 	// Show/hide client secret
-	$('#toggle-client-secret').on('click', function() {
-		var $elements = {
-			clientSecret: $('#imgur_client_secret'),
-			icon: $(this).children('.icon').first()
-		};
+	document.body.addEventListener('click', function(e) {
+		let toggle = e.target.closest('#toggle-client-secret');
 
-		if ($elements.clientSecret.prop('type') === 'password') {
-			$elements.clientSecret.prop('type', 'text');
-			$elements.icon.removeClass('fa-eye').addClass('fa-eye-slash');
-		} else {
-			$elements.clientSecret.prop('type', 'password');
-			$elements.icon.removeClass('fa-eye-slash').addClass('fa-eye');
+		if (!toggle) {
+			return;
 		}
+
+		let elements = {
+			field: document.body.querySelector('#imgur_client_secret'),
+			icon: toggle.querySelector('.icon')
+		};
+		let isHidden = (elements.field.getAttribute('type').trim() === 'password');
+
+		// Toggle field type
+		elements.field.setAttribute('type', (isHidden ? 'text' : 'password'));
+
+		// Toggle icon
+		elements.icon.classList.toggle('fa-eye-slash', isHidden);
+		elements.icon.classList.toggle('fa-eye', !isHidden);
 	});
-})(jQuery);
+})();
