@@ -1,2 +1,4 @@
+{% if S_USER_LOGGED_IN and not S_IS_BOT %}
 {% include '@alfredoramos_imgur/imgur_config.html' ignore missing %}
 {% include '@alfredoramos_imgur/imgur_progress_bar.html' ignore missing %}
+{% endif %}
