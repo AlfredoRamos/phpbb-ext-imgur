@@ -4,7 +4,7 @@
 	"description": "Imgur extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-imgur",
 	"version": "1.5.0-dev",
-	"time": "2020-01-23",
+	"time": "2020-02-07",
 	"keywords": ["phpbb", "extension", "imgur", "uploader"],
 	"license": "GPL-2.0-only",
 	"authors": [
