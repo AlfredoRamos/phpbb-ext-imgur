@@ -7,6 +7,12 @@
 
 'use strict';
 
+// Polyfill for NodeList.forEach()
+// https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach#Polyfill
+if (!NodeList.prototype.forEach) {
+	NodeList.prototype.forEach = Array.prototype.forEach;
+}
+
 // Polifyll for Array.isArray()
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray#Polyfill
 if (!Array.isArray) {
@@ -62,7 +68,7 @@ if (!Element.prototype.closest) {
  *
  * @return void
  */
-const showImgurErrors = function(errors) {
+function showImgurErrors(errors) {
 	if (!Array.isArray(errors) || errors.length <= 0) {
 		return;
 	}
@@ -87,7 +93,7 @@ const showImgurErrors = function(errors) {
 
 	// Show a phpBB alert with the errors
 	phpbb.alert(imgur.lang.error, message);
-};
+}
 
 /**
  * Format filesize to show 3 fractional digits.
@@ -96,7 +102,7 @@ const showImgurErrors = function(errors) {
  *
  * @return string
  */
-const formatImageSize = function(fileSize) {
+function formatImageSize(fileSize) {
 	return fileSize.toLocaleString(
 		undefined,
 		{
@@ -104,7 +110,7 @@ const formatImageSize = function(fileSize) {
 			maximumFractionDigits: 3
 		}
 	);
-};
+}
 
 /**
  * Fill output fields.
@@ -113,7 +119,7 @@ const formatImageSize = function(fileSize) {
  *
  * @return void
  */
-const fillOutputFields = function(output) {
+function fillOutputFields(output) {
 	if (!Array.isArray(output) || output.length <= 0) {
 		return;
 	}
@@ -123,7 +129,8 @@ const fillOutputFields = function(output) {
 			return;
 		}
 
-		let [key, value] = item;
+		let key = item[0];
+		let value = item[1];
 		let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
 
 		if (!field) {
@@ -154,4 +161,4 @@ const fillOutputFields = function(output) {
 
 		field.dispatchEvent(evt);
 	});
-};
+}
