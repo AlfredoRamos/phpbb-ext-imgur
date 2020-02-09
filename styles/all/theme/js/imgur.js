@@ -13,14 +13,7 @@
 
 	// Imgur API allowed MIME types
 	// https://help.imgur.com/hc/en-us/articles/115000083326
-	const allowedMIMETypes = [
-		'image/jpeg',
-		'image/png',
-		'image/gif',
-		'image/tiff',
-		'image/tiff-fx',
-		'image/webp'
-	];
+	const mimeTypesRegexp = /image\/(?:jpe?g|png|gif|tiff(?:\-fx)?|webp)/;
 
 	// Local and session storage
 	const imgurStorage = {
@@ -92,7 +85,7 @@
 		// Validate file
 		Array.prototype.forEach.call(files, function(file) {
 			// MIME type
-			if (allowedMIMETypes.indexOf(file.type) < 0) {
+			if (!mimeTypesRegexp.test(file.type)) {
 				errors.push(
 					imgur.lang.invalidMimeType
 					.replace('{file}', file.name)
