@@ -38,8 +38,10 @@
 	cursor: pointer;
 }
 
-#imgur-panel dt {
-	text-align: right;
+@media (min-width: 701px) {
+	#imgur-panel dt {
+		text-align: right;
+	}
 }
 
 .imgur-upload-button > .icon,
@@ -58,7 +60,7 @@
 .imgur-output-paste {
 	color: #f2f2f2;
 	background-color: #105289;
-	padding: 8px 6px;
+	padding: 6px 4px;
 	border-radius: 4px;
 	cursor: pointer;
 }
