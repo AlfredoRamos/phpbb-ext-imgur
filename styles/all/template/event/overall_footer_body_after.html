@@ -7,11 +7,9 @@
 {%- endif -%}
 {%- set INCLUDED_FORMDATA_POLYFILL_JS = true -%}
 {% endif %}
-{% if not INCLUDED_IMGUR_FUNCTIONS_JS %}
+{% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON and not INCLUDED_IMGUR_JS %}
+{% INCLUDEJS '@alfredoramos_imgur/js/polyfill.js' %}
 {% INCLUDEJS '@alfredoramos_imgur/js/functions.js' %}
-{%- set INCLUDED_IMGUR_FUNCTIONS_JS = true -%}
-{% endif %}
-{% if IMGUR_UPLOAD_URL and SHOW_IMGUR_BUTTON and not INCLUDED_IMGUR_JS and IMGUR_IS_AUTHORIZED is not defined %}
 {% INCLUDEJS '@alfredoramos_imgur/js/imgur.js' %}
 {%- set INCLUDED_IMGUR_JS = true -%}
 {% endif %}
