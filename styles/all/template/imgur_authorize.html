@@ -6,10 +6,20 @@
 <div id="imgur-authorize" data-ajax-authorized="{% if IMGUR_IS_AUTHORIZED %}{{ IMGUR_IS_AUTHORIZED }}{% else %}0{% endif %}" data-ajax-action="{{ IMGUR_AUTHORIZE_URL }}">
 {% include '@alfredoramos_imgur/imgur_token_message.html' ignore missing %}
 </div>
-{% if S_USER_LOGGED_IN and not S_IS_BOT and not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED %}
+{% if S_USER_LOGGED_IN and not S_IS_BOT %}
+{% if not INCLUDED_FORMDATA_POLYFILL_JS %}
+{%- if S_ALLOW_CDN -%}
+{% INCLUDEJS 'https://unpkg.com/formdata-polyfill@3.0.19/formdata.min.js' %}
+{%- else -%}
+{% INCLUDEJS '@alfredoramos_imgur/js/formdata.min.js' %}
+{%- endif -%}
+{%- set INCLUDED_FORMDATA_POLYFILL_JS = true -%}
+{% endif %}
+{% if not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED %}
 {% INCLUDEJS '@alfredoramos_imgur/js/polyfill.js' %}
 {% INCLUDEJS '@alfredoramos_imgur/js/functions.js' %}
 {% INCLUDEJS '@alfredoramos_imgur/js/authorize.js' %}
 {%- set INCLUDED_IMGUR_AUTHORIZE_JS = true -%}
+{% endif %}
 {% endif %}
 {% include 'simple_footer.html' %}
