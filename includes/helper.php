@@ -13,7 +13,6 @@ use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\routing\helper as routing_helper;
 use phpbb\language\language;
-use phpbb\event\dispatcher_interface as dispatcher;
 
 class helper
 {
@@ -29,9 +28,6 @@ class helper
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \phpbb\event\dispatcher_interface */
-	protected $dispatcher;
-
 	/**
 	 * Helper constructor
 	 *
@@ -39,17 +35,15 @@ class helper
 	 * @param \phpbb\template\template			$template
 	 * @param \phpbb\routing\helper				$routing_helper
 	 * @param \phpbb\language\language			$language
-	 * @param \phpbb\event\dispatcher_interface	$dispatcher
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language, dispatcher $dispatcher)
+	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->routing_helper = $routing_helper;
 		$this->language = $language;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**
