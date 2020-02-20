@@ -56,6 +56,7 @@ class helper
 		// Enabled output values
 		$enabled = $this->enabled_imgur_values('types');
 
+		// Helper
 		$data = [
 			'access_token' => $this->config['imgur_access_token'],
 			'output_type' => $this->config['imgur_output_type'],

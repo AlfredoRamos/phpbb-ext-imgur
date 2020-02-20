@@ -109,6 +109,13 @@ function fillOutputFields(output) {
 	});
 }
 
+/**
+ * Get allowed output type.
+ *
+ * @param object helper
+ *
+ * @return string
+ */
 function getOutputType(helper) {
 	if (!helper.enabled) {
 		return null;
