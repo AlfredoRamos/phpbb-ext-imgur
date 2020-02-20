@@ -317,6 +317,7 @@ class acp
 					'contract' => 'types',
 					'filter' => 'imgur_output_type'
 				];
+
 				$data['regexp'] = '#^(?:' . implode('|', $fields[$data['field']]) . ')$#';
 
 				// Can't set as default a disabled option
@@ -341,9 +342,12 @@ class acp
 					$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
 				}
 
-				// Convert enabled values (array) to string
 				if (is_array($fields[$data['field']]))
 				{
+					// Update enabled values
+					$enabled['types'] = $fields[$data['field']];
+
+					// Convert enabled values (array) to string
 					$fields[$data['field']] = implode(',', $fields[$data['field']]);
 				}
 			}

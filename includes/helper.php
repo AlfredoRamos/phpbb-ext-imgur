@@ -56,15 +56,21 @@ class helper
 		// Enabled output values
 		$enabled = $this->enabled_imgur_values('types');
 
+		$data = [
+			'access_token' => $this->config['imgur_access_token'],
+			'output_type' => $this->config['imgur_output_type'],
+			'thumbnail_size' => $this->config['imgur_thumbnail_size']
+		];
+
 		// Assign global template variables
 		$this->template->assign_vars([
 			'IMGUR_UPLOAD_URL' => vsprintf('%1$s/%2$s', [
 				$this->routing_helper->route('alfredoramos_imgur_upload'),
 				generate_link_hash('imgur_upload')
 			]),
-			'SHOW_IMGUR_BUTTON' => !empty($this->config['imgur_access_token']),
-			'IMGUR_OUTPUT_TYPE' => $this->config['imgur_output_type'],
-			'IMGUR_THUMBNAIL_SIZE' => $this->config['imgur_thumbnail_size'],
+			'SHOW_IMGUR_BUTTON' => !empty($data['access_token']),
+			'IMGUR_OUTPUT_TYPE' => $data['output_type'],
+			'IMGUR_THUMBNAIL_SIZE' => $data['thumbnail_size'],
 			'IMGUR_ALLOWED_OUTPUT_TYPES' => implode(',', $enabled)
 		]);
 
@@ -74,7 +80,7 @@ class helper
 			$this->template->assign_block_vars('IMGUR_ENABLED_OUTPUT_TYPES', [
 				'KEY' => $type,
 				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
-				'DEFAULT' => $this->config['imgur_output_type'] === $type
+				'DEFAULT' => ($data['output_type'] === $type)
 			]);
 		}
 	}
@@ -156,7 +162,7 @@ class helper
 	 *
 	 * @return array
 	 */
-	public function filter_empty_items($data = [], $depth = 0, $max_depth = 5)
+	public function filter_empty_items($data = [], $max_depth = 5, $depth = 0)
 	{
 		if (empty($data))
 		{
@@ -184,7 +190,7 @@ class helper
 
 			if (!empty($data[$key]) && is_array($data[$key]))
 			{
-				$data[$key] = $this->filter_empty_items($data[$key], $depth);
+				$data[$key] = $this->filter_empty_items($data[$key], $max_depth, $depth);
 			}
 		}
 
@@ -195,83 +201,30 @@ class helper
 	/**
 	 * Enabled imgur values for output.
 	 *
-	 * @param string	$kind		(optional)
+	 * @param string $kind (optional)
 	 *
 	 * @return array
 	 */
 	public function enabled_imgur_values($kind = '')
 	{
-		$kind = trim($kind);
+		// Helper
+		$types = explode(',', trim($this->config['imgur_enabled_output_types']));
+		$types = $this->filter_empty_items($types);
+
+		// Fallback to allowed values
+		if (empty($types))
+		{
+			$types = $this->allowed_imgur_values('types');
+			$this->config->set('imgur_enabled_output_types', implode(',', $types), false);
+		}
 
 		// Enabled options
 		$enabled = [
-			'types' => explode(',', trim($this->config['imgur_enabled_output_types']))
+			'types' => $types
 		];
 
-		// Remove empty options
-		$enabled = $this->filter_empty_items($enabled);
-
-		// Allowed options
-		$allowed = $this->allowed_imgur_values();
-
-		// Check if there are deleted options
-		foreach ($allowed as $key => $value)
-		{
-			// Administrator must not disable all options
-			if (!empty($value) && empty($enabled[$key]))
-			{
-				$enabled[$key] = $value;
-			}
-
-			// Get difference between both arrays
-			$diff = array_diff($enabled[$key], $value);
-
-			// It doesn't have leftovers
-			if (empty($diff))
-			{
-				continue;
-			}
-
-			// Get intersection between both arrays
-			// Not using array_intersect() to use already stored values
-			$same = array_filter(
-				$enabled[$key],
-				function($v) use ($diff)
-				{
-					return !in_array($v, $diff, true);
-				}
-			);
-
-			// It only has deleted options
-			if (empty($same))
-			{
-				$same = $value;
-			}
-
-			// Remove empty values
-			$same = $this->filter_empty_items($same);
-
-			// Configuration name
-			// Currently only output types are allowed
-			$name = ($key === 'types') ? 'imgur_enabled_output_types' : '';
-
-			// Update configuration
-			if (!empty($name) && !empty($same))
-			{
-				$this->config->set($name, implode(',', $same), false);
-			}
-		}
-
-		// Fallback output type
-		if (!in_array($this->config['imgur_output_type'], $enabled['types'], true))
-		{
-			// Try image output first, if not found use the first available
-			$type = array_search('image', $enabled['types']);
-			$type = ($type !== false) ? $enabled['types'][$type] : $enabled['types'][0];
-
-			// Update fallback value
-			$this->config->set('imgur_output_type', $type, false);
-		}
+		// Value casting
+		$kind = trim($kind);
 
 		// Get specific kind
 		if (!empty($kind) && !empty($enabled[$kind]))

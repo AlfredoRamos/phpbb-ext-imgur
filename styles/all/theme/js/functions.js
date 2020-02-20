@@ -108,3 +108,39 @@ function fillOutputFields(output) {
 		field.dispatchEvent(evt);
 	});
 }
+
+function getOutputType(helper) {
+	if (!helper.enabled) {
+		return null;
+	}
+
+	let image = document.body.querySelector('#imgur-image');
+
+	let output = {
+		type: {
+			default: (image ? image.getAttribute('data-output-type').trim() : 'image'),
+			current: window.localStorage.getItem(helper.local),
+			allowed: imgur.config.types.split(',')
+		}
+	};
+
+	// Fallback to default
+	if (output.type.current === 'null' || output.type.current === null) {
+		output.type.current = output.type.default;
+	}
+
+	// Must be allowed
+	if (output.type.allowed.length > 0 && output.type.allowed.indexOf(output.type.current) < 0) {
+		// Try image first
+		let index = output.type.allowed.indexOf('image');
+
+		// Fallback to first available
+		index = (index < 0) ? 0 : index;
+
+		// Update current value
+		output.type.current = output.type.allowed[index];
+		window.localStorage.setItem(helper.local, output.type.current);
+	}
+
+	return output.type.current;
+}

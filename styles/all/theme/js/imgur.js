@@ -267,7 +267,7 @@
 						window.sessionStorage.setItem(imgurStorage.session, JSON.stringify(outputList));
 					}
 
-					let outputType = imgurImage.getAttribute('data-output-type');
+					let outputType = getOutputType(imgurStorage);
 
 					// Generate BBCode
 					if (output.hasOwnProperty(outputType)) {
@@ -277,6 +277,7 @@
 					} else {
 						// Fallback to image
 						imgurImage.setAttribute('data-output-type', 'image');
+						window.localStorage.setItem(imgurStorage.local, 'image');
 
 						document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
 							if (!item) {
@@ -374,6 +375,7 @@
 
 				item.removeAttribute('disabled');
 			});
+
 			imgurImage.removeAttribute('disabled');
 
 			// Reset progress bar
@@ -502,45 +504,18 @@
 	// Add generated output in posting editor panel
 	try {
 		if (imgurStorage.enabled) {
-			let image = document.body.querySelector('#imgur-image');
-
-			let output = {
-				type: {
-					default: (image ? image.getAttribute('data-output-type').trim() : 'image'),
-					current: window.localStorage.getItem(imgurStorage.local),
-					allowed: imgur.config.types.split(',')
-				}
-			};
-
-			// Fallback to default
-			if (output.type.current === 'null' || output.type.current === null) {
-				output.type.current = output.type.default;
-			}
-
-			// Must be allowed
-			if (output.type.allowed.length > 0 && output.type.allowed.indexOf(output.type.current) < 0) {
-				// Try image first
-				let index = output.type.allowed.indexOf('image');
-
-				// Fallback to first available
-				index = (index < 0) ? 0 : index;
-
-				// Update current value
-				output.type.current = output.type.allowed[index];
-			}
+			let outputType = getOutputType(imgurStorage);
 
 			if (window.sessionStorage.getItem(imgurStorage.session) !== 'null' &&
 				window.sessionStorage.getItem(imgurStorage.session) !== null
 			) {
-				let selects = document.body.querySelectorAll('.imgur-output-select');
-
 				// Restore user preference
-				selects.forEach(function(item) {
+				document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
 					if (!item) {
 						return;
 					}
 
-					let option = item.querySelector('[value="' + output.type.current + '"]');
+					let option = item.querySelector('[value="' + outputType + '"]');
 
 					if (!option) {
 						return;
