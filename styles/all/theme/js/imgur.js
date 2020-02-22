@@ -58,11 +58,12 @@
 
 	// Upload images
 	document.body.addEventListener('change', function(e) {
-		if (!e.target.matches('#imgur-image')) {
+		let imgurImage = e.target;
+
+		if (!imgurImage.matches('#imgur-image')) {
 			return;
 		}
 
-		let imgurImage = e.target;
 		let imgurButton = document.body.querySelectorAll('.imgur-button');
 		let files = imgurImage.files;
 		let formData = new FormData();
@@ -485,11 +486,12 @@
 
 	// Show output fields only when needed
 	document.body.addEventListener('change', function(e) {
-		if (!e.target.matches('.imgur-output-field')) {
+		let field = e.target;
+
+		if (!field.matches('.imgur-output-field')) {
 			return;
 		}
 
-		let field = e.target;
 		let wrapper = field.closest('dl');
 		let cssClass = 'hidden';
 

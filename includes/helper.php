@@ -31,10 +31,10 @@ class helper
 	/**
 	 * Helper constructor
 	 *
-	 * @param \phpbb\config\config				$config
-	 * @param \phpbb\template\template			$template
-	 * @param \phpbb\routing\helper				$routing_helper
-	 * @param \phpbb\language\language			$language
+	 * @param \phpbb\config\config		$config
+	 * @param \phpbb\template\template	$template
+	 * @param \phpbb\routing\helper		$routing_helper
+	 * @param \phpbb\language\language	$language
 	 *
 	 * @return void
 	 */

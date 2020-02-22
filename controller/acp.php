@@ -342,12 +342,9 @@ class acp
 					$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
 				}
 
+				// Convert enabled values (array) to string
 				if (is_array($fields[$data['field']]))
 				{
-					// Update enabled values
-					$enabled['types'] = $fields[$data['field']];
-
-					// Convert enabled values (array) to string
 					$fields[$data['field']] = implode(',', $fields[$data['field']]);
 				}
 			}
