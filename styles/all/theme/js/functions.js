@@ -38,7 +38,7 @@ function showImgurErrors(errors) {
 	}
 
 	// Show a phpBB alert with the errors
-	phpbb.alert(window.imgur.lang.error, message);
+	window.phpbb.alert(window.imgur.lang.error, message);
 }
 
 /**
