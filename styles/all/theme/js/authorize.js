@@ -66,7 +66,7 @@
 
 			// Empty response
 			if (response.length <= 0) {
-				errors.push(imgur.lang.emptyResponse);
+				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 			// Parse JSON response
@@ -74,7 +74,7 @@
 
 			// Empty response body
 			if (responseBody.length <= 0) {
-				errors.push(imgur.lang.emptyResponse);
+				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 
@@ -105,7 +105,7 @@
 
 			// Empty response
 			if (response.length <= 0) {
-				errors.push(imgur.lang.emptyResponse);
+				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 
@@ -114,7 +114,7 @@
 
 			// Empty response body
 			if (responseBody.length <= 0) {
-				errors.push(imgur.lang.emptyResponse);
+				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 

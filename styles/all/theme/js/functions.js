@@ -38,7 +38,7 @@ function showImgurErrors(errors) {
 	}
 
 	// Show a phpBB alert with the errors
-	phpbb.alert(imgur.lang.error, message);
+	phpbb.alert(window.imgur.lang.error, message);
 }
 
 /**
@@ -117,37 +117,33 @@ function fillOutputFields(output) {
  * @return string
  */
 function getOutputType(helper) {
+	let image = document.body.querySelector('#imgur-image');
+	let defaultType = 'image';
+
 	if (!helper.enabled) {
-		return null;
+		return defaultType;
 	}
 
-	let image = document.body.querySelector('#imgur-image');
-
-	let output = {
-		type: {
-			default: (image ? image.getAttribute('data-output-type').trim() : 'image'),
-			current: window.localStorage.getItem(helper.local),
-			allowed: imgur.config.types.split(',')
-		}
-	};
+	let current = window.localStorage.getItem(helper.local);
+	let allowed = window.imgur.config.types.split(',');
 
 	// Fallback to default
-	if (output.type.current === 'null' || output.type.current === null) {
-		output.type.current = output.type.default;
+	if (current === 'null' || current === null) {
+		current = defaultType;
 	}
 
 	// Must be allowed
-	if (output.type.allowed.length > 0 && output.type.allowed.indexOf(output.type.current) < 0) {
+	if (allowed.length > 0 && allowed.indexOf(current) < 0) {
 		// Try image first
-		let index = output.type.allowed.indexOf('image');
+		let index = allowed.indexOf('image');
 
 		// Fallback to first available
 		index = (index < 0) ? 0 : index;
 
 		// Update current value
-		output.type.current = output.type.allowed[index];
-		window.localStorage.setItem(helper.local, output.type.current);
+		current = allowed[index];
+		window.localStorage.setItem(helper.local, current);
 	}
 
-	return output.type.current;
+	return current;
 }

@@ -88,7 +88,7 @@
 			// MIME type
 			if (!mimeTypesRegexp.test(file.type)) {
 				errors.push(
-					imgur.lang.invalidMimeType
+					window.imgur.lang.invalidMimeType
 					.replace('{file}', file.name)
 					.replace('{type}', file.type)
 				);
@@ -99,7 +99,7 @@
 			// Size
 			if (file.size > maxFileSize) {
 				errors.push(
-					imgur.lang.imageTooBig
+					window.imgur.lang.imageTooBig
 					.replace('{file}', file.name)
 					.replace('{size}', ((file.size / 1024) / 1024))
 					.replace('{max_size}', ((maxFileSize / 1024) / 1024))
@@ -114,7 +114,7 @@
 
 		// Exit if no images were added
 		if (!formData.has('imgur_image[]')) {
-			errors.push(imgur.lang.noImages);
+			errors.push(window.imgur.lang.noImages);
 			showImgurErrors(errors);
 
 			// Re-enable buttons
@@ -125,6 +125,7 @@
 
 				item.removeAttribute('disabled');
 			});
+
 			imgurImage.removeAttribute('disabled');
 
 			// Clear error messages
@@ -156,7 +157,6 @@
 		if (progress.wrapper) {
 			progress.bar = progress.wrapper.querySelector('#imgur-progress');
 			progress.label = progress.wrapper.querySelector('#imgur-progress-label > code');
-
 			progress.wrapper.classList.add('uploading');
 		}
 
@@ -175,7 +175,7 @@
 			progress.bar.value = percentage;
 
 			// Show progress bar info
-			progress.label.textContent = imgur.lang.uploadProgress
+			progress.label.textContent = window.imgur.lang.uploadProgress
 				.replace('{percentage}', percentage)
 				.replace('{loaded}', formatImageSize((e.loaded / 1024) / 1024))
 				.replace('{total}', formatImageSize((e.total / 1024) / 1024));
@@ -196,7 +196,7 @@
 
 				// Empty response
 				if (response.length <= 0) {
-					errors.push(imgur.lang.emptyResponse);
+					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
@@ -205,7 +205,7 @@
 
 				// Empty response body
 				if (responseBody.length <= 0) {
-					errors.push(imgur.lang.emptyResponse);
+					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
@@ -326,7 +326,7 @@
 
 				// Empty response
 				if (response.length <= 0) {
-					errors.push(imgur.lang.emptyResponse);
+					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
@@ -335,7 +335,7 @@
 
 				// Empty response body
 				if (responseBody.length <= 0) {
-					errors.push(imgur.lang.emptyResponse);
+					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
@@ -428,12 +428,14 @@
 
 	// Update output type
 	document.body.addEventListener('change', function(e) {
-		if (!e.target.matches('.imgur-output-select')) {
+		let select = e.target;
+
+		if (!select.matches('.imgur-output-select')) {
 			return;
 		}
 
 		let image = document.body.querySelector('#imgur-image');
-		let type = e.target.value.trim();
+		let type = select.value.trim();
 
 		if (!image || type.length <= 0) {
 			return;
