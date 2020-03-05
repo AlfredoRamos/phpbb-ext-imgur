@@ -28,17 +28,15 @@
 			return;
 		}
 
-		let elements = {
-			field: document.body.querySelector('#imgur_client_secret'),
-			icon: toggle.querySelector('.icon')
-		};
-		let isHidden = (elements.field.getAttribute('type').trim() === 'password');
+		let field = document.body.querySelector('#imgur_client_secret');
+		let icon = toggle.querySelector('.icon');
+		let isHidden = (field.getAttribute('type').trim() === 'password');
 
 		// Toggle field type
-		elements.field.setAttribute('type', (isHidden ? 'text' : 'password'));
+		field.setAttribute('type', (isHidden ? 'text' : 'password'));
 
 		// Toggle icon
-		elements.icon.classList.toggle('fa-eye-slash', isHidden);
-		elements.icon.classList.toggle('fa-eye', !isHidden);
+		icon.classList.toggle('fa-eye-slash', isHidden);
+		icon.classList.toggle('fa-eye', !isHidden);
 	});
 })();
