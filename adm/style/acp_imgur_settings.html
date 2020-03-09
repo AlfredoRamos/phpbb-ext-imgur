@@ -15,7 +15,7 @@
 <div class="warningbox notice">
 	<p>
 		{{ lang('ACP_IMGUR_REGISTER_EXPLAIN') }}<br><br>
-		<a href="{{ IMGUR_REGISTER_URL }}" target="_blank" id="imgur-register-url" class="imgur-link-button" rel="nofollow noreferrer">
+		<a href="{{ IMGUR_REGISTER_URL }}" target="_blank" id="imgur-register-url" class="imgur-link-button" rel="external nofollow noreferrer">
 			<i class="icon fa-lg fa-external-link" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_REGISTER') }}</span>
 		</a>
@@ -27,7 +27,7 @@
 <div class="warningbox">
 	<p>
 		{{ lang('ACP_IMGUR_AUTHORIZE_EXPLAIN') }}<br><br>
-		<a href="{{ IMGUR_AUTHORIZE_URL }}" id="imgur-authorize-url" class="imgur-link-button" rel="nofollow noreferrer">
+		<a href="{{ IMGUR_AUTHORIZE_URL }}" id="imgur-authorize-url" class="imgur-link-button" rel="external nofollow noreferrer">
 			<i class="icon fa-lg fa-sign-in" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_AUTHORIZE') }}</span>
 		</a>
@@ -70,7 +70,7 @@
 			<dd>
 				<input type="text" id="imgur_album" class="narrow" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off">
 				{% if IMGUR_ALBUM_DOWNLOAD_URL %}
-				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape }}">
+				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="external nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape }}">
 					<i class="icon fa-lg fa-download" aria-hidden="true"></i>
 				</a>
 				{% endif %}

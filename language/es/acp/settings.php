@@ -30,7 +30,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_AUTHORIZE_EXPLAIN' => 'Necesita autorizar la aplicación para poder subir las imágenes a su cuenta.',
 
 	'ACP_IMGUR_API_SETTINGS' => 'Ajustes de la API',
-	'ACP_IMGUR_API_SETTINGS_EXPLAIN' => '<p>Aquí puede añadir los datos necesarios para la API de Imgur. Consulte las <a href="https://www.phpbb.com/customise/db/extension/imgur/faq"><strong>Preguntas Frecuentes</strong></a> para obtener más información. Si requiere de ayuda, por favor visite la sección de <a href="https://www.phpbb.com/customise/db/extension/imgur/support"><strong>Soporte</strong></a>.</p>',
+	'ACP_IMGUR_API_SETTINGS_EXPLAIN' => '<p>Aquí puede añadir los datos necesarios para la API de Imgur. Consulte las <a href="https://www.phpbb.com/customise/db/extension/imgur/faq" rel="external nofollow noreferrer noopener" target="_blank"><strong>Preguntas Frecuentes</strong></a> para obtener más información. Si requiere de ayuda, por favor visite la sección de <a href="https://www.phpbb.com/customise/db/extension/imgur/support" rel="external nofollow noreferrer noopener" target="_blank"><strong>Soporte</strong></a>.</p>',
 
 	'ACP_IMGUR_CLIENT_ID' => '<em>Client ID</em>',
 	'ACP_IMGUR_CLIENT_ID_EXPLAIN' => 'Cadena de texto compuesta por números hexadecimales con una longitud de 15 caracteres.',
