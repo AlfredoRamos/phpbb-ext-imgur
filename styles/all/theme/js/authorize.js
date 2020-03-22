@@ -22,7 +22,7 @@
 	let queryString = location.hash.substring(1);
 	let regexp = /([^&=]+)=([^&]*)/g;
 	let match = null;
-	let responseBody = {};
+	let response = {};
 	let errors = [];
 
 	// Add form data
@@ -62,25 +62,25 @@
 			}
 
 			// Get response
-			let response = e.target.responseText;
+			let rawResponse = e.target.responseText;
 
 			// Empty response
-			if (response.length <= 0) {
+			if (rawResponse.length <= 0) {
 				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 			// Parse JSON response
-			responseBody = JSON.parse(response);
+			response = JSON.parse(rawResponse);
 
 			// Empty response body
-			if (responseBody.length <= 0) {
+			if (Object.keys(response).length <= 0) {
 				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 
 			// Get error message
-			if (Array.isArray(responseBody)) {
-				responseBody.forEach(function(item) {
+			if (Array.isArray(response)) {
+				response.forEach(function(item) {
 					if (!item) {
 						return;
 					}
@@ -88,7 +88,7 @@
 					errors.push(item.message);
 				});
 			} else {
-				errors.push(responseBody.message);
+				errors.push(response.message);
 			}
 		} catch (ex) {
 			errors.push(ex.message);
@@ -101,26 +101,26 @@
 	xhr.addEventListener('error', function(e) {
 		try {
 			// Get response
-			let response = e.target.responseText;
+			let rawResponse = e.target.responseText;
 
 			// Empty response
-			if (response.length <= 0) {
+			if (rawResponse.length <= 0) {
 				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 
 			// Parse JSON response
-			responseBody = JSON.parse(response);
+			response = JSON.parse(rawResponse);
 
 			// Empty response body
-			if (responseBody.length <= 0) {
+			if (Object.keys(response).length <= 0) {
 				errors.push(window.imgur.lang.emptyResponse);
 				return;
 			}
 
 			// Check for errors
-			if (Array.isArray(responseBody)) {
-				responseBody.forEach(function(item) {
+			if (Array.isArray(response)) {
+				response.forEach(function(item) {
 					if (!item) {
 						return;
 					}
@@ -128,7 +128,7 @@
 					errors.push(item.message);
 				});
 			} else {
-				errors.push(responseBody.message);
+				errors.push(response.message);
 			}
 		} catch (ex) {
 			errors.push(ex.message);
@@ -141,7 +141,7 @@
 	xhr.addEventListener('loadend', function() {
 		// Reset
 		formData = new FormData();
-		responseBody = {};
+		response = {};
 		errors = [];
 	});
 

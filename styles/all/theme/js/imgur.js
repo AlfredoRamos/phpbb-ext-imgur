@@ -148,7 +148,7 @@
 
 		// Helpers
 		let progress = {};
-		let responseBody = {};
+		let response = {};
 
 		// Progress bar
 		progress.wrapper = document.body.querySelector('#imgur-progress-wrapper');
@@ -192,19 +192,19 @@
 		xhr.addEventListener('load', function(e) {
 			try {
 				// Get response
-				let response = e.target.responseText;
+				let rawResponse = e.target.responseText;
 
 				// Empty response
-				if (response.length <= 0) {
+				if (rawResponse.length <= 0) {
 					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
 				// Parse JSON response
-				responseBody = JSON.parse(response);
+				response = JSON.parse(rawResponse);
 
 				// Empty response body
-				if (responseBody.length <= 0) {
+				if (Object.keys(response).length <= 0) {
 					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
@@ -212,8 +212,8 @@
 				// Check for errors
 				if (e.target.status !== 200) {
 					// Get error message
-					if (Array.isArray(responseBody)) {
-						responseBody.forEach(function(item) {
+					if (Array.isArray(response)) {
+						response.forEach(function(item) {
 							if (!item) {
 								return;
 							}
@@ -221,7 +221,7 @@
 							errors.push(item.message);
 						});
 					} else {
-						errors.push(responseBody.message);
+						errors.push(response.message);
 					}
 
 					errors.push(e.target.statusText);
@@ -229,7 +229,7 @@
 				}
 
 				// Add image
-				responseBody.forEach(function(item) {
+				response.forEach(function(item) {
 					if (!item) {
 						return;
 					}
@@ -322,26 +322,26 @@
 		xhr.addEventListener('error', function(e) {
 			try {
 				// Get response
-				let response = e.target.responseText;
+				let rawResponse = e.target.responseText;
 
 				// Empty response
-				if (response.length <= 0) {
+				if (rawResponse.length <= 0) {
 					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
 				// Parse JSON response
-				responseBody = JSON.parse(response);
+				response = JSON.parse(rawResponse);
 
 				// Empty response body
-				if (responseBody.length <= 0) {
+				if (Object.keys(response).length <= 0) {
 					errors.push(window.imgur.lang.emptyResponse);
 					return;
 				}
 
 				// Get error message
-				if (Array.isArray(responseBody)) {
-					responseBody.forEach(function(item) {
+				if (Array.isArray(response)) {
+					response.forEach(function(item) {
 						if (!item) {
 							return;
 						}
@@ -349,7 +349,7 @@
 						errors.push(item.message);
 					});
 				} else {
-					errors.push(responseBody.message);
+					errors.push(response.message);
 				}
 			} catch (ex) {
 				errors.push(ex.message);
