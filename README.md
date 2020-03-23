@@ -4,6 +4,7 @@ Imgur extension for phpBB.
 
 [![Build Status](https://img.shields.io/travis/com/AlfredoRamos/phpbb-ext-imgur.svg?style=flat-square)](https://travis-ci.com/AlfredoRamos/phpbb-ext-imgur)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-imgur.svg?label=stable&style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-imgur/releases)
+[![Code Quality](https://img.shields.io/codefactor/grade/github/AlfredoRamos/phpbb-ext-imgur.svg?style=flat-square)](https://www.codefactor.io/repository/github/alfredoramos/phpbb-ext-imgur)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-imgur.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-imgur/master/license.txt)
 
 ### Dependencies
