@@ -13,7 +13,7 @@
 
 	// Imgur API allowed MIME types
 	// https://help.imgur.com/hc/en-us/articles/115000083326
-	const mimeTypesRegexp = /image\/(?:jpe?g|png|gif|tiff(?:\-fx)?|webp)/;
+	const mimeTypesRegexp = /image\/(?:jpe?g|png|gif|tiff(?:-fx)?|webp)/;
 
 	// Local and session storage
 	const imgurStorage = {

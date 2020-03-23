@@ -117,7 +117,6 @@ function fillOutputFields(output) {
  * @return string
  */
 function getOutputType(helper) {
-	let image = document.body.querySelector('#imgur-image');
 	let defaultType = 'image';
 
 	if (!helper.enabled) {
