@@ -158,8 +158,8 @@ class helper
 	 * Remove empty items from an array, recursively.
 	 *
 	 * @param array		$data
-	 * @param integer	$depth
 	 * @param integer	$max_depth
+	 * @param integer	$depth
 	 *
 	 * @return array
 	 */

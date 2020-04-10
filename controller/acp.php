@@ -251,9 +251,7 @@ class acp
 		$this->language->add_lang('acp/permissions');
 		$this->language->add_lang('posting', 'alfredoramos/imgur');
 
-		// Allowed values, including those added by another extensions
-		// They need to be enabled first, and are removed when
-		// that extension is disabled or removed
+		// Allowed values
 		$allowed = $this->helper->allowed_imgur_values();
 
 		// Helper for thumbnails sizes
