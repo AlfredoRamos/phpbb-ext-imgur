@@ -194,6 +194,12 @@
 				// Get response
 				let rawResponse = e.target.responseText;
 
+				// Check for server errors or invalid JSON data
+				if (!isJSON(rawResponse) && e.target.status !== 200) {
+					errors.push('HTTP ' + e.target.status + ' - ' + e.target.statusText);
+					return;
+				}
+
 				// Empty response
 				if (rawResponse.length <= 0) {
 					errors.push(window.imgur.lang.emptyResponse);
