@@ -8,6 +8,35 @@
 'use strict';
 
 /**
+ * Check if a string is a valid JSON.
+ * Modified version of kubosho's code
+ * https://stackoverflow.com/a/33369954
+ *
+ * @param string str
+ *
+ * @return bool
+ */
+function isJSON(str) {
+	if (typeof str !== 'string') {
+		return false;
+	}
+
+	let json;
+
+	try {
+		json = JSON.parse(str);
+	} catch (ex) {
+		return false;
+	}
+
+	if (typeof json === 'object' && json !== null) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Show errors in a modal window.
  *
  * @param array errors
