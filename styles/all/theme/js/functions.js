@@ -21,7 +21,7 @@ function isJSON(str) {
 		return false;
 	}
 
-	let json;
+	let json = null;
 
 	try {
 		json = JSON.parse(str);
