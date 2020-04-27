@@ -50,7 +50,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_THUMBNAIL_NOT_KEEP_PROPORTIONS' => 'Tamaños de miniatura que <u>no</u> mantienen las proporciones de la imagen',
 
 	'ACP_IMGUR_THUMBNAIL_SIZE' => 'Tamaño de miniatura',
-	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'Este ajuste no tendrá ningun efecto si el tipo de salida no se establece en <samp>Miniatura</samp>.',
+	'ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN' => 'Este ajuste no tendrá ningún efecto si el tipo de salida no se establece en <samp>Miniatura</samp>.',
 
 	'ACP_IMGUR_OUTPUT_TEXT_EXPLAIN' => 'URL de imagen sin formato',
 	'ACP_IMGUR_OUTPUT_URL_EXPLAIN' => '<code>[url]<var>{imagen}</var>[/url]</code>',
@@ -78,5 +78,5 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Mostrar/Ocultar %s',
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valores inválidos para los campos: %s',
-	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no estan permitidos: <code>%2$s</code>'
+	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Los valores proporcionados para <samp>%1$s</samp> no están permitidos: <code>%2$s</code>'
 ]);
