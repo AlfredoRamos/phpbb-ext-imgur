@@ -24,21 +24,21 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'IMGUR_BUTTON_EXPLAIN' => 'Upload the selected images to Imgur and post its content',
+	'IMGUR_BUTTON_EXPLAIN' => 'Envoyer les images sélectionnées vers le service Imgur et les insérer comme contenu dans le message',
 
-	'IMGUR_OUTPUT_TEXT' => 'Text',
-	'IMGUR_OUTPUT_URL' => 'URL',
+	'IMGUR_OUTPUT_TEXT' => 'Texte',
+	'IMGUR_OUTPUT_URL' => 'Adresse URL',
 	'IMGUR_OUTPUT_IMAGE' => 'Image',
-	'IMGUR_OUTPUT_THUMBNAIL' => 'Thumbnail',
+	'IMGUR_OUTPUT_THUMBNAIL' => 'Miniature',
 
 	'IMGUR_TAB' => 'Imgur',
-	'IMGUR_UPLOAD' => 'Upload to Imgur',
-	'IMGUR_ADD_TO_POST' => 'Add to post',
-	'IMGUR_PANEL_BUTTON_EXPLAIN' => 'Uploaded images will not be added to the message to be able to select only the ones you want.',
+	'IMGUR_UPLOAD' => 'Envoyer des images via Imgur',
+	'IMGUR_ADD_TO_POST' => 'Insérer dans le message',
+	'IMGUR_PANEL_BUTTON_EXPLAIN' => 'Les images envoyées ne seront pas ajoutées dans le message afin de sélectionner seulement celles souhaitées.',
 
 	'IMGUR_INVALID_MIME_TYPE' => 'The MIME type <code>{type}</code> of the image <samp>{file}</samp> is not allowed.',
-	'IMGUR_IMAGE_TOO_BIG' => 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
-	'IMGUR_NO_IMAGES' => 'There are no images to upload.',
-	'IMGUR_UPLOAD_PROGRESS' => '{percentage}% ({loaded} / {total} MiB)',
+	'IMGUR_IMAGE_TOO_BIG' => 'Le fichier image « <samp>{file}</samp> » ayant un poids de <code>{size}</code> » Mio devrait peser moins de <code>{max_size}</code> Mio.',
+	'IMGUR_NO_IMAGES' => 'Il n’y a aucune images à envoyer.',
+	'IMGUR_UPLOAD_PROGRESS' => '{percentage}% ({loaded} / {total} Mio)',
 	'IMGUR_EMPTY_RESPONSE' => 'The request unexpectedly returned an empty response.'
 ]);
