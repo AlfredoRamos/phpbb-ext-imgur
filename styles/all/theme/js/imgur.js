@@ -101,8 +101,8 @@
 				errors.push(
 					window.imgur.lang.imageTooBig
 					.replace('{file}', file.name)
-					.replace('{size}', ((file.size / 1024) / 1024))
-					.replace('{max_size}', ((maxFileSize / 1024) / 1024))
+					.replace('{size}', formatImageSize(file.size))
+					.replace('{max_size}', formatImageSize(maxFileSize))
 				);
 
 				return;
@@ -177,8 +177,8 @@
 			// Show progress bar info
 			progress.label.textContent = window.imgur.lang.uploadProgress
 				.replace('{percentage}', percentage)
-				.replace('{loaded}', formatImageSize((e.loaded / 1024) / 1024))
-				.replace('{total}', formatImageSize((e.total / 1024) / 1024));
+				.replace('{loaded}', formatImageSize(e.loaded))
+				.replace('{total}', formatImageSize(e.total));
 
 			// Progress bar native animation will be used as loading indicator
 			if (percentage >= 100) {

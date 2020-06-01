@@ -37,8 +37,8 @@ $lang = array_merge($lang, [
 	'IMGUR_PANEL_BUTTON_EXPLAIN' => 'Uploaded images will not be added to the message to be able to select only the ones you want.',
 
 	'IMGUR_INVALID_MIME_TYPE' => 'The MIME type <code>{type}</code> of the image <samp>{file}</samp> is not allowed.',
-	'IMGUR_IMAGE_TOO_BIG' => 'The image <samp>{file}</samp> is <code>{size}</code> MiB and it should be less that <code>{max_size}</code> MiB.',
+	'IMGUR_IMAGE_TOO_BIG' => 'The image <samp>{file}</samp> is <code>{size}</code> and it should be less than <code>{max_size}</code>.',
 	'IMGUR_NO_IMAGES' => 'There are no images to upload.',
-	'IMGUR_UPLOAD_PROGRESS' => '{percentage}% ({loaded} / {total} MiB)',
+	'IMGUR_UPLOAD_PROGRESS' => '{percentage}% ({loaded} / {total})',
 	'IMGUR_EMPTY_RESPONSE' => 'The request unexpectedly returned an empty response.'
 ]);
