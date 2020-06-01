@@ -7,6 +7,7 @@ group :development do
   gem 'autoprefixer-rails'
   gem 'mini_racer'
   gem 'rake'
+  gem 'uglifier'
 end
 
 group :test do

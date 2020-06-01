@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'autoprefixer-rails'
+require 'uglifier'
 require 'rubocop/rake_task'
 require 'logger'
 
@@ -18,8 +19,10 @@ RuboCop::RakeTask.new
 
 namespace :build do
   # Input files
-  files = Dir.glob('styles/**/theme/css/*.css')
-  files.concat(Dir.glob('adm/style/css/*.css'))
+  files = {
+    css: Dir.glob('styles/**/theme/css/*.css') + Dir.glob('adm/style/css/*.css'),
+    js: Dir.glob('styles/**/theme/js/*.js') + Dir.glob('adm/style/js/*.js')
+  }
 
   # Base build
   task :base, [:opts] do |_t, args|
@@ -62,7 +65,7 @@ namespace :build do
 
   desc 'Build CSS files'
   task :css do
-    files.each do |file|
+    files[:css].each do |file|
       Rake::Task['build:base'].reenable
       Rake::Task['build:base'].invoke(
         input: file,
@@ -71,8 +74,29 @@ namespace :build do
     end
   end
 
+  desc 'Build JS files'
+  task :js do
+    files[:js].delete_if { |file| file.end_with?('.min.js') }
+
+    files[:js].each do |file|
+      output = file.gsub(/\.js$/, '.min.js')
+
+      logger.info(format('Processing file: %<filename>s', filename: file))
+
+      File.open(output, 'w') do |f|
+        js = File.read(file)
+
+        f.puts Uglifier.compile(
+          js,
+          harmony: true
+        )
+      end
+    end
+  end
+
   desc 'Build all CSS files'
   task :all do
     Rake::Task['build:css'].invoke
+    Rake::Task['build:js'].invoke
   end
 end
