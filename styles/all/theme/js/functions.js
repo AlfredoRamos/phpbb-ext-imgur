@@ -71,20 +71,38 @@ function showImgurErrors(errors) {
 }
 
 /**
- * Format filesize to show 3 fractional digits.
+ * Format file size with the appropriate unit.
  *
  * @param float fileSize
  *
  * @return string
  */
 function formatImageSize(fileSize) {
-	return fileSize.toLocaleString(
-		undefined,
-		{
-			minimumFractionDigits: 3,
-			maximumFractionDigits: 3
-		}
-	);
+	// Binary round number
+	const factor = 1024;
+
+	// Only show this number of digits after the decimal point
+	const digits = 3;
+
+	// Byte
+	let size = fileSize;
+	let unit = window.imgur.lang.byte;
+
+	if (fileSize >= (factor * factor)) {
+		// MiB
+		size /= (factor * factor);
+		unit = window.imgur.lang.mebiByte;
+	} else if (fileSize >= factor) {
+		// KiB
+		size /= factor;
+		unit = window.imgur.lang.kibiByte;
+	}
+
+	// Show only specified fractional digits
+	size = size.toFixed(digits);
+
+	// Size and unit (language key)
+	return (size + ' ' + unit);
 }
 
 /**
