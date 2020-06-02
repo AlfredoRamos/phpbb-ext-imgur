@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'sassc'
 require 'autoprefixer-rails'
 require 'uglifier'
 require 'oj'
@@ -26,6 +27,7 @@ namespace :build do
   }
 
   # Exclude minified files
+  files[:css].delete_if { |file| file.end_with?('.min.css') }
   files[:js].delete_if { |file| file.end_with?('.min.js') }
 
   # Base build
@@ -58,12 +60,29 @@ namespace :build do
           'Opera >= 30'
         ]
       ).css
+    end
 
-      if args[:opts][:output].index(/\.tmp$/).to_i.positive?
-        logger.warn(format('Overwriting file: %<filename>s', filename: args[:opts][:input]))
-        File.delete(args[:opts][:input])
-        File.rename(args[:opts][:output], args[:opts][:input])
-      end
+    if args[:opts][:output].index(/\.tmp$/).to_i.positive?
+      logger.warn(format('Overwriting file: %<filename>s', filename: args[:opts][:input]))
+      File.delete(args[:opts][:input])
+      File.rename(args[:opts][:output], args[:opts][:input])
+    end
+
+    # Minify
+    output = args[:opts][:input].gsub(/\.css$/, '.min.css')
+    logger.info(format('Processing file: %<filename>s', filename: output))
+
+    File.open(output, 'w') do |f|
+      css = File.read(args[:opts][:input])
+
+      f.puts SassC::Engine.new(
+        css,
+        style: :compressed,
+        cache: false,
+        syntax: :css,
+        filename: output,
+        sourcemap: :none
+      ).render
     end
   end
 
@@ -87,7 +106,7 @@ namespace :build do
     files[:js].each do |file|
       output = file.gsub(/\.js$/, '.min.js')
 
-      logger.info(format('Processing file: %<filename>s', filename: file))
+      logger.info(format('Processing file: %<filename>s', filename: output))
 
       File.open(output, 'w') do |f|
         js = File.read(file)
@@ -117,13 +136,13 @@ namespace :build do
 
     Dir.chdir(base_dir) do
       template = Dir.glob('styles/**/template/**/*.html') + Dir.glob('adm/style/**/*.html')
-      processed = []
 
       template.each do |file|
         html = old_html = File.read(file)
 
         # JS
         files[:js].each do |f|
+          processed = []
           namespace = format(
             namespace_format,
             vendor: ext.first,
@@ -138,6 +157,25 @@ namespace :build do
           processed.push(file)
 
           html = html.gsub(namespace, namespace.gsub(/\.js$/, '.min.js'))
+        end
+
+        # CSS
+        files[:css].each do |f|
+          processed = []
+          namespace = format(
+            namespace_format,
+            vendor: ext.first,
+            name: ext.last,
+            path: File.extname(f).sub('.', ''),
+            filename: File.basename(f)
+          )
+
+          next unless html.include?(namespace)
+
+          logger.info(format('Processing file: %<filename>s', filename: file)) unless processed.any?(file)
+          processed.push(file)
+
+          html = html.gsub(namespace, namespace.gsub(/\.css$/, '.min.css'))
         end
 
         next if html === old_html

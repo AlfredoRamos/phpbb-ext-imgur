@@ -1,5 +1,5 @@
 Metrics/BlockLength:
-  Max: 120
+  Max: 150
 
 Style/CaseEquality:
   Enabled: false

@@ -8,6 +8,7 @@ group :development do
   gem 'mini_racer'
   gem 'oj'
   gem 'rake'
+  gem 'sassc'
   gem 'uglifier'
 end
 
