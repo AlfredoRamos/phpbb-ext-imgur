@@ -2,6 +2,7 @@
 
 require 'autoprefixer-rails'
 require 'uglifier'
+require 'oj'
 require 'rubocop/rake_task'
 require 'logger'
 
@@ -23,6 +24,9 @@ namespace :build do
     css: Dir.glob('styles/**/theme/css/*.css') + Dir.glob('adm/style/css/*.css'),
     js: Dir.glob('styles/**/theme/js/*.js') + Dir.glob('adm/style/js/*.js')
   }
+
+  # Exclude minified files
+  files[:js].delete_if { |file| file.end_with?('.min.js') }
 
   # Base build
   task :base, [:opts] do |_t, args|
@@ -65,6 +69,8 @@ namespace :build do
 
   desc 'Build CSS files'
   task :css do
+    logger.info('Building CSS files')
+
     files[:css].each do |file|
       Rake::Task['build:base'].reenable
       Rake::Task['build:base'].invoke(
@@ -76,7 +82,7 @@ namespace :build do
 
   desc 'Build JS files'
   task :js do
-    files[:js].delete_if { |file| file.end_with?('.min.js') }
+    logger.info('Building JS files')
 
     files[:js].each do |file|
       output = file.gsub(/\.js$/, '.min.js')
@@ -94,9 +100,66 @@ namespace :build do
     end
   end
 
+  desc 'Minify assets'
+  task :minify do
+    logger.info('Minifying assets')
+
+    json = Oj.load_file('composer.json')
+    ext = json['name'].split('/')
+    base_dir = File.join('build', 'package', ext.first, ext.last)
+
+    unless Dir.exist?(base_dir)
+      logger.error(format('Directory not found: %<directory>s', directory: base_dir))
+      abort
+    end
+
+    namespace_format = '@%<vendor>s_%<name>s/%<path>s/%<filename>s'
+
+    Dir.chdir(base_dir) do
+      template = Dir.glob('styles/**/template/**/*.html') + Dir.glob('adm/style/**/*.html')
+      processed = []
+
+      template.each do |file|
+        html = old_html = File.read(file)
+
+        # JS
+        files[:js].each do |f|
+          namespace = format(
+            namespace_format,
+            vendor: ext.first,
+            name: ext.last,
+            path: File.extname(f).sub('.', ''),
+            filename: File.basename(f)
+          )
+
+          next unless html.include?(namespace)
+
+          logger.info(format('Processing file: %<filename>s', filename: file)) unless processed.any?(file)
+          processed.push(file)
+
+          html = html.gsub(namespace, namespace.gsub(/\.js$/, '.min.js'))
+        end
+
+        next if html === old_html
+
+        logger.warn(format('Overwritting file: %<filename>s', filename: file))
+
+        File.open(file, 'w') do |f|
+          f.puts html
+        end
+
+        unless File.size(file).positive?
+          logger.fatal(format('Generated empty file: %<filename>s', filename: file))
+          abort
+        end
+      end
+    end
+  end
+
   desc 'Build all CSS files'
   task :all do
     Rake::Task['build:css'].invoke
     Rake::Task['build:js'].invoke
+    Rake::Task['build:minify'].invoke
   end
 end

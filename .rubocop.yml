@@ -1,6 +1,9 @@
 Metrics/BlockLength:
   Max: 120
 
+Style/CaseEquality:
+  Enabled: false
+
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 

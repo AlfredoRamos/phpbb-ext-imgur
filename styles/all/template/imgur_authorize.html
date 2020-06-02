@@ -16,9 +16,9 @@
 {%- set INCLUDED_FORMDATA_POLYFILL_JS = true -%}
 {% endif %}
 {% if not INCLUDED_IMGUR_AUTHORIZE_JS and not IMGUR_IS_AUTHORIZED %}
-{% INCLUDEJS '@alfredoramos_imgur/js/polyfill.min.js' %}
-{% INCLUDEJS '@alfredoramos_imgur/js/functions.min.js' %}
-{% INCLUDEJS '@alfredoramos_imgur/js/authorize.min.js' %}
+{% INCLUDEJS '@alfredoramos_imgur/js/polyfill.js' %}
+{% INCLUDEJS '@alfredoramos_imgur/js/functions.js' %}
+{% INCLUDEJS '@alfredoramos_imgur/js/authorize.js' %}
 {%- set INCLUDED_IMGUR_AUTHORIZE_JS = true -%}
 {% endif %}
 {% endif %}
