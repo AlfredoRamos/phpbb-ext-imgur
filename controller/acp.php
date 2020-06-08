@@ -317,6 +317,7 @@ class acp
 				];
 
 				$data['regexp'] = '#^(?:' . implode('|', $fields[$data['field']]) . ')$#';
+				$data['diff'] = array_diff($fields[$data['field']], $allowed[$data['contract']]);
 
 				// Can't set as default a disabled option
 				if (!in_array($fields[$data['filter']], $fields[$data['field']], true))
@@ -326,12 +327,12 @@ class acp
 				}
 
 				// Enabled (input) values must be in the allowed values
-				if (!empty(array_diff($fields[$data['field']], $allowed[$data['contract']])))
+				if (!empty($data['diff']))
 				{
 					$errors[]['message'] = $this->language->lang(
 						'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED',
 						$this->language->lang('ACP_' . strtoupper($data['filter'])),
-						implode(',', $fields[$data['field']])
+						implode(',', $data['diff'])
 					);
 				}
 				else
