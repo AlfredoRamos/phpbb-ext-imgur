@@ -98,7 +98,7 @@ class Helper
         )
       end
     else
-      logger.error(format('Invalid path: %<directory>s', directory: args[:path]))
+      @logger.error(format('Invalid path: %<directory>s', directory: args[:path]))
       abort
     end
   end
