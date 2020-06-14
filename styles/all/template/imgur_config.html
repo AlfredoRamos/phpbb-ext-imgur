@@ -4,6 +4,11 @@ var imgur = {
 	config: {
 		types: '{{ IMGUR_ALLOWED_OUTPUT_TYPES|escape("js") }}'
 	},
+	storage: {
+		enabled: (typeof Storage !== 'undefined'),
+		local: 'imgur_output_type',
+		session: 'imgur_output_list'
+	},
 	lang: {
 		error: '{{ lang("ERROR")|escape("js") }}',
 		invalidMimeType: '{{ lang("IMGUR_INVALID_MIME_TYPE")|escape("js") }}',

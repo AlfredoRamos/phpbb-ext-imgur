@@ -1,9 +1,12 @@
 <div class="panel bg3 panel-container" id="imgur-panel">
 	<div class="inner">
-		<button type="button" class="imgur-button imgur-upload-button" data-add-output="false">
-			<span class="icon"></span> {{ lang('IMGUR_UPLOAD') }}
-		</button>
-		<p>{{ lang('IMGUR_PANEL_BUTTON_EXPLAIN') }}</p>
+		<section id="imgur-drop-zone">
+			<button type="button" class="imgur-button imgur-upload-button" data-add-output="false">
+				<span class="icon"></span> {{ lang('IMGUR_UPLOAD') }}
+			</button>
+			<p class="imgur-drop-zone-desc">{{ lang('IMGUR_PANEL_DROP_ZONE_EXPLAIN') }}</p>
+			<p>{{ lang('IMGUR_PANEL_BUTTON_EXPLAIN') }}</p>
+		</section>
 		{% if IMGUR_ENABLED_OUTPUT_TYPES %}
 		<fieldset class="imgur-output-fields fields2">
 			{% for OUTPUT_TYPE in IMGUR_ENABLED_OUTPUT_TYPES %}
