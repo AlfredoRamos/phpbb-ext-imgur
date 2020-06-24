@@ -19,7 +19,7 @@
 #imgur-drop-zone {
 	text-align: center;
 	margin: 5px 0;
-	border: 3px dashed rgba(0,136,204,0.2);
+	border: 3px dashed rgba(0, 136, 204, 0.2);
 	border-radius: 3px;
 	padding: 15px 30px;
 }
@@ -29,7 +29,7 @@
 }
 
 #imgur-drop-zone.active {
-	border-color: rgba(0,136,204,1);
+	border-color: rgba(0, 136, 204, 1);
 }
 
 @media (max-width: 700px) {
