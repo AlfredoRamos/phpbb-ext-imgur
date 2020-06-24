@@ -7,6 +7,201 @@
 
 'use strict';
 
+/**
+ * Format file size with the appropriate unit.
+ *
+ * @param float fileSize
+ *
+ * @return string
+ */
+function formatImageSize(fileSize) {
+	// Binary round number
+	const factor = 1024;
+
+	// Only show this number of digits after the decimal point
+	const digits = 3;
+
+	// Byte
+	let size = fileSize;
+	let unit = window.imgur.lang.byte;
+
+	if (fileSize >= (factor * factor)) {
+		// MiB
+		size /= (factor * factor);
+		unit = window.imgur.lang.mebiByte;
+	} else if (fileSize >= factor) {
+		// KiB
+		size /= factor;
+		unit = window.imgur.lang.kibiByte;
+	}
+
+	// Show only specified fractional digits
+	size = size.toFixed(digits);
+
+	// Size and unit (language key)
+	return (size + ' ' + unit);
+}
+
+/**
+ * Show errors in a modal window.
+ *
+ * @param array errors
+ *
+ * @return void
+ */
+function showImgurErrors(errors) {
+	if (!Array.isArray(errors) || errors.length <= 0) {
+		return;
+	}
+
+	let message = '';
+
+	errors.forEach(function(error, index) {
+		if (!error) {
+			return;
+		}
+
+		message += error;
+
+		if (index < (errors.length - 1)) {
+			message += '<br>';
+		}
+	});
+
+	if (message.length <= 0) {
+		return;
+	}
+
+	// Show a phpBB alert with the errors
+	window.phpbb.alert(window.imgur.lang.error, message);
+}
+
+/**
+ * Check if a string is a valid JSON.
+ * Modified version of kubosho's code
+ * https://stackoverflow.com/a/33369954
+ *
+ * @param string str
+ *
+ * @return bool
+ */
+function isJSON(str) {
+	if (typeof str !== 'string') {
+		return false;
+	}
+
+	let json = null;
+
+	try {
+		json = JSON.parse(str);
+	} catch (ex) {
+		return false;
+	}
+
+	if (typeof json === 'object' && json !== null) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Get allowed output type.
+ *
+ * @param object helper
+ *
+ * @return string
+ */
+function getOutputType(helper) {
+	let defaultType = 'image';
+
+	if (!helper.enabled) {
+		return defaultType;
+	}
+
+	let current = window.localStorage.getItem(helper.local);
+	let allowed = window.imgur.config.types.split(',');
+
+	// Fallback to default
+	if (current === 'null' || current === null) {
+		current = defaultType;
+	}
+
+	// Must be allowed
+	if (allowed.length > 0 && allowed.indexOf(current) < 0) {
+		// Try image first
+		let index = allowed.indexOf('image');
+
+		// Fallback to first available
+		index = (index < 0) ? 0 : index;
+
+		// Update current value
+		current = allowed[index];
+		window.localStorage.setItem(helper.local, current);
+	}
+
+	return current;
+}
+
+/**
+ * Fill output fields.
+ *
+ * @param array output
+ *
+ * @return void
+ */
+function fillOutputFields(output) {
+	if (!Array.isArray(output) || output.length <= 0) {
+		return;
+	}
+
+	output.forEach(function(item) {
+		if (!item) {
+			return;
+		}
+
+		let key = item[0];
+		let value = item[1];
+		let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+
+		if (!field) {
+			return;
+		}
+
+		field.value = field.value.trim();
+		value = value.trim();
+
+		if (value.length <= 0) {
+			return;
+		}
+
+		field.value += (field.value.length > 0 ? '\n' : '') + value;
+
+		let evt;
+
+		// IE11 fix
+		if (typeof Event !== 'function') {
+			evt = document.createEvent('Event');
+			evt.initEvent('change', true, true);
+		} else {
+			evt = new Event('change', {
+				bubbles: true,
+				cancelable: true
+			});
+		}
+
+		field.dispatchEvent(evt);
+	});
+}
+
+/**
+ * Validate and upload images to Imgur.
+ *
+ * @param FileList
+ * @param object
+ *
+ * @return void
+ */
 function uploadImagesToImgur(files, args) {
 	// Imgur API limit (MiB)
 	const maxFileSize = (10 * 1024 * 1024);
@@ -378,198 +573,18 @@ function uploadImagesToImgur(files, args) {
 }
 
 /**
- * Check if a string is a valid JSON.
- * Modified version of kubosho's code
- * https://stackoverflow.com/a/33369954
+ * Handle files inside drop zone.
  *
- * @param string str
+ * @param Event
  *
- * @return bool
+ * @return HTMLElement|null
  */
-function isJSON(str) {
-	if (typeof str !== 'string') {
-		return false;
-	}
-
-	let json = null;
-
-	try {
-		json = JSON.parse(str);
-	} catch (ex) {
-		return false;
-	}
-
-	if (typeof json === 'object' && json !== null) {
-		return true;
-	}
-
-	return false;
-}
-
-/**
- * Show errors in a modal window.
- *
- * @param array errors
- *
- * @return void
- */
-function showImgurErrors(errors) {
-	if (!Array.isArray(errors) || errors.length <= 0) {
-		return;
-	}
-
-	let message = '';
-
-	errors.forEach(function(error, index) {
-		if (!error) {
-			return;
-		}
-
-		message += error;
-
-		if (index < (errors.length - 1)) {
-			message += '<br>';
-		}
-	});
-
-	if (message.length <= 0) {
-		return;
-	}
-
-	// Show a phpBB alert with the errors
-	window.phpbb.alert(window.imgur.lang.error, message);
-}
-
-/**
- * Format file size with the appropriate unit.
- *
- * @param float fileSize
- *
- * @return string
- */
-function formatImageSize(fileSize) {
-	// Binary round number
-	const factor = 1024;
-
-	// Only show this number of digits after the decimal point
-	const digits = 3;
-
-	// Byte
-	let size = fileSize;
-	let unit = window.imgur.lang.byte;
-
-	if (fileSize >= (factor * factor)) {
-		// MiB
-		size /= (factor * factor);
-		unit = window.imgur.lang.mebiByte;
-	} else if (fileSize >= factor) {
-		// KiB
-		size /= factor;
-		unit = window.imgur.lang.kibiByte;
-	}
-
-	// Show only specified fractional digits
-	size = size.toFixed(digits);
-
-	// Size and unit (language key)
-	return (size + ' ' + unit);
-}
-
-/**
- * Fill output fields.
- *
- * @param array output
- *
- * @return void
- */
-function fillOutputFields(output) {
-	if (!Array.isArray(output) || output.length <= 0) {
-		return;
-	}
-
-	output.forEach(function(item) {
-		if (!item) {
-			return;
-		}
-
-		let key = item[0];
-		let value = item[1];
-		let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
-
-		if (!field) {
-			return;
-		}
-
-		field.value = field.value.trim();
-		value = value.trim();
-
-		if (value.length <= 0) {
-			return;
-		}
-
-		field.value += (field.value.length > 0 ? '\n' : '') + value;
-
-		let evt;
-
-		// IE11 fix
-		if (typeof Event !== 'function') {
-			evt = document.createEvent('Event');
-			evt.initEvent('change', true, true);
-		} else {
-			evt = new Event('change', {
-				bubbles: true,
-				cancelable: true
-			});
-		}
-
-		field.dispatchEvent(evt);
-	});
-}
-
-/**
- * Get allowed output type.
- *
- * @param object helper
- *
- * @return string
- */
-function getOutputType(helper) {
-	let defaultType = 'image';
-
-	if (!helper.enabled) {
-		return defaultType;
-	}
-
-	let current = window.localStorage.getItem(helper.local);
-	let allowed = window.imgur.config.types.split(',');
-
-	// Fallback to default
-	if (current === 'null' || current === null) {
-		current = defaultType;
-	}
-
-	// Must be allowed
-	if (allowed.length > 0 && allowed.indexOf(current) < 0) {
-		// Try image first
-		let index = allowed.indexOf('image');
-
-		// Fallback to first available
-		index = (index < 0) ? 0 : index;
-
-		// Update current value
-		current = allowed[index];
-		window.localStorage.setItem(helper.local, current);
-	}
-
-	return current;
-}
-
 function preventImgurDropZoneDefaults(e) {
 	let element = (e.target.nodeType === Node.TEXT_NODE) ? e.target.parentNode : e.target;
 	element = element.closest('#imgur-drop-zone');
 
 	if (!element) {
-		return;
+		return null;
 	}
 
 	e.preventDefault();
@@ -578,6 +593,13 @@ function preventImgurDropZoneDefaults(e) {
 	return element;
 }
 
+/**
+ * Highlight drop zone.
+ *
+ * @param bool
+ *
+ * @return void
+ */
 function highlightImgurDropZone(addOrRemove) {
 	let element = document.body.querySelector('#imgur-drop-zone');
 
