@@ -34,6 +34,7 @@ $lang = array_merge($lang, [
 	'IMGUR_TAB' => 'Imgur',
 	'IMGUR_UPLOAD' => 'Envoyer des images via Imgur',
 	'IMGUR_ADD_TO_POST' => 'Insérer dans le message',
+	'IMGUR_PANEL_DROP_ZONE_EXPLAIN' => 'Drag and drop images here to start uploading or click the button above to select the images manually.',
 	'IMGUR_PANEL_BUTTON_EXPLAIN' => 'Les images envoyées ne seront pas ajoutées dans le message afin de sélectionner seulement celles souhaitées.',
 
 	'IMGUR_INVALID_MIME_TYPE' => 'The MIME type <code>{type}</code> of the image <samp>{file}</samp> is not allowed.',
