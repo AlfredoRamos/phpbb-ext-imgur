@@ -8,12 +8,49 @@ Imgur extension for phpBB.
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-imgur/localized.svg)](https://crowdin.com/project/phpbb-ext-imgur)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-imgur.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-imgur/master/license.txt)
 
-### Dependencies
+With this extension you can click on the Imgur posting button and select the image(s) you want to upload.
+
+If the upload is successful it will add the image in the topic, private message or signature content. You can choose in the Administration Control Panel to show the uploaded image as plan text or with BBCode as URL, image (default) or thumbnail.
+
+### Features
+
+- Change Imgur API data through ACP
+- Optionally, set an album where all the images will be uploaded to.
+- Compatibility with Advanced BBCode Box extension
+- CSRF protection
+- Administrator log on configuration changes
+- Insert BBCode/text at cursor position
+- Album download link in the ACP for backup
+- Upload progress bar
+- Compatibility with QuickReply Reloaded extension
+- Compatibility with mChat extension
+- Drop-down menu in posting box button
+- Imgur tab in posting box options
+- Drag and drop upload in Imgur tab
+- Save some user preferences using `localStorage` and `sessionStorage`
+- ACP settings to enable/disable output types
+
+### Requirements
 
 - PHP 7.1.3 or greater
 - phpBB 3.3 or greater
 - Composer (for development only)
 - Imgur API data (`client_id` and `client_secret`)
+
+## Support
+
+- [**Download page**](https://www.phpbb.com/customise/db/extension/imgur/)
+- [FAQ](https://www.phpbb.com/customise/db/extension/imgur/faq)
+- [Support area](https://www.phpbb.com/customise/db/extension/imgur/support)
+- [GitHub issues](https://github.com/AlfredoRamos/phpbb-ext-imgur/issues)
+
+### Donate
+
+If you like or found my work useful and want to show some appreciation, you can consider supporting its development by giving a donation.
+
+[![Donate with PayPal](https://alfredoramos.github.io/assets/images/donate.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T2MSPMT8HJ96A&source=url)
+
+[![Donate with PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T2MSPMT8HJ96A&source=url)
 
 ### Installation
 
