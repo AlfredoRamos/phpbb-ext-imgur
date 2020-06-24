@@ -50,8 +50,6 @@
 			return;
 		}
 
-		console.log('addOutput: ' + addOutput);
-
 		// Upload images
 		uploadImagesToImgur(imgurImage.files, {
 			image: imgurImage,
@@ -120,25 +118,21 @@
 	// Drag and drop upload
 	if (dropZone !== null) {
 		dropZone.addEventListener('dragenter', function(e) {
-			console.log('dragenter');
 			preventImgurDropZoneDefaults(e);
 			highlightImgurDropZone();
 		}, false);
 
 		dropZone.addEventListener('dragleave', function(e) {
-			console.log('dragleave');
 			preventImgurDropZoneDefaults(e);
 			highlightImgurDropZone(false);
 		}, false);
 
 		dropZone.addEventListener('dragover', function(e) {
-			console.log('dragover');
 			preventImgurDropZoneDefaults(e);
 			highlightImgurDropZone();
 		}, false);
 
 		dropZone.addEventListener('drop', function(e) {
-			console.log('drop');
 			let element = preventImgurDropZoneDefaults(e);
 			highlightImgurDropZone(false);
 
