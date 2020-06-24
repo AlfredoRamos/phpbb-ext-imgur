@@ -33,6 +33,8 @@ class imgur_test extends abstract_functional_test_case
 			'input' => $crawler->filter('#postingbox #imgur-image'),
 			'select' => $crawler->filter('#postingbox #format-buttons .imgur-output-select'),
 			'tab' => $crawler->filter('#postform #imgur-panel-tab > a'),
+			'dropzone' => $crawler->filter('#postform #imgur-panel #imgur-drop-zone'),
+			'drophelp' => $crawler->filter('#postform #imgur-panel #imgur-drop-zone > .imgur-drop-zone-desc'),
 			'upload' => $crawler->filter('#postform #imgur-panel .imgur-upload-button'),
 			'fields' => $crawler->filter('#postform #imgur-panel .imgur-output-fields dl')
 		];
@@ -58,6 +60,9 @@ class imgur_test extends abstract_functional_test_case
 			$this->lang('IMGUR_TAB'),
 			$elements['tab']->text()
 		);
+
+		$this->assertSame(1, $elements['dropzone']->count());
+		$this->assertSame(1, $elements['drophelp']->count());
 
 		$this->assertSame(1, $elements['upload']->count());
 		$this->assertContains(
