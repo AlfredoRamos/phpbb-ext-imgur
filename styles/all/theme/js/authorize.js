@@ -13,7 +13,7 @@
 
 	// Additional check if is already authorized
 	// just in case, for some reason, user got this far
-	if (parseInt(imgurAuthorize.getAttribute('data-ajax-authorized')) === 1) {
+	if (parseInt(imgurAuthorize.getAttribute('data-ajax-authorized'), 10) === 1) {
 		return;
 	}
 
