@@ -62,12 +62,6 @@ If you like or found my work useful and want to show some appreciation, you can 
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
 - Click on `Enable` and confirm
 
-### Usage
-
-Click on the `Imgur` posting button and select the image(s) you want to upload.
-
-If the upload is successful it will add the image in the topic, private message or signature content. You can choose in the `Administration Control Panel` to show the uploaded image as plan text or with BBCode as URL, image (default) or thumbnail.
-
 ### Preview
 
 [![ACP settings](https://i.imgur.com/FDKbWoqb.png)](https://i.imgur.com/FDKbWoq.png)
