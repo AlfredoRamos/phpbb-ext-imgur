@@ -112,14 +112,14 @@ function isJSON(str) {
  *
  * @return string
  */
-function getOutputType(helper) {
+function getOutputType() {
 	let defaultType = 'image';
 
-	if (!helper.enabled) {
+	if (!window.imgur.storage.enabled) {
 		return defaultType;
 	}
 
-	let current = window.localStorage.getItem(helper.local);
+	let current = window.localStorage.getItem(window.imgur.storage.local);
 	let allowed = window.imgur.config.types.split(',');
 
 	// Fallback to default
@@ -137,7 +137,7 @@ function getOutputType(helper) {
 
 		// Update current value
 		current = allowed[index];
-		window.localStorage.setItem(helper.local, current);
+		window.localStorage.setItem(window.imgur.storage.local, current);
 	}
 
 	return current;
@@ -150,10 +150,31 @@ function getOutputType(helper) {
  *
  * @return void
  */
-function fillOutputFields(output) {
+function fillOutputFields() {
+	let output = [];
+
+	if (window.imgur.storage.enabled) {
+		let savedList = window.sessionStorage.getItem(window.imgur.storage.session);
+
+		if (savedList !== 'null' && savedList !== null) {
+			output = output.concat(JSON.parse(savedList));
+		}
+	}
+
 	if (!Array.isArray(output) || output.length <= 0) {
 		return;
 	}
+
+	// Cleanup
+	let fields = document.body.querySelectorAll('[name^="imgur_output_"]');
+
+	fields.forEach(function(item) {
+		if (!item) {
+			return;
+		}
+
+		item.value = '';
+	});
 
 	output.forEach(function(item) {
 		if (!item) {
@@ -213,9 +234,11 @@ function uploadImagesToImgur(files, args) {
 	// Images container
 	const formData = new FormData();
 
+	// Output type
+	let outputType = getOutputType();
+
 	// Helpers
 	let errors = [];
-	let outputList = [];
 
 	if (typeof args === 'undefined') {
 		args = {};
@@ -297,16 +320,7 @@ function uploadImagesToImgur(files, args) {
 	}
 
 	// Restore user preference
-	if (window.imgur.storage.enabled) {
-		if (window.localStorage.getItem(window.imgur.storage.local) !== 'null' &&
-			window.localStorage.getItem(window.imgur.storage.local) !== null
-		) {
-			args.image.setAttribute(
-				'data-output-type',
-				window.localStorage.getItem(window.imgur.storage.local)
-			);
-		}
-	}
+	args.image.setAttribute('data-output-type', outputType);
 
 	// Helpers
 	let progress = {};
@@ -352,6 +366,7 @@ function uploadImagesToImgur(files, args) {
 
 	// Success
 	xhr.addEventListener('load', function(e) {
+		let outputList = [];
 		try {
 			// Get response
 			let rawResponse = e.target.responseText;
@@ -430,48 +445,13 @@ function uploadImagesToImgur(files, args) {
 				output.thumbnail = '[url=' + image.link + '][img]'
 					+ image.thumbnail + '[/img][/url]';
 
-				// Save data to session
-				if (window.imgur.storage.enabled) {
-					outputList = Object.entries(output);
-					window.sessionStorage.setItem(window.imgur.storage.session, JSON.stringify(outputList));
-				}
-
-				let outputType = getOutputType(window.imgur.storage);
+				outputList = outputList.concat(Object.entries(output));
 
 				// Generate BBCode
 				if (output.hasOwnProperty(outputType)) {
 					if (output[outputType].length > 0) {
 						bbcode = output[outputType];
 					}
-				} else {
-					// Fallback to image
-					args.image.setAttribute('data-output-type', 'image');
-					window.localStorage.setItem(window.imgur.storage.local, 'image');
-
-					document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
-						if (!item) {
-							return;
-						}
-
-						item.value = 'image';
-
-						let evt;
-
-						// IE11 fix
-						if (typeof Event !== 'function') {
-							evt = document.createEvent('Event');
-							evt.initEvent('change', true, true);
-						} else {
-							evt = new Event('change', {
-								bubbles: true,
-								cancelable: true
-							});
-						}
-
-						item.dispatchEvent(evt);
-					});
-
-					bbcode = output.image;
 				}
 
 				// Add BBCode to content
@@ -479,6 +459,11 @@ function uploadImagesToImgur(files, args) {
 					insert_text(bbcode);
 				}
 			});
+
+			// Save data to session
+			if (window.imgur.storage.enabled && Array.isArray(outputList) && outputList.length > 0) {
+				window.sessionStorage.setItem(window.imgur.storage.session, JSON.stringify(outputList));
+			}
 		} catch (ex) {
 			errors.push(ex.message);
 		}
@@ -529,7 +514,7 @@ function uploadImagesToImgur(files, args) {
 	// Post-upload
 	xhr.addEventListener('loadend', function() {
 		try {
-			fillOutputFields(outputList);
+			fillOutputFields();
 		} catch (ex) {
 			errors.push(ex.message);
 		}

@@ -197,10 +197,9 @@
 	try {
 		if (window.imgur.storage.enabled) {
 			let outputType = getOutputType(window.imgur.storage);
+			let output = window.sessionStorage.getItem(window.imgur.storage.session);
 
-			if (window.sessionStorage.getItem(window.imgur.storage.session) !== 'null' &&
-				window.sessionStorage.getItem(window.imgur.storage.session) !== null
-			) {
+			if (output !== 'null' && output !== null) {
 				// Restore user preference
 				document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
 					if (!item) {
@@ -235,14 +234,9 @@
 				if (document.body.querySelectorAll('#imgur-panel .imgur-output-field').length <= 0) {
 					window.sessionStorage.removeItem(window.imgur.storage.session);
 				}
-
-				// Get stored output
-				outputList = outputList.concat(JSON.parse(
-					window.sessionStorage.getItem(window.imgur.storage.session)
-				));
 			}
 
-			fillOutputFields(outputList);
+			fillOutputFields();
 		}
 	} catch (ex) {
 		errors.push(ex.message);
