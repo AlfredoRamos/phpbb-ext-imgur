@@ -166,9 +166,7 @@ function fillOutputFields() {
 	}
 
 	// Cleanup
-	let fields = document.body.querySelectorAll('[name^="imgur_output_"]');
-
-	fields.forEach(function(item) {
+	document.body.querySelectorAll('[name^="imgur_output_"]').forEach(function(item) {
 		if (!item) {
 			return;
 		}
