@@ -196,14 +196,16 @@
 	// Add generated output in posting editor panel
 	try {
 		if (window.imgur.storage.enabled) {
-			let outputType = getOutputType(window.imgur.storage);
+			let outputType = getOutputType();
 
-			if (window.sessionStorage.getItem(window.imgur.storage.session) !== 'null' &&
-				window.sessionStorage.getItem(window.imgur.storage.session) !== null
-			) {
-				// Restore user preference
+			// Restore user preference
+			if (document.body.querySelector('#imgur-image') !== null) {
 				document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
 					if (!item) {
+						return;
+					}
+
+					if (item.value === outputType) {
 						return;
 					}
 
@@ -228,21 +230,16 @@
 						});
 					}
 
-					option.dispatchEvent(evt);
+					item.dispatchEvent(evt);
 				});
-
-				// Delete output if page doesn't have the fields to do so
-				if (document.body.querySelectorAll('#imgur-panel .imgur-output-field').length <= 0) {
-					window.sessionStorage.removeItem(window.imgur.storage.session);
-				}
-
-				// Get stored output
-				outputList = outputList.concat(JSON.parse(
-					window.sessionStorage.getItem(window.imgur.storage.session)
-				));
 			}
 
-			fillOutputFields(outputList);
+			// Delete output if page doesn't have the fields to do so
+			if (document.body.querySelectorAll('#imgur-panel .imgur-output-field').length <= 0) {
+				window.sessionStorage.removeItem(window.imgur.storage.session);
+			}
+
+			fillOutputFields();
 		}
 	} catch (ex) {
 		errors.push(ex.message);
