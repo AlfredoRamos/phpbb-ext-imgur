@@ -94,7 +94,10 @@ class Helper
         f.puts Uglifier.compile(
           js,
           comments: :none,
-          harmony: true
+          harmony: true,
+          output: {
+            quote_style: :single
+          }
         )
       end
     else
