@@ -7,6 +7,17 @@
 
 'use strict';
 
+// Extend configuration
+if (!window.imgur.hasOwnProperty('storage')) {
+	window.imgur = Object.assign(window.imgur, {
+		storage: {
+			enabled: (typeof Storage !== 'undefined'),
+			local: 'imgur_output_type',
+			session: 'imgur_output_list'
+		}
+	});
+}
+
 /**
  * Format file size with the appropriate unit.
  *

@@ -60,3 +60,32 @@ if (!Element.prototype.closest) {
 		return null;
 	};
 }
+
+// Polyfill for Object.assign()
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Polyfill
+if (typeof Object.assign !== 'function') {
+	Object.defineProperty(Object, 'assign', {
+		value: function assign(target, varArgs) {
+			if (target === null || typeof target === 'undefined') {
+				throw new TypeError('Cannot convert undefined or null to object');
+			}
+
+			let to = Object(target);
+
+			for (let index = 1; index < arguments.length; index++) {
+				let nextSource = arguments[index];
+
+				if (nextSource !== null && typeof nextSource !== 'undefined') {
+					for (let nextKey in nextSource) {
+						if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+							to[nextKey] = nextSource[nextKey];
+						}
+					}
+				}
+			}
+			return to;
+		},
+		writable: true,
+		configurable: true
+	});
+}

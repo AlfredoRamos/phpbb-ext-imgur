@@ -9,7 +9,6 @@
 	'use strict';
 
 	// Global variables
-	let outputList = [];
 	let errors = [];
 	let addOutput = true;
 
