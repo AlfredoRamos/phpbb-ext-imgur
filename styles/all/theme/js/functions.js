@@ -131,7 +131,7 @@ function getOutputType() {
 	}
 
 	let current = window.localStorage.getItem(window.imgur.storage.local);
-	let allowed = window.imgur.config.types.split(',');
+	const allowed = window.imgur.config.types.split(',');
 
 	// Fallback to default
 	if (current === 'null' || current === null) {
@@ -176,6 +176,13 @@ function fillOutputFields() {
 		return;
 	}
 
+	const allowed = window.imgur.config.types.split(',');
+
+	// Allowed output types must not be empty
+	if (allowed.length <= 0) {
+		return;
+	}
+
 	// Cleanup
 	document.body.querySelectorAll('[name^="imgur_output_"]').forEach(function(item) {
 		if (!item) {
@@ -185,28 +192,43 @@ function fillOutputFields() {
 		item.value = '';
 	});
 
+	// Fill fields
 	output.forEach(function(item) {
 		if (!item) {
 			return;
 		}
 
-		let key = item[0];
-		let value = item[1];
-		let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+		for (let key in item) {
+			// Fill only allowed output types
+			if (allowed.indexOf(key) < 0) {
+				continue;
+			}
 
-		if (!field) {
+			let value = item[key];
+			let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+
+			if (!field) {
+				return;
+			}
+
+			field.value = field.value.trim();
+			value = value.trim();
+
+			if (value.length <= 0) {
+				return;
+			}
+
+			field.value += (field.value.length > 0 ? '\n' : '') + value;
+		}
+	});
+
+	// Trigger change event only once
+	allowed.forEach(function(item) {
+		if (!item) {
 			return;
 		}
 
-		field.value = field.value.trim();
-		value = value.trim();
-
-		if (value.length <= 0) {
-			return;
-		}
-
-		field.value += (field.value.length > 0 ? '\n' : '') + value;
-
+		let field = document.body.querySelector('[name="imgur_output_' + item + '"]');
 		let evt;
 
 		// IE11 fix
@@ -376,6 +398,7 @@ function uploadImagesToImgur(files, args) {
 	// Success
 	xhr.addEventListener('load', function(e) {
 		let outputList = [];
+
 		try {
 			// Get response
 			let rawResponse = e.target.responseText;
@@ -454,7 +477,8 @@ function uploadImagesToImgur(files, args) {
 				output.thumbnail = '[url=' + image.link + '][img]'
 					+ image.thumbnail + '[/img][/url]';
 
-				outputList = outputList.concat(Object.entries(output));
+				// Append output
+				outputList.push(output);
 
 				// Generate BBCode
 				if (output.hasOwnProperty(outputType)) {
