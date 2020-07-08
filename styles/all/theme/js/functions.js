@@ -178,6 +178,11 @@ function fillOutputFields() {
 
 	const allowed = window.imgur.config.types.split(',');
 
+	// Allowed output types must not be empty
+	if (allowed.length <= 0) {
+		return;
+	}
+
 	// Cleanup
 	document.body.querySelectorAll('[name^="imgur_output_"]').forEach(function(item) {
 		if (!item) {
