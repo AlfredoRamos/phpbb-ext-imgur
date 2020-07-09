@@ -69,7 +69,7 @@ If you like or found my work useful and want to show some appreciation, you can 
 [![ACP output settings](https://i.imgur.com/CKcYnY2b.png)](https://i.imgur.com/CKcYnY2.png)
 [![Topic](https://i.imgur.com/8C7sMR2b.png)](https://i.imgur.com/8C7sMR2.png)
 [![Output menu](https://i.imgur.com/YZNmOxeb.png)](https://i.imgur.com/YZNmOxe.png)
-[![Output tab](https://i.imgur.com/a7UUoEYb.png)](https://i.imgur.com/a7UUoEY.png)
+[![Output tab](https://i.imgur.com/CY5AMz9b.png)](https://i.imgur.com/CY5AMz9.png)
 
 *(Click to view in full size)*
 
