@@ -103,15 +103,15 @@ class imgur
 	 */
 	public function authorize($hash = '')
 	{
-		// Load translations
-		$this->language->add_lang(['controller', 'acp/info_acp_common'], 'alfredoramos/imgur');
-
 		// This route can only be used by admins
 		// Users do not need to know this page exist
 		if (!$this->auth->acl_get('a_'))
 		{
 			throw new http_exception(404, 'PAGE_NOT_FOUND');
 		}
+
+		// Load translations
+		$this->language->add_lang(['controller', 'acp/info_acp_common'], 'alfredoramos/imgur');
 
 		// Get Imgur token
 		$token = $this->helper->imgur_token();
@@ -205,13 +205,28 @@ class imgur
 	 */
 	public function upload($hash = '')
 	{
-		// Add translations
+		// This route can only be used by logged in users
+		if (!$this->user->data['is_registered'])
+		{
+			throw new http_exception(403, 'NO_AUTH_OPERATION');
+		}
+
+		// Load translations
 		$this->language->add_lang('controller', 'alfredoramos/imgur');
 
 		// This route only responds to AJAX calls
 		if (!$this->request->is_ajax())
 		{
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
+		}
+
+		// Security hash
+		$hash = trim($hash);
+
+		// CSRF protection
+		if (empty($hash) || !check_link_hash($hash, 'imgur_upload'))
+		{
+			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
 		// Mandatory API data
@@ -223,15 +238,6 @@ class imgur
 		// Setup Imgur API
 		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
-
-		// Security hash
-		$hash = trim($hash);
-
-		// CSRF protection
-		if (empty($hash) || !check_link_hash($hash, 'imgur_upload'))
-		{
-			throw new http_exception(403, 'NO_AUTH_OPERATION');
-		}
 
 		// Get Imgur token
 		$token = $this->helper->imgur_token();
