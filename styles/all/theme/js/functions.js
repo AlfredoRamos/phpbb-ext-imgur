@@ -184,7 +184,7 @@ function fillOutputFields() {
 	}
 
 	// Cleanup
-	document.body.querySelectorAll('[name^="imgur_output_"]').forEach(function(item) {
+	document.body.querySelectorAll('.imgur-output-field').forEach(function(item) {
 		if (!item) {
 			return;
 		}
@@ -219,30 +219,22 @@ function fillOutputFields() {
 			}
 
 			field.value += (field.value.length > 0 ? '\n' : '') + value;
+
+			let evt;
+
+			// IE11 fix
+			if (typeof Event !== 'function') {
+				evt = document.createEvent('Event');
+				evt.initEvent('change', true, true);
+			} else {
+				evt = new Event('change', {
+					bubbles: true,
+					cancelable: true
+				});
+			}
+
+			field.dispatchEvent(evt);
 		}
-	});
-
-	// Trigger change event only once
-	allowed.forEach(function(item) {
-		if (!item) {
-			return;
-		}
-
-		let field = document.body.querySelector('[name="imgur_output_' + item + '"]');
-		let evt;
-
-		// IE11 fix
-		if (typeof Event !== 'function') {
-			evt = document.createEvent('Event');
-			evt.initEvent('change', true, true);
-		} else {
-			evt = new Event('change', {
-				bubbles: true,
-				cancelable: true
-			});
-		}
-
-		field.dispatchEvent(evt);
 	});
 }
 
