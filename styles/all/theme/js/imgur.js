@@ -8,241 +8,630 @@
 (function() {
 	'use strict';
 
-	// Global variables
-	let errors = [];
-	let addOutput = true;
+	// Imgur library
+	const Imgur =  {};
 
-	// Show image selection window
-	document.body.addEventListener('click', function(e) {
-		let image = document.body.querySelector('#imgur-image');
-		let button = e.target.closest('.imgur-button');
+	// Storage configuration
+	Imgur.storage = {
+		enabled: (typeof Storage !== 'undefined'),
+		local: 'imgur_output_type',
+		session: 'imgur_output_list'
+	};
 
-		if (!image || !button) {
+	/**
+	 * Format file size with the appropriate unit.
+	 *
+	 * @param float fileSize
+	 *
+	 * @return string
+	 */
+	Imgur.formatImageSize = function(fileSize) {
+		// Binary round number
+		const factor = 1024;
+
+		// Only show this number of digits after the decimal point
+		const digits = 3;
+
+		// Byte
+		let size = fileSize;
+		let unit = window.imgur.lang.byte;
+
+		if (fileSize >= (factor * factor)) {
+			// MiB
+			size /= (factor * factor);
+			unit = window.imgur.lang.mebiByte;
+		} else if (fileSize >= factor) {
+			// KiB
+			size /= factor;
+			unit = window.imgur.lang.kibiByte;
+		}
+
+		// Show only specified fractional digits
+		size = size.toFixed(digits);
+
+		// Size and unit (language key)
+		return (size + ' ' + unit);
+	};
+
+	/**
+	 * Show errors in a modal window.
+	 *
+	 * @param array errors
+	 *
+	 * @return void
+	 */
+	Imgur.showErrors = function (errors) {
+		if (!Array.isArray(errors) || errors.length <= 0) {
 			return;
 		}
 
-		let attribute = button.getAttribute('data-add-output');
+		let message = '';
 
-		addOutput = (attribute === null || attribute === 'true');
-
-		let evt;
-
-		// IE11 fix
-		if (typeof MouseEvent !== 'function') {
-			evt = document.createEvent('MouseEvent');
-			evt.initEvent('click', true, true);
-		} else {
-			evt = new MouseEvent('click', {
-				bubbles: true,
-				cancelable: true
-			});
-		}
-
-		image.dispatchEvent(evt);
-	});
-
-	// Upload images
-	document.body.addEventListener('change', function(e) {
-		let imgurImage = e.target;
-
-		if (!imgurImage.matches('#imgur-image')) {
-			return;
-		}
-
-		// Upload images
-		uploadImagesToImgur(imgurImage.files, {
-			image: imgurImage,
-			output: addOutput
-		});
-	});
-
-	// Imgur dropdown menu
-	document.body.addEventListener('contextmenu', function(e) {
-		let wrapper = e.target.closest('.imgur-wrapper');
-
-		if (!wrapper) {
-			return;
-		}
-
-		let select = wrapper.querySelector('.imgur-output-select');
-
-		if (!select) {
-			return;
-		}
-
-		e.preventDefault();
-		select.classList.toggle('select');
-		select.focus();
-	});
-
-	// Update output type
-	document.body.addEventListener('change', function(e) {
-		let select = e.target;
-
-		if (!select.matches('.imgur-output-select')) {
-			return;
-		}
-
-		let image = document.body.querySelector('#imgur-image');
-		let type = select.value.trim();
-
-		if (!image || type.length <= 0) {
-			return;
-		}
-
-		image.setAttribute('data-output-type', type);
-
-		// Save preferences
-		if (window.imgur.storage.enabled) {
-			window.localStorage.setItem(window.imgur.storage.local, type);
-		}
-	});
-
-	// Hide Imgur output select
-	document.body.addEventListener('click', function(e) {
-		if (!e.target.matches('.select')) {
-			let select = e.target.closest('.imgur-output-select');
-
-			if (!select) {
+		errors.forEach(function(error, index) {
+			if (!error) {
 				return;
 			}
 
-			select.classList.toggle('select', !select.classList.contains('select'));
+			message += error;
+
+			if (index < (errors.length - 1)) {
+				message += '<br>';
+			}
+		});
+
+		if (message.length <= 0) {
+			return;
 		}
-	});
 
-	// Drag and drop zone
-	let dropZone = document.body.querySelector('#imgur-drop-zone');
+		// Show a phpBB alert with the errors
+		window.phpbb.alert(window.imgur.lang.error, message);
+	};
 
-	// Drag and drop upload
-	if (dropZone !== null) {
-		dropZone.addEventListener('dragenter', function(e) {
-			preventImgurDropZoneDefaults(e);
-			highlightImgurDropZone();
-		}, false);
+	/**
+	 * Check if a string is a valid JSON.
+	 * Modified version of kubosho's code
+	 * https://stackoverflow.com/a/33369954
+	 *
+	 * @param string str
+	 *
+	 * @return bool
+	 */
+	Imgur.isJSON = function(str) {
+		if (typeof str !== 'string') {
+			return false;
+		}
 
-		dropZone.addEventListener('dragleave', function(e) {
-			preventImgurDropZoneDefaults(e);
-			highlightImgurDropZone(false);
-		}, false);
+		let json = null;
 
-		dropZone.addEventListener('dragover', function(e) {
-			preventImgurDropZoneDefaults(e);
-			highlightImgurDropZone();
-		}, false);
+		try {
+			json = JSON.parse(str);
+		} catch (ex) {
+			return false;
+		}
 
-		dropZone.addEventListener('drop', function(e) {
-			let element = preventImgurDropZoneDefaults(e);
-			highlightImgurDropZone(false);
+		if (typeof json === 'object' && json !== null) {
+			return true;
+		}
 
-			let button = element.querySelector('.imgur-button');
+		return false;
+	};
 
-			if (button !== null) {
-				let attribute = button.getAttribute('data-add-output');
-				addOutput = (attribute === null || attribute === 'true');
+	/**
+	 * Get allowed output type.
+	 *
+	 * @param object helper
+	 *
+	 * @return string
+	 */
+	Imgur.getOutputType = function() {
+		let defaultType = 'image';
+
+		if (!window.imgur.storage.enabled) {
+			return defaultType;
+		}
+
+		let current = window.localStorage.getItem(window.imgur.storage.local);
+		const allowed = window.imgur.config.types.split(',');
+
+		// Fallback to default
+		if (current === 'null' || current === null) {
+			current = defaultType;
+		}
+
+		// Must be allowed
+		if (allowed.length > 0 && allowed.indexOf(current) < 0) {
+			// Try image first
+			let index = allowed.indexOf('image');
+
+			// Fallback to first available
+			index = (index < 0) ? 0 : index;
+
+			// Update current value
+			current = allowed[index];
+			window.localStorage.setItem(window.imgur.storage.local, current);
+		}
+
+		return current;
+	};
+
+	/**
+	 * Fill output fields.
+	 *
+	 * @param array output
+	 *
+	 * @return void
+	 */
+	Imgur.fillOutputFields = function() {
+		let output = [];
+
+		if (window.imgur.storage.enabled) {
+			let savedList = window.sessionStorage.getItem(window.imgur.storage.session);
+
+			if (savedList !== 'null' && savedList !== null) {
+				output = output.concat(JSON.parse(savedList));
+			}
+		}
+
+		if (!Array.isArray(output) || output.length <= 0) {
+			return;
+		}
+
+		const allowed = window.imgur.config.types.split(',');
+
+		// Allowed output types must not be empty
+		if (allowed.length <= 0) {
+			return;
+		}
+
+		// Cleanup
+		document.body.querySelectorAll('.imgur-output-field').forEach(function(item) {
+			if (!item) {
+				return;
 			}
 
-			// Upload images
-			uploadImagesToImgur(e.dataTransfer.files, {
-				output: addOutput
+			item.value = '';
+		});
+
+		// Fill fields
+		output.forEach(function(item) {
+			if (!item) {
+				return;
+			}
+
+			for (let key in item) {
+				// Fill only allowed output types
+				if (allowed.indexOf(key) < 0) {
+					continue;
+				}
+
+				let value = item[key];
+				let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+
+				if (!field) {
+					return;
+				}
+
+				field.value = field.value.trim();
+				value = value.trim();
+
+				if (value.length <= 0) {
+					return;
+				}
+
+				field.value += (field.value.length > 0 ? '\n' : '') + value;
+
+				let evt;
+
+				// IE11 fix
+				if (typeof Event !== 'function') {
+					evt = document.createEvent('Event');
+					evt.initEvent('change', true, true);
+				} else {
+					evt = new Event('change', {
+						bubbles: true,
+						cancelable: true
+					});
+				}
+
+				field.dispatchEvent(evt);
+			}
+		});
+	};
+
+	/**
+	 * Validate and upload images to Imgur.
+	 *
+	 * @param FileList
+	 * @param object
+	 *
+	 * @return void
+	 */
+	Imgur.upload = function(files, args) {
+		// Imgur API limit (MiB)
+		const maxFileSize = (10 * 1024 * 1024);
+
+		// Imgur API allowed MIME types
+		// https://help.imgur.com/hc/en-us/articles/115000083326
+		const mimeTypesRegexp = /image\/(?:jpe?g|png|gif|tiff(?:-fx)?|webp)/;
+
+		// Images container
+		const formData = new FormData();
+
+		// Output type
+		let outputType = Imgur.getOutputType();
+
+		// Helpers
+		let errors = [];
+
+		if (typeof args === 'undefined') {
+			args = {};
+		}
+
+		if (!args.hasOwnProperty('image') || typeof args.image === 'undefined') {
+			args.image = document.body.querySelector('#imgur-image');
+		}
+
+		if (!args.hasOwnProperty('output') || typeof args.output === 'undefined') {
+			args.output = true;
+		}
+
+		// Upload buttons
+		let imgurButton = document.body.querySelectorAll('.imgur-button');
+
+		// Prevent button spamming
+		imgurButton.forEach(function(item) {
+			if (!item) {
+				return;
+			}
+
+			item.setAttribute('disabled', true);
+		});
+
+		args.image.setAttribute('disabled', true);
+
+		// Validate file list
+		if (files.length <= 0) {
+			return;
+		}
+
+		// Validate file
+		Array.prototype.forEach.call(files, function(file) {
+			// MIME type
+			if (!mimeTypesRegexp.test(file.type)) {
+				errors.push(
+					window.imgur.lang.invalidMimeType
+					.replace('{file}', file.name)
+					.replace('{type}', file.type)
+				);
+
+				return;
+			}
+
+			// Size
+			if (file.size > maxFileSize) {
+				errors.push(
+					window.imgur.lang.imageTooBig
+					.replace('{file}', file.name)
+					.replace('{size}', Imgur.formatImageSize(file.size))
+					.replace('{max_size}', Imgur.formatImageSize(maxFileSize))
+				);
+
+				return;
+			}
+
+			// Add image to upload queue
+			formData.append('imgur_image[]', file);
+		});
+
+		// Exit if no images were added
+		if (!formData.has('imgur_image[]')) {
+			errors.push(window.imgur.lang.noImages);
+			Imgur.showErrors(errors);
+
+			// Re-enable buttons
+			imgurButton.forEach(function(item) {
+				if (!item) {
+					return;
+				}
+
+				item.removeAttribute('disabled');
 			});
+
+			args.image.removeAttribute('disabled');
+
+			return;
+		}
+
+		// Restore user preference
+		args.image.setAttribute('data-output-type', outputType);
+
+		// Helpers
+		let progress = {};
+		let response = {};
+
+		// Progress bar
+		progress.wrapper = document.body.querySelector('#imgur-progress-wrapper');
+
+		// Show progress bar
+		if (progress.wrapper) {
+			progress.bar = progress.wrapper.querySelector('#imgur-progress');
+			progress.label = progress.wrapper.querySelector('#imgur-progress-label > code');
+			progress.wrapper.classList.add('uploading');
+		}
+
+		// Upload the image(s)
+		const xhr = new XMLHttpRequest();
+
+		// Progress
+		xhr.upload.addEventListener('progress', function(e) {
+			if (!e.lengthComputable || !progress.bar || !progress.label) {
+				return;
+			}
+
+			let percentage = (e.loaded / e.total) * 100;
+
+			// Update progress bar percentage
+			progress.bar.value = percentage;
+
+			// Show progress bar info
+			progress.label.textContent = window.imgur.lang.uploadProgress
+				.replace('{percentage}', percentage)
+				.replace('{loaded}', Imgur.formatImageSize(e.loaded))
+				.replace('{total}', Imgur.formatImageSize(e.total));
+
+			// Progress bar native animation will be used as loading indicator
+			if (percentage >= 100) {
+				setTimeout(function() {
+					progress.bar.removeAttribute('value');
+				}, 500);
+			}
 		}, false);
-	}
 
-	// Copy output field text to message
-	document.body.addEventListener('click', function(e) {
-		let button = e.target.closest('.imgur-output-paste');
+		// Success
+		xhr.addEventListener('load', function(e) {
+			let outputList = [];
 
-		if (!button) {
-			return;
-		}
+			try {
+				// Get response
+				let rawResponse = e.target.responseText;
 
-		let field = button.parentNode.querySelector('.imgur-output-field');
+				// Check for server errors or invalid JSON data
+				if (!Imgur.isJSON(rawResponse) && e.target.status !== 200) {
+					errors.push('HTTP ' + e.target.status + ' - ' + e.target.statusText);
+					return;
+				}
 
-		if (!field) {
-			return;
-		}
+				// Empty response
+				if (rawResponse.length <= 0) {
+					errors.push(window.imgur.lang.emptyResponse);
+					return;
+				}
 
-		let bbcode = field.value.trim();
+				// Parse JSON response
+				response = JSON.parse(rawResponse);
 
-		if (bbcode.length <= 0) {
-			return;
-		}
+				// Empty response body
+				if (Object.keys(response).length <= 0) {
+					errors.push(window.imgur.lang.emptyResponse);
+					return;
+				}
 
-		// Add BBCode to content
-		insert_text(bbcode);
-	});
+				// Check for errors
+				if (e.target.status !== 200) {
+					// Get error message
+					if (Array.isArray(response)) {
+						response.forEach(function(item) {
+							if (!item) {
+								return;
+							}
 
-	// Show output fields only when needed
-	document.body.addEventListener('change', function(e) {
-		let field = e.target;
+							errors.push(item.message);
+						});
+					} else {
+						errors.push(response.message);
+					}
 
-		if (!field.matches('.imgur-output-field')) {
-			return;
-		}
+					errors.push(e.target.statusText);
+					return;
+				}
 
-		let wrapper = field.closest('dl');
-		let cssClass = 'hidden';
-
-		wrapper.classList.toggle(cssClass, (
-			field.value.trim().length <= 0 && !wrapper.classList.contains(cssClass)
-		));
-	});
-
-	// Resize output fields in posting editor panel
-	window.phpbb.resizeTextArea(jQuery('.imgur-output-field'));
-
-	// Add generated output in posting editor panel
-	try {
-		if (window.imgur.storage.enabled) {
-			let outputType = getOutputType();
-
-			// Restore user preference
-			if (document.body.querySelector('#imgur-image') !== null) {
-				document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
+				// Add image
+				response.forEach(function(item) {
 					if (!item) {
 						return;
 					}
 
-					if (item.value === outputType) {
-						return;
+					let output = {};
+					let bbcode = '';
+					let image = {
+						link: '',
+						thumbnail: ''
+					};
+
+					// Get image link
+					image.link = item.link;
+
+					// Generate thumbnail
+					if (image.link.length > 0) {
+						let ext = '.' + image.link.split('.').pop();
+						let size = args.image.getAttribute('data-thumbnail-size').trim() || 't';
+
+						image.thumbnail = image.link.replace(
+							ext,
+							size + ext
+						);
 					}
 
-					let option = item.querySelector('[value="' + outputType + '"]');
+					// Generate output types
+					output.text = image.link;
+					output.url = '[url]' + image.link + '[/url]';
+					output.image = '[img]' + image.link + '[/img]';
+					output.thumbnail = '[url=' + image.link + '][img]'
+						+ image.thumbnail + '[/img][/url]';
 
-					if (!option) {
-						return;
+					// Append output
+					outputList.push(output);
+
+					// Generate BBCode
+					if (output.hasOwnProperty(outputType)) {
+						if (output[outputType].length > 0) {
+							bbcode = output[outputType];
+						}
 					}
 
-					option.selected = true;
-
-					let evt;
-
-					// IE11 fix
-					if (typeof Event !== 'function') {
-						evt = document.createEvent('Event');
-						evt.initEvent('change', true, true);
-					} else {
-						evt = new Event('change', {
-							bubbles: true,
-							cancelable: true
-						});
+					// Add BBCode to content
+					if (args.output) {
+						insert_text(bbcode);
 					}
-
-					item.dispatchEvent(evt);
 				});
+
+				// Save data to session
+				if (window.imgur.storage.enabled && Array.isArray(outputList) && outputList.length > 0) {
+					window.sessionStorage.setItem(window.imgur.storage.session, JSON.stringify(outputList));
+				}
+			} catch (ex) {
+				errors.push(ex.message);
 			}
 
-			// Delete output if page doesn't have the fields to do so
-			if (document.body.querySelectorAll('#imgur-panel .imgur-output-field').length <= 0) {
-				window.sessionStorage.removeItem(window.imgur.storage.session);
+			Imgur.showErrors(errors);
+		});
+
+		// Failure
+		xhr.addEventListener('error', function(e) {
+			try {
+				// Get response
+				let rawResponse = e.target.responseText;
+
+				// Empty response
+				if (rawResponse.length <= 0) {
+					errors.push(window.imgur.lang.emptyResponse);
+					return;
+				}
+
+				// Parse JSON response
+				response = JSON.parse(rawResponse);
+
+				// Empty response body
+				if (Object.keys(response).length <= 0) {
+					errors.push(window.imgur.lang.emptyResponse);
+					return;
+				}
+
+				// Get error message
+				if (Array.isArray(response)) {
+					response.forEach(function(item) {
+						if (!item) {
+							return;
+						}
+
+						errors.push(item.message);
+					});
+				} else {
+					errors.push(response.message);
+				}
+			} catch (ex) {
+				errors.push(ex.message);
 			}
 
-			fillOutputFields();
+			Imgur.showErrors(errors);
+		});
+
+		// Post-upload
+		xhr.addEventListener('loadend', function() {
+			try {
+				Imgur.fillOutputFields();
+			} catch (ex) {
+				errors.push(ex.message);
+			}
+
+			Imgur.showErrors(errors);
+
+			// Re-enable buttons
+			imgurButton.forEach(function(item) {
+				if (!item) {
+					return;
+				}
+
+				item.removeAttribute('disabled');
+			});
+
+			args.image.removeAttribute('disabled');
+
+			// Reset progress bar
+			if (progress.wrapper) {
+				progress.wrapper.classList.remove('uploading');
+
+				if (progress.bar) {
+					progress.bar.removeAttribute('value');
+				}
+			}
+		});
+
+		// Initialize request
+		xhr.open(
+			'POST',
+			args.image.getAttribute('data-ajax-action').trim(),
+			true
+		);
+
+		// Additional headers
+		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		xhr.setRequestHeader('Cache-Control', 'no-cache');
+
+		// Send request
+		xhr.send(formData);
+	};
+
+	/**
+	 * Handle files inside drop zone.
+	 *
+	 * @param Event
+	 *
+	 * @return HTMLElement|null
+	 */
+	Imgur.preventDropZoneDefaults = function(e) {
+		let element = (e.target.nodeType === Node.TEXT_NODE) ? e.target.parentNode : e.target;
+		element = element.closest('#imgur-drop-zone');
+
+		if (!element) {
+			return null;
 		}
-	} catch (ex) {
-		errors.push(ex.message);
-	}
 
-	showImgurErrors(errors);
+		e.preventDefault();
+		e.stopPropagation();
+
+		return element;
+	};
+
+	/**
+	 * Highlight drop zone.
+	 *
+	 * @param bool
+	 *
+	 * @return void
+	 */
+	Imgur.highlightDropZone = function(addOrRemove) {
+		let element = document.body.querySelector('#imgur-drop-zone');
+
+		if (!element) {
+			return;
+		}
+
+		addOrRemove = (typeof addOrRemove === 'undefined') ? true : addOrRemove;
+
+		const cssClass = 'active';
+
+		if (addOrRemove === true) {
+			if (!element.classList.contains(cssClass)) {
+				element.classList.add(cssClass);
+			}
+		} else {
+			if (element.classList.contains(cssClass)) {
+				element.classList.remove(cssClass);
+			}
+		}
+	};
+
+	// Extend and export to global scope
+	window.imgur = Object.assign(Imgur, window.imgur);
 })();

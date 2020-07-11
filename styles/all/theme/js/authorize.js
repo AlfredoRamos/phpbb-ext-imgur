@@ -94,7 +94,7 @@
 			errors.push(ex.message);
 		}
 
-		showImgurErrors(errors);
+		window.imgur.showErrors(errors);
 	});
 
 	// Failure
@@ -134,7 +134,7 @@
 			errors.push(ex.message);
 		}
 
-		showImgurErrors(errors);
+		window.imgur.showErrors(errors);
 	});
 
 	// Post-request
