@@ -89,7 +89,7 @@
 
 	/**
 	 * Check if a string is a valid JSON.
-	 * Modified version of kubosho's code
+	 * Modified version of kubosho's code.
 	 * https://stackoverflow.com/a/33369954
 	 *
 	 * @param string str
@@ -118,8 +118,6 @@
 
 	/**
 	 * Get allowed output type.
-	 *
-	 * @param object helper
 	 *
 	 * @return string
 	 */
@@ -156,8 +154,6 @@
 
 	/**
 	 * Fill output fields.
-	 *
-	 * @param array output
 	 *
 	 * @return void
 	 */
