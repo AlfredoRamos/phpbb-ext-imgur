@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Imgur Extension for phpBB.
+ * Imgur extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
@@ -12,13 +12,16 @@ namespace alfredoramos\imgur\tests\functional;
 /**
  * @group functional
  */
-class imgur_test extends abstract_functional_test_case
+class imgur_test extends \phpbb_functional_test_case
 {
+	use functional_test_case_trait;
+
 	public function setUp(): void
 	{
 		parent::setUp();
-
 		$this->add_lang_ext('alfredoramos/imgur', 'posting');
+		$this->login();
+		$this->init_imgur_api();
 	}
 
 	public function test_imgur_input()

@@ -9,19 +9,17 @@
 
 namespace alfredoramos\imgur\tests\functional;
 
-use phpbb_functional_test_case;
-
-abstract class abstract_functional_test_case extends phpbb_functional_test_case
+trait functional_test_case_trait
 {
+	protected $db;
+
 	static protected function setup_extensions()
 	{
 		return ['alfredoramos/imgur'];
 	}
 
-	public function setUp(): void
+	protected function init_imgur_api()
 	{
-		parent::setUp();
-
 		$db = $this->get_db();
 		$sql = 'UPDATE ' . CONFIG_TABLE . '
 			SET  ' . $db->sql_build_array('UPDATE',
@@ -32,8 +30,5 @@ abstract class abstract_functional_test_case extends phpbb_functional_test_case
 			);
 		$db->sql_query($sql);
 		$db->sql_close();
-		unset($db);
-
-		$this->login();
 	}
 }
