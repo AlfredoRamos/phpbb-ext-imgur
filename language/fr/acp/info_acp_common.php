@@ -24,7 +24,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'ACP_IMGUR' => 'Service Imgur',
+	'ACP_IMGUR' => 'Imgur',
 	'OUTPUT' => 'Format de sortie',
-	'LOG_IMGUR_DATA' => '<strong>Données du service Imgur mises à jour</strong><br>» %s'
+	'LOG_IMGUR_DATA' => '<strong>Données Imgur modifiées</strong><br>» %s'
 ]);

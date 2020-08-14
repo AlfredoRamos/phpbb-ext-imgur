@@ -34,12 +34,12 @@ $lang = array_merge($lang, [
 	'IMGUR_TAB' => 'Imgur',
 	'IMGUR_UPLOAD' => 'Envoyer des images via Imgur',
 	'IMGUR_ADD_TO_POST' => 'Insérer dans le message',
-	'IMGUR_PANEL_DROP_ZONE_EXPLAIN' => 'Drag and drop images here to start uploading or click the button above to select the images manually.',
+	'IMGUR_PANEL_DROP_ZONE_EXPLAIN' => 'Faites glisser et déposez les images ici pour commencer le téléchargement ou cliquez sur le bouton ci-dessus pour sélectionner les images manuellement.',
 	'IMGUR_PANEL_BUTTON_EXPLAIN' => 'Les images envoyées ne seront pas ajoutées dans le message afin de sélectionner seulement celles souhaitées.',
 
-	'IMGUR_INVALID_MIME_TYPE' => 'The MIME type <code>{type}</code> of the image <samp>{file}</samp> is not allowed.',
+	'IMGUR_INVALID_MIME_TYPE' => 'Le type MIME <code>{type}</code> de l‘image <samp>{file}</samp> n‘est pas autorisé.',
 	'IMGUR_IMAGE_TOO_BIG' => 'Le fichier image « <samp>{file}</samp> » ayant un poids de « <code>{size}</code> » devrait peser moins de <code>{max_size}</code>.',
 	'IMGUR_NO_IMAGES' => 'Il n’y a aucune images à envoyer.',
 	'IMGUR_UPLOAD_PROGRESS' => '{percentage}% ({loaded} / {total})',
-	'IMGUR_EMPTY_RESPONSE' => 'The request unexpectedly returned an empty response.'
+	'IMGUR_EMPTY_RESPONSE' => 'La demande a retourné de manière inattendue une réponse vide.'
 ]);
