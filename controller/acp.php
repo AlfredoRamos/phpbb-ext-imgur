@@ -16,6 +16,7 @@ use phpbb\language\language;
 use phpbb\user;
 use phpbb\log\log;
 use Imgur\Client as ImgurClient;
+use Imgur\Exception\ErrorException as ImgurErrorException;
 use alfredoramos\imgur\includes\helper;
 
 class acp
@@ -84,15 +85,15 @@ class acp
 			return;
 		}
 
+		// Validation errors
+		$errors = [];
+
 		// Set Imgur API data
 		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
 		{
 			$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 			$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 		}
-
-		// Validation errors
-		$errors = [];
 
 		// Field filters
 		$filters = [
@@ -183,6 +184,36 @@ class acp
 					$this->language->lang('CONFIG_UPDATED') .
 					adm_back_link($u_action)
 				);
+			}
+		}
+
+		// Validate album hash
+		if (!empty($this->config['imgur_album']) && !empty($this->config['imgur_access_token']))
+		{
+			$album_ids = [];
+
+			// Check it only once per week to reduce API credits usage
+			if ((int) $this->config['imgur_album_next_check'] <= time())
+			{
+				try
+				{
+					$this->imgur->setAccessToken($this->helper->imgur_token());
+					$this->imgur->sign();
+					$album_ids = $this->imgur->api('account')->albumIds();
+				}
+				catch (ImgurErrorException $ex)
+				{
+					// Do nothing
+				}
+
+				// Add error message
+				if (empty($album_ids) || !in_array($this->config['imgur_album'], $album_ids, true))
+				{
+					$errors[]['message'] = $this->language->lang('ACP_IMGUR_VALIDATE_IMGUR_ALBUM');
+				}
+
+				// Update next check date
+				$this->config->set('imgur_album_next_check', strtotime('+1 week'));
 			}
 		}
 
