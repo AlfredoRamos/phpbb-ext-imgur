@@ -78,5 +78,6 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_TOGGLE_DISPLAY_FIELD' => 'Afficher / masquer la %s',
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valeurs erronées pour les champs : <samp>%s</samp>',
-	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Les valeurs de <samp>%1$s</samp> ne sont pas autorisées : <code>%2$s</code>'
+	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Les valeurs de <samp>%1$s</samp> ne sont pas autorisées : <code>%2$s</code>',
+	'ACP_IMGUR_VALIDATE_IMGUR_ALBUM' => 'The album you have specified does not exist in this Imgur account.'
 ]);
