@@ -192,20 +192,28 @@ class acp
 		{
 			$album_ids = [];
 
-			try
+			// Check it only once per week to reduce API credits usage
+			if ((int) $this->config['imgur_album_next_check'] <= time())
 			{
-				$this->imgur->setAccessToken($this->helper->imgur_token());
-				$this->imgur->sign();
-				$album_ids = $this->imgur->api('account')->albumIds();
-			}
-			catch (ImgurErrorException $ex)
-			{
-				// Do nothing
-			}
+				try
+				{
+					$this->imgur->setAccessToken($this->helper->imgur_token());
+					$this->imgur->sign();
+					$album_ids = $this->imgur->api('account')->albumIds();
+				}
+				catch (ImgurErrorException $ex)
+				{
+					// Do nothing
+				}
 
-			if (empty($album_ids) || !in_array($this->config['imgur_album'], $album_ids, true))
-			{
-				$errors[]['message'] = $this->language->lang('ACP_IMGUR_VALIDATE_IMGUR_ALBUM');
+				// Add error message
+				if (empty($album_ids) || !in_array($this->config['imgur_album'], $album_ids, true))
+				{
+					$errors[]['message'] = $this->language->lang('ACP_IMGUR_VALIDATE_IMGUR_ALBUM');
+				}
+
+				// Update next check date
+				$this->config->set('imgur_album_next_check', strtotime('+1 week'));
 			}
 		}
 
