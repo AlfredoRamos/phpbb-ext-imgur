@@ -251,6 +251,14 @@ class imgur
 			$this->refresh_token();
 		}
 
+		// Maximum allowed file size (10 MiB)
+		// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
+		$max_file_size = (10 * 1024 * 1024);
+
+		// Allowed MIME types
+		// https://help.imgur.com/hc/en-us/articles/115000083326
+		$mime_types = '#^image/(?:jpe?g|png|gif|tiff(?:-fx)?|webp)$#i';
+
 		// Not using $request->file() because I need an array of arrays
 		$images = $this->request->variable(
 			'imgur_image',
@@ -267,6 +275,12 @@ class imgur
 		{
 			foreach ($images['name'] as $key => $value)
 			{
+				// Validate file size and MIME type
+				if ($images['size'][$key] > $max_file_size || !preg_match($mime_types, $images['type'][$key]))
+				{
+					continue;
+				}
+
 				// Image file must exist and be readable
 				if (!$this->filesystem->is_readable($images['tmp_name'][$key]))
 				{
@@ -276,10 +290,10 @@ class imgur
 				// Upload image and save response, it will be used
 				// later to show a JSON object
 				$data[] = $this->imgur->api('image')->upload([
-					'image' => base64_encode(file_get_contents($images['tmp_name'][$key])),
+					'image'	=> base64_encode(file_get_contents($images['tmp_name'][$key])),
 					'type'	=> 'base64',
-					'album'	=> $this->config['imgur_album'],
-					'name'	=> $value
+					'name'	=> $value,
+					'album'	=> $this->config['imgur_album']
 				]);
 			}
 		}
