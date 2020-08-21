@@ -243,12 +243,13 @@
 	 * @return void
 	 */
 	Imgur.upload = function(files, args) {
-		// Imgur API limit (MiB)
+		// Imgur API limit (10 MiB)
+		// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
 		const maxFileSize = (10 * 1024 * 1024);
 
 		// Imgur API allowed MIME types
 		// https://help.imgur.com/hc/en-us/articles/115000083326
-		const mimeTypesRegexp = /image\/(?:jpe?g|png|gif|tiff(?:-fx)?|webp)/;
+		const mimeTypesRegexp = /^image\/(?:jpe?g|png|gif|tiff(?:-fx)?|webp)$/i;
 
 		// Images container
 		const formData = new FormData();
@@ -292,17 +293,6 @@
 
 		// Validate file
 		Array.prototype.forEach.call(files, function(file) {
-			// MIME type
-			if (!mimeTypesRegexp.test(file.type)) {
-				errors.push(
-					window.imgur.lang.invalidMimeType
-					.replace('{file}', file.name)
-					.replace('{type}', file.type)
-				);
-
-				return;
-			}
-
 			// Size
 			if (file.size > maxFileSize) {
 				errors.push(
@@ -310,6 +300,17 @@
 					.replace('{file}', file.name)
 					.replace('{size}', Imgur.formatImageSize(file.size))
 					.replace('{max_size}', Imgur.formatImageSize(maxFileSize))
+				);
+
+				return;
+			}
+
+			// MIME type
+			if (!mimeTypesRegexp.test(file.type)) {
+				errors.push(
+					window.imgur.lang.invalidMimeType
+					.replace('{file}', file.name)
+					.replace('{type}', file.type)
 				);
 
 				return;
