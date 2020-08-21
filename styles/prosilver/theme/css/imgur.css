@@ -14,6 +14,14 @@
 .imgur-button > .icon,
 .imgur-button.abbc3_button {
 	background-image: url('../../../all/theme/images/imgur.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+.imgur-button[disabled] > .icon,
+.imgur-button[disabled].abbc3_button {
+	background-image: url('../../../all/theme/images/loader.svg');
 }
 
 #imgur-drop-zone {
