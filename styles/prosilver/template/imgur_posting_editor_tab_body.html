@@ -1,7 +1,7 @@
 <div class="panel bg3 panel-container" id="imgur-panel">
 	<div class="inner">
 		<section id="imgur-drop-zone">
-			<button type="button" class="imgur-button imgur-upload-button" data-add-output="false">
+			<button type="button" class="imgur-button-upload btn-imgur btn-imgur-w-icon btn-imgur-upload" data-add-output="false">
 				<span class="icon"></span> {{ lang('IMGUR_UPLOAD') }}
 			</button>
 			<p class="imgur-drop-zone-desc">{{ lang('IMGUR_PANEL_DROP_ZONE_EXPLAIN') }}</p>
@@ -16,9 +16,9 @@
 				</dt>
 				<dd>
 					<textarea id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field inputbox" autocomplete="off" readonly="readonly"></textarea>
-					<span class="imgur-output-paste" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape }}">
+					<button type="button" class="imgur-button-paste btn-imgur btn-imgur-paste" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape }}">
 						<i class="icon fa-paste fa-fw" aria-hidden="true"></i>
-					</span>
+					</button>
 				</dd>
 			</dl>
 			{% endfor %}

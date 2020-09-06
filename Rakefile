@@ -5,6 +5,7 @@ require 'autoprefixer-rails'
 require 'uglifier'
 require 'oj'
 require 'rubocop/rake_task'
+require 'scss_lint/rake_task'
 require 'logger'
 
 $stdout.sync = $stderr.sync = true
@@ -18,6 +19,7 @@ end
 
 # Tests
 RuboCop::RakeTask.new
+SCSSLint::RakeTask.new
 
 # Helper
 class Helper
@@ -28,6 +30,51 @@ class Helper
 
     json = Oj.load_file('composer.json')
     @ext = json['name'].split('/')
+  end
+
+  def compile_scss(args = {})
+    unless args.key?(:output)
+      args[:output] = args[:input]
+        .sub(%r{^scss/themes/}, '')
+        .sub(/\.scss$/, '.css')
+    end
+
+    @logger.info(format('Processing file: %<filename>s', filename: args[:input]))
+    @logger.info(format('Style: %<style>s', style: args[:style].to_s))
+
+    File.open(args[:output], 'w') do |f|
+      css = SassC::Engine.new(
+        File.read(args[:input]),
+        style: args[:style],
+        cache: false,
+        syntax: :scss,
+        filename: args[:input],
+        sourcemap: :none
+      ).render
+
+      f.puts AutoprefixerRails.process(
+        css,
+        map: false,
+        cascade: false,
+        from: args[:input],
+        to: args[:output],
+        browsers: [
+          '>= 1%',
+          'last 1 major version',
+          'not dead',
+          'Chrome >= 45',
+          'Firefox >= 38',
+          'Edge >= 12',
+          'Explorer >= 10',
+          'iOS >= 9',
+          'Safari >= 9',
+          'Android >= 4.4',
+          'Opera >= 30'
+        ]
+      ).css
+    end
+
+    @logger.info(format('Generated file: %<filename>s', filename: args[:output]))
   end
 
   def autoprefix_file(args = {})
@@ -151,6 +198,7 @@ end
 namespace :build do
   # Input files
   files = {
+    scss: Dir.glob('scss/themes/**/css/*.scss'),
     css: Dir.glob('styles/**/theme/css/*.css') + Dir.glob('adm/style/css/*.css'),
     js: Dir.glob('styles/**/theme/js/*.js') + Dir.glob('adm/style/js/*.js')
   }
@@ -160,6 +208,17 @@ namespace :build do
   files[:js].delete_if { |file| file.end_with?('.min.js') }
 
   helper = Helper.new(logger)
+
+  desc 'Build CSS file'
+  task :css do
+    logger.info('Compiling CSS files')
+    files[:scss].each do |file|
+      helper.compile_scss(
+        input: file,
+        style: :expanded
+      )
+    end
+  end
 
   desc 'AutoPrefix CSS files'
   task :autoprefix do
@@ -208,6 +267,7 @@ namespace :build do
 
   desc 'Build assets'
   task :all do
+    Rake::Task['build:css'].invoke
     Rake::Task['build:autoprefix'].invoke
     Rake::Task['build:minify'].invoke
   end

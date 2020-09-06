@@ -11,11 +11,11 @@
 </div>
 {% endif %}
 
-<form id="imgur_output_settings" method="POST" action="{{ U_ACTION }}">
+<form id="imgur-settings-output" method="POST" action="{{ U_ACTION }}">
 	<div class="errorbox notice">
 		<p>{{ lang('ACP_IMGUR_OUTPUT_TYPE_EXPLAIN') }}</p>
 	</div>
-	<table id="imgur_output_list" class="table1 responsive zebra-table imgur-table">
+	<table id="imgur-output-list" class="table1 responsive zebra-table imgur-table">
 		<thead>
 			<tr>
 				<th>{{ lang('ACP_IMGUR_OUTPUT_TYPE') }}</th>
@@ -27,13 +27,13 @@
 			{% for OUTPUT_TYPE in IMGUR_OUTPUT_TYPES %}
 			<tr class="row-highlight">
 				<td>
-					<label for="imgur_output_type_{{ OUTPUT_TYPE.KEY }}">
+					<label for="imgur-output-type-{{ OUTPUT_TYPE.KEY }}">
 						<strong>{{ OUTPUT_TYPE.NAME }}</strong>
 					</label>
 					{% if OUTPUT_TYPE.EXPLAIN %}<br><span>{{ OUTPUT_TYPE.EXPLAIN }}</span>{% endif %}
 				</td>
 				<td class="actions">
-					<input type="checkbox" id="imgur_output_type_{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
+					<input type="checkbox" id="imgur-output-type-{{ OUTPUT_TYPE.KEY }}" name="imgur_enabled_output_types[]" value="{{ OUTPUT_TYPE.KEY }}"{% if OUTPUT_TYPE.ENABLED %} checked="checked"{% endif %}>
 				</td>
 				<td class="actions">
 					<input type="radio" name="imgur_output_type" value="{{ OUTPUT_TYPE.KEY }}"{% if IMGUR_OUTPUT_TYPE is same as(OUTPUT_TYPE.KEY) %} checked="checked"{% endif %}>
@@ -45,7 +45,7 @@
 
 	<fieldset class="quick">
 		<p class="small">
-		<a href="#" onclick="marklist('imgur_output_list', 'imgur_enabled_output_types', true); return false;">{{ lang('MARK_ALL') }}</a> • <a href="#" onclick="marklist('imgur_output_list', 'imgur_enabled_output_types', false); return false;">{{ lang('UNMARK_ALL') }}</a>
+		<a href="#" onclick="marklist('imgur-output-list', 'imgur_enabled_output_types', true); return false;">{{ lang('MARK_ALL') }}</a> • <a href="#" onclick="marklist('imgur-output-list', 'imgur_enabled_output_types', false); return false;">{{ lang('UNMARK_ALL') }}</a>
 		</p>
 	</fieldset>
 
@@ -55,7 +55,7 @@
 		<p>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE_EXPLAIN') }}</p>
 	</div>
 
-	<table id="imgur_thumbnail_list" class="table1 responsive zebra-table imgur-table">
+	<table id="imgur-thumbnail-list" class="table1 responsive zebra-table imgur-table">
 		<thead>
 			<tr>
 				<th>{{ lang('ACP_IMGUR_THUMBNAIL_SIZE') }}</th>
@@ -73,13 +73,13 @@
 			{% endif %}
 			<tr class="row-highlight">
 				<td>
-					<label for="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}">
+					<label for="imgur-thumbnail-size-{{ THUMBNAIL_SIZE.KEY }}">
 						<strong>{{ THUMBNAIL_SIZE.NAME }}</strong>
 					</label>
 					{% if THUMBNAIL_SIZE.EXPLAIN %}<br><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
 				</td>
 				<td class="actions">
-					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+					<input type="radio" id="imgur-thumbnail-size-{{ THUMBNAIL_SIZE.KEY }}" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
 			{% endfor %}
@@ -94,13 +94,13 @@
 			{% endif %}
 			<tr class="row-highlight">
 				<td>
-					<label for="imgur_thumbnail_size_{{ THUMBNAIL_SIZE.KEY }}">
+					<label for="imgur-thumbnail-size-{{ THUMBNAIL_SIZE.KEY }}">
 						<strong>{{ THUMBNAIL_SIZE.NAME }}</strong>
 					</label>
 					{% if THUMBNAIL_SIZE.EXPLAIN %}<br><span>{{ THUMBNAIL_SIZE.EXPLAIN }}</span>{% endif %}
 				</td>
 				<td class="actions">
-					<input type="radio" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
+					<input type="radio" id="imgur-thumbnail-size-{{ THUMBNAIL_SIZE.KEY }}" name="imgur_thumbnail_size" value="{{ THUMBNAIL_SIZE.KEY }}"{% if IMGUR_THUMBNAIL_SIZE is same as(THUMBNAIL_SIZE.KEY) %} checked="checked"{% endif %}>
 				</td>
 			</tr>
 			{% endfor %}

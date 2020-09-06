@@ -1,0 +1,48 @@
+#imgur-settings {
+	&-api {
+		// scss-lint:disable QualifyingElement
+		input[type="text"],
+		input[type="password"] {
+			font-family: Consolas, monaco, monospace;
+		}
+	}
+}
+
+#toggle-client-secret {
+	cursor: pointer;
+	color: $fg-toggle-secret;
+}
+
+.warningbox .btn-imgur {
+	font-size: 1.15em;
+}
+
+.imgur-table {
+	th {
+		text-transform: none;
+		font-size: 1em;
+
+		+ th {
+			text-align: center;
+		}
+	}
+
+	td {
+		> label {
+			padding: 0;
+			font-size: 1em;
+		}
+	}
+}
+
+@include responsive(max-width, 700px) {
+	.imgur-table.responsive { // scss-lint:disable ChainedClasses
+		.actions {
+			text-align: left !important; // scss-lint:disable ImportantRule
+
+			> dfn {
+				display: inline-block !important; // scss-lint:disable ImportantRule
+			}
+		}
+	}
+}

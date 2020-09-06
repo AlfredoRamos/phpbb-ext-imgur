@@ -273,7 +273,7 @@
 		}
 
 		// Upload buttons
-		let imgurButton = document.body.querySelectorAll('.imgur-button');
+		let imgurButton = document.body.querySelectorAll('.imgur-button-upload');
 
 		// Prevent button spamming
 		imgurButton.forEach(function(item) {
