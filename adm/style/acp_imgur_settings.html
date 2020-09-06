@@ -41,7 +41,7 @@
 		<legend>{{ lang('ACP_IMGUR_API_SETTINGS') }}</legend>
 		<dl>
 			<dt>
-				<label for="imgur-client-id">{{ lang('ACP_IMGUR_CLIENT_ID') }}{{ lang('COLON') }}</label>
+				<label for="imgur-client-id">{{ lang('ACP_IMGUR_CLIENT_ID') ~ lang('COLON') }}</label>
 			</dt>
 			<dd>
 				<input type="text" id="imgur-client-id" class="medium" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off">
@@ -50,7 +50,7 @@
 
 		<dl>
 			<dt>
-				<label for="imgur-client-secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') }}{{ lang('COLON') }}</label>
+				<label for="imgur-client-secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') ~ lang('COLON') }}</label>
 			</dt>
 			<dd>
 				<input type="password" id="imgur-client-secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off">
@@ -64,7 +64,7 @@
 
 		<dl>
 			<dt>
-				<label for="imgur-album">{{ lang('ACP_IMGUR_ALBUM') }}{{ lang('COLON') }}</label>
+				<label for="imgur-album">{{ lang('ACP_IMGUR_ALBUM') ~ lang('COLON') }}</label>
 				<br><span>{{ lang('ACP_IMGUR_ALBUM_EXPLAIN') }}</span>
 			</dt>
 			<dd>
