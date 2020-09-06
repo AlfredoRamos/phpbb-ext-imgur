@@ -28,7 +28,7 @@
 			return;
 		}
 
-		let field = document.body.querySelector('#imgur_client_secret');
+		let field = document.body.querySelector('#imgur-client-secret');
 		let icon = toggle.querySelector('.icon');
 		let isHidden = (field.getAttribute('type').trim() === 'password');
 

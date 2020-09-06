@@ -1,0 +1,9 @@
+/// Generate a dynamic media query
+/// @param string	$property		Property name
+/// @param number	$breakpoint		Breakpoint size
+/// @content SCSS/CSS code
+@mixin responsive($property, $breakpoint) {
+	@media only screen and (#{$property}: $breakpoint) {
+		@content;
+	}
+}

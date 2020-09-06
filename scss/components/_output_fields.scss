@@ -1,0 +1,11 @@
+.imgur-output-field {
+	vertical-align: middle;
+}
+
+@include responsive(min-width, 701px) {
+	#imgur-panel {
+		dt {
+			text-align: right;
+		}
+	}
+}

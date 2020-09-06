@@ -34,7 +34,7 @@ class acp_imgur_test extends \phpbb_functional_test_case
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
-		$this->assertSame(1, $crawler->filter('#imgur_settings')->count());
+		$this->assertSame(1, $crawler->filter('#imgur-settings-api')->count());
 
 		$this->assertTrue($form->has('imgur_client_id'));
 		$this->assertSame('', $form->get('imgur_client_id')->getValue());
@@ -60,14 +60,14 @@ class acp_imgur_test extends \phpbb_functional_test_case
 
 		$form = $crawler->selectButton($this->lang('SUBMIT'))->form();
 
-		$this->assertSame(1, $crawler->filter('#imgur_output_settings')->count());
+		$this->assertSame(1, $crawler->filter('#imgur-settings-output')->count());
 
 		$this->assertTrue($form->has('imgur_enabled_output_types'));
 		$this->assertSame(4, count($form->get('imgur_enabled_output_types')));
 
 		foreach ($allowed['types'] as $type)
 		{
-			$selector = sprintf('#imgur_output_settings #imgur_output_type_%s', $type);
+			$selector = sprintf('#imgur-settings-output #imgur-output-type-%s', $type);
 			$this->assertSame(1, $crawler->filter($selector)->count());
 		}
 

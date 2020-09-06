@@ -1,0 +1,74 @@
+.btn-imgur {
+	border-radius: 4px;
+	padding: 8px 10px;
+	color: $fg-button;
+	font-size: 1.25em;
+	font-weight: bold;
+
+	&:hover {
+		color: $fg-button-hover;
+	}
+
+	&-w-icon {
+		> .icon {
+			margin-right: 5px;
+			border-radius: 4px;
+			width: 20px;
+			height: 20px;
+			vertical-align: middle;
+		}
+	}
+
+	&-upload {
+		background-color: $bg-button-upload;
+	}
+
+	&-register {
+		background-color: $bg-button-register;
+	}
+
+	&-paste {
+		background-color: $bg-button-paste;
+		padding: 4px 5px;
+	}
+}
+
+.imgur-button {
+	&-upload {
+		@extend %upload-button;
+
+		> .icon {
+			width: 14px;
+			height: 14px;
+		}
+	}
+}
+
+a {
+	&.btn-imgur {
+		color: $fg-button;
+	}
+
+	&:hover.btn-imgur {
+		text-decoration: none;
+		color: $fg-button-hover;
+	}
+}
+
+%upload-button {
+	// scss-lint:disable SelectorFormat
+	> .icon,
+	&.abbc3_button {
+		background-image: url('../../../all/theme/images/imgur.svg');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+
+	&[disabled] {
+		> .icon,
+		&.abbc3_button {
+			background-image: url('../../../all/theme/images/loader.svg');
+		}
+	}
+}

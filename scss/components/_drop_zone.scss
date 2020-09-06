@@ -1,0 +1,33 @@
+$drop-zone-selector: imgur-drop-zone;
+
+##{$drop-zone-selector} {
+	margin: 5px 0;
+	border: 3px dashed $br-dropzone;
+	border-radius: 3px;
+	padding: 15px 30px;
+	text-align: center;
+
+	&.active {
+		border-color: $br-dropzone-active;
+	}
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+
+	.imgur-button {
+		margin-bottom: 1em;
+	}
+}
+
+@include responsive(max-width, 700px) {
+	##{$drop-zone-selector} {
+		margin: 0;
+		border: none;
+		padding: 5px 0;
+	}
+
+	.#{$drop-zone-selector}-desc {
+		display: none;
+	}
+}

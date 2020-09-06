@@ -1,4 +1,5 @@
 * text=auto
+scss/ export-ignore
 tests/ export-ignore
 travis/ export-ignore
 .github/ export-ignore
@@ -7,8 +8,10 @@ build.xml export-ignore
 crowdin.yml export-ignore
 .travis.yml export-ignore
 .rubocop.yml export-ignore
+.scss-lint.yml export-ignore
 .gitignore export-ignore
 .gitattributes export-ignore
 *.md export-ignore
 Gemfile export-ignore
 Rakefile export-ignore
+*.scss export-ignore

@@ -15,7 +15,7 @@
 	// Show image selection window
 	document.body.addEventListener('click', function(e) {
 		let image = document.body.querySelector('#imgur-image');
-		let button = e.target.closest('.imgur-button');
+		let button = e.target.closest('.imgur-button-upload');
 
 		if (!image || !button) {
 			return;
@@ -135,7 +135,7 @@
 			let element = window.imgur.preventDropZoneDefaults(e);
 			window.imgur.highlightDropZone(false);
 
-			let button = element.querySelector('.imgur-button');
+			let button = element.querySelector('.imgur-button-upload');
 
 			if (button !== null) {
 				let attribute = button.getAttribute('data-add-output');
@@ -151,7 +151,7 @@
 
 	// Copy output field text to message
 	document.body.addEventListener('click', function(e) {
-		let button = e.target.closest('.imgur-output-paste');
+		let button = e.target.closest('.imgur-button-paste');
 
 		if (!button) {
 			return;

@@ -2,42 +2,20 @@
  * Imgur extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2017 Alfredo Ramos
- * @license GPL-2.0-only
+ * @license GNU GPL-2.0-only
  */
-
-#imgur_settings input[type="text"],
-#imgur_settings input[type="password"] {
+#imgur-settings-api input[type="text"],
+#imgur-settings-api input[type="password"] {
 	font-family: Consolas, monaco, monospace;
-}
-
-.imgur-link-button,
-.imgur-link-button:link,
-.imgur-link-button:visited {
-	padding: 10px 20px;
-	border-radius: 4px;
-	color: #f2f2f2;
-}
-
-.imgur-link-button:hover {
-	color: #fff;
-	text-decoration: none;
-}
-
-.imgur-link-button > span {
-	font-weight: bold;
-}
-
-#imgur-register-url {
-	background-color: #006da3;
-}
-
-#imgur-authorize-url {
-	background-color: #1bb76e;
 }
 
 #toggle-client-secret {
 	cursor: pointer;
 	color: #d58512;
+}
+
+.warningbox .btn-imgur {
+	font-size: 1.15em;
 }
 
 .imgur-table th {
@@ -50,16 +28,73 @@
 }
 
 .imgur-table td > label {
-	font-size: 1em;
 	padding: 0;
+	font-size: 1em;
 }
 
-@media only screen and (max-width: 700px), only screen and (max-device-width: 700px) {
-	.imgur-table.responsive .actions > dfn {
-		display: inline-block !important;
-	}
-
+@media only screen and (max-width: 700px) {
 	.imgur-table.responsive .actions {
 		text-align: left !important;
 	}
+	.imgur-table.responsive .actions > dfn {
+		display: inline-block !important;
+	}
+}
+
+.btn-imgur {
+	border-radius: 4px;
+	padding: 8px 10px;
+	color: #f2f2f2;
+	font-size: 1.25em;
+	font-weight: bold;
+}
+
+.btn-imgur:hover {
+	color: #fff;
+}
+
+.btn-imgur-w-icon > .icon {
+	margin-right: 5px;
+	border-radius: 4px;
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+.btn-imgur-upload {
+	background-color: #1bb76e;
+}
+
+.btn-imgur-register {
+	background-color: #006da3;
+}
+
+.btn-imgur-paste {
+	background-color: #105289;
+	padding: 4px 5px;
+}
+
+.imgur-button-upload > .icon {
+	width: 14px;
+	height: 14px;
+}
+
+a.btn-imgur {
+	color: #f2f2f2;
+}
+
+a.btn-imgur:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
+.imgur-button-upload > .icon, .abbc3_button.imgur-button-upload {
+	background-image: url("../../../all/theme/images/imgur.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+.imgur-button-upload[disabled] > .icon, .abbc3_button.imgur-button-upload[disabled] {
+	background-image: url("../../../all/theme/images/loader.svg");
 }
