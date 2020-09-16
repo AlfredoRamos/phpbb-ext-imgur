@@ -30,6 +30,11 @@
 
 		let field = document.body.querySelector('#imgur-client-secret');
 		let icon = toggle.querySelector('.icon');
+
+		if (!field || !icon) {
+			return;
+		}
+
 		let isHidden = (field.getAttribute('type').trim() === 'password');
 
 		// Toggle field type
