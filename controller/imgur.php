@@ -121,9 +121,8 @@ class imgur
 		{
 			$this->template->assign_vars([
 				'IMGUR_IS_AUTHORIZED' => (!empty($token['access_token']) && !empty($token['refresh_token'])),
-				'IMGUR_AUTHORIZE_URL' => vsprintf('%1$s/%2$s', [
-					$this->controller_helper->route('alfredoramos_imgur_authorize'),
-					generate_link_hash('imgur_authorize')
+				'IMGUR_AUTHORIZE_URL' => $this->controller_helper->route('alfredoramos_imgur_authorize', [
+					'hash' => generate_link_hash('imgur_authorize')
 				])
 			]);
 
