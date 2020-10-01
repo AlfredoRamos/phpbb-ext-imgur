@@ -49,9 +49,9 @@ If the upload is successful it will add the image in the topic, private message 
 
 If you like or found my work useful and want to show some appreciation, you can consider supporting its development by giving a donation.
 
-[![Donate with PayPal](https://alfredoramos.github.io/assets/images/donate.png)](https://alfredoramos.github.io/donate/)
+[![Donate with PayPal](https://alfredoramos.mx/assets/images/donate.png)](https://alfredoramos.mx/donate/)
 
-[![Donate with PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://alfredoramos.github.io/donate/)
+[![Donate with PayPal](https://www.paypalobjects.com/webstatic/i/logo/rebrand/ppcom.svg)](https://alfredoramos.mx/donate/)
 
 ### Installation
 
