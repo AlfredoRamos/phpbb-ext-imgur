@@ -26,6 +26,9 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, [
 	'EXCEPTION_IMGUR_NO_API_DATA' => '<em>Client ID</em> y <em>Client Secret</em> son obligatorios.',
 	'EXCEPTION_IMGUR_AJAX_ONLY' => 'Esta ruta sólo puede ser usada en llamadas AJAX.',
+	'EXCEPTION_IMGUR_UNAUTHORIZED' => 'La aplicación de Imgur aún no ha sido autorizada.',
+	'EXCEPTION_IMGUR_EMPTY_ALBUM' => 'El ID del álbum está vacío.',
+	'EXCEPTION_IMGUR_NO_ALBUMS' => 'No se pudo obtener el ID de los álbumes: %s.',
 
 	'UPLOAD_ERR_INI_SIZE' => 'La imagen cargada excede la directiva <samp>upload_max_filesize</samp> declarada en <samp>php.ini</samp>',
 	'UPLOAD_ERR_FORM_SIZE' => 'La imagen cargada excede la directiva <samp>MAX_FILE_SIZE</samp> declarada en el formulario HTML',
@@ -34,6 +37,8 @@ $lang = array_merge($lang, [
 	'UPLOAD_ERR_NO_TMP_DIR' => 'Carpeta temporal faltante',
 	'UPLOAD_ERR_CANT_WRITE' => 'Error al escribir el archivo en disco',
 	'UPLOAD_ERR_EXTENSION' => 'Una extensión PHP detuvo la subida de la imagen',
+
+	'ALBUM_ERR_INVALID_ID' => 'ID de álbum inválido.',
 
 	'IMGUR_AUTHORIZATION' => 'Autorización',
 	'IMGUR_AUTHORIZATION_EXPLAIN' => 'Autorización Imgur en progreso, por favor espere.',

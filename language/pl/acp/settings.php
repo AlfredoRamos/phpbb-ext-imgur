@@ -39,6 +39,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM' => 'Album',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alfanumeryczny ciąg znaków o długości równej lub większej niż 5 znaków. Będzie używany do przechowywania przesłanych obrazów. Pozostaw puste, jeśli chcesz, aby wszystkie obrazy zostały przesłane w domyślnej lokalizacji.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Pobierz kopię zapasową albumu',
+	'ACP_IMGUR_ALBUM_VALIDATE' => 'Uprawomocnić',
 
 	'OUTPUT_SETTINGS' => 'Ustawienia danych wyjściowych',
 	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Tutaj możesz włączyć, wyłączyć i ustawić jako domyślne niektóre opcje, które zmienią wyjście przesłanych obrazów.</p>',
