@@ -629,6 +629,139 @@
 		}
 	};
 
+	/**
+	 * Validate album ID.
+	 *
+	 * @param string
+	 * @param object
+	 *
+	 * @return void
+	 */
+	Imgur.validateAlbum = function(args) {
+		// Album ID container
+		const formData = new FormData();
+
+		// Helpers
+		let response = {};
+		let errors = [];
+		let albumHash = '';
+
+		if (typeof args === 'undefined') {
+			args = {};
+		}
+
+		if (!args.hasOwnProperty('button') || typeof args.button === 'undefined') {
+			args.button = document.body.querySelector('#validate-album');
+		}
+
+		if (!args.hasOwnProperty('field') || typeof args.field === 'undefined') {
+			args.field = document.body.querySelector('#imgur-album');
+		}
+
+		if (!args.hasOwnProperty('icon') || typeof args.icon === 'undefined') {
+			args.icon = document.body.querySelector('.album-validation-icon');
+		}
+
+		// Get album ID
+		albumHash = args.field.value.trim();
+
+		// There's nothing to do
+		if (albumHash.length <= 0) {
+			return;
+		}
+
+		// Prevent button spamming
+		args.button.setAttribute('disabled', true);
+
+		// Add album to request data
+		formData.append('imgur_album', albumHash);
+
+		// Request object
+		const xhr = new XMLHttpRequest();
+
+		// Success
+		xhr.addEventListener('load', function(e) {
+			try {
+				// Get response
+				let rawResponse = e.target.responseText;
+
+				// Check for server errors or invalid JSON data
+				if (!Imgur.isJSON(rawResponse) && e.target.status !== 200) {
+					errors.push('HTTP ' + e.target.status + ' - ' + e.target.statusText);
+					return;
+				}
+
+				// Empty response
+				if (rawResponse.length <= 0) {
+					errors.push(window.imgur.lang.emptyResponse);
+					return;
+				}
+
+				// Parse JSON response
+				response = JSON.parse(rawResponse);
+
+				// Empty response body
+				if (Object.keys(response).length <= 0) {
+					errors.push(window.imgur.lang.emptyResponse);
+					return;
+				}
+
+				// Check for errors
+				if (e.target.status !== 200) {
+					// Get error message
+					if (Array.isArray(response)) {
+						response.forEach(function(item) {
+							if (!item) {
+								return;
+							}
+
+							errors.push(item.message);
+						});
+					} else {
+						errors.push(response.message);
+					}
+
+					errors.push(e.target.statusText);
+					args.icon.classList.replace('fa-check', 'fa-times');
+					args.icon.classList.remove('hidden');
+					args.field.classList.toggle('album-invalid', true);
+					args.field.classList.toggle('album-valid', false);
+					args.field.focust();
+					return;
+				}
+
+				args.icon.classList.replace('fa-times', 'fa-check');
+				args.icon.classList.remove('hidden');
+				args.field.classList.toggle('album-invalid', false);
+				args.field.classList.toggle('album-valid', true);
+			} catch (ex) {
+				errors.push(ex.message);
+			}
+
+			Imgur.showErrors(errors);
+		});
+
+		// Post-success
+		xhr.addEventListener('loadend', function() {
+			Imgur.showErrors(errors);
+			args.button.removeAttribute('disabled');
+		});
+
+		// Initialize request
+		xhr.open(
+			'POST',
+			args.button.getAttribute('data-ajax-action'),
+			true
+		);
+
+		// Additional headers
+		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+		xhr.setRequestHeader('Cache-Control', 'no-cache');
+
+		// Send request
+		xhr.send(formData);
+	};
+
 	// Extend and export to global scope
 	window.imgur = Object.assign(Imgur, window.imgur);
 })();

@@ -8,6 +8,49 @@
 	}
 }
 
+#validate-album {
+	display: inline-block;
+	margin-top: 10px;
+	border: none;
+	cursor: pointer;
+	padding: 3px 6px;
+	font-size: 1em;
+
+	&[disabled] {
+		filter: grayscale(1);
+	}
+}
+
+.album {
+	&-invalid,
+	&-valid {
+		border-width: 1px;
+		border-style: solid;
+	}
+
+	&-invalid {
+		border-color: $bg-album-invalid;
+		box-shadow: 0 0 3px $bg-album-invalid;
+	}
+
+	&-valid {
+		border-color: $bg-album-valid;
+		box-shadow: 0 0 3px $bg-album-valid;
+	}
+
+	&-validation-icon {
+		font-size: 20px;
+
+		&.fa-times {
+			color: $bg-album-invalid;
+		}
+
+		&.fa-check {
+			color: $bg-album-valid;
+		}
+	}
+}
+
 #toggle-client-secret {
 	cursor: pointer;
 	color: $fg-toggle-secret;

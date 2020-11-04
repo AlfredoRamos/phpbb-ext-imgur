@@ -1,5 +1,7 @@
 {% if IN_IMGUR_SETTINGS and not INCLUDED_IMGUR_ACP_JS %}
+{% include '@alfredoramos_imgur/imgur_config.html' ignore missing %}
 {% INCLUDEJS '@alfredoramos_imgur/js/polyfill.js' %}
+{% INCLUDEJS '@alfredoramos_imgur/js/imgur.js' %}
 {% INCLUDEJS '@alfredoramos_imgur/js/settings.js' %}
 {%- set INCLUDED_IMGUR_ACP_JS = true -%}
 {% endif %}

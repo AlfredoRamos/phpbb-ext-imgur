@@ -12,11 +12,11 @@ namespace alfredoramos\imgur\controller;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\request\request;
+use phpbb\controller\helper as controller_helper;
 use phpbb\language\language;
 use phpbb\user;
 use phpbb\log\log;
 use Imgur\Client as ImgurClient;
-use Imgur\Exception\ErrorException as ImgurErrorException;
 use alfredoramos\imgur\includes\helper;
 
 class acp
@@ -29,6 +29,9 @@ class acp
 
 	/** @var \phpbb\request\request */
 	protected $request;
+
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
 
 	/** @var \phpbb\language\language */
 	protected $language;
@@ -51,6 +54,7 @@ class acp
 	 * @param \phpbb\config\config					$config
 	 * @param \phpbb\template\template				$template
 	 * @param \phpbb\request\request				$request
+	 * @param \phpbb\controller\helper				$controller_helper
 	 * @param \phpbb\language\language				$language
 	 * @param \phpbb\user							$user
 	 * @param \phpbb\log\log						$log
@@ -59,11 +63,12 @@ class acp
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, request $request, language $language, user $user, log $log, ImgurClient $imgur, helper $helper)
+	public function __construct(config $config, template $template, request $request, controller_helper $controller_helper, language $language, user $user, log $log, ImgurClient $imgur, helper $helper)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->request = $request;
+		$this->controller_helper = $controller_helper;
 		$this->language = $language;
 		$this->user = $user;
 		$this->log = $log;
@@ -187,36 +192,6 @@ class acp
 			}
 		}
 
-		// Validate album hash
-		if (!empty($this->config['imgur_album']) && !empty($this->config['imgur_access_token']))
-		{
-			$album_ids = [];
-
-			// Check it only once per week to reduce API credits usage
-			if ((int) $this->config['imgur_album_next_check'] <= time())
-			{
-				try
-				{
-					$this->imgur->setAccessToken($this->helper->imgur_token());
-					$this->imgur->sign();
-					$album_ids = $this->imgur->api('account')->albumIds();
-				}
-				catch (ImgurErrorException $ex)
-				{
-					// Do nothing
-				}
-
-				// Add error message
-				if (empty($album_ids) || !in_array($this->config['imgur_album'], $album_ids, true))
-				{
-					$errors[]['message'] = $this->language->lang('ACP_IMGUR_VALIDATE_IMGUR_ALBUM');
-				}
-
-				// Update next check date
-				$this->config->set('imgur_album_next_check', strtotime('+1 week'));
-			}
-		}
-
 		// Assign template variables
 		$this->template->assign_vars([
 			'IMGUR_CLIENT_ID'		=> $this->config['imgur_client_id'],
@@ -252,6 +227,18 @@ class acp
 			$this->template->assign_var(
 				'IMGUR_ALBUM_DOWNLOAD_URL',
 				sprintf('https://imgur.com/a/%s/zip', $this->config['imgur_album'])
+			);
+		}
+
+		// Assign album validate URL
+		if (!empty($this->config['imgur_access_token']) &&
+			!empty($this->config['imgur_album']))
+		{
+			$this->template->assign_var(
+				'IMGUR_ALBUM_VALIDATE_URL',
+				$this->controller_helper->route('alfredoramos_imgur_album', [
+					'hash' => generate_link_hash('imgur_album')
+				])
 			);
 		}
 

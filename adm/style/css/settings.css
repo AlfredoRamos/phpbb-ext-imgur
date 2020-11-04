@@ -9,6 +9,47 @@
 	font-family: Consolas, monaco, monospace;
 }
 
+#validate-album {
+	display: inline-block;
+	padding: 3px 6px;
+	margin-top: 10px;
+	border: none;
+	font-size: 1em;
+	cursor: pointer;
+}
+
+#validate-album[disabled] {
+	-webkit-filter: grayscale(1);
+	filter: grayscale(1);
+}
+
+.album-invalid, .album-valid {
+	border-width: 1px;
+	border-style: solid;
+}
+
+.album-invalid {
+	box-shadow: 0 0 3px #dc3545;
+	border-color: #dc3545;
+}
+
+.album-valid {
+	box-shadow: 0 0 3px #218838;
+	border-color: #218838;
+}
+
+.album-validation-icon {
+	font-size: 20px;
+}
+
+.album-validation-icon.fa-times {
+	color: #dc3545;
+}
+
+.album-validation-icon.fa-check {
+	color: #218838;
+}
+
 #toggle-client-secret {
 	cursor: pointer;
 	color: #d58512;
