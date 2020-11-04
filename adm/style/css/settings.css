@@ -9,6 +9,11 @@
 	font-family: Consolas, monaco, monospace;
 }
 
+#toggle-client-secret {
+	cursor: pointer;
+	color: #d58512;
+}
+
 #validate-album {
 	display: inline-block;
 	padding: 3px 6px;
@@ -18,12 +23,8 @@
 	cursor: pointer;
 }
 
-#validate-album[disabled] {
-	-webkit-filter: grayscale(1);
-	filter: grayscale(1);
-}
-
-.album-invalid, .album-valid {
+.album-invalid,
+.album-valid {
 	border-width: 1px;
 	border-style: solid;
 }
@@ -50,9 +51,8 @@
 	color: #218838;
 }
 
-#toggle-client-secret {
-	cursor: pointer;
-	color: #d58512;
+#validate-album[disabled] {
+	filter: grayscale(1);
 }
 
 .warningbox .btn-imgur {

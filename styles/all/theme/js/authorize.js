@@ -22,7 +22,6 @@
 	let queryString = location.hash.substring(1);
 	let regexp = /([^&=]+)=([^&]*)/g;
 	let match = null;
-	let response = {};
 	let errors = [];
 
 	// Add form data
@@ -47,93 +46,22 @@
 
 	// Success
 	xhr.addEventListener('load', function(e) {
-		try {
-			// Redirect
-			if (e.target.readyState === 4 && e.target.status === 200) {
-				if (window.opener !== null) {
-					// Refresh ACP page
-					window.opener.location.reload(true);
+		window.imgur.handleResponse(e, errors, function() {
+			if (window.opener !== null) {
+				// Refresh ACP page
+				window.opener.location.reload(true);
 
-					// Close current window
-					window.close();
-				}
-
-				return;
+				// Close current window
+				window.close();
 			}
-
-			// Get response
-			let rawResponse = e.target.responseText;
-
-			// Empty response
-			if (rawResponse.length <= 0) {
-				errors.push(window.imgur.lang.emptyResponse);
-				return;
-			}
-			// Parse JSON response
-			response = JSON.parse(rawResponse);
-
-			// Empty response body
-			if (Object.keys(response).length <= 0) {
-				errors.push(window.imgur.lang.emptyResponse);
-				return;
-			}
-
-			// Get error message
-			if (Array.isArray(response)) {
-				response.forEach(function(item) {
-					if (!item) {
-						return;
-					}
-
-					errors.push(item.message);
-				});
-			} else {
-				errors.push(response.message);
-			}
-		} catch (ex) {
-			errors.push(ex.message);
-		}
+		});
 
 		window.imgur.showErrors(errors);
 	});
 
 	// Failure
 	xhr.addEventListener('error', function(e) {
-		try {
-			// Get response
-			let rawResponse = e.target.responseText;
-
-			// Empty response
-			if (rawResponse.length <= 0) {
-				errors.push(window.imgur.lang.emptyResponse);
-				return;
-			}
-
-			// Parse JSON response
-			response = JSON.parse(rawResponse);
-
-			// Empty response body
-			if (Object.keys(response).length <= 0) {
-				errors.push(window.imgur.lang.emptyResponse);
-				return;
-			}
-
-			// Check for errors
-			if (Array.isArray(response)) {
-				response.forEach(function(item) {
-					if (!item) {
-						return;
-					}
-
-					errors.push(item.message);
-				});
-			} else {
-				errors.push(response.message);
-			}
-		} catch (ex) {
-			errors.push(ex.message);
-		}
-
+		window.imgur.handleResponse(e, errors);
 		window.imgur.showErrors(errors);
 	});
 

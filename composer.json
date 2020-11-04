@@ -11,7 +11,7 @@
 		{
 			"name": "Alfredo Ramos",
 			"email": "alfredo.ramos@yandex.com",
-			"homepage": "https://alfredoramos.mx/",
+			"homepage": "https://alfredoramos.mx",
 			"role": "Lead Developer"
 		}
 	],
@@ -30,7 +30,7 @@
 			"phpbb/phpbb": "~3.3.0"
 		},
 		"version-check": {
-			"host": "alfredoramos.github.io",
+			"host": "alfredoramos.mx",
 			"directory": "/phpbb-extensions/versions",
 			"filename": "imgur.json",
 			"ssl": true
