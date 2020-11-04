@@ -9,34 +9,33 @@
 	font-family: Consolas, monaco, monospace;
 }
 
-#toggle-client-secret {
-	cursor: pointer;
-	color: #d58512;
-}
-
 #validate-album {
 	display: inline-block;
-	padding: 3px 6px;
 	margin-top: 10px;
 	border: none;
-	font-size: 1em;
 	cursor: pointer;
+	padding: 3px 6px;
+	font-size: 1em;
 }
 
-.album-invalid,
-.album-valid {
+#validate-album[disabled] {
+	-webkit-filter: grayscale(1);
+	filter: grayscale(1);
+}
+
+.album-invalid, .album-valid {
 	border-width: 1px;
 	border-style: solid;
 }
 
 .album-invalid {
-	box-shadow: 0 0 3px #dc3545;
 	border-color: #dc3545;
+	box-shadow: 0 0 3px #dc3545;
 }
 
 .album-valid {
-	box-shadow: 0 0 3px #218838;
 	border-color: #218838;
+	box-shadow: 0 0 3px #218838;
 }
 
 .album-validation-icon {
@@ -51,8 +50,9 @@
 	color: #218838;
 }
 
-#validate-album[disabled] {
-	filter: grayscale(1);
+#toggle-client-secret {
+	cursor: pointer;
+	color: #d58512;
 }
 
 .warningbox .btn-imgur {
