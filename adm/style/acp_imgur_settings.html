@@ -67,10 +67,14 @@
 			</dt>
 			<dd>
 				<input type="text" id="imgur-album" class="narrow" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off">
+				<i class="icon fa-lg fa-times album-validation-icon hidden"></i>
 				{% if IMGUR_ALBUM_DOWNLOAD_URL %}
 				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="external nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape }}">
 					<i class="icon fa-lg fa-download" aria-hidden="true"></i>
 				</a>
+				{% endif %}
+				{% if IMGUR_ALBUM_VALIDATE_URL %}
+				<br><button type="button" data-ajax-action="{{ IMGUR_ALBUM_VALIDATE_URL }}" id="validate-album" class="btn-imgur btn-imgur-upload">{{ lang('ACP_IMGUR_ALBUM_VALIDATE') }}</button>
 				{% endif %}
 			</dd>
 		</dl>

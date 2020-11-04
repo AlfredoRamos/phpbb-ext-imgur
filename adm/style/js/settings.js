@@ -44,4 +44,26 @@
 		icon.classList.toggle('fa-eye-slash', isHidden);
 		icon.classList.toggle('fa-eye', !isHidden);
 	});
+
+	// Validate album
+	document.body.addEventListener('click', function(e) {
+		let button = e.target.closest('#validate-album');
+
+		if (!button) {
+			return;
+		}
+
+		e.preventDefault();
+
+		let field = document.body.querySelector('#imgur-album');
+
+		if (!field) {
+			return;
+		}
+
+		window.imgur.validateAlbum({
+			button: button,
+			field: field
+		});
+	});
 })();

@@ -22,6 +22,7 @@ use phpbb\exception\runtime_exception;
 use phpbb\exception\http_exception;
 use phpbb\request\request_interface;
 use Imgur\Client as ImgurClient;
+use Imgur\Exception\ErrorException as ImgurErrorException;
 use alfredoramos\imgur\includes\helper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -350,6 +351,99 @@ class imgur
 
 		// Return a JSON response
 		return new JsonResponse($data);
+	}
+
+	/**
+	 * Album validation controller handler. AJAX calls only.
+	 *
+	 * @param string $hash
+	 *
+	 * @throws \phpbb\exception\runtime_exception
+	 * @throws \phpbb\exception\http_exception
+	 * @throws \Imgur\Exception\ErrorException
+	 *
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse
+	 */
+	public function album($hash = '')
+	{
+		// This route can only be used by admins
+		// Users do not need to know this page exist
+		if (!$this->auth->acl_get('a_'))
+		{
+			throw new http_exception(404, 'PAGE_NOT_FOUND');
+		}
+
+		// Load translations
+		$this->language->add_lang(['controller', 'acp/info_acp_common'], 'alfredoramos/imgur');
+
+		// This route can only be used using AJAX
+		/*if (!$this->request->is_ajax())
+		{
+			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
+		}*/
+
+		// Security hash
+		$hash = trim($hash);
+
+		// CSRF protection
+		if (empty($hash) || !check_link_hash($hash, 'imgur_album'))
+		{
+			throw new http_exception(403, 'NO_AUTH_OPERATION');
+		}
+
+		// Get Imgur token
+		$token = $this->helper->imgur_token();
+
+		// The Imgur application must be authorized
+		if (empty($token['access_token']))
+		{
+			throw new runtime_exception('EXCEPTION_IMGUR_UNAUTHORIZED');
+		}
+
+		// Get album ID
+		$album = $this->request->variable('imgur_album', '');
+
+		// Album ID can't be empty
+		if (empty($album))
+		{
+			throw new runtime_exception('EXCEPTION_IMGUR_EMPTY_ALBUM');
+		}
+
+		// Album IDs
+		$album_ids = [];
+
+		// Validation errors
+		$errors = [];
+
+		// Get album IDs
+		try
+		{
+			$this->imgur->setAccessToken($token);
+			$this->imgur->sign();
+			$album_ids = $this->imgur->api('account')->albumIds();
+		}
+		catch (ImgurErrorException $ex)
+		{
+			$errors[]['message'] = $this->language->lang(
+				'EXCEPTION_IMGUR_NO_ALBUMS',
+				$ex->getMessage()
+			);
+		}
+
+		// Validate album ID
+		if (empty($album_ids) || !in_array($album, $album_ids, true))
+		{
+			$errors[]['message'] = $this->language->lang('ALBUM_ERR_INVALID_ID');
+		}
+
+		// Check for errors
+		if (!empty($errors))
+		{
+			return new JsonResponse($errors, 400);
+		}
+
+		// Return a JSON response
+		return new JsonResponse(['message' => 'success']);
 	}
 
 	/**

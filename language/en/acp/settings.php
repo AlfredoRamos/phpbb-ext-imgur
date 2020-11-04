@@ -39,6 +39,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM' => 'Album',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images. Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
+	'ACP_IMGUR_ALBUM_VALIDATE' => 'Validate',
 
 	'OUTPUT_SETTINGS' => 'Output settings',
 	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Here you can enable, disable and set as default some options that will change the output of the uploaded images.</p>',

@@ -38,6 +38,7 @@ services:
             - '@config'
             - '@template'
             - '@request'
+            - '@controller.helper'
             - '@language'
             - '@user'
             - '@log'
