@@ -39,6 +39,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM' => 'Álbum',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Cadena de texto alfanumérico con una longitud igual o mayor a 5 caracteres. Será usado para almacenar las imágenes subidas. Déjalo vacío si deseas que las imágenes sean subidas en la ubicación por defecto.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Descargar copia de seguridad del álbum',
+	'ACP_IMGUR_ALBUM_VALIDATE' => 'Validar',
 
 	'OUTPUT_SETTINGS' => 'Ajustes de salida',
 	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Aquí puedes habilitar, deshabilitar y establecer por defecto algunas opciones que cambiarán la salida de las imágenes subidas.</p>',

@@ -39,6 +39,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_ALBUM' => 'Album',
 	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Permet de sdaisir une suite alphanumérique d’une longueur égale ou supérieure à 5 caractères. Utile pour personnaliser l’emplacement de stockage des images envoyées. Laisser vide pour stocker les images envoyées dans l’emplacement par défaut.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Télécharger une sauvegarde de l’album',
+	'ACP_IMGUR_ALBUM_VALIDATE' => 'Valider',
 
 	'OUTPUT_SETTINGS' => 'Paramètres du format de sortie par défaut',
 	'OUTPUT_SETTINGS_EXPLAIN' => '<p>Permet d’activer, désactiver et de définir plusieurs options par défaut concernant le format de sortie des images envoyées.</p>',
@@ -79,5 +80,5 @@ $lang = array_merge($lang, [
 
 	'ACP_IMGUR_VALIDATE_INVALID_FIELDS' => 'Valeurs erronées pour les champs : <samp>%s</samp>',
 	'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED' => 'Les valeurs de <samp>%1$s</samp> ne sont pas autorisées : <code>%2$s</code>',
-	'ACP_IMGUR_VALIDATE_IMGUR_ALBUM' => 'The album you have specified does not exist in this Imgur account.'
+	'ACP_IMGUR_VALIDATE_IMGUR_ALBUM' => 'L\'album que vous avez spécifié n\'existe pas dans ce compte Imgur.'
 ]);
