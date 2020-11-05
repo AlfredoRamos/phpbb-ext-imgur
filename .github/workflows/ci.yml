@@ -11,27 +11,27 @@ on:
       - reopened
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Setup Ruby
-      uses: actions/setup-ruby@v1.1.2
-      with:
-        ruby-version: 2.7
-    - name: Setup cache
-      uses: actions/cache@v2
-      with:
-        path: ~/.gem
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
-    - name: Install gems
-      run: |
-        echo "gem: --no-document" > ~/.gemrc
-        gem install -N bundler
-        bundle config path ~/.gem
-        bundle install --jobs 4 --retry 3
-        gem cleanup
-    - name: Test Ruby
-      run: bundle exec rake rubocop
+      - uses: actions/checkout@master
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1.1.2
+        with:
+          ruby-version: 2.7
+      - name: Setup cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gem
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          echo "gem: --no-document" > ~/.gemrc
+          gem install -N bundler
+          bundle config path ~/.gem
+          bundle install --jobs 4 --retry 3
+          gem cleanup
+      - name: Test Ruby
+        run: bundle exec rake rubocop
