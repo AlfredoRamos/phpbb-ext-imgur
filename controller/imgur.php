@@ -377,10 +377,10 @@ class imgur
 		$this->language->add_lang(['controller', 'acp/info_acp_common'], 'alfredoramos/imgur');
 
 		// This route can only be used using AJAX
-		/*if (!$this->request->is_ajax())
+		if (!$this->request->is_ajax())
 		{
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
-		}*/
+		}
 
 		// Security hash
 		$hash = trim($hash);
