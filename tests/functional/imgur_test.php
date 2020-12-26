@@ -43,7 +43,7 @@ class imgur_test extends \phpbb_functional_test_case
 		];
 
 		$this->assertSame(1, $elements['button']->count());
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$this->lang('IMGUR_BUTTON_EXPLAIN'),
 			$elements['button']->attr('title')
 		);
@@ -59,7 +59,7 @@ class imgur_test extends \phpbb_functional_test_case
 		$this->assertSame(1, $elements['select']->count());
 
 		$this->assertSame(1, $elements['tab']->count());
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$this->lang('IMGUR_TAB'),
 			$elements['tab']->text()
 		);
@@ -68,7 +68,7 @@ class imgur_test extends \phpbb_functional_test_case
 		$this->assertSame(1, $elements['drophelp']->count());
 
 		$this->assertSame(1, $elements['upload']->count());
-		$this->assertContains(
+		$this->assertStringContainsString(
 			$this->lang('IMGUR_UPLOAD'),
 			$elements['upload']->text()
 		);
