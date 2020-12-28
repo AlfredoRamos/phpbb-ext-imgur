@@ -21,6 +21,7 @@ env:
 
 jobs:
   test:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: php ${{ matrix.php-version }}, ${{ matrix.db-type }}
     runs-on: ubuntu-18.04
     services:
@@ -184,13 +185,17 @@ jobs:
         run: phpBB/vendor/bin/phpunit --configuration phpBB/ext/$EXTNAME/ci/phpunit-$DB-github.xml --bootstrap tests/bootstrap.php
 
   lint:
+    if: ${{ !contains(github.event.head_commit.message, '[skip lint]') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout extension
+        uses: actions/checkout@master
+
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.7
+
       - name: Setup cache
         uses: actions/cache@v2
         with:
@@ -198,6 +203,7 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
+
       - name: Install gems
         run: |
           echo "gem: --no-document" > ~/.gemrc
@@ -206,5 +212,6 @@ jobs:
           bundle install --jobs 4 --retry 3
           bundle clean
           gem cleanup
+
       - name: Test Ruby
         run: bundle exec rake rubocop
