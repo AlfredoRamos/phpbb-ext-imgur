@@ -290,8 +290,8 @@ class imgur
 				// Upload image and save response, it will be used
 				// later to show a JSON object
 				$data[] = $this->imgur->api('image')->upload([
-					'image'	=> base64_encode(file_get_contents($images['tmp_name'][$key])),
-					'type'	=> 'base64',
+					'image'	=> $images['tmp_name'][$key],
+					'type'	=> 'file',
 					'name'	=> $value,
 					'album'	=> $this->config['imgur_album']
 				]);
