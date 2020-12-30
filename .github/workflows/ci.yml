@@ -15,7 +15,7 @@ env:
   SNIFF: 1
   IMAGE_ICC: 1
   EPV: 1
-  EXECUTABLE_FILES: 0
+  EXECUTABLE_FILES: 1
   EXTDEPS: 1
   PHPBB_BRANCH: 3.3.x
 
@@ -127,7 +127,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.setup-composer.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.lock', 'phpBB3/phpBB/ext/${{ env.EXTNAME }}/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
