@@ -192,26 +192,10 @@ jobs:
         uses: actions/checkout@master
 
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-
-      - name: Setup cache
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - name: Install gems
-        run: |
-          echo "gem: --no-document" > ~/.gemrc
-          gem install -N bundler
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-          bundle clean
-          gem cleanup
+          bundler-cache: true
 
       - name: Test Ruby
         run: bundle exec rake rubocop
