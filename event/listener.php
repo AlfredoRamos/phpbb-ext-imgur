@@ -62,11 +62,9 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Assign upload URL to a template variable.
 	 *
-	 * @param object $event
-	 *
 	 * @return void
 	 */
-	public function user_setup_after($event)
+	public function user_setup_after()
 	{
 		$this->helper->assign_template_variables();
 	}

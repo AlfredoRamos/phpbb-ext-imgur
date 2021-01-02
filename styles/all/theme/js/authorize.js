@@ -67,9 +67,10 @@
 
 	// Post-request
 	xhr.addEventListener('loadend', function() {
+		window.imgur.showErrors(errors);
+
 		// Reset
 		formData = new FormData();
-		response = {};
 		errors = [];
 	});
 
