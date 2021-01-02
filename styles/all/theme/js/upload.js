@@ -170,7 +170,7 @@
 		}
 
 		// Add BBCode to content
-		insert_text(bbcode);
+		window.insert_text(bbcode);
 	});
 
 	// Show output fields only when needed

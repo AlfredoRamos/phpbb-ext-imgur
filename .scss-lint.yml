@@ -24,5 +24,8 @@ linters:
   PropertyUnits:
     enabled: true
     global: ['px', 'em', 'rem', '%']
+  LeadingZero:
+    enabled: true
+    style: include_zero
   TrailingZero:
     enabled: true

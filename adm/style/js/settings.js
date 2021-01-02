@@ -17,7 +17,7 @@
 		}
 
 		e.preventDefault();
-		popup(link.getAttribute('href').trim(), 760, 570, '_imgur_auth');
+		window.popup(link.getAttribute('href').trim(), 760, 570, '_imgur_auth');
 	});
 
 	// Show/hide client secret
