@@ -21,45 +21,45 @@ use alfredoramos\imgur\includes\helper;
 
 class acp
 {
-	/** @var \phpbb\config\config */
+	/** @var config */
 	protected $config;
 
-	/** @var \phpbb\template\template */
+	/** @var template */
 	protected $template;
 
-	/** @var \phpbb\request\request */
+	/** @var request */
 	protected $request;
 
-	/** @var \phpbb\controller\helper */
+	/** @var controller_helper */
 	protected $controller_helper;
 
-	/** @var \phpbb\language\language */
+	/** @var language */
 	protected $language;
 
-	/** @var \phpbb\user */
+	/** @var user */
 	protected $user;
 
-	/** @var \phpbb\log\log */
+	/** @var log */
 	protected $log;
 
-	/** @var \Imgur\Client */
+	/** @var ImgurClient */
 	protected $imgur;
 
-	/** @var \alfredoramos\imgur\includes\helper */
+	/** @var helper */
 	protected $helper;
 
 	/**
 	 * Controller constructor.
 	 *
-	 * @param \phpbb\config\config					$config
-	 * @param \phpbb\template\template				$template
-	 * @param \phpbb\request\request				$request
-	 * @param \phpbb\controller\helper				$controller_helper
-	 * @param \phpbb\language\language				$language
-	 * @param \phpbb\user							$user
-	 * @param \phpbb\log\log						$log
-	 * @param \Imgur\Client							$imgur
-	 * @param \alfredoramos\imgur\includes\helper	$helper
+	 * @param config			$config
+	 * @param template			$template
+	 * @param request			$request
+	 * @param controller_helper	$controller_helper
+	 * @param language			$language
+	 * @param user				$user
+	 * @param log				$log
+	 * @param ImgurClient		$imgur
+	 * @param includes_helper	$helper
 	 *
 	 * @return void
 	 */

@@ -16,25 +16,25 @@ use phpbb\language\language;
 
 class helper
 {
-	/** @var \phpbb\config\config */
+	/** @var config */
 	protected $config;
 
-	/** @var \phpbb\template\template */
+	/** @var template */
 	protected $template;
 
-	/** @var \phpbb\routing\helper */
+	/** @var routing_helper */
 	protected $routing_helper;
 
-	/** @var \phpbb\language\language */
+	/** @var language */
 	protected $language;
 
 	/**
 	 * Helper constructor
 	 *
-	 * @param \phpbb\config\config		$config
-	 * @param \phpbb\template\template	$template
-	 * @param \phpbb\routing\helper		$routing_helper
-	 * @param \phpbb\language\language	$language
+	 * @param config			$config
+	 * @param template			$template
+	 * @param routing_helper	$routing_helper
+	 * @param language			$language
 	 *
 	 * @return void
 	 */
