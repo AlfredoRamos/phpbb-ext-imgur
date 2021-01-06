@@ -14,13 +14,13 @@ use alfredoramos\imgur\includes\helper;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \alfredoramos\imgur\includes\helper */
+	/** @var helper */
 	protected $helper;
 
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \alfredoramos\imgur\includes\helper $helper;
+	 * @param helper $helper;
 	 *
 	 * @return void
 	 */

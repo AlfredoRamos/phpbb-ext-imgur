@@ -177,7 +177,7 @@ jobs:
         working-directory: phpBB3
         run: |
           mkdir -p phpBB/ext/$EXTNAME/ci
-          cp .github/phpunit* phpBB/ext/$EXTNAME/ci/
+          cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
 
       - name: Run unit tests
         if: ${{ env.NOTESTS != 1 }}
