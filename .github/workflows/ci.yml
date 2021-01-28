@@ -139,7 +139,6 @@ jobs:
         if: ${{ env.EXTDEPS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
         run: |
-          composer require -n --ignore-platform-reqs --prefer-dist --no-progress 'composer/package-versions-deprecated:^1.11.99' 'ocramius/proxy-manager:~2.1.1'
           composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
 
       - name: Setup EPV
