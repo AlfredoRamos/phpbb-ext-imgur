@@ -119,9 +119,7 @@ jobs:
       - name: Setup Composer
         id: setup-composer
         working-directory: phpBB3/phpBB
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer update --no-install --prefer-dist
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup cache
         uses: actions/cache@v2
@@ -138,8 +136,7 @@ jobs:
       - name: Install extension dependencies
         if: ${{ env.EXTDEPS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
-        run: |
-          composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+        run: composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
 
       - name: Setup EPV
         if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
