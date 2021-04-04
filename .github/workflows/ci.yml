@@ -92,9 +92,9 @@ jobs:
           - php-version: '8.0'
             db-type: 'mariadb'
             db-version: '10.5'
-          - php-version: '8.1'
-            db-type: 'mariadb'
-            db-version: '10.5'
+          #- php-version: '8.1'
+          #  db-type: 'mariadb'
+          #  db-version: '10.5'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@master
@@ -136,7 +136,7 @@ jobs:
       - name: Install extension dependencies
         if: ${{ env.EXTDEPS == 1 }}
         working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
-        run: composer update -n --ignore-platform-reqs --no-dev --prefer-dist --no-progress
+        run: composer update -n --no-dev --prefer-dist --no-progress
 
       - name: Setup EPV
         if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
