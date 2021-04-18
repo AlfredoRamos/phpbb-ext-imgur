@@ -130,7 +130,7 @@
 			<equals arg1="${has-dependencies}" arg2="1" />
 			<then>
 				<echo msg="Installing dependencies" />
-				<exec dir="${package-directory}" command="composer install --prefer-dist --no-dev --ignore-platform-reqs" checkreturn="true" />
+				<exec dir="${package-directory}" command="composer install --prefer-dist --no-dev" checkreturn="true" />
 			</then>
 		</if>
 
