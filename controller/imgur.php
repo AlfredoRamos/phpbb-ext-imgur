@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class imgur
 {
-	/** @var \auth */
+	/** @var auth */
 	protected $auth;
 
 	/** @var config */
