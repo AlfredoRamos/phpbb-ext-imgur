@@ -9,7 +9,7 @@
 {% if S_USER_LOGGED_IN and not S_IS_BOT %}
 {% if not INCLUDED_FORMDATA_POLYFILL_JS %}
 {%- if S_ALLOW_CDN -%}
-{% INCLUDEJS 'https://unpkg.com/formdata-polyfill@4.0.6/formdata.min.js' %}
+{% INCLUDEJS 'https://unpkg.com/formdata-polyfill@4.0.7/formdata.min.js' %}
 {%- else -%}
 {% INCLUDEJS '@alfredoramos_imgur/js/formdata.min.js' %}
 {%- endif -%}
