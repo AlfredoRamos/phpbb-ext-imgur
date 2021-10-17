@@ -2,13 +2,8 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
 
 env:
   EXTNAME: 'alfredoramos/imgur'
@@ -16,7 +11,6 @@ env:
   IMAGE_ICC: 1
   EPV: 1
   EXECUTABLE_FILES: 1
-  EXTDEPS: 1
   PHPBB_BRANCH: 3.3.x
 
 jobs:
@@ -100,7 +94,7 @@ jobs:
       - name: Checkout extension
         uses: actions/checkout@master
         with:
-          path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+          path: extension
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -127,10 +121,18 @@ jobs:
         working-directory: phpBB3
         run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
 
-      - name: Install extension dependencies
-        if: ${{ env.EXTDEPS == 1 }}
-        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
-        run: composer update -n --no-dev --prefer-dist --no-progress
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+          working-directory: extension
+
+      - name: Setup extension
+        working-directory: extension
+        run: |
+          chmod +x .github/setup-extension.sh
+          .github/setup-extension.sh $EXTNAME $NOTESTS
 
       - name: Setup EPV
         if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
@@ -180,15 +182,20 @@ jobs:
     steps:
       - name: Checkout extension
         uses: actions/checkout@master
+        with:
+          path: extension
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: '3.0'
           bundler-cache: true
+          working-directory: extension
 
       - name: Test Ruby
+        working-directory: extension
         run: bundle exec rake rubocop
 
       - name: Test SCSS
+        working-directory: extension
         run: bundle exec rake scss_lint
