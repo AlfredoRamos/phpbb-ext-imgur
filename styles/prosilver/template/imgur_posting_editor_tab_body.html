@@ -16,7 +16,7 @@
 				</dt>
 				<dd>
 					<textarea id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field inputbox" autocomplete="off" readonly="readonly"></textarea>
-					<button type="button" class="imgur-button-paste btn-imgur btn-imgur-paste" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape }}">
+					<button type="button" class="imgur-button-paste btn-imgur btn-imgur-paste" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape('html_attr') }}">
 						<i class="icon fa-paste fa-fw" aria-hidden="true"></i>
 					</button>
 				</dd>

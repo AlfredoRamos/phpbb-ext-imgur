@@ -1,5 +1,5 @@
 <div class="imgur-wrapper">
-	<button type="button" class="imgur-button-upload abbc3_button" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape }}"></button>
+	<button type="button" class="imgur-button-upload abbc3_button" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape('html_attr') }}"></button>
 	{% if IMGUR_ENABLED_OUTPUT_TYPES %}
 	<select class="imgur-output-select" role="menu">
 		{% for OUTPUT_TYPE in IMGUR_ENABLED_OUTPUT_TYPES %}

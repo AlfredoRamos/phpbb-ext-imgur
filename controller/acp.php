@@ -127,11 +127,7 @@ class acp
 		{
 			if (!check_form_key('alfredoramos_imgur'))
 			{
-				trigger_error(
-					$this->language->lang('FORM_INVALID') .
-					adm_back_link($u_action),
-					E_USER_WARNING
-				);
+				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($u_action), E_USER_WARNING);
 			}
 
 			// Imgur token
@@ -185,10 +181,7 @@ class acp
 				);
 
 				// Confirm dialog
-				trigger_error(
-					$this->language->lang('CONFIG_UPDATED') .
-					adm_back_link($u_action)
-				);
+				trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($u_action));
 			}
 		}
 
@@ -203,10 +196,7 @@ class acp
 		if (empty($this->config['imgur_client_id']) ||
 			empty($this->config['imgur_client_secret']))
 		{
-			$this->template->assign_var(
-				'IMGUR_REGISTER_URL',
-				'https://api.imgur.com/oauth2/addclient'
-			);
+			$this->template->assign_var('IMGUR_REGISTER_URL', 'https://api.imgur.com/oauth2/addclient');
 		}
 
 		// Assign authorize URL
@@ -215,10 +205,7 @@ class acp
 			empty($this->config['imgur_access_token']
 		))
 		{
-			$this->template->assign_var(
-				'IMGUR_AUTHORIZE_URL',
-				$this->imgur->getAuthenticationUrl('token')
-			);
+			$this->template->assign_var('IMGUR_AUTHORIZE_URL', $this->imgur->getAuthenticationUrl('token'));
 		}
 
 		// Assign album download URL
@@ -245,9 +232,7 @@ class acp
 		// Assign validation errors
 		foreach ($errors as $error)
 		{
-			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'MESSAGE' => $error['message']
-			]);
+			$this->template->assign_block_vars('VALIDATION_ERRORS', ['MESSAGE' => $error['message']]);
 		}
 	}
 
@@ -308,11 +293,7 @@ class acp
 		{
 			if (!check_form_key('alfredoramos_imgur'))
 			{
-				trigger_error(
-					$this->language->lang('FORM_INVALID') .
-					adm_back_link($u_action),
-					E_USER_WARNING
-				);
+				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($u_action), E_USER_WARNING);
 			}
 
 			// Form data
@@ -386,10 +367,7 @@ class acp
 				);
 
 				// Confirm dialog
-				trigger_error(
-					$this->language->lang('CONFIG_UPDATED') .
-					adm_back_link($u_action)
-				);
+				trigger_error($this->language->lang('CONFIG_UPDATED') . adm_back_link($u_action));
 			}
 		}
 
@@ -461,9 +439,7 @@ class acp
 		// Assign validation errors
 		foreach ($errors as $error)
 		{
-			$this->template->assign_block_vars('VALIDATION_ERRORS', [
-				'MESSAGE' => $error['message']
-			]);
+			$this->template->assign_block_vars('VALIDATION_ERRORS', ['MESSAGE' => $error['message']]);
 		}
 	}
 }

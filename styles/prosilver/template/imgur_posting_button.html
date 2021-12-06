@@ -1,5 +1,5 @@
 <div class="imgur-wrapper">
-	<button type="button" class="imgur-button-upload button button-icon-only bbcode-imgur" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape }}">
+	<button type="button" class="imgur-button-upload button button-icon-only bbcode-imgur" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape('html_attr') }}">
 		<span class="icon"></span>
 	</button>
 	{% if IMGUR_ENABLED_OUTPUT_TYPES %}

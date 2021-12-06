@@ -424,10 +424,7 @@ class imgur
 		}
 		catch (ImgurErrorException $ex)
 		{
-			$errors[]['message'] = $this->language->lang(
-				'EXCEPTION_IMGUR_NO_ALBUMS',
-				$ex->getMessage()
-			);
+			$errors[]['message'] = $this->language->lang('EXCEPTION_IMGUR_NO_ALBUMS', $ex->getMessage());
 		}
 
 		// Validate album ID
@@ -456,9 +453,7 @@ class imgur
 		$this->imgur->refreshToken();
 
 		// Generate new token
-		$new_token = array_merge($this->imgur->getAccessToken(), [
-			'created_at' => time()
-		]);
+		$new_token = array_merge($this->imgur->getAccessToken(), ['created_at' => time()]);
 
 		// Update the token in database
 		foreach ($new_token as $key => $value)

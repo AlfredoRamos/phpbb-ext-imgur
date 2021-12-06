@@ -54,7 +54,7 @@
 			</dt>
 			<dd>
 				<input type="password" id="imgur-client-secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off">
-				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET'))|striptags|escape }}">
+				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET'))|striptags|escape('html_attr') }}">
 					<i class="icon fa-lg fa-eye" aria-hidden="true"></i>
 				</span>
 			</dd>
@@ -69,7 +69,7 @@
 				<input type="text" id="imgur-album" class="narrow" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off">
 				<i class="icon fa-lg fa-times album-validation-icon hidden"></i>
 				{% if IMGUR_ALBUM_DOWNLOAD_URL %}
-				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="external nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape }}">
+				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="external nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape('html_attr') }}">
 					<i class="icon fa-lg fa-download" aria-hidden="true"></i>
 				</a>
 				{% endif %}
