@@ -2,9 +2,9 @@
 	height: 15px;
 
 	&-label {
-		text-shadow: -1px 0 $fg-progress-bar-shadow, 0 1px $fg-progress-bar-shadow, 1px 0 $fg-progress-bar-shadow, 0 -1px $fg-progress-bar-shadow;
-		line-height: 15px;
-		color: $fg-progress-bar;
 		font-weight: bold;
+		line-height: 15px;
+		text-shadow: -1px 0 $fg-progress-bar-shadow, 0 1px $fg-progress-bar-shadow, 1px 0 $fg-progress-bar-shadow, 0 -1px $fg-progress-bar-shadow;
+		color: $fg-progress-bar;
 	}
 }

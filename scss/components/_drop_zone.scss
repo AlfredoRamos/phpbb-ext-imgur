@@ -1,11 +1,11 @@
 $drop-zone-selector: imgur-drop-zone;
 
 ##{$drop-zone-selector} {
-	margin: 5px 0;
+	text-align: center;
 	border: 3px dashed $br-dropzone;
 	border-radius: 3px;
+	margin: 5px 0;
 	padding: 15px 30px;
-	text-align: center;
 
 	&.active {
 		border-color: $br-dropzone-active;
@@ -22,8 +22,8 @@ $drop-zone-selector: imgur-drop-zone;
 
 @include responsive(max-width, 700px) {
 	##{$drop-zone-selector} {
-		margin: 0;
 		border: none;
+		margin: 0;
 		padding: 5px 0;
 	}
 
