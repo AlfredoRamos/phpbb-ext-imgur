@@ -3,15 +3,15 @@
 	"type": "phpbb-extension",
 	"description": "Imgur extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-imgur",
-	"version": "1.7.2-beta",
-	"time": "2021-12-02",
+	"version": "1.7.2",
+	"time": "2021-12-13",
 	"keywords": ["phpbb", "extension", "imgur", "uploader"],
 	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Alfredo Ramos",
 			"email": "alfredo.ramos@yandex.com",
-			"homepage": "https://alfredoramos.mx/",
+			"homepage": "https://alfredoramos.mx",
 			"role": "Lead Developer"
 		}
 	],
