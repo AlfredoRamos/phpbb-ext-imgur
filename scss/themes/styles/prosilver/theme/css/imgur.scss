@@ -9,11 +9,9 @@
 @import '../../../../../abstracts/variables';
 @import '../../../../../abstracts/mixins';
 
-// Base
-@import '../../../../../base/upload';
-
 // Components
 @import '../../../../../components/buttons';
 @import '../../../../../components/drop_zone';
 @import '../../../../../components/output_fields';
 @import '../../../../../components/progress_bar';
+@import '../../../../../components/upload';

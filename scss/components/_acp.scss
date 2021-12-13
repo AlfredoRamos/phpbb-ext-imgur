@@ -1,20 +1,19 @@
 #imgur-settings {
 	&-api {
-		// scss-lint:disable QualifyingElement
-		input[type="text"],
-		input[type="password"] {
+		input[type='text'],
+		input[type='password'] {
 			font-family: Consolas, monaco, monospace;
 		}
 	}
 }
 
 #validate-album {
+	font-size: 1em;
+	border: none;
 	display: inline-block;
 	margin-top: 10px;
-	border: none;
-	cursor: pointer;
 	padding: 3px 6px;
-	font-size: 1em;
+	cursor: pointer;
 
 	&[disabled] {
 		filter: grayscale(1);
@@ -52,8 +51,8 @@
 }
 
 #toggle-client-secret {
-	cursor: pointer;
 	color: $fg-toggle-secret;
+	cursor: pointer;
 }
 
 .warningbox .btn-imgur {
@@ -62,8 +61,8 @@
 
 .imgur-table {
 	th {
-		text-transform: none;
 		font-size: 1em;
+		text-transform: none;
 
 		+ th {
 			text-align: center;
@@ -72,19 +71,19 @@
 
 	td {
 		> label {
-			padding: 0;
 			font-size: 1em;
+			padding: 0;
 		}
 	}
 }
 
 @include responsive(max-width, 700px) {
-	.imgur-table.responsive { // scss-lint:disable ChainedClasses
+	.imgur-table.responsive {
 		.actions {
-			text-align: left !important; // scss-lint:disable ImportantRule
+			text-align: left !important;
 
 			> dfn {
-				display: inline-block !important; // scss-lint:disable ImportantRule
+				display: inline-block !important;
 			}
 		}
 	}

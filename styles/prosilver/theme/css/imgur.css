@@ -4,38 +4,29 @@
  * @copyright 2017 Alfredo Ramos
  * @license GNU GPL-2.0-only
  */
-#imgur-drop-zone .btn-imgur {
-	margin-bottom: 1em;
-}
-
 .btn-imgur {
-	border-radius: 4px;
-	padding: 8px 10px;
-	color: #f2f2f2;
 	font-size: 1.25em;
 	font-weight: bold;
+	border-radius: 4px;
+	color: #f2f2f2;
+	padding: 8px 10px;
 }
-
 .btn-imgur:hover {
 	color: #fff;
 }
-
 .btn-imgur-w-icon > .icon {
-	margin-right: 5px;
+	vertical-align: middle;
 	border-radius: 4px;
 	width: 20px;
 	height: 20px;
-	vertical-align: middle;
+	margin-right: 5px;
 }
-
 .btn-imgur-upload {
 	background-color: #1bb76e;
 }
-
 .btn-imgur-register {
 	background-color: #006da3;
 }
-
 .btn-imgur-paste {
 	background-color: #105289;
 	padding: 4px 5px;
@@ -49,8 +40,7 @@
 a.btn-imgur {
 	color: #f2f2f2;
 }
-
-a.btn-imgur:hover {
+a:hover.btn-imgur {
 	text-decoration: none;
 	color: #fff;
 }
@@ -61,42 +51,38 @@ a.btn-imgur:hover {
 	background-position: center;
 	background-size: contain;
 }
-
-.imgur-button-upload[disabled] > .icon, .abbc3_button.imgur-button-upload[disabled] {
+[disabled].imgur-button-upload > .icon, [disabled].abbc3_button.imgur-button-upload {
 	background-image: url("../../../all/theme/images/loader.svg");
 }
 
 #imgur-drop-zone {
-	margin: 5px 0;
+	text-align: center;
 	border: 3px dashed rgba(0, 136, 204, 0.2);
 	border-radius: 3px;
+	margin: 5px 0;
 	padding: 15px 30px;
-	text-align: center;
 }
-
 #imgur-drop-zone.active {
 	border-color: #0088cc;
 }
-
 #imgur-drop-zone p:last-child {
 	margin-bottom: 0;
 }
-
 #imgur-drop-zone .imgur-button {
 	margin-bottom: 1em;
 }
 
 @media only screen and (max-width: 700px) {
 	#imgur-drop-zone {
-		margin: 0;
 		border: none;
+		margin: 0;
 		padding: 5px 0;
 	}
+
 	.imgur-drop-zone-desc {
 		display: none;
 	}
 }
-
 .imgur-output-field {
 	vertical-align: middle;
 }
@@ -106,14 +92,16 @@ a.btn-imgur:hover {
 		text-align: right;
 	}
 }
-
 #imgur-progress {
 	height: 15px;
 }
-
 #imgur-progress-label {
-	text-shadow: -1px 0 #ccc, 0 1px #ccc, 1px 0 #ccc, 0 -1px #ccc;
-	line-height: 15px;
-	color: #000;
 	font-weight: bold;
+	line-height: 15px;
+	text-shadow: -1px 0 #ccc, 0 1px #ccc, 1px 0 #ccc, 0 -1px #ccc;
+	color: #000;
+}
+
+#imgur-drop-zone .btn-imgur {
+	margin-bottom: 1em;
 }
