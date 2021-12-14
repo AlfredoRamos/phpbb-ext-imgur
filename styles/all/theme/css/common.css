@@ -4,7 +4,6 @@
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
-
 #imgur-image,
 #imgur-progress-wrapper,
 .imgur-output-select {
@@ -13,9 +12,9 @@
 
 #imgur-progress-wrapper {
 	position: fixed;
+	right: 0;
 	bottom: 0;
 	left: 0;
-	right: 0;
 }
 
 #imgur-progress-wrapper.uploading {
@@ -25,7 +24,7 @@
 
 #imgur-progress,
 #imgur-progress-label {
-	width: 100%;
+	width: 100;
 }
 
 #imgur-progress-label {
@@ -43,14 +42,14 @@
 }
 
 .imgur-output-fields {
-	max-height: 365px;
 	overflow-x: hidden;
 	overflow-y: auto;
+	max-height: 365px;
 }
 
 .imgur-output-field {
-	resize: vertical !important;
-	min-height: 20px;
 	height: 20px;
+	min-height: 20px;
 	max-height: 250px;
+	resize: vertical !important;
 }

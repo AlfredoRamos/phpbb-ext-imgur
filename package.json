@@ -18,8 +18,9 @@
 		"build-js": "node .github/scripts/build-js.js",
 		"build-templates": "node .github/scripts/build-templates.js",
 		"build": "npm run build-scss && npm run build-css && npm run build-js && npm run build-templates",
-		"lint-scss": "npx stylelint '**/*.scss'",
-		"lint-css": "npx stylelint '**/*.css'"
+		"build-dev": "npm run build && npm run lint-scss && npm run lint-css",
+		"lint-scss": "npx stylelint '**/*.scss' --fix",
+		"lint-css": "npx stylelint '**/*.css' --fix"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.0",

@@ -11,9 +11,11 @@
 	color: #f2f2f2;
 	padding: 8px 10px;
 }
+
 .btn-imgur:hover {
 	color: #fff;
 }
+
 .btn-imgur-w-icon > .icon {
 	vertical-align: middle;
 	border-radius: 4px;
@@ -21,12 +23,15 @@
 	height: 20px;
 	margin-right: 5px;
 }
+
 .btn-imgur-upload {
 	background-color: #1bb76e;
 }
+
 .btn-imgur-register {
 	background-color: #006da3;
 }
+
 .btn-imgur-paste {
 	background-color: #105289;
 	padding: 4px 5px;
@@ -40,18 +45,22 @@
 a.btn-imgur {
 	color: #f2f2f2;
 }
+
 a:hover.btn-imgur {
 	text-decoration: none;
 	color: #fff;
 }
 
-.imgur-button-upload > .icon, .abbc3_button.imgur-button-upload {
+.imgur-button-upload > .icon,
+.abbc3_button.imgur-button-upload {
 	background-image: url("../../../all/theme/images/imgur.svg");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
 }
-[disabled].imgur-button-upload > .icon, [disabled].abbc3_button.imgur-button-upload {
+
+[disabled].imgur-button-upload > .icon,
+[disabled].abbc3_button.imgur-button-upload {
 	background-image: url("../../../all/theme/images/loader.svg");
 }
 
@@ -62,12 +71,15 @@ a:hover.btn-imgur {
 	margin: 5px 0;
 	padding: 15px 30px;
 }
+
 #imgur-drop-zone.active {
-	border-color: #0088cc;
+	border-color: #08c;
 }
+
 #imgur-drop-zone p:last-child {
 	margin-bottom: 0;
 }
+
 #imgur-drop-zone .imgur-button {
 	margin-bottom: 1em;
 }
@@ -83,6 +95,7 @@ a:hover.btn-imgur {
 		display: none;
 	}
 }
+
 .imgur-output-field {
 	vertical-align: middle;
 }
@@ -92,9 +105,11 @@ a:hover.btn-imgur {
 		text-align: right;
 	}
 }
+
 #imgur-progress {
 	height: 15px;
 }
+
 #imgur-progress-label {
 	font-weight: bold;
 	line-height: 15px;

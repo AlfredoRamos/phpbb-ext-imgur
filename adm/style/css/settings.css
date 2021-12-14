@@ -11,9 +11,11 @@
 	color: #f2f2f2;
 	padding: 8px 10px;
 }
+
 .btn-imgur:hover {
 	color: #fff;
 }
+
 .btn-imgur-w-icon > .icon {
 	vertical-align: middle;
 	border-radius: 4px;
@@ -21,12 +23,15 @@
 	height: 20px;
 	margin-right: 5px;
 }
+
 .btn-imgur-upload {
 	background-color: #1bb76e;
 }
+
 .btn-imgur-register {
 	background-color: #006da3;
 }
+
 .btn-imgur-paste {
 	background-color: #105289;
 	padding: 4px 5px;
@@ -40,23 +45,27 @@
 a.btn-imgur {
 	color: #f2f2f2;
 }
+
 a:hover.btn-imgur {
 	text-decoration: none;
 	color: #fff;
 }
 
-.imgur-button-upload > .icon, .abbc3_button.imgur-button-upload {
+.imgur-button-upload > .icon,
+.abbc3_button.imgur-button-upload {
 	background-image: url("../../../all/theme/images/imgur.svg");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: contain;
 }
-[disabled].imgur-button-upload > .icon, [disabled].abbc3_button.imgur-button-upload {
+
+[disabled].imgur-button-upload > .icon,
+[disabled].abbc3_button.imgur-button-upload {
 	background-image: url("../../../all/theme/images/loader.svg");
 }
 
-#imgur-settings-api input[type=text],
-#imgur-settings-api input[type=password] {
+#imgur-settings-api input[type="text"],
+#imgur-settings-api input[type="password"] {
 	font-family: Consolas, monaco, monospace;
 }
 
@@ -68,29 +77,36 @@ a:hover.btn-imgur {
 	padding: 3px 6px;
 	cursor: pointer;
 }
+
 #validate-album[disabled] {
 	-webkit-filter: grayscale(1);
 	filter: grayscale(1);
 }
 
-.album-invalid, .album-valid {
+.album-invalid,
+.album-valid {
 	border-width: 1px;
 	border-style: solid;
 }
+
 .album-invalid {
 	border-color: #dc3545;
 	box-shadow: 0 0 3px #dc3545;
 }
+
 .album-valid {
 	border-color: #218838;
 	box-shadow: 0 0 3px #218838;
 }
+
 .album-validation-icon {
 	font-size: 20px;
 }
+
 .album-validation-icon.fa-times {
 	color: #dc3545;
 }
+
 .album-validation-icon.fa-check {
 	color: #218838;
 }
@@ -108,9 +124,11 @@ a:hover.btn-imgur {
 	font-size: 1em;
 	text-transform: none;
 }
+
 .imgur-table th + th {
 	text-align: center;
 }
+
 .imgur-table td > label {
 	font-size: 1em;
 	padding: 0;
@@ -120,6 +138,7 @@ a:hover.btn-imgur {
 	.imgur-table.responsive .actions {
 		text-align: left !important;
 	}
+
 	.imgur-table.responsive .actions > dfn {
 		display: inline-block !important;
 	}

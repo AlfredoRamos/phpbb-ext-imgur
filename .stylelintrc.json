@@ -132,6 +132,7 @@
 
 		"property-case": "lower",
 		"property-no-unknown": true,
+		"property-no-vendor-prefix": null,
 
 		"rule-empty-line-before": ["always-multi-line", {
 			"ignore": ["after-comment"],
@@ -186,6 +187,7 @@
 		"value-list-comma-newline-before": "never-multi-line",
 		"value-list-comma-space-after": "always-single-line",
 		"value-list-comma-space-before": "never",
+		"value-no-vendor-prefix": null,
 		"order/order": [
 			"custom-properties",
 			"dollar-variables",
