@@ -150,7 +150,7 @@ jobs:
       - name: Setup EPV
         if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
         working-directory: phpBB3/phpBB
-        run: composer require -n --dev --prefer-dist --no-progress phpbb/epv:dev-master
+        run: composer require -n --prefer-dist --no-progress phpbb/epv:dev-master
 
       - name: Run code sniffer
         if: ${{ env.NOTESTS == 1 && env.SNIFF == 1 }}
