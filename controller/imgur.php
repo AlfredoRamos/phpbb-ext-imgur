@@ -257,7 +257,7 @@ class imgur
 
 		// Allowed MIME types
 		// https://help.imgur.com/hc/en-us/articles/115000083326
-		$mime_types = '#^image/(?:jpe?g|png|gif|tiff(?:-fx)?|webp)$#i';
+		$mime_types = '#^image/(?:jpe?g|png|gif|tiff(?:-fx)?)$#i';
 
 		// Not using $request->file() because I need an array of arrays
 		$images = $this->request->variable(
