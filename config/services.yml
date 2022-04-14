@@ -17,7 +17,7 @@ services:
             - '@routing.helper'
             - '@language'
 
-    alfredoramos.imgur.controller:
+    alfredoramos.imgur.controller.imgur:
         class: alfredoramos\imgur\controller\imgur
         arguments:
             - '@auth'
@@ -32,7 +32,7 @@ services:
             - '@alfredoramos.imgur.j0k3r.imgur.client'
             - '@alfredoramos.imgur.helper'
 
-    alfredoramos.imgur.acp.controller:
+    alfredoramos.imgur.controller.acp:
         class: alfredoramos\imgur\controller\acp
         arguments:
             - '@config'

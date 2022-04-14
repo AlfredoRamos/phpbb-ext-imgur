@@ -40,7 +40,7 @@ class main_module
 
 		$this->template = $phpbb_container->get('template');
 		$this->language = $phpbb_container->get('language');
-		$this->acp_controller = $phpbb_container->get('alfredoramos.imgur.acp.controller');
+		$this->acp_controller = $phpbb_container->get('alfredoramos.imgur.controller.acp');
 	}
 
 	/**
