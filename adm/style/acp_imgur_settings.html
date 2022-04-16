@@ -15,7 +15,7 @@
 <div class="warningbox notice">
 	<p>
 		{{ lang('ACP_IMGUR_REGISTER_EXPLAIN') }}<br><br>
-		<a href="{{ IMGUR_REGISTER_URL }}" target="_blank" id="imgur-register-url" class="btn-imgur btn-imgur-w-icon btn-imgur-register" rel="external nofollow noreferrer">
+		<a href="{{ IMGUR_REGISTER_URL }}" target="_blank" id="imgur-register-url" class="tw-text-sm !tw-text-gray-200 hover:tw-text-white tw-bg-sky-700 hover:tw-bg-sky-600 hover:tw-no-underline tw-transition-colors tw-duration-150 tw-px-4 tw-py-2 tw-rounded" rel="external nofollow noreferrer">
 			<i class="icon fa-lg fa-external-link" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_REGISTER') }}</span>
 		</a>
@@ -27,7 +27,7 @@
 <div class="warningbox">
 	<p>
 		{{ lang('ACP_IMGUR_AUTHORIZE_EXPLAIN') }}<br><br>
-		<a href="{{ IMGUR_AUTHORIZE_URL }}" id="imgur-authorize-url" class="btn-imgur btn-imgur-w-icon btn-imgur-upload" rel="external nofollow noreferrer">
+		<a href="{{ IMGUR_AUTHORIZE_URL }}" id="imgur-authorize-url" class="tw-text-sm !tw-text-gray-200 hover:tw-text-white tw-bg-green-600 hover:tw-bg-green-500 hover:tw-no-underline tw-transition-colors tw-duration-150 tw-px-4 tw-py-2 tw-rounded" rel="external nofollow noreferrer">
 			<i class="icon fa-lg fa-sign-in" aria-hidden="true"></i>
 			<span>{{ lang('ACP_IMGUR_AUTHORIZE') }}</span>
 		</a>
@@ -44,7 +44,7 @@
 				<label for="imgur-client-id">{{ lang('ACP_IMGUR_CLIENT_ID') ~ lang('COLON') }}</label>
 			</dt>
 			<dd>
-				<input type="text" id="imgur-client-id" class="medium" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off">
+				<input type="text" id="imgur-client-id" class="medium tw-font-mono tw-text-xs" name="imgur_client_id" value="{% if IMGUR_CLIENT_ID %}{{ IMGUR_CLIENT_ID }}{% endif %}" required="required" autocomplete="off">
 			</dd>
 		</dl>
 
@@ -53,8 +53,8 @@
 				<label for="imgur-client-secret">{{ lang('ACP_IMGUR_CLIENT_SECRET') ~ lang('COLON') }}</label>
 			</dt>
 			<dd>
-				<input type="password" id="imgur-client-secret" class="medium" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off">
-				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET'))|striptags|escape('html_attr') }}">
+				<input type="password" id="imgur-client-secret" class="medium tw-font-mono tw-text-xs" name="imgur_client_secret" value="{% if IMGUR_CLIENT_SECRET %}{{ IMGUR_CLIENT_SECRET }}{% endif %}" required="required" autocomplete="off">
+				<span id="toggle-client-secret" title="{{ lang('ACP_IMGUR_TOGGLE_DISPLAY_FIELD', lang('ACP_IMGUR_CLIENT_SECRET'))|striptags|escape('html_attr') }}" class="tw-text-yellow-600 hover:tw-text-yellow-500 hover:tw-no-underline tw-transition-colors tw-duration-150 tw-cursor-pointer tw-ml-1">
 					<i class="icon fa-lg fa-eye" aria-hidden="true"></i>
 				</span>
 			</dd>
@@ -66,15 +66,16 @@
 				<br><span>{{ lang('ACP_IMGUR_ALBUM_EXPLAIN') }}</span>
 			</dt>
 			<dd>
-				<input type="text" id="imgur-album" class="narrow" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off">
-				<i class="icon fa-lg fa-times album-validation-icon hidden"></i>
+				<input type="text" id="imgur-album" class="narrow tw-font-mono tw-text-xs tw-ring-2 tw-ring-transparent" name="imgur_album" value="{% if IMGUR_ALBUM %}{{ IMGUR_ALBUM }}{% endif %}" autocomplete="off">
 				{% if IMGUR_ALBUM_DOWNLOAD_URL %}
-				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="external nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape('html_attr') }}">
+				<a href="{{ IMGUR_ALBUM_DOWNLOAD_URL }}" rel="external nofollow noreferrer noopener" title="{{ lang('ACP_IMGUR_ALBUM_DOWNLOAD')|striptags|escape('html_attr') }}" class="tw-text-blue-600 hover:tw-text-blue-500 hover:tw-no-underline tw-transition-colors tw-duration-150 tw-ml-1">
 					<i class="icon fa-lg fa-download" aria-hidden="true"></i>
 				</a>
 				{% endif %}
 				{% if IMGUR_ALBUM_VALIDATE_URL %}
-				<br><button type="button" data-ajax-action="{{ IMGUR_ALBUM_VALIDATE_URL }}" id="validate-album" class="btn-imgur btn-imgur-upload">{{ lang('ACP_IMGUR_ALBUM_VALIDATE') }}</button>
+				<span data-ajax-action="{{ IMGUR_ALBUM_VALIDATE_URL }}" id="validate-album" class="tw-text-green-600 hover:tw-text-green-500 hover:tw-no-underline tw-transition-colors tw-duration-150 tw-cursor-pointer tw-ml-1" title="{{ lang('ACP_IMGUR_ALBUM_VALIDATE')|striptags|escape('html_attr') }}">
+					<i class="icon fa-lg fa-check" aria-hidden="true"></i>
+				</span>
 				{% endif %}
 			</dd>
 		</dl>

@@ -37,7 +37,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_CLIENT_SECRET' => 'Client Secret',
 	'ACP_IMGUR_CLIENT_SECRET_EXPLAIN' => 'String consisting of hexadecimal numbers with a length of 40 characters.',
 	'ACP_IMGUR_ALBUM' => 'Album',
-	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images. Leave it empty if you want all the images to be uploaded in the default location.',
+	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alphanumeric string with a length equal or greater than 5 characters. It will be used to store the uploaded images.<br>Leave it empty if you want all the images to be uploaded in the default location.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Download album backup',
 	'ACP_IMGUR_ALBUM_VALIDATE' => 'Validate',
 

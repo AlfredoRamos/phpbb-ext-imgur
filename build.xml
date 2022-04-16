@@ -31,6 +31,7 @@
 		<delete file="${dir}/package.json" />
 		<delete file="${dir}/package-lock.json" />
 		<delete file="${dir}/postcss.config.js" />
+		<delete file="${dir}/tailwind.config.js export-ignore" />
 
 		<if>
 			<and>

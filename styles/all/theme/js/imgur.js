@@ -5,7 +5,7 @@
  * @license GPL-2.0-only
  */
 
-(function() {
+(() => {
 	'use strict';
 
 	// Imgur library
@@ -25,7 +25,7 @@
 	 *
 	 * @return string
 	 */
-	Imgur.formatImageSize = function(fileSize) {
+	Imgur.formatImageSize = (fileSize) => {
 		// Binary round number
 		const factor = 1024;
 
@@ -60,14 +60,14 @@
 	 *
 	 * @return void
 	 */
-	Imgur.showErrors = function (errors) {
+	Imgur.showErrors = (errors) => {
 		if (!Array.isArray(errors) || errors.length <= 0) {
 			return;
 		}
 
 		let message = '';
 
-		errors.forEach(function(error, index) {
+		errors.forEach((error, index) => {
 			if (!error) {
 				return;
 			}
@@ -96,7 +96,7 @@
 	 *
 	 * @return bool
 	 */
-	Imgur.isJSON = function(str) {
+	Imgur.isJSON = (str) => {
 		if (typeof str !== 'string') {
 			return false;
 		}
@@ -125,10 +125,10 @@
 	 *
 	 * @return bool False if any error was thrown, true otherwise.
 	 */
-	Imgur.handleResponse = function(e, errors, callback) {
+	Imgur.handleResponse = (e, errors, callback) => {
 		try {
 			// Get response
-			let rawResponse = e.target.responseText;
+			const rawResponse = e.target.responseText;
 
 			// Check for server errors or invalid JSON data
 			if (!Imgur.isJSON(rawResponse) && e.target.status !== 200) {
@@ -143,7 +143,7 @@
 			}
 
 			// Parse JSON response
-			let response = JSON.parse(rawResponse);
+			const response = JSON.parse(rawResponse);
 
 			// Empty response body
 			if (Object.keys(response).length <= 0) {
@@ -155,7 +155,7 @@
 			if (e.target.status !== 200) {
 				// Get error message
 				if (Array.isArray(response)) {
-					response.forEach(function(item) {
+					response.forEach((item) => {
 						if (!item) {
 							return;
 						}
@@ -185,8 +185,8 @@
 	 *
 	 * @return string
 	 */
-	Imgur.getOutputType = function() {
-		let defaultType = 'image';
+	Imgur.getOutputType = () => {
+		const defaultType = 'image';
 
 		if (!window.imgur.storage.enabled) {
 			return defaultType;
@@ -221,7 +221,7 @@
 	 *
 	 * @return void
 	 */
-	Imgur.fillOutputFields = function() {
+	Imgur.fillOutputFields = () => {
 		let output = [];
 
 		if (window.imgur.storage.enabled) {
@@ -244,7 +244,7 @@
 		}
 
 		// Cleanup
-		document.body.querySelectorAll('.imgur-output-field').forEach(function(item) {
+		document.body.querySelectorAll('.imgur-output-field').forEach((item) => {
 			if (!item) {
 				return;
 			}
@@ -253,7 +253,7 @@
 		});
 
 		// Fill fields
-		output.forEach(function(item) {
+		output.forEach((item) => {
 			if (!item) {
 				return;
 			}
@@ -265,7 +265,7 @@
 				}
 
 				let value = item[key];
-				let field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+				const field = document.body.querySelector('[name="imgur_output_' + key + '"]');
 
 				if (!field) {
 					return;
@@ -280,19 +280,7 @@
 
 				field.value += (field.value.length > 0 ? '\n' : '') + value;
 
-				let evt;
-
-				// IE11 fix
-				if (typeof Event !== 'function') {
-					evt = document.createEvent('Event');
-					evt.initEvent('change', true, true);
-				} else {
-					evt = new Event('change', {
-						bubbles: true,
-						cancelable: true
-					});
-				}
-
+				const evt = new Event('change', {bubbles: true, cancelable: true});
 				field.dispatchEvent(evt);
 			}
 		});
@@ -306,7 +294,7 @@
 	 *
 	 * @return void
 	 */
-	Imgur.upload = function(files, args) {
+	Imgur.upload = (files, args) => {
 		// Imgur API limit (10 MiB)
 		// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
 		const maxFileSize = (10 * 1024 * 1024);
@@ -319,7 +307,7 @@
 		const formData = new FormData();
 
 		// Output type
-		let outputType = Imgur.getOutputType();
+		const outputType = Imgur.getOutputType();
 
 		// Helpers
 		let errors = [];
@@ -337,15 +325,23 @@
 		}
 
 		// Upload buttons
-		let imgurButton = document.body.querySelectorAll('.imgur-button-upload');
+		const imgurButton = document.body.querySelectorAll('.imgur-button-upload');
 
 		// Prevent button spamming
-		imgurButton.forEach(function(item) {
+		imgurButton.forEach((item) => {
 			if (!item) {
 				return;
 			}
 
 			item.setAttribute('disabled', true);
+			const icon = item.querySelector('.icon');
+
+			if (!icon) {
+				return;
+			}
+
+			icon.classList.add('tw-bg-loader', 'tw-animate-spin');
+			icon.classList.remove('tw-bg-imgur');
 		});
 
 		args.image.setAttribute('disabled', true);
@@ -356,7 +352,7 @@
 		}
 
 		// Validate file
-		Array.prototype.forEach.call(files, function(file) {
+		Array.prototype.forEach.call(files, (file) => {
 			// Size
 			if (file.size > maxFileSize) {
 				errors.push(
@@ -365,7 +361,6 @@
 					.replace('{size}', Imgur.formatImageSize(file.size))
 					.replace('{max_size}', Imgur.formatImageSize(maxFileSize))
 				);
-
 				return;
 			}
 
@@ -376,7 +371,6 @@
 					.replace('{file}', file.name)
 					.replace('{type}', file.type)
 				);
-
 				return;
 			}
 
@@ -390,12 +384,20 @@
 			Imgur.showErrors(errors);
 
 			// Re-enable buttons
-			imgurButton.forEach(function(item) {
+			imgurButton.forEach((item) => {
 				if (!item) {
 					return;
 				}
 
 				item.removeAttribute('disabled');
+				const icon = item.querySelector('.icon');
+
+				if (!icon) {
+					return;
+				}
+
+				icon.classList.remove('tw-bg-loader', 'tw-animate-spin');
+				icon.classList.add('tw-bg-imgur');
 			});
 
 			args.image.removeAttribute('disabled');
@@ -410,20 +412,20 @@
 		let progress = {};
 
 		// Progress bar
-		progress.wrapper = document.body.querySelector('#imgur-progress-wrapper');
+		progress.wrapper = document.body.querySelector('.imgur-progress-wrapper');
 
 		// Show progress bar
 		if (progress.wrapper) {
-			progress.bar = progress.wrapper.querySelector('#imgur-progress');
-			progress.label = progress.wrapper.querySelector('#imgur-progress-label > code');
-			progress.wrapper.classList.add('uploading');
+			progress.bar = progress.wrapper.querySelector('.imgur-progress');
+			progress.label = progress.wrapper.querySelector('.imgur-progress-label > code');
+			progress.wrapper.classList.remove('tw-hidden');
 		}
 
 		// Upload the image(s)
 		const xhr = new XMLHttpRequest();
 
 		// Progress
-		xhr.upload.addEventListener('progress', function(e) {
+		xhr.upload.addEventListener('progress', (e) => {
 			if (!e.lengthComputable || !progress.bar || !progress.label) {
 				return;
 			}
@@ -441,50 +443,43 @@
 
 			// Progress bar native animation will be used as loading indicator
 			if (percentage >= 100) {
-				setTimeout(function() {
+				setTimeout(() => {
 					progress.bar.removeAttribute('value');
 				}, 500);
 			}
 		}, false);
 
 		// Success
-		xhr.addEventListener('load', function(e) {
-			Imgur.handleResponse(e, errors, function(response) {
+		xhr.addEventListener('load', (e) => {
+			Imgur.handleResponse(e, errors, (response) => {
 				let outputList = [];
 
 				// Add image
-				response.forEach(function(item) {
+				response.forEach((item) => {
 					if (!item) {
 						return;
 					}
 
 					let output = {};
 					let bbcode = '';
-					let image = {
-						link: '',
-						thumbnail: ''
-					};
+					let image = {link: '', thumbnail: ''};
 
 					// Get image link
 					image.link = item.link;
 
 					// Generate thumbnail
 					if (image.link.length > 0) {
-						let ext = '.' + image.link.split('.').pop();
-						let size = args.image.getAttribute('data-thumbnail-size').trim() || 't';
+						const ext = '.' + image.link.split('.').pop();
+						const size = args.image.getAttribute('data-thumbnail-size').trim() || 't';
 
-						image.thumbnail = image.link.replace(
-							ext,
-							size + ext
-						);
+						image.thumbnail = image.link.replace(ext, (size + ext));
 					}
 
 					// Generate output types
 					output.text = image.link;
 					output.url = '[url]' + image.link + '[/url]';
 					output.image = '[img]' + image.link + '[/img]';
-					output.thumbnail = '[url=' + image.link + '][img]'
-						+ image.thumbnail + '[/img][/url]';
+					output.thumbnail = '[url=' + image.link + '][img]' + image.thumbnail + '[/img][/url]';
 
 					// Append output
 					outputList.push(output);
@@ -512,13 +507,13 @@
 		});
 
 		// Failure
-		xhr.addEventListener('error', function(e) {
+		xhr.addEventListener('error', (e) => {
 			Imgur.handleResponse(e, errors);
 			Imgur.showErrors(errors);
 		});
 
 		// Post-upload
-		xhr.addEventListener('loadend', function() {
+		xhr.addEventListener('loadend', () => {
 			try {
 				Imgur.fillOutputFields();
 			} catch (ex) {
@@ -528,19 +523,27 @@
 			Imgur.showErrors(errors);
 
 			// Re-enable buttons
-			imgurButton.forEach(function(item) {
+			imgurButton.forEach((item) => {
 				if (!item) {
 					return;
 				}
 
 				item.removeAttribute('disabled');
+				const icon = item.querySelector('.icon');
+
+				if (!icon) {
+					return;
+				}
+
+				icon.classList.remove('tw-bg-loader', 'tw-animate-spin');
+				icon.classList.add('tw-bg-imgur');
 			});
 
 			args.image.removeAttribute('disabled');
 
 			// Reset progress bar
 			if (progress.wrapper) {
-				progress.wrapper.classList.remove('uploading');
+				progress.wrapper.classList.add('tw-hidden');
 
 				if (progress.bar) {
 					progress.bar.removeAttribute('value');
@@ -549,11 +552,7 @@
 		});
 
 		// Initialize request
-		xhr.open(
-			'POST',
-			args.image.getAttribute('data-ajax-action').trim(),
-			true
-		);
+		xhr.open('POST', args.image.getAttribute('data-ajax-action').trim(), true);
 
 		// Additional headers
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -570,9 +569,9 @@
 	 *
 	 * @return HTMLElement|null
 	 */
-	Imgur.preventDropZoneDefaults = function(e) {
+	Imgur.preventDropZoneDefaults = (e) => {
 		let element = (e.target.nodeType === Node.TEXT_NODE) ? e.target.parentNode : e.target;
-		element = element.closest('#imgur-drop-zone');
+		element = element.closest('.imgur-drop-zone');
 
 		if (!element) {
 			return null;
@@ -591,26 +590,17 @@
 	 *
 	 * @return void
 	 */
-	Imgur.highlightDropZone = function(addOrRemove) {
-		let element = document.body.querySelector('#imgur-drop-zone');
+	Imgur.highlightDropZone = (isActive) => {
+		const element = document.body.querySelector('.imgur-drop-zone');
 
 		if (!element) {
 			return;
 		}
 
-		addOrRemove = (typeof addOrRemove === 'undefined') ? true : addOrRemove;
+		isActive = (typeof isActive === 'undefined') ? true : isActive;
 
-		const cssClass = 'active';
-
-		if (addOrRemove === true) {
-			if (!element.classList.contains(cssClass)) {
-				element.classList.add(cssClass);
-			}
-		} else {
-			if (element.classList.contains(cssClass)) {
-				element.classList.remove(cssClass);
-			}
-		}
+		element.classList.toggle('tw-border-sky-500', isActive);
+		element.classList.toggle('tw-border-sky-600', !isActive);
 	};
 
 	/**
@@ -621,7 +611,7 @@
 	 *
 	 * @return void
 	 */
-	Imgur.validateAlbum = function(args) {
+	Imgur.validateAlbum = (args) => {
 		// Album ID container
 		const formData = new FormData();
 
@@ -642,10 +632,6 @@
 			args.field = document.body.querySelector('#imgur-album');
 		}
 
-		if (!args.hasOwnProperty('icon') || typeof args.icon === 'undefined') {
-			args.icon = document.body.querySelector('.album-validation-icon');
-		}
-
 		// Get album ID
 		albumHash = args.field.value.trim();
 
@@ -664,43 +650,36 @@
 		const xhr = new XMLHttpRequest();
 
 		// Success
-		xhr.addEventListener('load', function(e) {
-			let success = Imgur.handleResponse(e, errors, function(response) {
-				args.icon.classList.replace('fa-times', 'fa-check');
-				args.icon.classList.remove('hidden');
-				args.field.classList.toggle('album-invalid', false);
-				args.field.classList.toggle('album-valid', true);
+		xhr.addEventListener('load', (e) => {
+			let success = Imgur.handleResponse(e, errors, (response) => {
+				args.field.classList.remove('tw-ring-red-500');
+				args.field.classList.add('tw-ring-green-500');
 			});
 
 			if (!success) {
-				args.icon.classList.replace('fa-check', 'fa-times');
-				args.icon.classList.remove('hidden');
-				args.field.classList.toggle('album-invalid', true);
-				args.field.classList.toggle('album-valid', false);
+				args.field.classList.add('tw-ring-red-500');
+				args.field.classList.remove('tw-ring-green-500');
 				args.field.focus();
 			}
 
+			args.field.classList.remove('tw-ring-transparent');
 			Imgur.showErrors(errors);
 		});
 
 		// Failure
-		xhr.addEventListener('error', function(e) {
+		xhr.addEventListener('error', (e) => {
 			Imgur.handleErrors(e, errors);
 			Imgur.showErrors(errors);
 		});
 
 		// Post-success
-		xhr.addEventListener('loadend', function() {
+		xhr.addEventListener('loadend', () => {
 			Imgur.showErrors(errors);
 			args.button.removeAttribute('disabled');
 		});
 
 		// Initialize request
-		xhr.open(
-			'POST',
-			args.button.getAttribute('data-ajax-action'),
-			true
-		);
+		xhr.open('POST', args.button.getAttribute('data-ajax-action'), true);
 
 		// Additional headers
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');

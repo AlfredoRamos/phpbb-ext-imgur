@@ -36,10 +36,10 @@ class imgur_test extends \phpbb_functional_test_case
 			'input' => $crawler->filter('#postingbox #imgur-image'),
 			'select' => $crawler->filter('#postingbox #format-buttons .imgur-output-select'),
 			'tab' => $crawler->filter('#postform #imgur-panel-tab > a'),
-			'dropzone' => $crawler->filter('#postform #imgur-panel #imgur-drop-zone'),
-			'drophelp' => $crawler->filter('#postform #imgur-panel #imgur-drop-zone > .imgur-drop-zone-desc'),
+			'dropzone' => $crawler->filter('#postform #imgur-panel .imgur-drop-zone'),
+			'drophelp' => $crawler->filter('#postform #imgur-panel .imgur-drop-zone > .imgur-drop-zone-desc'),
 			'upload' => $crawler->filter('#postform #imgur-panel .imgur-button-upload'),
-			'fields' => $crawler->filter('#postform #imgur-panel .imgur-output-fields dl')
+			'fields' => $crawler->filter('#postform #imgur-panel .imgur-output-fields .imgur-field-wrapper')
 		];
 
 		$this->assertSame(1, $elements['button']->count());

@@ -1,28 +1,22 @@
 <div class="panel bg3 panel-container" id="imgur-panel">
 	<div class="inner">
-		<section id="imgur-drop-zone">
-			<button type="button" class="imgur-button-upload btn-imgur btn-imgur-w-icon btn-imgur-upload" data-add-output="false">
-				<span class="icon"></span> {{ lang('IMGUR_UPLOAD') }}
+		<section class="imgur-drop-zone tw-flex tw-flex-col tw-flex-wrap tw-items-center tw-gap-2 tw-text-center tw-my-2 tw-px-8 tw-py-4 tw-border-4 tw-border-dashed tw-border-sky-600 hover:tw-border-sky-500 tw-transition-colors tw-duration-150 tw-rounded">
+			<button type="button" class="imgur-button-upload tw-text-sm tw-font-semibold tw-text-gray-200 hover:tw-text-white tw-bg-green-600 hover:tw-bg-green-500 tw-transition-colors tw-duration-150 tw-px-4 tw-py-2 tw-rounded" data-add-output="false">
+				<span class="icon tw-inline-block tw-w-5 tw-h-5 tw-bg-imgur tw-bg-center tw-bg-contain tw-bg-no-repeat tw-align-text-bottom tw-rounded-sm tw-mr-1"></span> {{ lang('IMGUR_UPLOAD') }}
 			</button>
-			<p class="imgur-drop-zone-desc">{{ lang('IMGUR_PANEL_DROP_ZONE_EXPLAIN') }}</p>
-			<p>{{ lang('IMGUR_PANEL_BUTTON_EXPLAIN') }}</p>
+			<p class="imgur-drop-zone-desc !tw-text-sm !tw-mb-0">{{ lang('IMGUR_PANEL_DROP_ZONE_EXPLAIN') }}</p>
+			<p class="!tw-text-sm !tw-mb-0">{{ lang('IMGUR_PANEL_BUTTON_EXPLAIN') }}</p>
 		</section>
 		{% if IMGUR_ENABLED_OUTPUT_TYPES %}
-		<fieldset class="imgur-output-fields fields2">
+		<section class="imgur-output-fields tw-flex tw-flex-col tw-flex-wrap tw-items-center tw-gap-4 lg:tw-gap-2 tw-mt-4 tw-mb-2">
 			{% for OUTPUT_TYPE in IMGUR_ENABLED_OUTPUT_TYPES %}
-			<dl class="hidden">
-				<dt>
-					<label for="imgur_output_{{ OUTPUT_TYPE.KEY }}">{{ OUTPUT_TYPE.NAME }}</label>
-				</dt>
-				<dd>
-					<textarea id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field inputbox" autocomplete="off" readonly="readonly"></textarea>
-					<button type="button" class="imgur-button-paste btn-imgur btn-imgur-paste" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape('html_attr') }}">
-						<i class="icon fa-paste fa-fw" aria-hidden="true"></i>
-					</button>
-				</dd>
-			</dl>
+			<div class="imgur-field-wrapper tw-hidden tw-grow tw-w-full tw-flex tw-flex-wrap tw-items-start tw-gap-2 tw-text-xs">
+				<label for="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="tw-shrink tw-inline-block tw-box-border tw-w-full lg:tw-w-1/12 tw-font-semibold tw-text-center lg:tw-text-right tw-px-0 lg:tw-py-1.5">{{ OUTPUT_TYPE.NAME }}</label>
+				<textarea id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field tw-grow tw-w-full lg:tw-w-auto tw-font-mono tw-box-border tw-w-full !tw-min-h-[2rem] tw-h-8 tw-max-h-64 !tw-resize-y tw-border-1 tw-border-solid tw-border-gray-300 tw-rounded tw-px-0.5 tw-py-1" autocomplete="off" readonly="readonly"></textarea>
+				<span class="imgur-button-paste tw-shrink tw-inline-block tw-w-full lg:tw-w-auto tw-text-center tw-cursor-pointer tw-box-border tw-bg-sky-600 hover:tw-bg-sky-500 tw-text-gray-200 hover:text-white tw-transition-colors tw-duration-150 tw-w-full lg:tw-w-6 tw-h-6 tw-p-1.5 tw-rounded lg:tw-my-1" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape('html_attr') }}"><i class="icon fa-paste fa-fw" aria-hidden="true"></i></span>
+			</div>
 			{% endfor %}
-		</fieldset>
+		</section>
 		{% endif %}
 	</div>
 </div>
