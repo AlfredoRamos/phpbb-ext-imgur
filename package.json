@@ -14,7 +14,7 @@
 	],
 	"scripts": {
 		"build-scss": "node .github/scripts/build-scss.js",
-		"build-css": "npx postcss 'build/package/**/css/!(settings)!(*.min).css' --ext '.min.css' --base build/ --no-map -d build/",
+		"build-css": "npx postcss 'build/package/**/css/!(settings|*.min).css' --ext '.min.css' --base build/ --no-map -d build/",
 		"build-js": "node .github/scripts/build-js.js",
 		"build-templates": "node .github/scripts/build-templates.js",
 		"build": "npm run build-scss && npm run build-css && npm run build-js && npm run build-templates",
