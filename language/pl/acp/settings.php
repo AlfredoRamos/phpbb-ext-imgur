@@ -37,7 +37,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_CLIENT_SECRET' => 'Klucz klienta',
 	'ACP_IMGUR_CLIENT_SECRET_EXPLAIN' => 'Ciąg składający się z liczb szesnastkowych o długości 40 znaków.',
 	'ACP_IMGUR_ALBUM' => 'Album',
-	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alfanumeryczny ciąg znaków o długości równej lub większej niż 5 znaków. Będzie używany do przechowywania przesłanych obrazów.<br>Pozostaw puste, jeśli chcesz, aby wszystkie obrazy zostały przesłane w domyślnej lokalizacji.',
+	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Alfanumeryczny ciąg znaków o długości równej lub większej niż 5 znaków. Będzie używany do przechowywania przesłanych obrazów.<br>Pozostaw puste miejsce, jeśli chcesz, aby wszystkie obrazy zostały przesłane w domyślnej lokalizacji.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Pobierz kopię zapasową albumu',
 	'ACP_IMGUR_ALBUM_VALIDATE' => 'Zatwierdź',
 
