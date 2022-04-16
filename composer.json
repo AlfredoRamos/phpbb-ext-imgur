@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Imgur extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-imgur",
-	"version": "1.7.2",
-	"time": "2021-12-13",
+	"version": "1.8.0-dev",
+	"time": "2022-04-15",
 	"keywords": ["phpbb", "extension", "imgur", "uploader"],
 	"license": "GPL-2.0-only",
 	"authors": [
