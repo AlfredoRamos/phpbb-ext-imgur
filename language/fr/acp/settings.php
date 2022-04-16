@@ -37,7 +37,7 @@ $lang = array_merge($lang, [
 	'ACP_IMGUR_CLIENT_SECRET' => 'Clé « Client Secret »',
 	'ACP_IMGUR_CLIENT_SECRET_EXPLAIN' => 'Permet de saisir une suite de nombres en hexadécimal comportant 40 caractères.',
 	'ACP_IMGUR_ALBUM' => 'Album',
-	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Permet de sdaisir une suite alphanumérique d’une longueur égale ou supérieure à 5 caractères. Utile pour personnaliser l’emplacement de stockage des images envoyées. Laisser vide pour stocker les images envoyées dans l’emplacement par défaut.',
+	'ACP_IMGUR_ALBUM_EXPLAIN' => 'Permet de sdaisir une suite alphanumérique d’une longueur égale ou supérieure à 5 caractères. Utile pour personnaliser l’emplacement de stockage des images envoyées.<br>Laisser vide pour stocker les images envoyées dans l’emplacement par défaut.',
 	'ACP_IMGUR_ALBUM_DOWNLOAD' => 'Télécharger une sauvegarde de l’album',
 	'ACP_IMGUR_ALBUM_VALIDATE' => 'Valider',
 
