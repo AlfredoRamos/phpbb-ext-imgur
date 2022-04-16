@@ -223,11 +223,11 @@
 .tw-bg-opacity-90 {
     --tw-bg-opacity: 0.9
 }
-.tw-bg-imgur {
-    background-image: url("../images/imgur.svg")
+.\!tw-bg-imgur {
+    background-image: url("../images/imgur.svg") !important
 }
-.tw-bg-loader {
-    background-image: url("../images/loader.svg")
+.\!tw-bg-loader {
+    background-image: url("../images/loader.svg") !important
 }
 .tw-bg-contain {
     background-size: contain

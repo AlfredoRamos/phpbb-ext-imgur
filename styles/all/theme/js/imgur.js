@@ -340,8 +340,8 @@
 				return;
 			}
 
-			icon.classList.add('tw-bg-loader', 'tw-animate-spin');
-			icon.classList.remove('tw-bg-imgur');
+			icon.classList.add('!tw-bg-loader', 'tw-animate-spin');
+			icon.classList.remove('!tw-bg-imgur');
 		});
 
 		args.image.setAttribute('disabled', true);
@@ -396,8 +396,8 @@
 					return;
 				}
 
-				icon.classList.remove('tw-bg-loader', 'tw-animate-spin');
-				icon.classList.add('tw-bg-imgur');
+				icon.classList.remove('!tw-bg-loader', 'tw-animate-spin');
+				icon.classList.add('!tw-bg-imgur');
 			});
 
 			args.image.removeAttribute('disabled');
@@ -535,8 +535,8 @@
 					return;
 				}
 
-				icon.classList.remove('tw-bg-loader', 'tw-animate-spin');
-				icon.classList.add('tw-bg-imgur');
+				icon.classList.remove('!tw-bg-loader', 'tw-animate-spin');
+				icon.classList.add('!tw-bg-imgur');
 			});
 
 			args.image.removeAttribute('disabled');
