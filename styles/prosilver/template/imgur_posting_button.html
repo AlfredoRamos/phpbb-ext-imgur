@@ -1,9 +1,9 @@
-<div class="imgur-wrapper">
+<div class="imgur-wrapper tw-inline-block">
 	<button type="button" class="imgur-button-upload button button-icon-only bbcode-imgur" title="{{ lang('IMGUR_BUTTON_EXPLAIN')|striptags|escape('html_attr') }}">
-		<span class="icon"></span>
+		<span class="icon tw-inline-block tw-w-5 tw-h-5 tw-bg-imgur tw-bg-center tw-bg-contain tw-bg-no-repeat tw-align-middle tw-rounded-sm"></span>
 	</button>
 	{% if IMGUR_ENABLED_OUTPUT_TYPES %}
-	<select class="imgur-output-select" role="menu">
+	<select class="imgur-output-select tw-hidden" role="menu">
 		{% for OUTPUT_TYPE in IMGUR_ENABLED_OUTPUT_TYPES %}
 		<option value="{{ OUTPUT_TYPE.KEY }}" role="menuitem"{% if OUTPUT_TYPE.DEFAULT %} selected="selected"{% endif %}>
 		{{ OUTPUT_TYPE.NAME }}

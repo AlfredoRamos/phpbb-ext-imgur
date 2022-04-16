@@ -5,7 +5,7 @@
  * @license GPL-2.0-only
  */
 
-(function() {
+(() => {
 	'use strict';
 
 	// Global variables
@@ -13,37 +13,23 @@
 	let addOutput = true;
 
 	// Show image selection window
-	document.body.addEventListener('click', function(e) {
-		let image = document.body.querySelector('#imgur-image');
-		let button = e.target.closest('.imgur-button-upload');
+	document.body.addEventListener('click', (e) => {
+		const image = document.body.querySelector('#imgur-image');
+		const button = e.target.closest('.imgur-button-upload');
 
 		if (!image || !button) {
 			return;
 		}
 
-		let attribute = button.getAttribute('data-add-output');
-
+		const attribute = button.getAttribute('data-add-output');
 		addOutput = (attribute === null || attribute === 'true');
-
-		let evt;
-
-		// IE11 fix
-		if (typeof MouseEvent !== 'function') {
-			evt = document.createEvent('MouseEvent');
-			evt.initEvent('click', true, true);
-		} else {
-			evt = new MouseEvent('click', {
-				bubbles: true,
-				cancelable: true
-			});
-		}
-
+		const evt = new MouseEvent('click', {bubbles: true, cancelable: true});
 		image.dispatchEvent(evt);
 	});
 
 	// Upload images
-	document.body.addEventListener('change', function(e) {
-		let imgurImage = e.target;
+	document.body.addEventListener('change', (e) => {
+		const imgurImage = e.target;
 
 		if (!imgurImage.matches('#imgur-image')) {
 			return;
@@ -57,34 +43,34 @@
 	});
 
 	// Imgur dropdown menu
-	document.body.addEventListener('contextmenu', function(e) {
-		let wrapper = e.target.closest('.imgur-wrapper');
+	document.body.addEventListener('contextmenu', (e) => {
+		const wrapper = e.target.closest('.imgur-wrapper');
 
 		if (!wrapper) {
 			return;
 		}
 
-		let select = wrapper.querySelector('.imgur-output-select');
+		const select = wrapper.querySelector('.imgur-output-select');
 
 		if (!select) {
 			return;
 		}
 
 		e.preventDefault();
-		select.classList.toggle('select');
+		select.classList.remove('tw-hidden');
 		select.focus();
 	});
 
 	// Update output type
-	document.body.addEventListener('change', function(e) {
-		let select = e.target;
+	document.body.addEventListener('change', (e) => {
+		const select = e.target;
 
 		if (!select.matches('.imgur-output-select')) {
 			return;
 		}
 
-		let image = document.body.querySelector('#imgur-image');
-		let type = select.value.trim();
+		const image = document.body.querySelector('#imgur-image');
+		const type = select.value.trim();
 
 		if (!image || type.length <= 0) {
 			return;
@@ -99,71 +85,71 @@
 	});
 
 	// Hide Imgur output select
-	document.body.addEventListener('click', function(e) {
-		if (!e.target.matches('.select')) {
-			let select = e.target.closest('.imgur-output-select');
+	document.body.addEventListener('click', (e) => {
+		const select = e.target.closest('.imgur-output-select');
 
-			if (!select) {
-				return;
-			}
+		if (!select || (select !== null && !select.contains(e.target))) {
+			document.body.querySelectorAll('.imgur-output-select').forEach((item) => {
+				if (!item) {
+					return;
+				}
 
-			select.classList.toggle('select', !select.classList.contains('select'));
+				item.classList.add('tw-hidden');
+			});
+			return;
 		}
 	});
 
 	// Drag and drop zone
-	let dropZone = document.body.querySelector('#imgur-drop-zone');
+	const dropZone = document.body.querySelector('.imgur-drop-zone');
 
 	// Drag and drop upload
 	if (dropZone !== null) {
-		dropZone.addEventListener('dragenter', function(e) {
+		dropZone.addEventListener('dragenter', (e) => {
 			window.imgur.preventDropZoneDefaults(e);
 			window.imgur.highlightDropZone();
 		}, false);
 
-		dropZone.addEventListener('dragleave', function(e) {
+		dropZone.addEventListener('dragleave', (e) => {
 			window.imgur.preventDropZoneDefaults(e);
 			window.imgur.highlightDropZone(false);
 		}, false);
 
-		dropZone.addEventListener('dragover', function(e) {
+		dropZone.addEventListener('dragover', (e) => {
 			window.imgur.preventDropZoneDefaults(e);
 			window.imgur.highlightDropZone();
 		}, false);
 
-		dropZone.addEventListener('drop', function(e) {
-			let element = window.imgur.preventDropZoneDefaults(e);
+		dropZone.addEventListener('drop', (e) => {
+			const element = window.imgur.preventDropZoneDefaults(e);
 			window.imgur.highlightDropZone(false);
-
-			let button = element.querySelector('.imgur-button-upload');
+			const button = element.querySelector('.imgur-button-upload');
 
 			if (button !== null) {
-				let attribute = button.getAttribute('data-add-output');
+				const attribute = button.getAttribute('data-add-output');
 				addOutput = (attribute === null || attribute === 'true');
 			}
 
 			// Upload images
-			window.imgur.upload(e.dataTransfer.files, {
-				output: addOutput
-			});
+			window.imgur.upload(e.dataTransfer.files, {output: addOutput});
 		}, false);
 	}
 
 	// Copy output field text to message
-	document.body.addEventListener('click', function(e) {
-		let button = e.target.closest('.imgur-button-paste');
+	document.body.addEventListener('click', (e) => {
+		const button = e.target.closest('.imgur-button-paste');
 
 		if (!button) {
 			return;
 		}
 
-		let field = button.parentNode.querySelector('.imgur-output-field');
+		const field = button.parentNode.querySelector('.imgur-output-field');
 
 		if (!field) {
 			return;
 		}
 
-		let bbcode = field.value.trim();
+		const bbcode = field.value.trim();
 
 		if (bbcode.length <= 0) {
 			return;
@@ -174,15 +160,15 @@
 	});
 
 	// Show output fields only when needed
-	document.body.addEventListener('change', function(e) {
-		let field = e.target;
+	document.body.addEventListener('change', (e) => {
+		const field = e.target;
 
 		if (!field.matches('.imgur-output-field')) {
 			return;
 		}
 
-		let wrapper = field.closest('dl');
-		let cssClass = 'hidden';
+		const wrapper = field.closest('.imgur-field-wrapper');
+		const cssClass = 'tw-hidden';
 
 		wrapper.classList.toggle(cssClass, (
 			field.value.trim().length <= 0 && !wrapper.classList.contains(cssClass)
@@ -195,11 +181,11 @@
 	// Add generated output in posting editor panel
 	try {
 		if (window.imgur.storage.enabled) {
-			let outputType = window.imgur.getOutputType();
+			const outputType = window.imgur.getOutputType();
 
 			// Restore user preference
 			if (document.body.querySelector('#imgur-image') !== null) {
-				document.body.querySelectorAll('.imgur-output-select').forEach(function(item) {
+				document.body.querySelectorAll('.imgur-output-select').forEach((item) => {
 					if (!item) {
 						return;
 					}
@@ -208,26 +194,14 @@
 						return;
 					}
 
-					let option = item.querySelector('[value="' + outputType + '"]');
+					const option = item.querySelector('[value="' + outputType + '"]');
 
 					if (!option) {
 						return;
 					}
 
 					option.selected = true;
-					let evt;
-
-					// IE11 fix
-					if (typeof Event !== 'function') {
-						evt = document.createEvent('Event');
-						evt.initEvent('change', true, true);
-					} else {
-						evt = new Event('change', {
-							bubbles: true,
-							cancelable: true
-						});
-					}
-
+					const evt = new Event('change', {bubbles: true, cancelable: true});
 					item.dispatchEvent(evt);
 				});
 			}
