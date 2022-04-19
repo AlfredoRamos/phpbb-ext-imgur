@@ -1,0 +1,32 @@
+name: L10N
+
+on:
+  workflow_dispatch: {}
+  workflow_run:
+    workflows: ['CI']
+    branches: [master]
+    types: [completed]
+
+jobs:
+  translate:
+    if: ${{ !contains(github.event.workflow_run.head_commit.message, 'skip l10n') && github.event.workflow_run.conclusion == 'success' }}
+    name: Translate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout extension
+        uses: actions/checkout@v3
+
+      - name: Sync translations
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: crowdin/github-action@1.4.8
+        with:
+          upload_sources: true
+          upload_translations: false
+          download_translations: true
+          push_translations: true
+          localization_branch_name: l10n
+          create_pull_request: true
+          config: crowdin.yml
+          project_id: ${{ secrets.CROWDIN_PROJECT_ID }}
+          token: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
