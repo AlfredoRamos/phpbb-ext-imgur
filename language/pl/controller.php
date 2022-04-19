@@ -24,23 +24,23 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
-	'EXCEPTION_IMGUR_NO_API_DATA' => 'Identyfikator klienta ("Client ID") i klucz klienta ("Client Secret") są obowiązkowe.',
-	'EXCEPTION_IMGUR_AJAX_ONLY' => 'Ta ścieżka może być użyta tylko w wersji AJAX.',
-	'EXCEPTION_IMGUR_UNAUTHORIZED' => 'Aplikacja Imgur jeszcze nie została autoryzowana.',
-	'EXCEPTION_IMGUR_EMPTY_ALBUM' => 'Numer albumu jest pusty.',
-	'EXCEPTION_IMGUR_NO_ALBUMS' => 'Nie można uzyskać numeru albumu: %s.',
+	'EXCEPTION_IMGUR_NO_API_DATA' => 'Client ID and Client Secret are mandatory.',
+	'EXCEPTION_IMGUR_AJAX_ONLY' => 'This route can only be used on AJAX calls.',
+	'EXCEPTION_IMGUR_UNAUTHORIZED' => 'The Imgur application has not been authorized yet.',
+	'EXCEPTION_IMGUR_EMPTY_ALBUM' => 'The album ID is empty.',
+	'EXCEPTION_IMGUR_NO_ALBUMS' => 'Could not get album IDs: %s.',
 
-	'UPLOAD_ERR_INI_SIZE' => 'Ładowane pliki przekraczają <samp>upload_max_filesize</samp>, określoną w dyrektywie w pliku <samp>php.ini</samp>',
-	'UPLOAD_ERR_FORM_SIZE' => 'Ładowany plik przekracza dopuszczalną wielkość, określoną w dyrektywie <samp>MAX_FILE_SIZE</samp>, określoną w formularzu HTML',
-	'UPLOAD_ERR_PARTIAL' => 'Uwaga: Przesyłany plik został przesłany tylko częściowo!',
-	'UPLOAD_ERR_NO_FILE' => 'Nie przesłano żadnego pliku',
-	'UPLOAD_ERR_NO_TMP_DIR' => 'Brak folderu tymczasowego',
-	'UPLOAD_ERR_CANT_WRITE' => 'Nie udało się zapisać pliku na dysku',
-	'UPLOAD_ERR_EXTENSION' => 'Rozszerzenie PHP zatrzymało wysyłanie pliku',
+	'UPLOAD_ERR_INI_SIZE' => 'The uploaded file exceeds the <samp>upload_max_filesize</samp> directive in <samp>php.ini</samp>',
+	'UPLOAD_ERR_FORM_SIZE' => 'The uploaded file exceeds the <samp>MAX_FILE_SIZE</samp> directive that was specified in the HTML form',
+	'UPLOAD_ERR_PARTIAL' => 'The uploaded file was only partially uploaded',
+	'UPLOAD_ERR_NO_FILE' => 'No file was uploaded',
+	'UPLOAD_ERR_NO_TMP_DIR' => 'Missing a temporary folder',
+	'UPLOAD_ERR_CANT_WRITE' => 'Failed to write file to disk',
+	'UPLOAD_ERR_EXTENSION' => 'A PHP extension stopped the file upload',
 
-	'ALBUM_ERR_INVALID_ID' => 'Nieprawidłowy nemer albumu.',
+	'ALBUM_ERR_INVALID_ID' => 'Invalid album ID.',
 
-	'IMGUR_AUTHORIZATION' => 'Autoryzacja',
-	'IMGUR_AUTHORIZATION_EXPLAIN' => 'Trwa autoryzacja Imgur, proszę czekać.',
-	'IMGUR_AUTHORIZED' => 'Właśnie autoryzowałeś aplikację Imgur, możesz zamknąć to okno.'
+	'IMGUR_AUTHORIZATION' => 'Authorization',
+	'IMGUR_AUTHORIZATION_EXPLAIN' => 'Imgur authorization in progress, please wait.',
+	'IMGUR_AUTHORIZED' => 'You already authorized the Imgur application, you can close this window.'
 ]);

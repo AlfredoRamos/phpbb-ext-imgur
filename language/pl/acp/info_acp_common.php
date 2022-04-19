@@ -25,6 +25,6 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_IMGUR' => 'Imgur',
-	'OUTPUT' => 'Wynik',
-	'LOG_IMGUR_DATA' => '<strong>Zmieniono dane Imgur</strong><br>» %s'
+	'OUTPUT' => 'Output',
+	'LOG_IMGUR_DATA' => '<strong>Imgur data changed</strong><br>» %s'
 ]);
