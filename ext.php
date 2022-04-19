@@ -2,7 +2,7 @@
 
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@yandex.com>
+ * @author Alfredo Ramos <alfredo.ramos@protonmail.com>
  * @copyright 2017 Alfredo Ramos
  * @license GNU GPL-2.0-only
  */
