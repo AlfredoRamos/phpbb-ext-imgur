@@ -12,8 +12,8 @@
 			{% for OUTPUT_TYPE in IMGUR_ENABLED_OUTPUT_TYPES %}
 			<div class="imgur-field-wrapper tw-hidden tw-grow tw-w-full tw-flex tw-flex-wrap tw-items-start tw-gap-2 tw-text-xs">
 				<label for="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="tw-shrink tw-inline-block tw-box-border tw-w-full lg:tw-w-1/12 tw-font-semibold tw-text-center lg:tw-text-right tw-px-0 lg:tw-py-1.5">{{ OUTPUT_TYPE.NAME }}</label>
-				<textarea id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field tw-grow tw-w-full lg:tw-w-auto tw-font-mono tw-box-border tw-w-full !tw-min-h-[2rem] tw-h-8 tw-max-h-64 !tw-resize-y tw-border-1 tw-border-solid tw-border-gray-300 tw-rounded tw-px-0.5 tw-py-1" autocomplete="off" readonly="readonly"></textarea>
-				<span class="imgur-button-paste tw-shrink tw-inline-block tw-w-full lg:tw-w-auto tw-text-center tw-cursor-pointer tw-box-border tw-bg-sky-600 hover:tw-bg-sky-500 tw-text-gray-200 hover:text-white tw-transition-colors tw-duration-150 tw-w-full lg:tw-w-6 tw-h-6 tw-p-1.5 tw-rounded lg:tw-my-1" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape('html_attr') }}"><i class="icon fa-paste fa-fw" aria-hidden="true"></i></span>
+				<textarea id="imgur_output_{{ OUTPUT_TYPE.KEY }}" name="imgur_output_{{ OUTPUT_TYPE.KEY }}" class="imgur-output-field tw-grow tw-w-full lg:tw-w-auto tw-font-mono tw-box-border !tw-min-h-[2rem] tw-h-8 tw-max-h-64 !tw-resize-y tw-border-1 tw-border-solid tw-border-gray-300 tw-rounded tw-px-0.5 tw-py-1" autocomplete="off" readonly="readonly"></textarea>
+				<span class="imgur-button-paste tw-shrink tw-inline-block tw-w-full lg:tw-w-auto tw-text-center tw-cursor-pointer tw-box-border tw-bg-sky-600 hover:tw-bg-sky-500 tw-text-gray-200 hover:text-white tw-transition-colors tw-duration-150 tw-h-6 tw-p-1.5 tw-rounded lg:tw-my-1" title="{{ lang('IMGUR_ADD_TO_POST')|striptags|escape('html_attr') }}"><i class="icon fa-paste fa-fw" aria-hidden="true"></i></span>
 			</div>
 			{% endfor %}
 		</section>

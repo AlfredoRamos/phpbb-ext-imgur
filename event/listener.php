@@ -20,7 +20,7 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Listener constructor.
 	 *
-	 * @param helper $helper;
+	 * @param helper $helper
 	 *
 	 * @return void
 	 */
