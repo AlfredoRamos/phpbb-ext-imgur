@@ -93,6 +93,8 @@ class acp
 		// Validation errors
 		$errors = [];
 
+		$this->imgur->setHttpClient($this->helper->get_imgur_http_client());
+
 		// Set Imgur API data
 		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
 		{

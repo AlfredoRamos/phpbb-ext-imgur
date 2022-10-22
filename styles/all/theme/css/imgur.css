@@ -248,8 +248,7 @@
 }
 
 .tw-bg-opacity-90 {
-	--tw-bg-opacity: 0.9
-;
+	--tw-bg-opacity: 0.9;
 }
 
 .\!tw-bg-imgur {
@@ -388,19 +387,16 @@
 
 .tw-ring-red-500 {
 	--tw-ring-opacity: 1;
-	--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))
-;
+	--tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
 }
 
 .tw-ring-green-500 {
 	--tw-ring-opacity: 1;
-	--tw-ring-color: rgb(34 197 94 / var(--tw-ring-opacity))
-;
+	--tw-ring-color: rgb(34 197 94 / var(--tw-ring-opacity));
 }
 
 .tw-ring-transparent {
-	--tw-ring-color: transparent
-;
+	--tw-ring-color: transparent;
 }
 
 .tw-transition-colors {
@@ -482,10 +478,6 @@
 
 	.lg\:tw-w-auto {
 		width: auto;
-	}
-
-	.lg\:tw-w-6 {
-		width: 1.5rem;
 	}
 
 	.lg\:tw-gap-2 {

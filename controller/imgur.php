@@ -236,6 +236,7 @@ class imgur
 		}
 
 		// Setup Imgur API
+		$this->imgur->setHttpClient($this->helper->get_imgur_http_client());
 		$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 		$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 

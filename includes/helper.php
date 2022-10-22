@@ -11,8 +11,10 @@ namespace alfredoramos\imgur\includes;
 
 use phpbb\config\config;
 use phpbb\template\template;
+use phpbb\request\request;
 use phpbb\routing\helper as routing_helper;
 use phpbb\language\language;
+use Imgur\HttpClient\HttpClient;
 
 class helper
 {
@@ -22,11 +24,17 @@ class helper
 	/** @var template */
 	protected $template;
 
+	/** @var request */
+	protected $request;
+
 	/** @var routing_helper */
 	protected $routing_helper;
 
 	/** @var language */
 	protected $language;
+
+	/** @var HttpClient */
+	protected $http_client;
 
 	/**
 	 * Helper constructor
@@ -38,10 +46,11 @@ class helper
 	 *
 	 * @return void
 	 */
-	public function __construct(config $config, template $template, routing_helper $routing_helper, language $language)
+	public function __construct(config $config, template $template, request $request, routing_helper $routing_helper, language $language)
 	{
 		$this->config = $config;
 		$this->template = $template;
+		$this->request = $request;
 		$this->routing_helper = $routing_helper;
 		$this->language = $language;
 	}
@@ -262,5 +271,22 @@ class helper
 
 		// Return whole array
 		return $allowed;
+	}
+
+	/**
+	 * Custom Http client for Imgur.
+	 *
+	 * @return HttpClient
+	 */
+	public function get_imgur_http_client()
+	{
+		if ($this->http_client === null)
+		{
+			$this->http_client = new HttpClient(['headers' => [
+				'User-Agent' => $this->request->server('HTTP_USER_AGENT')
+			]]);
+		}
+
+		return $this->http_client;
 	}
 }
