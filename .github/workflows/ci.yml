@@ -17,7 +17,7 @@ jobs:
   test:
     if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
     name: php ${{ matrix.php-version }}, ${{ matrix.db-type }} ${{ matrix.db-version }}
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     services:
       mysql:
         image: ${{ (matrix.db-type == 'mysql' || matrix.db-type == 'mariadb') && matrix.db-type || 'mariadb' }}:${{ (matrix.db-type == 'mysql' || matrix.db-type == 'mariadb' && matrix.db-version != 'none') && matrix.db-version || 'latest' }}
@@ -110,12 +110,12 @@ jobs:
       - name: Setup Composer
         id: setup-composer
         working-directory: phpBB3/phpBB
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "cache-dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Setup cache
         uses: actions/cache@v3
         with:
-          path: ${{ steps.setup-composer.outputs.dir }}
+          path: ${{ steps.setup-composer.outputs.cache-dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
