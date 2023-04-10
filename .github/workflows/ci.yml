@@ -64,7 +64,7 @@ jobs:
             db-version: '10.5'
           - php-version: '7.1'
             db-type: 'postgres'
-            db-version: '13-alpine'
+            db-version: '14-alpine'
           - php-version: '7.2'
             db-type: 'mariadb'
             db-version: '10.5'
@@ -82,10 +82,10 @@ jobs:
             db-version: '10.5'
           - php-version: '8.1'
             db-type: 'mariadb'
-            db-version: '10.5'
+            db-version: '10.6'
           - php-version: '8.2'
             db-type: 'postgres'
-            db-version: '14-alpine'
+            db-version: '15-alpine'
     steps:
       - name: Checkout phpBB
         uses: actions/checkout@v3
@@ -135,7 +135,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '17'
+          node-version: '18'
 
       - name: Install Node dependencies
         working-directory: extension
@@ -209,7 +209,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '17'
+          node-version: '18'
 
       - name: Install Node dependencies
         working-directory: extension
