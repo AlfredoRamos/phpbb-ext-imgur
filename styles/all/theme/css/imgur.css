@@ -466,7 +466,7 @@
 	text-decoration-line: none;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
 	.lg\:tw-my-1 {
 		margin-top: 0.25rem;
 		margin-bottom: 0.25rem;
