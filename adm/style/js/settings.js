@@ -1,6 +1,6 @@
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@protonmail.com>
+ * @author Alfredo Ramos <alfredo.ramos@skiff.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -35,10 +35,10 @@
 			return;
 		}
 
-		const isHidden = (field.getAttribute('type').trim() === 'password');
+		const isHidden = field.getAttribute('type').trim() === 'password';
 
 		// Toggle field type
-		field.setAttribute('type', (isHidden ? 'text' : 'password'));
+		field.setAttribute('type', isHidden ? 'text' : 'password');
 
 		// Toggle icon
 		icon.classList.toggle('fa-eye-slash', isHidden);
@@ -61,6 +61,6 @@
 			return;
 		}
 
-		window.imgur.validateAlbum({button: button, field: field});
+		window.imgur.validateAlbum({ button: button, field: field });
 	});
 })();

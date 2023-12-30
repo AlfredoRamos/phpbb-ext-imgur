@@ -1,6 +1,6 @@
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@protonmail.com>
+ * @author Alfredo Ramos <alfredo.ramos@skiff.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -22,8 +22,11 @@
 		}
 
 		const attribute = button.getAttribute('data-add-output');
-		addOutput = (attribute === null || attribute === 'true');
-		const evt = new MouseEvent('click', {bubbles: true, cancelable: true});
+		addOutput = attribute === null || attribute === 'true';
+		const evt = new MouseEvent('click', {
+			bubbles: true,
+			cancelable: true,
+		});
 		image.dispatchEvent(evt);
 	});
 
@@ -38,7 +41,7 @@
 		// Upload images
 		window.imgur.upload(imgurImage.files, {
 			image: imgurImage,
-			output: addOutput
+			output: addOutput,
 		});
 	});
 
@@ -89,13 +92,15 @@
 		const select = e.target.closest('.imgur-output-select');
 
 		if (!select || (select !== null && !select.contains(e.target))) {
-			document.body.querySelectorAll('.imgur-output-select').forEach((item) => {
-				if (!item) {
-					return;
-				}
+			document.body
+				.querySelectorAll('.imgur-output-select')
+				.forEach((item) => {
+					if (!item) {
+						return;
+					}
 
-				item.classList.add('tw-hidden');
-			});
+					item.classList.add('tw-hidden');
+				});
 			return;
 		}
 	});
@@ -105,34 +110,52 @@
 
 	// Drag and drop upload
 	if (dropZone !== null) {
-		dropZone.addEventListener('dragenter', (e) => {
-			window.imgur.preventDropZoneDefaults(e);
-			window.imgur.highlightDropZone();
-		}, false);
+		dropZone.addEventListener(
+			'dragenter',
+			(e) => {
+				window.imgur.preventDropZoneDefaults(e);
+				window.imgur.highlightDropZone();
+			},
+			false
+		);
 
-		dropZone.addEventListener('dragleave', (e) => {
-			window.imgur.preventDropZoneDefaults(e);
-			window.imgur.highlightDropZone(false);
-		}, false);
+		dropZone.addEventListener(
+			'dragleave',
+			(e) => {
+				window.imgur.preventDropZoneDefaults(e);
+				window.imgur.highlightDropZone(false);
+			},
+			false
+		);
 
-		dropZone.addEventListener('dragover', (e) => {
-			window.imgur.preventDropZoneDefaults(e);
-			window.imgur.highlightDropZone();
-		}, false);
+		dropZone.addEventListener(
+			'dragover',
+			(e) => {
+				window.imgur.preventDropZoneDefaults(e);
+				window.imgur.highlightDropZone();
+			},
+			false
+		);
 
-		dropZone.addEventListener('drop', (e) => {
-			const element = window.imgur.preventDropZoneDefaults(e);
-			window.imgur.highlightDropZone(false);
-			const button = element.querySelector('.imgur-button-upload');
+		dropZone.addEventListener(
+			'drop',
+			(e) => {
+				const element = window.imgur.preventDropZoneDefaults(e);
+				window.imgur.highlightDropZone(false);
+				const button = element.querySelector('.imgur-button-upload');
 
-			if (button !== null) {
-				const attribute = button.getAttribute('data-add-output');
-				addOutput = (attribute === null || attribute === 'true');
-			}
+				if (button !== null) {
+					const attribute = button.getAttribute('data-add-output');
+					addOutput = attribute === null || attribute === 'true';
+				}
 
-			// Upload images
-			window.imgur.upload(e.dataTransfer.files, {output: addOutput});
-		}, false);
+				// Upload images
+				window.imgur.upload(e.dataTransfer.files, {
+					output: addOutput,
+				});
+			},
+			false
+		);
 	}
 
 	// Copy output field text to message
@@ -170,9 +193,11 @@
 		const wrapper = field.closest('.imgur-field-wrapper');
 		const cssClass = 'tw-hidden';
 
-		wrapper.classList.toggle(cssClass, (
-			field.value.trim().length <= 0 && !wrapper.classList.contains(cssClass)
-		));
+		wrapper.classList.toggle(
+			cssClass,
+			field.value.trim().length <= 0 &&
+				!wrapper.classList.contains(cssClass)
+		);
 	});
 
 	// Resize output fields in posting editor panel
@@ -185,29 +210,40 @@
 
 			// Restore user preference
 			if (document.body.querySelector('#imgur-image') !== null) {
-				document.body.querySelectorAll('.imgur-output-select').forEach((item) => {
-					if (!item) {
-						return;
-					}
+				document.body
+					.querySelectorAll('.imgur-output-select')
+					.forEach((item) => {
+						if (!item) {
+							return;
+						}
 
-					if (item.value === outputType) {
-						return;
-					}
+						if (item.value === outputType) {
+							return;
+						}
 
-					const option = item.querySelector('[value="' + outputType + '"]');
+						const option = item.querySelector(
+							'[value="' + outputType + '"]'
+						);
 
-					if (!option) {
-						return;
-					}
+						if (!option) {
+							return;
+						}
 
-					option.selected = true;
-					const evt = new Event('change', {bubbles: true, cancelable: true});
-					item.dispatchEvent(evt);
-				});
+						option.selected = true;
+						const evt = new Event('change', {
+							bubbles: true,
+							cancelable: true,
+						});
+						item.dispatchEvent(evt);
+					});
 			}
 
 			// Delete output if page doesn't have the fields to do so
-			if (document.body.querySelectorAll('#imgur-panel .imgur-output-field').length <= 0) {
+			if (
+				document.body.querySelectorAll(
+					'#imgur-panel .imgur-output-field'
+				).length <= 0
+			) {
 				window.sessionStorage.removeItem(window.imgur.storage.session);
 			}
 

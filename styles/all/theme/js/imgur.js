@@ -1,6 +1,6 @@
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@protonmail.com>
+ * @author Alfredo Ramos <alfredo.ramos@skiff.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -9,13 +9,13 @@
 	'use strict';
 
 	// Imgur library
-	const Imgur =  {};
+	const Imgur = {};
 
 	// Storage configuration
 	Imgur.storage = {
-		enabled: (typeof Storage !== 'undefined'),
+		enabled: typeof Storage !== 'undefined',
 		local: 'imgur_output_type',
-		session: 'imgur_output_list'
+		session: 'imgur_output_list',
 	};
 
 	/**
@@ -36,9 +36,9 @@
 		let size = fileSize;
 		let unit = window.imgur.lang.byte;
 
-		if (fileSize >= (factor * factor)) {
+		if (fileSize >= factor * factor) {
 			// MiB
-			size /= (factor * factor);
+			size /= factor * factor;
 			unit = window.imgur.lang.mebiByte;
 		} else if (fileSize >= factor) {
 			// KiB
@@ -50,7 +50,7 @@
 		size = size.toFixed(digits);
 
 		// Size and unit (language key)
-		return (size + ' ' + unit);
+		return size + ' ' + unit;
 	};
 
 	/**
@@ -74,7 +74,7 @@
 
 			message += error;
 
-			if (index < (errors.length - 1)) {
+			if (index < errors.length - 1) {
 				message += '<br>';
 			}
 		});
@@ -132,7 +132,9 @@
 
 			// Check for server errors or invalid JSON data
 			if (!Imgur.isJSON(rawResponse) && e.target.status !== 200) {
-				errors.push('HTTP ' + e.target.status + ' - ' + e.target.statusText);
+				errors.push(
+					'HTTP ' + e.target.status + ' - ' + e.target.statusText
+				);
 				return false;
 			}
 
@@ -206,7 +208,7 @@
 			let index = allowed.indexOf('image');
 
 			// Fallback to first available
-			index = (index < 0) ? 0 : index;
+			index = index < 0 ? 0 : index;
 
 			// Update current value
 			current = allowed[index];
@@ -225,7 +227,9 @@
 		let output = [];
 
 		if (window.imgur.storage.enabled) {
-			let savedList = window.sessionStorage.getItem(window.imgur.storage.session);
+			let savedList = window.sessionStorage.getItem(
+				window.imgur.storage.session
+			);
 
 			if (savedList !== 'null' && savedList !== null) {
 				output = output.concat(JSON.parse(savedList));
@@ -244,13 +248,15 @@
 		}
 
 		// Cleanup
-		document.body.querySelectorAll('.imgur-output-field').forEach((item) => {
-			if (!item) {
-				return;
-			}
+		document.body
+			.querySelectorAll('.imgur-output-field')
+			.forEach((item) => {
+				if (!item) {
+					return;
+				}
 
-			item.value = '';
-		});
+				item.value = '';
+			});
 
 		// Fill fields
 		output.forEach((item) => {
@@ -265,7 +271,9 @@
 				}
 
 				let value = item[key];
-				const field = document.body.querySelector('[name="imgur_output_' + key + '"]');
+				const field = document.body.querySelector(
+					'[name="imgur_output_' + key + '"]'
+				);
 
 				if (!field) {
 					return;
@@ -280,7 +288,10 @@
 
 				field.value += (field.value.length > 0 ? '\n' : '') + value;
 
-				const evt = new Event('change', {bubbles: true, cancelable: true});
+				const evt = new Event('change', {
+					bubbles: true,
+					cancelable: true,
+				});
 				field.dispatchEvent(evt);
 			}
 		});
@@ -297,7 +308,7 @@
 	Imgur.upload = (files, args) => {
 		// Imgur API limit (10 MiB)
 		// https://apidocs.imgur.com/?version=latest#c85c9dfc-7487-4de2-9ecd-66f727cf3139
-		const maxFileSize = (10 * 1024 * 1024);
+		const maxFileSize = 10 * 1024 * 1024;
 
 		// Imgur API allowed MIME types
 		// https://help.imgur.com/hc/en-us/articles/115000083326
@@ -316,16 +327,24 @@
 			args = {};
 		}
 
-		if (!args.hasOwnProperty('image') || typeof args.image === 'undefined') {
+		if (
+			!args.hasOwnProperty('image') ||
+			typeof args.image === 'undefined'
+		) {
 			args.image = document.body.querySelector('#imgur-image');
 		}
 
-		if (!args.hasOwnProperty('output') || typeof args.output === 'undefined') {
+		if (
+			!args.hasOwnProperty('output') ||
+			typeof args.output === 'undefined'
+		) {
 			args.output = true;
 		}
 
 		// Upload buttons
-		const imgurButton = document.body.querySelectorAll('.imgur-button-upload');
+		const imgurButton = document.body.querySelectorAll(
+			'.imgur-button-upload'
+		);
 
 		// Prevent button spamming
 		imgurButton.forEach((item) => {
@@ -357,9 +376,12 @@
 			if (file.size > maxFileSize) {
 				errors.push(
 					window.imgur.lang.imageTooBig
-					.replace('{file}', file.name)
-					.replace('{size}', Imgur.formatImageSize(file.size))
-					.replace('{max_size}', Imgur.formatImageSize(maxFileSize))
+						.replace('{file}', file.name)
+						.replace('{size}', Imgur.formatImageSize(file.size))
+						.replace(
+							'{max_size}',
+							Imgur.formatImageSize(maxFileSize)
+						)
 				);
 				return;
 			}
@@ -368,8 +390,8 @@
 			if (!mimeTypesRegexp.test(file.type)) {
 				errors.push(
 					window.imgur.lang.invalidMimeType
-					.replace('{file}', file.name)
-					.replace('{type}', file.type)
+						.replace('{file}', file.name)
+						.replace('{type}', file.type)
 				);
 				return;
 			}
@@ -412,12 +434,16 @@
 		let progress = {};
 
 		// Progress bar
-		progress.wrapper = document.body.querySelector('.imgur-progress-wrapper');
+		progress.wrapper = document.body.querySelector(
+			'.imgur-progress-wrapper'
+		);
 
 		// Show progress bar
 		if (progress.wrapper) {
 			progress.bar = progress.wrapper.querySelector('.imgur-progress');
-			progress.label = progress.wrapper.querySelector('.imgur-progress-label > code');
+			progress.label = progress.wrapper.querySelector(
+				'.imgur-progress-label > code'
+			);
 			progress.wrapper.classList.remove('tw-hidden');
 		}
 
@@ -425,29 +451,33 @@
 		const xhr = new XMLHttpRequest();
 
 		// Progress
-		xhr.upload.addEventListener('progress', (e) => {
-			if (!e.lengthComputable || !progress.bar || !progress.label) {
-				return;
-			}
+		xhr.upload.addEventListener(
+			'progress',
+			(e) => {
+				if (!e.lengthComputable || !progress.bar || !progress.label) {
+					return;
+				}
 
-			let percentage = (e.loaded / e.total) * 100;
+				let percentage = (e.loaded / e.total) * 100;
 
-			// Update progress bar percentage
-			progress.bar.value = percentage;
+				// Update progress bar percentage
+				progress.bar.value = percentage;
 
-			// Show progress bar info
-			progress.label.textContent = window.imgur.lang.uploadProgress
-				.replace('{percentage}', percentage)
-				.replace('{loaded}', Imgur.formatImageSize(e.loaded))
-				.replace('{total}', Imgur.formatImageSize(e.total));
+				// Show progress bar info
+				progress.label.textContent = window.imgur.lang.uploadProgress
+					.replace('{percentage}', percentage)
+					.replace('{loaded}', Imgur.formatImageSize(e.loaded))
+					.replace('{total}', Imgur.formatImageSize(e.total));
 
-			// Progress bar native animation will be used as loading indicator
-			if (percentage >= 100) {
-				setTimeout(() => {
-					progress.bar.removeAttribute('value');
-				}, 500);
-			}
-		}, false);
+				// Progress bar native animation will be used as loading indicator
+				if (percentage >= 100) {
+					setTimeout(() => {
+						progress.bar.removeAttribute('value');
+					}, 500);
+				}
+			},
+			false
+		);
 
 		// Success
 		xhr.addEventListener('load', (e) => {
@@ -462,7 +492,7 @@
 
 					let output = {};
 					let bbcode = '';
-					let image = {link: '', thumbnail: ''};
+					let image = { link: '', thumbnail: '' };
 
 					// Get image link
 					image.link = item.link;
@@ -470,16 +500,24 @@
 					// Generate thumbnail
 					if (image.link.length > 0) {
 						const ext = '.' + image.link.split('.').pop();
-						const size = args.image.getAttribute('data-thumbnail-size').trim() || 't';
+						const size =
+							args.image
+								.getAttribute('data-thumbnail-size')
+								.trim() || 't';
 
-						image.thumbnail = image.link.replace(ext, (size + ext));
+						image.thumbnail = image.link.replace(ext, size + ext);
 					}
 
 					// Generate output types
 					output.text = image.link;
 					output.url = '[url]' + image.link + '[/url]';
 					output.image = '[img]' + image.link + '[/img]';
-					output.thumbnail = '[url=' + image.link + '][img]' + image.thumbnail + '[/img][/url]';
+					output.thumbnail =
+						'[url=' +
+						image.link +
+						'][img]' +
+						image.thumbnail +
+						'[/img][/url]';
 
 					// Append output
 					outputList.push(output);
@@ -498,8 +536,15 @@
 				});
 
 				// Save data to session
-				if (window.imgur.storage.enabled && Array.isArray(outputList) && outputList.length > 0) {
-					window.sessionStorage.setItem(window.imgur.storage.session, JSON.stringify(outputList));
+				if (
+					window.imgur.storage.enabled &&
+					Array.isArray(outputList) &&
+					outputList.length > 0
+				) {
+					window.sessionStorage.setItem(
+						window.imgur.storage.session,
+						JSON.stringify(outputList)
+					);
 				}
 			});
 
@@ -552,7 +597,11 @@
 		});
 
 		// Initialize request
-		xhr.open('POST', args.image.getAttribute('data-ajax-action').trim(), true);
+		xhr.open(
+			'POST',
+			args.image.getAttribute('data-ajax-action').trim(),
+			true
+		);
 
 		// Additional headers
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -570,7 +619,10 @@
 	 * @return HTMLElement|null
 	 */
 	Imgur.preventDropZoneDefaults = (e) => {
-		let element = (e.target.nodeType === Node.TEXT_NODE) ? e.target.parentNode : e.target;
+		let element =
+			e.target.nodeType === Node.TEXT_NODE
+				? e.target.parentNode
+				: e.target;
 		element = element.closest('.imgur-drop-zone');
 
 		if (!element) {
@@ -597,7 +649,7 @@
 			return;
 		}
 
-		isActive = (typeof isActive === 'undefined') ? true : isActive;
+		isActive = typeof isActive === 'undefined' ? true : isActive;
 
 		element.classList.toggle('tw-border-sky-500', isActive);
 		element.classList.toggle('tw-border-sky-600', !isActive);
@@ -624,11 +676,17 @@
 			args = {};
 		}
 
-		if (!args.hasOwnProperty('button') || typeof args.button === 'undefined') {
+		if (
+			!args.hasOwnProperty('button') ||
+			typeof args.button === 'undefined'
+		) {
 			args.button = document.body.querySelector('#validate-album');
 		}
 
-		if (!args.hasOwnProperty('field') || typeof args.field === 'undefined') {
+		if (
+			!args.hasOwnProperty('field') ||
+			typeof args.field === 'undefined'
+		) {
 			args.field = document.body.querySelector('#imgur-album');
 		}
 

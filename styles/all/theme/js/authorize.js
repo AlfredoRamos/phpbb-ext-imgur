@@ -1,6 +1,6 @@
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@protonmail.com>
+ * @author Alfredo Ramos <alfredo.ramos@skiff.com>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -13,7 +13,9 @@
 
 	// Additional check if is already authorized
 	// just in case, for some reason, user got this far
-	if (parseInt(imgurAuthorize.getAttribute('data-ajax-authorized'), 10) === 1) {
+	if (
+		parseInt(imgurAuthorize.getAttribute('data-ajax-authorized'), 10) === 1
+	) {
 		return;
 	}
 
@@ -27,14 +29,14 @@
 		'refresh_token',
 		'account_id',
 		'account_username',
-		'scope'
+		'scope',
 	];
 	let formData = new FormData();
 	let errors = [];
 
 	// Add form data
 	allowedParams.forEach((value) => {
-		formData.set(value, (queryParams.get(value) || ''));
+		formData.set(value, queryParams.get(value) || '');
 	});
 
 	// Check if form data is empty
@@ -76,7 +78,11 @@
 	});
 
 	// Initialize request
-	xhr.open('POST', imgurAuthorize.getAttribute('data-ajax-action').trim(), true);
+	xhr.open(
+		'POST',
+		imgurAuthorize.getAttribute('data-ajax-action').trim(),
+		true
+	);
 
 	// Additional headers
 	xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
