@@ -2,7 +2,7 @@
 
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@skiff.com>
+ * @author Alfredo Ramos <alfredo.ramos@proton.me>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -59,8 +59,7 @@ class main_module
 		// Form token
 		add_form_key('alfredoramos_imgur');
 
-		switch ($mode)
-		{
+		switch ($mode) {
 			case 'settings':
 				$this->tpl_name = 'acp_imgur_settings';
 				$this->page_title = sprintf(
@@ -69,7 +68,7 @@ class main_module
 					$this->language->lang('ACP_IMGUR')
 				);
 				$this->acp_controller->settings_mode($this->u_action);
-			break;
+				break;
 
 			case 'output':
 				$this->tpl_name = 'acp_imgur_output_settings';
@@ -79,15 +78,15 @@ class main_module
 					$this->language->lang('ACP_IMGUR')
 				);
 				$this->acp_controller->output_mode($this->u_action);
-			break;
+				break;
 
 			default:
 				trigger_error(
 					$this->language->lang('NO_MODE') .
-					adm_back_link($this->u_action),
+						adm_back_link($this->u_action),
 					E_USER_WARNING
 				);
-			break;
+				break;
 		}
 
 		// Assign global template variables

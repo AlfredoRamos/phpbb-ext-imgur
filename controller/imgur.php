@@ -2,7 +2,7 @@
 
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@skiff.com>
+ * @author Alfredo Ramos <alfredo.ramos@proton.me>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -106,8 +106,7 @@ class imgur
 	{
 		// This route can only be used by admins
 		// Users do not need to know this page exist
-		if (!$this->auth->acl_get('a_'))
-		{
+		if (!$this->auth->acl_get('a_')) {
 			throw new http_exception(404, 'PAGE_NOT_FOUND');
 		}
 
@@ -118,8 +117,7 @@ class imgur
 		$token = $this->helper->imgur_token();
 
 		// Parse response fom Imgur API
-		if (!$this->request->is_ajax())
-		{
+		if (!$this->request->is_ajax()) {
 			$this->template->assign_vars([
 				'IMGUR_IS_AUTHORIZED' => (!empty($token['access_token']) && !empty($token['refresh_token'])),
 				'IMGUR_AUTHORIZE_URL' => $this->controller_helper->route('alfredoramos_imgur_authorize', [
@@ -134,8 +132,7 @@ class imgur
 		$hash = trim($hash);
 
 		// CSRF protection
-		if (empty($hash) || !check_link_hash($hash, 'imgur_authorize'))
-		{
+		if (empty($hash) || !check_link_hash($hash, 'imgur_authorize')) {
 			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
@@ -151,8 +148,7 @@ class imgur
 		];
 
 		// Generate new token
-		foreach ($new_token as $key => $value)
-		{
+		foreach ($new_token as $key => $value) {
 			// Cast values
 			$value = (in_array($key, ['expires_in', 'account_id'])) ? (int) $value : trim($value);
 
@@ -167,12 +163,10 @@ class imgur
 		$token = $this->imgur->getAccessToken();
 
 		// Save new token
-		foreach ($token as $key => $value)
-		{
+		foreach ($token as $key => $value) {
 			// Scope can be NULL
 			// Configuration table does not allow NULL values
-			if ($key === 'scope')
-			{
+			if ($key === 'scope') {
 				$value = trim($value);
 			}
 
@@ -206,8 +200,7 @@ class imgur
 	public function upload($hash = '')
 	{
 		// This route can only be used by logged in users
-		if (!$this->user->data['is_registered'])
-		{
+		if (!$this->user->data['is_registered']) {
 			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
@@ -215,8 +208,7 @@ class imgur
 		$this->language->add_lang('controller', 'alfredoramos/imgur');
 
 		// This route only responds to AJAX calls
-		if (!$this->request->is_ajax())
-		{
+		if (!$this->request->is_ajax()) {
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
 		}
 
@@ -224,14 +216,12 @@ class imgur
 		$hash = trim($hash);
 
 		// CSRF protection
-		if (empty($hash) || !check_link_hash($hash, 'imgur_upload'))
-		{
+		if (empty($hash) || !check_link_hash($hash, 'imgur_upload')) {
 			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
 		// Mandatory API data
-		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret']))
-		{
+		if (empty($this->config['imgur_client_id']) || empty($this->config['imgur_client_secret'])) {
 			throw new runtime_exception('EXCEPTION_IMGUR_NO_API_DATA');
 		}
 
@@ -247,8 +237,7 @@ class imgur
 		$this->imgur->setAccessToken($token);
 
 		// Check if token expired
-		if ($this->imgur->checkAccessTokenExpired())
-		{
+		if ($this->imgur->checkAccessTokenExpired()) {
 			$this->refresh_token();
 		}
 
@@ -272,19 +261,15 @@ class imgur
 		$data = [];
 
 		// Upload images
-		if (!empty($images['tmp_name']))
-		{
-			foreach ($images['name'] as $key => $value)
-			{
+		if (!empty($images['tmp_name'])) {
+			foreach ($images['name'] as $key => $value) {
 				// Validate file size and MIME type
-				if ($images['size'][$key] > $max_file_size || !preg_match($mime_types, $images['type'][$key]))
-				{
+				if ($images['size'][$key] > $max_file_size || !preg_match($mime_types, $images['type'][$key])) {
 					continue;
 				}
 
 				// Image file must exist and be readable
-				if (!$this->filesystem->is_readable($images['tmp_name'][$key]))
-				{
+				if (!$this->filesystem->is_readable($images['tmp_name'][$key])) {
 					continue;
 				}
 
@@ -300,52 +285,48 @@ class imgur
 		}
 
 		// Image errors
-		if (!empty($images['error']))
-		{
+		if (!empty($images['error'])) {
 			$errors = [];
 
-			foreach ($images['error'] as $key => $value)
-			{
+			foreach ($images['error'] as $key => $value) {
 				$value = (int) $value;
 
-				switch ($value)
-				{
+				switch ($value) {
 					case UPLOAD_ERR_INI_SIZE:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_INI_SIZE');
-					break;
+						break;
 
 					case UPLOAD_ERR_FORM_SIZE:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_FORM_SIZE');
-					break;
+						break;
 
 					case UPLOAD_ERR_PARTIAL:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_PARTIAL');
-					break;
+						break;
 
 					case UPLOAD_ERR_NO_FILE:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_NO_FILE');
-					break;
+						break;
 
 					case UPLOAD_ERR_NO_TMP_DIR:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_NO_TMP_DIR');
-					break;
+						break;
 
 					case UPLOAD_ERR_CANT_WRITE:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_CANT_WRITE');
-					break;
+						break;
 
 					case UPLOAD_ERR_EXTENSION:
 						$errors[]['message'] = $this->language->lang('UPLOAD_ERR_EXTENSION');
-					break;
+						break;
 
 					default: // UPLOAD_ERR_OK
 						continue 2;
-					break;
+						break;
 				}
 			}
 
-			if (!empty($errors))
-			{
+			if (!empty($errors)) {
 				return new JsonResponse($errors, 400);
 			}
 		}
@@ -369,8 +350,7 @@ class imgur
 	{
 		// This route can only be used by admins
 		// Users do not need to know this page exist
-		if (!$this->auth->acl_get('a_'))
-		{
+		if (!$this->auth->acl_get('a_')) {
 			throw new http_exception(404, 'PAGE_NOT_FOUND');
 		}
 
@@ -378,8 +358,7 @@ class imgur
 		$this->language->add_lang(['controller', 'acp/info_acp_common'], 'alfredoramos/imgur');
 
 		// This route can only be used using AJAX
-		if (!$this->request->is_ajax())
-		{
+		if (!$this->request->is_ajax()) {
 			throw new runtime_exception('EXCEPTION_IMGUR_AJAX_ONLY');
 		}
 
@@ -387,8 +366,7 @@ class imgur
 		$hash = trim($hash);
 
 		// CSRF protection
-		if (empty($hash) || !check_link_hash($hash, 'imgur_album'))
-		{
+		if (empty($hash) || !check_link_hash($hash, 'imgur_album')) {
 			throw new http_exception(403, 'NO_AUTH_OPERATION');
 		}
 
@@ -396,8 +374,7 @@ class imgur
 		$token = $this->helper->imgur_token();
 
 		// The Imgur application must be authorized
-		if (empty($token['access_token']))
-		{
+		if (empty($token['access_token'])) {
 			throw new runtime_exception('EXCEPTION_IMGUR_UNAUTHORIZED');
 		}
 
@@ -405,8 +382,7 @@ class imgur
 		$album = $this->request->variable('imgur_album', '');
 
 		// Album ID can't be empty
-		if (empty($album))
-		{
+		if (empty($album)) {
 			throw new runtime_exception('EXCEPTION_IMGUR_EMPTY_ALBUM');
 		}
 
@@ -417,26 +393,21 @@ class imgur
 		$errors = [];
 
 		// Get album IDs
-		try
-		{
+		try {
 			$this->imgur->setAccessToken($token);
 			$this->imgur->sign();
 			$album_ids = $this->imgur->api('account')->albumIds();
-		}
-		catch (ImgurErrorException $ex)
-		{
+		} catch (ImgurErrorException $ex) {
 			$errors[]['message'] = $this->language->lang('EXCEPTION_IMGUR_NO_ALBUMS', $ex->getMessage());
 		}
 
 		// Validate album ID
-		if (empty($album_ids) || !in_array($album, $album_ids, true))
-		{
+		if (empty($album_ids) || !in_array($album, $album_ids, true)) {
 			$errors[]['message'] = $this->language->lang('ALBUM_ERR_INVALID_ID');
 		}
 
 		// Check for errors
-		if (!empty($errors))
-		{
+		if (!empty($errors)) {
 			return new JsonResponse($errors, 400);
 		}
 
@@ -457,12 +428,10 @@ class imgur
 		$new_token = array_merge($this->imgur->getAccessToken(), ['created_at' => time()]);
 
 		// Update the token in database
-		foreach ($new_token as $key => $value)
-		{
+		foreach ($new_token as $key => $value) {
 			// Scope can be NULL
 			// Configuration table does not allow NULL values
-			if ($key === 'scope')
-			{
+			if ($key === 'scope') {
 				$value = trim($value);
 			}
 

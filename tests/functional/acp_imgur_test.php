@@ -2,7 +2,7 @@
 
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@skiff.com>
+ * @author Alfredo Ramos <alfredo.ramos@proton.me>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -65,8 +65,7 @@ class acp_imgur_test extends \phpbb_functional_test_case
 		$this->assertTrue($form->has('imgur_enabled_output_types'));
 		$this->assertSame(4, count($form->get('imgur_enabled_output_types')));
 
-		foreach ($allowed['types'] as $type)
-		{
+		foreach ($allowed['types'] as $type) {
 			$selector = sprintf('#imgur-settings-output #imgur-output-type-%s', $type);
 			$this->assertSame(1, $crawler->filter($selector)->count());
 		}

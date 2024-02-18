@@ -2,7 +2,7 @@
 
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@skiff.com>
+ * @author Alfredo Ramos <alfredo.ramos@proton.me>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -85,8 +85,7 @@ class acp
 	 */
 	public function settings_mode($u_action = '')
 	{
-		if (empty($u_action))
-		{
+		if (empty($u_action)) {
 			return;
 		}
 
@@ -96,8 +95,7 @@ class acp
 		$this->imgur->setHttpClient($this->helper->get_imgur_http_client());
 
 		// Set Imgur API data
-		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret']))
-		{
+		if (!empty($this->config['imgur_client_id']) && !empty($this->config['imgur_client_secret'])) {
 			$this->imgur->setOption('client_id', $this->config['imgur_client_id']);
 			$this->imgur->setOption('client_secret', $this->config['imgur_client_secret']);
 		}
@@ -125,10 +123,8 @@ class acp
 		];
 
 		// Request form data
-		if ($this->request->is_set_post('submit'))
-		{
-			if (!check_form_key('alfredoramos_imgur'))
-			{
+		if ($this->request->is_set_post('submit')) {
+			if (!check_form_key('alfredoramos_imgur')) {
 				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($u_action), E_USER_WARNING);
 			}
 
@@ -151,21 +147,17 @@ class acp
 			];
 
 			// Validation check
-			if ($this->helper->validate($fields, $filters, $errors))
-			{
+			if ($this->helper->validate($fields, $filters, $errors)) {
 				// Save configuration
-				foreach ($fields as $key => $value)
-				{
+				foreach ($fields as $key => $value) {
 					$this->config->set($key, $value, false);
 				}
 
 				// Clear token
-				foreach ($token as $key => $value)
-				{
+				foreach ($token as $key => $value) {
 					// Scope can be NULL
 					// Configuration table does not allow NULL values
-					if ($key === 'scope')
-					{
+					if ($key === 'scope') {
 						$value = trim($value);
 					}
 
@@ -195,24 +187,24 @@ class acp
 		]);
 
 		// Assign register URL
-		if (empty($this->config['imgur_client_id']) ||
-			empty($this->config['imgur_client_secret']))
-		{
+		if (
+			empty($this->config['imgur_client_id']) ||
+			empty($this->config['imgur_client_secret'])
+		) {
 			$this->template->assign_var('IMGUR_REGISTER_URL', 'https://api.imgur.com/oauth2/addclient');
 		}
 
 		// Assign authorize URL
-		if (!empty($this->config['imgur_client_id']) &&
+		if (
+			!empty($this->config['imgur_client_id']) &&
 			!empty($this->config['imgur_client_secret']) &&
-			empty($this->config['imgur_access_token']
-		))
-		{
+			empty($this->config['imgur_access_token'])
+		) {
 			$this->template->assign_var('IMGUR_AUTHORIZE_URL', $this->imgur->getAuthenticationUrl('token'));
 		}
 
 		// Assign album download URL
-		if (!empty($this->config['imgur_album']))
-		{
+		if (!empty($this->config['imgur_album'])) {
 			$this->template->assign_var(
 				'IMGUR_ALBUM_DOWNLOAD_URL',
 				sprintf('https://imgur.com/a/%s/zip', $this->config['imgur_album'])
@@ -220,9 +212,10 @@ class acp
 		}
 
 		// Assign album validate URL
-		if (!empty($this->config['imgur_access_token']) &&
-			!empty($this->config['imgur_album']))
-		{
+		if (
+			!empty($this->config['imgur_access_token']) &&
+			!empty($this->config['imgur_album'])
+		) {
 			$this->template->assign_var(
 				'IMGUR_ALBUM_VALIDATE_URL',
 				$this->controller_helper->route('alfredoramos_imgur_album', [
@@ -232,8 +225,7 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach ($errors as $error)
-		{
+		foreach ($errors as $error) {
 			$this->template->assign_block_vars('VALIDATION_ERRORS', ['MESSAGE' => $error['message']]);
 		}
 	}
@@ -247,8 +239,7 @@ class acp
 	 */
 	public function output_mode($u_action = '')
 	{
-		if (empty($u_action))
-		{
+		if (empty($u_action)) {
 			return;
 		}
 
@@ -291,10 +282,8 @@ class acp
 		];
 
 		// Request form data
-		if ($this->request->is_set_post('submit'))
-		{
-			if (!check_form_key('alfredoramos_imgur'))
-			{
+		if ($this->request->is_set_post('submit')) {
+			if (!check_form_key('alfredoramos_imgur')) {
 				trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($u_action), E_USER_WARNING);
 			}
 
@@ -308,8 +297,7 @@ class acp
 			];
 
 			// Update filters by given output
-			if (!empty($fields['imgur_enabled_output_types']))
-			{
+			if (!empty($fields['imgur_enabled_output_types'])) {
 				// Data helper
 				$data = [
 					'field' => 'imgur_enabled_output_types',
@@ -321,40 +309,33 @@ class acp
 				$data['diff'] = array_diff($fields[$data['field']], $allowed[$data['contract']]);
 
 				// Can't set as default a disabled option
-				if (!in_array($fields[$data['filter']], $fields[$data['field']], true))
-				{
+				if (!in_array($fields[$data['filter']], $fields[$data['field']], true)) {
 					// Set as default the first available
 					$fields[$data['filter']] = $fields[$data['field']][0];
 				}
 
 				// Enabled (input) values must be in the allowed values
-				if (!empty($data['diff']))
-				{
+				if (!empty($data['diff'])) {
 					$errors[]['message'] = $this->language->lang(
 						'ACP_IMGUR_VALIDATE_VALUES_NOT_ALLOWED',
 						$this->language->lang('ACP_' . strtoupper($data['filter'])),
 						implode(',', $data['diff'])
 					);
-				}
-				else
-				{
+				} else {
 					// Update validation regexp
 					$filters[$data['filter']]['options']['regexp'] = $data['regexp'];
 				}
 
 				// Convert enabled values (array) to string
-				if (is_array($fields[$data['field']]))
-				{
+				if (is_array($fields[$data['field']])) {
 					$fields[$data['field']] = implode(',', $fields[$data['field']]);
 				}
 			}
 
 			// Validation check
-			if ($this->helper->validate($fields, $filters, $errors))
-			{
+			if ($this->helper->validate($fields, $filters, $errors)) {
 				// Save configuration
-				foreach ($fields as $key => $value)
-				{
+				foreach ($fields as $key => $value) {
 					$this->config->set($key, $value, false);
 				}
 
@@ -380,8 +361,7 @@ class acp
 		]);
 
 		// Assign allowed output types
-		foreach ($allowed['types'] as $type)
-		{
+		foreach ($allowed['types'] as $type) {
 			$this->template->assign_block_vars('IMGUR_OUTPUT_TYPES', [
 				'KEY' => $type,
 				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
@@ -391,13 +371,11 @@ class acp
 		}
 
 		// Assign allowed thumbnail sizes
-		foreach ($allowed['sizes'] as $size)
-		{
-			switch ($size)
-			{
+		foreach ($allowed['sizes'] as $size) {
+			switch ($size) {
 				case 't':
 					$name = 'SMALL';
-				break;
+					break;
 
 				case 'm':
 					$name = 'MEDIUM';
@@ -409,24 +387,23 @@ class acp
 
 				case 'h':
 					$name = 'HUGE';
-				break;
+					break;
 
 				case 's':
 					$name = 'SMALL_SQUARE';
-				break;
+					break;
 
 				case 'b':
 					$name = 'BIG_SQUARE';
-				break;
+					break;
 
 				default:
 					$name = '';
-				break;
+					break;
 			}
 
 			// Invalid o not yet supported size
-			if (empty($name))
-			{
+			if (empty($name)) {
 				continue;
 			}
 
@@ -439,8 +416,7 @@ class acp
 		}
 
 		// Assign validation errors
-		foreach ($errors as $error)
-		{
+		foreach ($errors as $error) {
 			$this->template->assign_block_vars('VALIDATION_ERRORS', ['MESSAGE' => $error['message']]);
 		}
 	}

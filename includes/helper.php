@@ -2,7 +2,7 @@
 
 /**
  * Imgur extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@skiff.com>
+ * @author Alfredo Ramos <alfredo.ramos@proton.me>
  * @copyright 2017 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -84,8 +84,7 @@ class helper
 		]);
 
 		// Assign enabled output types
-		foreach ($enabled as $type)
-		{
+		foreach ($enabled as $type) {
 			$this->template->assign_block_vars('IMGUR_ENABLED_OUTPUT_TYPES', [
 				'KEY' => $type,
 				'NAME' => $this->language->lang(sprintf('IMGUR_OUTPUT_%s', strtoupper($type))),
@@ -105,8 +104,7 @@ class helper
 	 */
 	public function validate(&$fields = [], &$filters = [], &$errors = [])
 	{
-		if (empty($fields) || empty($filters))
-		{
+		if (empty($fields) || empty($filters)) {
 			return false;
 		}
 
@@ -117,19 +115,16 @@ class helper
 		$invalid = [];
 
 		// Validate fields
-		foreach ($data as $key => $value)
-		{
+		foreach ($data as $key => $value) {
 			// Remove and generate error if field did not pass validation
 			// Not using empty() because an empty string can be a valid value
-			if (!isset($value) || $value === false)
-			{
+			if (!isset($value) || $value === false) {
 				$invalid[] = $this->language->lang(sprintf('ACP_%s', strtoupper($key)));
 				unset($fields[$key]);
 			}
 		}
 
-		if (!empty($invalid))
-		{
+		if (!empty($invalid)) {
 			$errors[]['message'] = $this->language->lang(
 				'ACP_IMGUR_VALIDATE_INVALID_FIELDS',
 				implode($this->language->lang('COMMA_SEPARATOR'), $invalid)
@@ -170,8 +165,7 @@ class helper
 	 */
 	public function filter_empty_items($data = [], $max_depth = 5, $depth = 0)
 	{
-		if (empty($data))
-		{
+		if (empty($data)) {
 			return [];
 		}
 
@@ -181,21 +175,17 @@ class helper
 		$max_depth = !empty($max_depth) ? $max_depth : 5;
 
 		// Do not go deeper, return data as is
-		if ($depth > $max_depth)
-		{
+		if ($depth > $max_depth) {
 			return $data;
 		}
 
 		// Remove empty elements
-		foreach ($data as $key => $value)
-		{
-			if (empty($value))
-			{
+		foreach ($data as $key => $value) {
+			if (empty($value)) {
 				unset($data[$key]);
 			}
 
-			if (!empty($data[$key]) && is_array($data[$key]))
-			{
+			if (!empty($data[$key]) && is_array($data[$key])) {
 				$data[$key] = $this->filter_empty_items($data[$key], $max_depth, $depth);
 			}
 		}
@@ -218,8 +208,7 @@ class helper
 		$types = $this->filter_empty_items($types);
 
 		// Fallback to allowed values
-		if (empty($types))
-		{
+		if (empty($types)) {
 			$types = $this->allowed_imgur_values('types');
 			$this->config->set('imgur_enabled_output_types', implode(',', $types), false);
 		}
@@ -233,8 +222,7 @@ class helper
 		$kind = trim($kind);
 
 		// Get specific kind
-		if (!empty($kind) && !empty($enabled[$kind]))
-		{
+		if (!empty($kind) && !empty($enabled[$kind])) {
 			return $enabled[$kind];
 		}
 
@@ -264,8 +252,7 @@ class helper
 		$kind = trim($kind);
 
 		// Get specific kind
-		if (!empty($kind) && !empty($allowed[$kind]))
-		{
+		if (!empty($kind) && !empty($allowed[$kind])) {
 			return $allowed[$kind];
 		}
 
@@ -280,8 +267,7 @@ class helper
 	 */
 	public function get_imgur_http_client()
 	{
-		if ($this->http_client === null)
-		{
+		if ($this->http_client === null) {
 			$this->http_client = new HttpClient(['headers' => [
 				'User-Agent' => $this->request->server('HTTP_USER_AGENT')
 			]]);
