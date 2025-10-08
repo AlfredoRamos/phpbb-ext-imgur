@@ -1,14 +1,24 @@
-const path = require('path');
+import postcssImport from 'postcss-import';
+import cssnano from 'cssnano';
+import autoprefixer from 'autoprefixer';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const modulesPath = path.join(__dirname, 'node_modules');
-const sourcesPath = path.join(__dirname, 'scss');
-const tailwindConfigFile = path.join(__dirname, 'tailwind.config.js');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-module.exports = {
+export default {
 	plugins: [
-		require('postcss-import')({path: [modulesPath, sourcesPath]}),
-		require('tailwindcss')({config: tailwindConfigFile, path: [modulesPath, sourcesPath]}),
-		require('cssnano'),
-		require('autoprefixer')
-	]
+		postcssImport({ path: join(__dirname, 'scss') }),
+		autoprefixer(),
+		cssnano({
+			preset: [
+				'default',
+				{
+					discardComments: { removeAll: true },
+					normalizeString: { preferredQuote: 'single' },
+				},
+			],
+		}),
+	],
 };
