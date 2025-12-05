@@ -17,7 +17,6 @@
 	<target name="clean-package">
 		<echo msg="Cleaning files and directories" />
 
-		<delete dir="${dir}/scss" />
 		<delete dir="${dir}/tests" />
 		<delete dir="${dir}/node_modules" />
 		<delete dir="${dir}/.github"/>
