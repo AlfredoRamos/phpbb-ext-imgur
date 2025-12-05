@@ -1,8 +1,12 @@
+> 🚨 **This extension is no longer under development due to Imgur shutting down their REST API.**
+> 
+> If Imgur API ever gets reactivated I might consider resuming development.
+
 ### About
 
 Imgur extension for phpBB.
 
-[![Build Status](https://img.shields.io/github/workflow/status/AlfredoRamos/phpbb-ext-imgur/CI?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-imgur/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/AlfredoRamos/phpbb-ext-imgur/ci.yml?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-imgur/actions)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-imgur.svg?label=stable&style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-imgur/releases)
 [![Code Quality](https://img.shields.io/codacy/grade/e45e4f83b6724dfe97c43b596ec61d3b.svg?style=flat-square)](https://app.codacy.com/gh/AlfredoRamos/phpbb-ext-imgur/dashboard)
 [![Translation Progress](https://badges.crowdin.net/phpbb-ext-imgur/localized.svg)](https://crowdin.com/project/phpbb-ext-imgur)
