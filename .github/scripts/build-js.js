@@ -1,36 +1,38 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
-const uglifyjs = require('uglify-js');
-const helper = require('./helper');
+import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { sync } from 'glob';
+import { minify } from 'uglify-js';
+import { join } from 'path';
+import { buildPath } from './helper.js';
 
-const jsFileList = glob.sync(helper.buildPath + '/styles/**/theme/js/*.js').concat(glob.sync(helper.buildPath + '/adm/style/js/*.js'));
+const jsFileList = sync(join(buildPath, 'styles/**/theme/js/*.js')).concat(
+	sync(join(buildPath, 'adm/style/js/*.js'))
+);
 
-jsFileList.forEach(function(j) {
+jsFileList.forEach((j) => {
 	if (j.endsWith('.min.js')) {
 		return;
 	}
 
 	const minFileName = j.replace('.js', '.min.js');
-	const isMinified = fs.existsSync(minFileName);
+	const isMinified = existsSync(minFileName);
 
-	if (isMinified){
+	if (isMinified) {
 		return;
 	}
 
-	const js = fs.readFileSync(j).toString();
-	const result = uglifyjs.minify(js, {
+	const js = readFileSync(j).toString();
+	const result = minify(js, {
 		toplevel: true,
 		output: {
 			quote_style: 1,
-			shebang: false
+			shebang: false,
 		},
 		mangle: {
-			toplevel: true
-		}
+			toplevel: true,
+		},
 	});
 
-	fs.writeFileSync(minFileName, result.code, {mode: 0o644});
+	writeFileSync(minFileName, result.code, { mode: 0o644 });
 });
